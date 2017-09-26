@@ -6,14 +6,14 @@
 
 int main(int argc, char **argv) {
   // Create a vector of dimension 3
-  Vec *v = VecCreate(3);
+  VecFloat *v = VecFloatCreate(3);
   // If we couldn't create the vector
   if (v == NULL) {
     fprintf(stderr, "VecCreate failed\n");
     return 1;
   }
   // Print the vector
-  VecPrint(v, stdout);
+  VecFloatPrint(v, stdout);
   fprintf(stdout, "\n");
   // Set the 2nd value to 1.0
   VecSet(v, 1, 1.0);
@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
     fprintf(stderr, "fopen failed\n");
     return 4;
   }
-  Vec *w = NULL;
+  VecFloat *w = NULL;
   ret = VecLoad(&w, f);
   if (ret != 0) {
     fprintf(stderr, "VecLoad failed (%d)\n", ret);

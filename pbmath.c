@@ -12,12 +12,12 @@
 // Create a new Vec of dimension 'dim'
 // Values are initalized to 0.0
 // Return NULL if we couldn't create the Vec
-Vec* VecCreate(int dim) {
+VecFloat* VecFloatCreate(int dim) {
   // Check argument
   if (dim <= 0)
     return NULL;
   // Allocate memory
-  Vec *that = (Vec*)malloc(sizeof(Vec));
+  VecFloat *that = (VecFloat*)malloc(sizeof(VecFloat));
   //If we could allocate memory
   if (that != NULL) {
     // Allocate memory for values
@@ -34,18 +34,18 @@ Vec* VecCreate(int dim) {
     for (int i = dim; i--;)
       that->_val[i] = 0.0;
   }
-  // Return the new Vec
+  // Return the new VecFloat
   return that;
 }
 
-// Clone the Vec
-// Return NULL if we couldn't clone the Vec
-Vec* VecClone(Vec *that) {
+// Clone the VecFloat
+// Return NULL if we couldn't clone the VecFloat
+VecFloat* VecFloatClone(VecFloat *that) {
   // Check argument
   if (that == NULL)
     return NULL;
   // Create a clone
-  Vec *clone = VecCreate(that->_dim);
+  VecFloat *clone = VecFloatCreate(that->_dim);
   // If we could create the clone
   if (clone != NULL) {
     // Clone the properties
@@ -56,21 +56,21 @@ Vec* VecClone(Vec *that) {
   return clone;
 }
 
-// Load the Vec from the stream
-// If the Vec is already allocated, it is freed before loading
+// Load the VecFloat from the stream
+// If the VecFloat is already allocated, it is freed before loading
 // Return 0 in case of success, or:
 // 1: invalid arguments
 // 2: can't allocate memory
 // 3: invalid data
 // 4: fscanf error
-int VecLoad(Vec **that, FILE *stream) {
+int VecFloatLoad(VecFloat **that, FILE *stream) {
   // Check arguments
   if (that == NULL || stream == NULL)
     return 1;
   // If 'that' is already allocated
   if (*that != NULL) {
     // Free memory
-    VecFree(that);
+    VecFloatFree(that);
   }
   // Read the number of dimension
   int dim;
@@ -81,7 +81,7 @@ int VecLoad(Vec **that, FILE *stream) {
   if (dim <= 0)
     return 3;
   // Allocate memory
-  *that = VecCreate(dim);
+  *that = VecFloatCreate(dim);
   // If we coudln't allocate memory
   if (*that == NULL) {
     return 2;
@@ -97,11 +97,11 @@ int VecLoad(Vec **that, FILE *stream) {
   return 0;
 }
 
-// Save the Vec to the stream
+// Save the VecFloat to the stream
 // Return 0 upon success, or:
 // 1: invalid arguments
 // 2: fprintf error
-int VecSave(Vec *that, FILE *stream) {
+int VecFloatSave(VecFloat *that, FILE *stream) {
   // Check arguments
   if (that == NULL || stream == NULL)
     return 1;
@@ -125,9 +125,9 @@ int VecSave(Vec *that, FILE *stream) {
   return 0;
 }
 
-// Free the memory used by a Vec
+// Free the memory used by a VecFloat
 // Do nothing if arguments are invalid
-void VecFree(Vec **that) {
+void VecFloatFree(VecFloat **that) {
   // Check argument
   if (that == NULL || *that == NULL)
     return;
@@ -137,9 +137,9 @@ void VecFree(Vec **that) {
   *that = NULL;
 }
 
-// Print the Vec on 'stream'
+// Print the VecFloat on 'stream'
 // Do nothing if arguments are invalid
-void VecPrint(Vec *that, FILE *stream) {
+void VecFloatPrint(VecFloat *that, FILE *stream) {
   // Check arguments
   if (that == NULL || stream == NULL)
     return;
@@ -153,10 +153,10 @@ void VecPrint(Vec *that, FILE *stream) {
   fprintf(stream, ">");
 }
 
-// Return the i-th value of the Vec
+// Return the i-th value of the VecFloat
 // Index starts at 0
 // Return 0.0 if arguments are invalid
-float VecGet(Vec *that, int i) {
+float VecFloatGet(VecFloat *that, int i) {
   // Check argument
   if (that == NULL || i < 0 || i >= that->_dim)
     return 0.0;
@@ -164,10 +164,10 @@ float VecGet(Vec *that, int i) {
   return that->_val[i];
 }
 
-// Set the i-th value of the Vec to v
+// Set the i-th value of the VecFloat to v
 // Index starts at 0
 // Do nohting if arguments are invalid
-void VecSet(Vec *that, int i, float v) {
+void VecFloatSet(VecFloat *that, int i, float v) {
   // Check argument
   if (that == NULL || i < 0 || i >= that->_dim)
     return;
@@ -175,9 +175,9 @@ void VecSet(Vec *that, int i, float v) {
   that->_val[i] = v;
 }
 
-// Return the dimension of the Vec
+// Return the dimension of the VecFloat
 // Return 0 if arguments are invalid
-int VecDim(Vec *that) {
+int VecFloatDim(VecFloat *that) {
   // Check argument
   if (that == NULL)
     return 0;
