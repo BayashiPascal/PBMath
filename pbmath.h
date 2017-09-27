@@ -37,6 +37,9 @@ void VecTypeUnsupported(void*t, ...);
 #define VecSet(V, I, VAL) _Generic((V), \
   VecFloat*: VecFloatSet, \
   default: VecTypeUnsupported)(V, I, VAL)
+#define VecCopy(V, W) _Generic((V), \
+  VecFloat*: VecFloatCopy, \
+  default: VecTypeUnsupported)(V, W)
 #define VecDim(V) _Generic((V), \
   VecFloat*: VecFloatDim, \
   default: VecTypeUnsupported)(V)
@@ -94,11 +97,15 @@ float VecFloatGet(VecFloat *that, int i);
 
 // Set the i-th value of the VecFloat to v
 // Index starts at 0
-// Do nohting if arguments are invalid
+// Do nothing if arguments are invalid
 void VecFloatSet(VecFloat *that, int i, float v);
 
 // Return the dimension of the VecFloat
 // Return 0 if arguments are invalid
 int VecFloatDim(VecFloat *that);
+
+// Copy the values of 'w' in 'that' (must have same dimensions)
+// Do nothing if arguments are invalid
+void VecFloatCopy(VecFloat *that, VecFloat *w);
 
 #endif

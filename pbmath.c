@@ -190,3 +190,13 @@ int VecFloatDim(VecFloat *that) {
   // Return the dimension
   return that->_dim;
 }
+
+// Copy the values of 'w' in 'that' (must have same dimensions)
+// Do nothing if arguments are invalid
+void VecFloatCopy(VecFloat *that, VecFloat *w) {
+  // Check argument
+  if (that == NULL || w == NULL || that->_dim != w->_dim)
+    return;
+  // Copy the values
+  memcpy(that->_val, w->_val, sizeof(float) * that->_dim);
+}

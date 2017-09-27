@@ -13,7 +13,7 @@ int main(int argc, char **argv) {
     return 1;
   }
   // Print the vector
-  VecFloatPrint(v, stdout);
+  VecPrint(v, stdout);
   fprintf(stdout, "\n");
   // Set the 2nd value to 1.0
   VecSet(v, 1, 1.0);
@@ -49,6 +49,15 @@ int main(int argc, char **argv) {
   fprintf(stdout, "%d ", VecDim(w));
   for (int i = 0; i < VecDim(w); ++i)
     fprintf(stdout, "%f ", VecGet(w, i));
+  fprintf(stdout, "\n");
+  // Change the values of the loaded vector and print it
+  VecSet(w, 0, 2.0);
+  VecSet(w, 2, 3.0);
+  VecPrint(w, stdout);
+  fprintf(stdout, "\n");
+  // Copy the loaded vector into the first one and print th first one
+  VecCopy(v, w);
+  VecPrint(v, stdout);
   fprintf(stdout, "\n");
   // Free memory
   VecFree(&w);
