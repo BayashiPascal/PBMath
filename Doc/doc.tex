@@ -62,7 +62,7 @@ void VecTypeUnsupported(void*t, ...);
   VecFloat**: VecFloatFree, \
   default: VecTypeUnsupported)(V)
 #define VecPrint(V, S) _Generic((V), \
-  VecFloat*: VecFloatPrint, \
+  VecFloat*: VecFloatPrintDef, \
   default: VecTypeUnsupported)(V, S)
 #define VecGet(V, I) _Generic((V), \
   VecFloat*: VecFloatGet, \
@@ -115,9 +115,10 @@ int VecFloatSave(VecFloat *that, FILE *stream);
 // Do nothing if arguments are invalid
 void VecFloatFree(VecFloat **that);
 
-// Print the VecFloat on 'stream'
+// Print the VecFloat on 'stream' with 'prec' digit precision
 // Do nothing if arguments are invalid
-void VecFloatPrint(VecFloat *that, FILE *stream);
+void VecFloatPrint(VecFloat *that, FILE *stream, int prec);
+void VecFloatPrintDef(VecFloat *that, FILE *stream);
 
 // Return the i-th value of the VecFloat
 // Index starts at 0
@@ -282,20 +283,26 @@ void VecFloatFree(VecFloat **that) {
   *that = NULL;
 }
 
-// Print the VecFloat on 'stream'
+// Print the VecFloat on 'stream' with 'prec' digit precision
 // Do nothing if arguments are invalid
-void VecFloatPrint(VecFloat *that, FILE *stream) {
+void VecFloatPrint(VecFloat *that, FILE *stream, int prec) {
   // Check arguments
   if (that == NULL || stream == NULL)
     return;
+  // Create the format string
+  char format[20] = {'\0'};
+  sprintf(format, "%%.%df", prec);
   // Print the values
   fprintf(stream, "<");
   for (int i = 0; i < that->_dim; ++i) {
-    fprintf(stream, "%f", that->_val[i]);
+    fprintf(stream, format, that->_val[i]);
     if (i < that->_dim - 1)
       fprintf(stream, ",");
   }
   fprintf(stream, ">");
+}
+void VecFloatPrintDef(VecFloat *that, FILE *stream) {
+  VecFloatPrint(that, stream, 3);
 }
 
 // Return the i-th value of the VecFloat
@@ -379,7 +386,7 @@ int main(int argc, char **argv) {
     return 1;
   }
   // Print the vector
-  VecFloatPrint(v, stdout);
+  VecPrint(v, stdout);
   fprintf(stdout, "\n");
   // Set the 2nd value to 1.0
   VecSet(v, 1, 1.0);
@@ -430,8 +437,8 @@ Output:\\
 \begin{scriptsize}
 \begin{ttfamily}
 \begin{lstlisting}
-<0.000000,0.000000,0.000000>
-<0.000000,1.000000,0.000000>
+<0.000,0.000,0.000>
+<0.000,1.000,0.000>
 3 0.000000 1.000000 0.000000 
 \end{lstlisting}
 \end{ttfamily}
