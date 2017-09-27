@@ -137,20 +137,26 @@ void VecFloatFree(VecFloat **that) {
   *that = NULL;
 }
 
-// Print the VecFloat on 'stream'
+// Print the VecFloat on 'stream' with 'prec' digit precision
 // Do nothing if arguments are invalid
-void VecFloatPrint(VecFloat *that, FILE *stream) {
+void VecFloatPrint(VecFloat *that, FILE *stream, int prec) {
   // Check arguments
   if (that == NULL || stream == NULL)
     return;
+  // Create the format string
+  char format[20] = {'\0'};
+  sprintf(format, "%%.%df", prec);
   // Print the values
   fprintf(stream, "<");
   for (int i = 0; i < that->_dim; ++i) {
-    fprintf(stream, "%f", that->_val[i]);
+    fprintf(stream, format, that->_val[i]);
     if (i < that->_dim - 1)
       fprintf(stream, ",");
   }
   fprintf(stream, ">");
+}
+void VecFloatPrintDef(VecFloat *that, FILE *stream) {
+  VecFloatPrint(that, stream, 3);
 }
 
 // Return the i-th value of the VecFloat
