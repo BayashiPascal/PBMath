@@ -29,7 +29,7 @@ void VecTypeUnsupported(void*t, ...);
   VecFloat**: VecFloatFree, \
   default: VecTypeUnsupported)(V)
 #define VecPrint(V, S) _Generic((V), \
-  VecFloat*: VecFloatPrint, \
+  VecFloat*: VecFloatPrintDef, \
   default: VecTypeUnsupported)(V, S)
 #define VecGet(V, I) _Generic((V), \
   VecFloat*: VecFloatGet, \
@@ -82,9 +82,10 @@ int VecFloatSave(VecFloat *that, FILE *stream);
 // Do nothing if arguments are invalid
 void VecFloatFree(VecFloat **that);
 
-// Print the VecFloat on 'stream'
+// Print the VecFloat on 'stream' with 'prec' digit precision
 // Do nothing if arguments are invalid
-void VecFloatPrint(VecFloat *that, FILE *stream);
+void VecFloatPrint(VecFloat *that, FILE *stream, int prec);
+void VecFloatPrintDef(VecFloat *that, FILE *stream);
 
 // Return the i-th value of the VecFloat
 // Index starts at 0
