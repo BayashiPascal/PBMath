@@ -7,6 +7,69 @@
 int main(int argc, char **argv) {
   // Initialise the random generator
   srandom(time(NULL));
+  // -------------- VecShort
+  fprintf(stdout, "-------- VecShort\n");
+  // Create a vector of dimension 3
+  VecShort *a = VecShortCreate(3);
+  // If we couldn't create the vector
+  if (a == NULL) {
+    fprintf(stderr, "VecCreate failed\n");
+    return 1;
+  }
+  // Print the vector
+  fprintf(stdout, "a: ");
+  VecPrint(a, stdout);
+  fprintf(stdout, "\n");
+  // Set the 2nd value to 1
+  VecSet(a, 1, 1);
+  // Print the vector
+  fprintf(stdout, "a: ");
+  VecPrint(a, stdout);
+  fprintf(stdout, "\n");
+  // Save the vector
+  FILE *f = fopen("./vecshort.txt", "w");
+  if (f == NULL) {
+    fprintf(stderr, "fopen failed\n");
+    return 2;
+  }
+  int ret = VecSave(a, f);
+  if (ret != 0) {
+    fprintf(stderr, "VecSave failed (%d)\n", ret);
+    return 3;
+  }
+  fclose(f);
+  // Load the vector
+  f = fopen("./vecshort.txt", "r");
+  if (f == NULL) {
+    fprintf(stderr, "fopen failed\n");
+    return 4;
+  }
+  VecShort *b = NULL;
+  ret = VecLoad(&b, f);
+  if (ret != 0) {
+    fprintf(stderr, "VecLoad failed (%d)\n", ret);
+    return 5;
+  }
+  fclose(f);
+  // Get the dimension and values of the loaded vector
+  fprintf(stdout, "b: %d ", VecDim(b));
+  for (int i = 0; i < VecDim(b); ++i)
+    fprintf(stdout, "%d ", VecGet(b, i));
+  fprintf(stdout, "\n");
+  // Change the values of the loaded vector and print it
+  VecSet(b, 0, 2);
+  VecSet(b, 2, 3);
+  fprintf(stdout, "b: ");
+  VecPrint(b, stdout);
+  fprintf(stdout, "\n");
+  // Copy the loaded vector into the first one and print the first one
+  VecCopy(a, b);
+  fprintf(stdout, "a: ");
+  VecPrint(a, stdout);
+  fprintf(stdout, "\n");
+  // Free memory
+  VecFree(&a);
+  VecFree(&b);
   // -------------- VecFloat
   fprintf(stdout, "-------- VecFloat\n");
   // Create a vector of dimension 3
@@ -27,19 +90,19 @@ int main(int argc, char **argv) {
   VecPrint(v, stdout);
   fprintf(stdout, "\n");
   // Save the vector
-  FILE *f = fopen("./vec.txt", "w");
+  f = fopen("./vecfloat.txt", "w");
   if (f == NULL) {
     fprintf(stderr, "fopen failed\n");
     return 2;
   }
-  int ret = VecSave(v, f);
+  ret = VecSave(v, f);
   if (ret != 0) {
     fprintf(stderr, "VecSave failed (%d)\n", ret);
     return 3;
   }
   fclose(f);
   // Load the vector
-  f = fopen("./vec.txt", "r");
+  f = fopen("./vecfloat.txt", "r");
   if (f == NULL) {
     fprintf(stderr, "fopen failed\n");
     return 4;

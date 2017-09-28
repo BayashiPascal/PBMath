@@ -16,37 +16,44 @@
 #define PBMATH_EPSILON 0.0000001
 #define PBMATH_PI 3.14159
 
-// -------------- VecFloat
-
 // ================= Generic functions ==================
 
 void VecTypeUnsupported(void*t, ...); 
 #define VecClone(V) _Generic((V), \
   VecFloat*: VecFloatClone, \
+  VecShort*: VecShortClone, \
   default: VecTypeUnsupported)(V)
 #define VecLoad(V, S) _Generic((V), \
   VecFloat**: VecFloatLoad, \
+  VecShort**: VecShortLoad, \
   default: VecTypeUnsupported)(V, S)
 #define VecSave(V, S) _Generic((V), \
   VecFloat*: VecFloatSave, \
+  VecShort*: VecShortSave, \
   default: VecTypeUnsupported)(V, S)
 #define VecFree(V) _Generic((V), \
   VecFloat**: VecFloatFree, \
+  VecShort**: VecShortFree, \
   default: VecTypeUnsupported)(V)
 #define VecPrint(V, S) _Generic((V), \
   VecFloat*: VecFloatPrintDef, \
+  VecShort*: VecShortPrint, \
   default: VecTypeUnsupported)(V, S)
 #define VecGet(V, I) _Generic((V), \
   VecFloat*: VecFloatGet, \
+  VecShort*: VecShortGet, \
   default: VecTypeUnsupported)(V, I)
 #define VecSet(V, I, VAL) _Generic((V), \
   VecFloat*: VecFloatSet, \
+  VecShort*: VecShortSet, \
   default: VecTypeUnsupported)(V, I, VAL)
 #define VecCopy(V, W) _Generic((V), \
   VecFloat*: VecFloatCopy, \
+  VecShort*: VecShortCopy, \
   default: VecTypeUnsupported)(V, W)
 #define VecDim(V) _Generic((V), \
   VecFloat*: VecFloatDim, \
+  VecShort*: VecShortDim, \
   default: VecTypeUnsupported)(V)
 #define VecNorm(V) _Generic((V), \
   VecFloat*: VecFloatNorm, \
@@ -75,6 +82,72 @@ void VecTypeUnsupported(void*t, ...);
 #define VecDotProd(V, W) _Generic((V), \
   VecFloat*: VecFloatDotProd, \
   default: VecTypeUnsupported)(V, W)
+
+// -------------- VecShort
+
+// ================= Data structure ===================
+
+// Vector of short values
+typedef struct VecShort {
+  // Dimension
+  int _dim;
+  // Values
+  short *_val;
+} VecShort;
+
+// ================ Functions declaration ====================
+
+// Create a new VecShort of dimension 'dim'
+// Values are initalized to 0.0
+// Return NULL if we couldn't create the VecShort
+VecShort* VecShortCreate(int dim);
+
+// Clone the VecShort
+// Return NULL if we couldn't clone the VecShort
+VecShort* VecShortClone(VecShort *that);
+
+// Load the VecShort from the stream
+// If the VecShort is already allocated, it is freed before loading
+// Return 0 in case of success, or:
+// 1: invalid arguments
+// 2: can't allocate memory
+// 3: invalid data
+// 4: fscanf error
+int VecShortLoad(VecShort **that, FILE *stream);
+
+// Save the VecShort to the stream
+// Return 0 upon success, or
+// 1: invalid arguments
+// 2: fprintf error
+int VecShortSave(VecShort *that, FILE *stream);
+
+// Free the memory used by a VecShort
+// Do nothing if arguments are invalid
+void VecShortFree(VecShort **that);
+
+// Print the VecShort on 'stream'
+// Do nothing if arguments are invalid
+void VecShortPrint(VecShort *that, FILE *stream);
+
+// Return the i-th value of the VecShort
+// Index starts at 0
+// Return 0.0 if arguments are invalid
+short VecShortGet(VecShort *that, int i);
+
+// Set the i-th value of the VecShort to v
+// Index starts at 0
+// Do nothing if arguments are invalid
+void VecShortSet(VecShort *that, int i, short v);
+
+// Return the dimension of the VecShort
+// Return 0 if arguments are invalid
+int VecShortDim(VecShort *that);
+
+// Copy the values of 'w' in 'that' (must have same dimensions)
+// Do nothing if arguments are invalid
+void VecShortCopy(VecShort *that, VecShort *w);
+
+// -------------- VecFloat
 
 // ================= Data structure ===================
 

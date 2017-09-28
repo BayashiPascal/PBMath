@@ -8,6 +8,198 @@
 
 #define rnd() (float)(rand())/(float)(RAND_MAX)
 
+// -------------- VecShort
+
+// ================= Define ==================
+
+// ================ Functions implementation ====================
+
+// Create a new Vec of dimension 'dim'
+// Values are initalized to 0.0
+// Return NULL if we couldn't create the Vec
+VecShort* VecShortCreate(int dim) {
+  // Check argument
+  if (dim <= 0)
+    return NULL;
+  // Allocate memory
+  VecShort *that = (VecShort*)malloc(sizeof(VecShort));
+  //If we could allocate memory
+  if (that != NULL) {
+    // Allocate memory for values
+    that->_val = (short*)malloc(sizeof(short) * dim);
+    // If we couldn't allocate memory
+    if (that->_val == NULL) {
+      // Free memory
+      free(that);
+      // Stop here
+      return NULL;
+    }
+    // Set the default values
+    that->_dim = dim;
+    for (int i = dim; i--;)
+      that->_val[i] = 0.0;
+  }
+  // Return the new VecShort
+  return that;
+}
+
+// Clone the VecShort
+// Return NULL if we couldn't clone the VecShort
+VecShort* VecShortClone(VecShort *that) {
+  // Check argument
+  if (that == NULL)
+    return NULL;
+  // Create a clone
+  VecShort *clone = VecShortCreate(that->_dim);
+  // If we could create the clone
+  if (clone != NULL) {
+    // Clone the properties
+    for (int i = that->_dim; i--;)
+      clone->_val[i] = that->_val[i];
+  }
+  // Return the clone
+  return clone;
+}
+
+// Load the VecShort from the stream
+// If the VecShort is already allocated, it is freed before loading
+// Return 0 in case of success, or:
+// 1: invalid arguments
+// 2: can't allocate memory
+// 3: invalid data
+// 4: fscanf error
+int VecShortLoad(VecShort **that, FILE *stream) {
+  // Check arguments
+  if (that == NULL || stream == NULL)
+    return 1;
+  // If 'that' is already allocated
+  if (*that != NULL) {
+    // Free memory
+    VecShortFree(that);
+  }
+  // Read the number of dimension
+  int dim;
+  int ret = fscanf(stream, "%d", &dim);
+  // If we coudln't fscanf
+  if (ret == EOF)
+    return 4;
+  if (dim <= 0)
+    return 3;
+  // Allocate memory
+  *that = VecShortCreate(dim);
+  // If we coudln't allocate memory
+  if (*that == NULL) {
+    return 2;
+  }
+  // Read the values
+  for (int i = 0; i < dim; ++i) {
+    fscanf(stream, "%hi", (*that)->_val + i);
+    // If we coudln't fscanf
+    if (ret == EOF)
+      return 4;
+  }
+  // Return success code
+  return 0;
+}
+
+// Save the VecShort to the stream
+// Return 0 upon success, or:
+// 1: invalid arguments
+// 2: fprintf error
+int VecShortSave(VecShort *that, FILE *stream) {
+  // Check arguments
+  if (that == NULL || stream == NULL)
+    return 1;
+  // Save the dimension
+  int ret = fprintf(stream, "%d ", that->_dim);
+  // If we coudln't fprintf
+  if (ret < 0)
+    return 2;
+  // Save the values
+  for (int i = 0; i < that->_dim; ++i) {
+    ret = fprintf(stream, "%hi ", that->_val[i]);
+    // If we coudln't fprintf
+    if (ret < 0)
+      return 2;
+  }
+  fprintf(stream, "\n");
+  // If we coudln't fprintf
+  if (ret < 0)
+    return 2;
+  // Return success code
+  return 0;
+}
+
+// Free the memory used by a VecShort
+// Do nothing if arguments are invalid
+void VecShortFree(VecShort **that) {
+  // Check argument
+  if (that == NULL || *that == NULL)
+    return;
+  // Free memory
+  free((*that)->_val);
+  free(*that);
+  *that = NULL;
+}
+
+// Print the VecShort on 'stream' with 'prec' digit precision
+// Do nothing if arguments are invalid
+void VecShortPrint(VecShort *that, FILE *stream) {
+  // Check arguments
+  if (that == NULL || stream == NULL)
+    return;
+  // Print the values
+  fprintf(stream, "<");
+  for (int i = 0; i < that->_dim; ++i) {
+    fprintf(stream, "%hi", that->_val[i]);
+    if (i < that->_dim - 1)
+      fprintf(stream, ",");
+  }
+  fprintf(stream, ">");
+}
+
+// Return the i-th value of the VecShort
+// Index starts at 0
+// Return 0.0 if arguments are invalid
+short VecShortGet(VecShort *that, int i) {
+  // Check argument
+  if (that == NULL || i < 0 || i >= that->_dim)
+    return 0.0;
+  // Return the value
+  return that->_val[i];
+}
+
+// Set the i-th value of the VecShort to v
+// Index starts at 0
+// Do nohting if arguments are invalid
+void VecShortSet(VecShort *that, int i, short v) {
+  // Check argument
+  if (that == NULL || i < 0 || i >= that->_dim)
+    return;
+  // Set the value
+  that->_val[i] = v;
+}
+
+// Return the dimension of the VecShort
+// Return 0 if arguments are invalid
+int VecShortDim(VecShort *that) {
+  // Check argument
+  if (that == NULL)
+    return 0;
+  // Return the dimension
+  return that->_dim;
+}
+
+// Copy the values of 'w' in 'that' (must have same dimensions)
+// Do nothing if arguments are invalid
+void VecShortCopy(VecShort *that, VecShort *w) {
+  // Check argument
+  if (that == NULL || w == NULL || that->_dim != w->_dim)
+    return;
+  // Copy the values
+  memcpy(that->_val, w->_val, sizeof(short) * that->_dim);
+}
+
 // -------------- VecFloat
 
 // ================= Define ==================
