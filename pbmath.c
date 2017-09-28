@@ -6,6 +6,11 @@
 
 // ================= Define ==================
 
+#define rnd() (float)(rand())/(float)(RAND_MAX)
+
+// -------------- VecFloat
+
+// ================= Define ==================
 
 // ================ Functions implementation ====================
 
@@ -200,3 +205,262 @@ void VecFloatCopy(VecFloat *that, VecFloat *w) {
   // Copy the values
   memcpy(that->_val, w->_val, sizeof(float) * that->_dim);
 }
+
+// Return the norm of the VecFloat
+// Return 0.0 if arguments are invalid
+float VecFloatNorm(VecFloat *that) {
+  // Check argument
+  if (that == NULL)
+    return 0.0;
+  // Declare a variable to calculate the norm
+  float ret = 0.0;
+  // Calculate the norm
+  for (int iDim = that->_dim; iDim--;)
+    ret += pow(that->_val[iDim], 2.0);
+  ret = sqrt(ret);
+  // Return the result
+  return ret;
+}
+
+// Normalise the VecFloat
+// Do nothing if arguments are invalid
+void VecFloatNormalise(VecFloat *that) {
+  // Check argument
+  if (that == NULL)
+    return;
+  // Normalise
+  float norm = VecNorm(that);
+  for (int iDim = that->_dim; iDim--;)
+    that->_val[iDim] /= norm;
+}
+
+// Return the distance between the VecFloat 'that' and 'tho'
+// Return NaN if arguments are invalid
+// If dimensions are different, missing ones are considered to 
+// be equal to 0.0
+float VecFloatDist(VecFloat *that, VecFloat *tho) {
+  // Check argument
+  if (that == NULL || tho == NULL)
+    return NAN;
+  // Declare a variable to calculate the distance
+  float ret = 0.0;
+  for (int iDim = that->_dim; iDim--;)
+    ret += pow(VecGet(that, iDim) - VecGet(tho, iDim), 2.0);
+  ret = sqrt(ret);
+  // Return the distance
+  return ret;
+}
+
+// Return true if the VecFloat 'that' is equal to 'tho'
+// Return false if arguments are invalid
+// If dimensions are different, missing ones are considered to 
+// be equal to 0.0
+bool VecFloatIsEqual(VecFloat *that, VecFloat *tho) {
+  // Check argument
+  if (that == NULL || tho == NULL)
+    return false;
+  // For each component
+  for (int iDim = that->_dim; iDim--;)
+    // If the values of this components are different
+    if (fabs(VecGet(that, iDim) - VecGet(tho, iDim)) > PBMATH_EPSILON)
+      // Return false
+      return false;
+  // Return true
+  return true;
+}
+
+// Calculate (that * a + tho * b) and store the result in 'that'
+// Do nothing if arguments are invalid
+// 'tho' can be null, in which case it is consider to be the null vector
+// If 'tho' is not null it must be of same dimension as 'that'
+void VecFloatOp(VecFloat *that, float a, VecFloat *tho, float b) {
+  // Check argument
+  if (that == NULL)
+    return;
+  // Calculate 
+  VecFloat *res = VecFloatGetOp(that, a, tho, b);
+  // If we could calculate
+  if (res != NULL) {
+    // Copy the result in 'that'
+    VecFloatCopy(that, res);
+    // Free memory
+    VecFloatFree(&res);
+  }
+}
+
+// Return a VecFloat equal to (that * a + tho * b)
+// Return NULL if arguments are invalid
+// 'tho' can be null, in which case it is consider to be the null vector
+// If 'tho' is not null it must be of same dimension as 'that'
+VecFloat* VecFloatGetOp(VecFloat *that, float a, 
+  VecFloat *tho, float b) {
+  // Check argument
+  if (that == NULL || (tho != NULL && that->_dim != tho->_dim))
+    return NULL;
+  // Declare a variable to memorize the result
+  VecFloat *res = VecFloatCreate(that->_dim);
+  // If we could allocate memory
+  if (res != NULL) {
+    // For each component
+    for (int iDim = that->_dim; iDim--;) {
+      // Calculate
+      res->_val[iDim] = a * that->_val[iDim];
+      if (tho != NULL)
+        res->_val[iDim] += b * tho->_val[iDim];
+    }
+  }
+  // Return the result
+  return res;
+}
+
+// Rotate CCW 'that' by 'theta' radians and store the result in 'that'
+// Do nothing if arguments are invalid
+void VecFloatRot2D(VecFloat *that, float theta) {
+  // Check argument
+  if (that == NULL || that->_dim != 2)
+    return;
+  // Calculate 
+  VecFloat *res = VecFloatGetRot2D(that, theta);
+  // If we could calculate
+  if (res != NULL) {
+    // Copy the result in 'that'
+    VecFloatCopy(that, res);
+    // Free memory
+    VecFloatFree(&res);
+  }
+}
+
+// Return a VecFloat equal to 'that' rotated CCW by 'theta' radians
+// Return NULL if arguments are invalid
+VecFloat* VecFloatGetRot2D(VecFloat *that, float theta) {
+  // Check argument
+  if (that == NULL || that->_dim != 2)
+    return NULL;
+  // Declare a variable to memorize the result 
+  VecFloat *res = VecFloatCreate(that->_dim);
+  // If we could allocate memory
+  if (res != NULL) {
+    // Calculate
+    res->_val[0] = 
+      cos(theta) * that->_val[0] - sin(theta) * that->_val[1];
+    res->_val[1] = 
+      sin(theta) * that->_val[0] + cos(theta) * that->_val[1];
+  }
+  // Return the result
+  return res;
+}
+
+// Return the dot product of 'that' and 'tho'
+// Return 0.0 if arguments are invalid
+float VecFloatDotProd(VecFloat *that, VecFloat *tho) {
+  // Check arguments
+  if (that == NULL || tho == NULL || that->_dim != tho->_dim)
+    return 0.0;
+  // Declare a variable to memorize the result
+  float res = 0.0;
+  // Calculate
+  for (int iDim = that->_dim; iDim--;)
+    res += that->_val[iDim] * tho->_val[iDim];
+  // Return the result
+  return res;
+}
+
+// -------------- Gauss
+
+// ================= Define ==================
+
+// ================ Functions implementation ====================
+
+// Create a new Gauss of mean 'mean' and sigma 'sigma'
+// Return NULL if we couldn't create the Gauss
+Gauss* GaussCreate(float mean, float sigma) {
+  // Allocate memory
+  Gauss *that = (Gauss*)malloc(sizeof(Gauss));
+  // If we could allocate memory
+  if (that != NULL) {
+    // Set properties
+    that->_mean = mean;
+    that->_sigma = sigma;
+  }
+  // REturn the new Gauss
+  return that;
+}
+
+// Free the memory used by a Gauss
+// Do nothing if arguments are invalid
+void GaussFree(Gauss **that) {
+  // Check argument
+  if (that == NULL || *that == NULL)
+    return;
+  // Free memory
+  free(*that);
+  *that = NULL;
+}
+
+// Return the value of the Gauss 'that' at 'x'
+// Return 0.0 if the arguments are invalid
+float GaussGet(Gauss *that, float x) {
+  // Check arguments
+  if (that == NULL)
+    return 0.0;
+  // Calculate the value
+  float a = 1.0 / (that->_sigma * sqrt(2.0 * PBMATH_PI));
+  float ret = a * exp(-1.0 * pow(x - that->_mean, 2.0) / 
+    (2.0 * pow(that->_sigma, 2.0)));
+  // Return the value
+  return ret;
+}
+
+// Return a random value (in ]0.0, 1.0[)according to the 
+// Gauss distribution 'that'
+// random() must have been called before calling this function
+// Return 0.0 if the arguments are invalid
+float GaussRnd(Gauss *that) {
+  // Check arguments
+  if (that == NULL)
+    return 0.0;
+  // Declare variable for calcul
+  float v1,v2,s;
+  // Calculate the value
+  do {
+    v1 = (rnd() - 0.5) * 2.0;
+    v2 = (rnd() - 0.5) * 2.0;
+    s = v1 * v1 + v2 * v2;
+  } while (s >= 1.0);
+  // Return the value
+  float ret = 0.0;
+  if (s > PBMATH_EPSILON)
+    ret = v1 * sqrt(-2.0 * log(s) / s);
+  return ret * that->_sigma + that->_mean;
+}
+
+// -------------- Smoother
+
+// ================= Define ==================
+
+// ================ Functions implementation ====================
+
+// Return the order 1 smooth value of 'x'
+// if x < 0.0 return 0.0
+// if x > 1.0 return 1.0
+float SmoothStep(float x) {
+  if (x <= 0.0)
+    return 0.0;
+  else if (x >= 1.0)
+    return 1.0;
+  else
+    return x * x * (3.0 - 2.0 * x);
+}
+
+// Return the order 2 smooth value of 'x'
+// if x < 0.0 return 0.0
+// if x > 1.0 return 1.0
+float SmootherStep(float x) {
+  if (x <= 0.0)
+    return 0.0;
+  else if (x >= 1.0)
+    return 1.0;
+  else
+    return x * x * x * (x * (x * 6.0 - 15.0) + 10.0);
+}
+

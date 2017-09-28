@@ -14,6 +14,11 @@
 // ================= Define ==================
 
 #define PBMATH_EPSILON 0.0000001
+#define PBMATH_PI 3.14159
+
+// -------------- VecFloat
+
+// ================= Generic functions ==================
 
 void VecTypeUnsupported(void*t, ...); 
 #define VecClone(V) _Generic((V), \
@@ -43,7 +48,33 @@ void VecTypeUnsupported(void*t, ...);
 #define VecDim(V) _Generic((V), \
   VecFloat*: VecFloatDim, \
   default: VecTypeUnsupported)(V)
-
+#define VecNorm(V) _Generic((V), \
+  VecFloat*: VecFloatNorm, \
+  default: VecTypeUnsupported)(V)
+#define VecNormalise(V) _Generic((V), \
+  VecFloat*: VecFloatNormalise, \
+  default: VecTypeUnsupported)(V)
+#define VecDist(V, W) _Generic((V), \
+  VecFloat*: VecFloatDist, \
+  default: VecTypeUnsupported)(V, W)
+#define VecIsEqual(V, W) _Generic((V), \
+  VecFloat*: VecFloatIsEqual, \
+  default: VecTypeUnsupported)(V, W)
+#define VecOp(V, A, W, B) _Generic((V), \
+  VecFloat*: VecFloatOp, \
+  default: VecTypeUnsupported)(V, A, W, B)
+#define VecGetOp(V, A, W, B) _Generic((V), \
+  VecFloat*: VecFloatGetOp, \
+  default: VecTypeUnsupported)(V, A, W, B)
+#define VecRot2D(V, A) _Generic((V), \
+  VecFloat*: VecFloatRot2D, \
+  default: VecTypeUnsupported)(V, A)
+#define VecGetRot2D(V, A) _Generic((V), \
+  VecFloat*: VecFloatGetRot2D, \
+  default: VecTypeUnsupported)(V, A)
+#define VecDotProd(V, W) _Generic((V), \
+  VecFloat*: VecFloatDotProd, \
+  default: VecTypeUnsupported)(V, W)
 
 // ================= Data structure ===================
 
@@ -107,5 +138,101 @@ int VecFloatDim(VecFloat *that);
 // Copy the values of 'w' in 'that' (must have same dimensions)
 // Do nothing if arguments are invalid
 void VecFloatCopy(VecFloat *that, VecFloat *w);
+
+// Return the norm of the VecFloat
+// Return 0.0 if arguments are invalid
+float VecFloatNorm(VecFloat *that);
+
+// Normalise the VecFloat
+// Do nothing if arguments are invalid
+void VecFloatNormalise(VecFloat *that);
+
+// Return the distance between the VecFloat 'that' and 'tho'
+// Return NaN if arguments are invalid
+// If dimensions are different, missing ones are considered to 
+// be equal to 0.0
+float VecFloatDist(VecFloat *that, VecFloat *tho);
+
+// Return true if the VecFloat 'that' is equal to 'tho'
+// Return false if arguments are invalid
+// If dimensions are different, missing ones are considered to 
+// be equal to 0.0
+bool VecFloatIsEqual(VecFloat *that, VecFloat *tho);
+
+// Calculate (that * a + tho * b) and store the result in 'that'
+// Do nothing if arguments are invalid
+// 'tho' can be null, in which case it is consider to be the null vector
+// If 'tho' is not null it must be of same dimension as 'that'
+void VecFloatOp(VecFloat *that, float a, VecFloat *tho, float b);
+
+// Return a VecFloat equal to (that * a + tho * b)
+// Return NULL if arguments are invalid
+// 'tho' can be null, in which case it is consider to be the null vector
+// If 'tho' is not null it must be of same dimension as 'that'
+VecFloat* VecFloatGetOp(VecFloat *that, float a, 
+  VecFloat *tho, float b);
+
+// Rotate CCW 'that' by 'theta' radians and store the result in 'that'
+// Do nothing if arguments are invalid
+void VecFloatRot2D(VecFloat *that, float theta);
+
+// Return a VecFloat equal to 'that' rotated CCW by 'theta' radians
+// Return NULL if arguments are invalid
+VecFloat* VecFloatGetRot2D(VecFloat *that, float theta);
+
+// Return the dot product of 'that' and 'tho'
+// Return 0.0 if arguments are invalid
+float VecFloatDotProd(VecFloat *that, VecFloat *tho);
+
+// -------------- Gauss
+
+// ================= Define ==================
+
+// ================= Data structure ===================
+
+// Vector of float values
+typedef struct Gauss {
+  // Mean
+  float _mean;
+  // Sigma
+  float _sigma;
+} Gauss;
+
+// ================ Functions declaration ====================
+
+// Create a new Gauss of mean 'mean' and sigma 'sigma'
+// Return NULL if we couldn't create the Gauss
+Gauss* GaussCreate(float mean, float sigma);
+
+// Free the memory used by a Gauss
+// Do nothing if arguments are invalid
+void GaussFree(Gauss **that);
+
+// Return the value of the Gauss 'that' at 'x'
+// Return 0.0 if the arguments are invalid
+float GaussGet(Gauss *that, float x);
+
+// Return a random value according to the Gauss 'that'
+// random() must have been called before calling this function
+// Return 0.0 if the arguments are invalid
+float GaussRnd(Gauss *that);
+
+// -------------- Smoother
+
+// ================= Define ==================
+
+// ================= Data structure ===================
+
+// ================ Functions declaration ====================
+
+// Return the order 1 smooth value of 'x'
+// if x < 0.0 return 0.0
+// if x > 1.0 return 1.0
+float SmoothStep(float x);
+
+// Return the order 2 smooth value of 'x'
+// if x < 0.0 return 0.0
+// if x > 1.0 return 1.0
+float SmootherStep(float x);
 
 #endif
