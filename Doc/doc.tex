@@ -25,7 +25,11 @@
 
 PBMath is C library providing mathematical structures and functions.\\ 
 
-The \begin{ttfamily}Vec\end{ttfamily} structure and its function can be used to manipulate vectors of float values.\\
+The \begin{ttfamily}VecFloat\end{ttfamily} structure and its functions can be used to manipulate vectors of float values.\\
+
+The \begin{ttfamily}Gauss\end{ttfamily} structure and its functions can be used to get values of the Gauss function and random values distributed accordingly with a Gauss distribution.\\
+
+The \begin{ttfamily}Smoother\end{ttfamily} functions can be used to get values of the SmoothStep and SmootherStep functions.\\
 
 \section{Interface}
 
@@ -72,6 +76,27 @@ vec.txt:\\
 \verbatiminput{../vec.txt}
 \end{ttfamily}
 \end{scriptsize}
+
+smoother functions:\\
+\begin{center}
+\begin{figure}[H]
+\centering\includegraphics[width=6cm]{./smoother.png}\\
+\end{figure}
+\end{center}
+
+gauss function (mean:0.0, sigma:1.0):\\
+\begin{center}
+\begin{figure}[H]
+\centering\includegraphics[width=6cm]{./gauss.png}\\
+\end{figure}
+\end{center}
+
+gauss rand function (mean:1.0, sigma:0.5):\\
+\begin{center}
+\begin{figure}[H]
+\centering\includegraphics[width=6cm]{./gaussrnd.png}\\
+\end{figure}
+\end{center}
 
 \end{document}
 
