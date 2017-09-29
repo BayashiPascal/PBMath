@@ -82,6 +82,9 @@ void VecTypeUnsupported(void*t, ...);
 #define VecDotProd(V, W) _Generic((V), \
   VecFloat*: VecFloatDotProd, \
   default: VecTypeUnsupported)(V, W)
+#define VecAngleTo2D(V, W) _Generic((V), \
+  VecFloat*: VecFloatAngleTo2D, \
+  default: VecTypeUnsupported)(V, W)
 
 // -------------- VecShort
 
@@ -256,6 +259,10 @@ VecFloat* VecFloatGetRot2D(VecFloat *that, float theta);
 // Return the dot product of 'that' and 'tho'
 // Return 0.0 if arguments are invalid
 float VecFloatDotProd(VecFloat *that, VecFloat *tho);
+
+// Return the angle of the rotation making 'that' colinear to 'tho'
+// Return 0.0 if arguments are invalid
+float VecFloatAngleTo2D(VecFloat *that, VecFloat *tho);
 
 // -------------- Gauss
 

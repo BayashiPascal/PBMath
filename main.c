@@ -188,6 +188,8 @@ int main(int argc, char **argv) {
   fprintf(stdout, "x: ");
   VecPrint(x, stdout);
   fprintf(stdout, "\n");
+  // AngleTo
+  fprintf(stdout, "angle from x to v: %.3f\n", VecAngleTo2D(x, v));
   // Free memory
   VecFree(&x);
   VecFree(&w);

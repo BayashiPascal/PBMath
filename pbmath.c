@@ -557,6 +557,51 @@ float VecFloatDotProd(VecFloat *that, VecFloat *tho) {
   return res;
 }
 
+// Return the angle of the rotation making 'that' colinear to 'tho'
+// Return 0.0 if arguments are invalid
+float VecFloatAngleTo2D(VecFloat *that, VecFloat *tho) {
+  // Check arguments
+  if (that == NULL || tho == NULL || 
+    VecDim(that) != 2 || VecDim(tho) != 2)
+    return 0.0;
+  // Declare a variable to memorize the result
+  float theta = 0.0;
+  // Calculate the angle
+  VecFloat *v = VecClone(that);
+  if (v == NULL)
+    return 0.0;
+  VecFloat *w = VecClone(tho);
+  if (w == NULL) {
+    VecFree(&v);
+    return 0.0;
+  }
+  if (VecNorm(v) < PBMATH_EPSILON || VecNorm(v) < PBMATH_EPSILON) {
+    VecFree(&v);
+    VecFree(&w);
+    return 0.0;
+  }
+  VecNormalise(v);
+  VecNormalise(w);
+  float m[2];
+  if (fabs(VecGet(v, 0)) > fabs(VecGet(v, 1))) {
+    m[0] = (VecGet(w, 0) + VecGet(w, 1) * VecGet(v, 1) / VecGet(v, 0))/
+      (VecGet(v, 0) + pow(VecGet(v, 1), 2.0) / VecGet(v, 0));
+    m[1] = (m[0] * VecGet(v, 1) - VecGet(w, 1)) / VecGet(v, 0);
+  } else {
+    m[1] = (VecGet(w, 0) - VecGet(w, 1) * VecGet(v, 0) / VecGet(v, 1))/
+      (VecGet(v, 1) + pow(VecGet(v, 0), 2.0) / VecGet(v, 1));
+    m[0] = (VecGet(w, 1) + m[1] * VecGet(v, 0)) / VecGet(v, 1);
+  }
+  theta = acos(m[0]);
+  if (fabs(sin(theta) + m[1]) > PBMATH_EPSILON)
+    theta *= -1.0;
+  // Free memory
+  VecFree(&v);
+  VecFree(&w);
+  // Return the result
+  return theta;
+}
+
 // -------------- Gauss
 
 // ================= Define ==================
