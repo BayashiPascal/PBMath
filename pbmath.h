@@ -18,8 +18,8 @@ typedef struct VecFloat VecFloat;
 // ================= Define ==================
 
 #define PBMATH_EPSILON 0.0000001
-#define PBMATH_PI 3.14159
 #define PBMATH_TWOPI 6.28319
+#define PBMATH_PI 3.14159
 #define PBMATH_HALFPI 1.57080
 #define PBMATH_QUARTERPI 0.78540
 
@@ -141,6 +141,13 @@ void LinSysTypeUnsupported(void*t, ...);
 #define LinSysSolve(S) _Generic((S), \
   EqLinSys*: EqLinSysSolve, \
   default: LinSysTypeUnsupported)(S)
+
+void ShapoidGetBoundingBoxUnsupported(void*t, ...); 
+#define ShapoidGetBoundingBox(T) _Generic((T), \
+  Shapoid*: ShapoidGetBoundingBoxThat, \
+  GSet*: ShapoidGetBoundingBoxSet, \
+  default: ShapoidGetBoundingBoxUnsupported)(T)
+
 
 // -------------- VecShort
 
@@ -577,7 +584,16 @@ bool ShapoidIsPosInside(Shapoid *that, VecFloat *pos);
 // The bounding box is returned as a Facoid, which position is
 // at the minimum value along each axis.
 // Return null if the argument are invalid.
-Shapoid* ShapoidGetBoundingBox(Shapoid *that); 
+Shapoid* ShapoidGetBoundingBoxThat(Shapoid *that); 
+
+// Get the bounding box of a set of Facoid. The bounding box is aligned
+// on the standard coordinate system (its axis are colinear with
+// the axis of the standard coordinate system).
+// The bounding box is returned as a Facoid, which position is
+// at the minimum value along each axis.
+// Return null if the arguments are invalid or the shapoid in the set
+// don't have all the same dimension.
+Shapoid* ShapoidGetBoundingBoxSet(GSet *set);
 
 // Get a GSet of BCurves approximating the Shapoid 'that'
 // 'that' must be of dimension 2
@@ -596,6 +612,7 @@ float ShapoidGetPosDepth(Shapoid *that, VecFloat *pos);
 // Get the center of the shapoid in standard coordinate system
 // Return null if arguments are invalid
 VecFloat* ShapoidGetCenter(Shapoid *that);
+
 
 // -------------- Conversion functions
 

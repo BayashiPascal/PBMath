@@ -616,6 +616,29 @@ int main(int argc, char **argv) {
   VecPrint(center, stdout);
   fprintf(stdout, "\n");
   VecFree(&center);
+
+  GSet *setBounding = GSetCreate();
+  if (setBounding == NULL) {
+    fprintf(stderr, "GSetCreate failed\n");
+    return 39;
+  }
+  GSetAppend(setBounding, facoidA);
+  GSetAppend(setBounding, facoidB);
+  facoidB->_type = ShapoidTypeFacoid;
+  VecSet(facoidB->_pos, 0, 2.0);
+  fprintf(stdout, "bounding box of\n");
+  ShapoidPrint(facoidA, stdout);
+  fprintf(stdout, "and\n");
+  ShapoidPrint(facoidB, stdout);
+  fprintf(stdout, "is\n");
+  bounding = ShapoidGetBoundingBox(setBounding);
+  if (bounding == NULL) {
+    fprintf(stderr, "ShapoidGetBoundingBox failed\n");
+    return 40;
+  }
+  ShapoidPrint(bounding, stdout);
+  ShapoidFree(&bounding);
+  GSetFree(&setBounding);
   // Free memory
   VecFree(&coordEx);
   VecFree(&coordIm);

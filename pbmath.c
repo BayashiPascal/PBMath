@@ -1240,7 +1240,8 @@ Shapoid* ShapoidCreate(int dim, ShapoidType type) {
 // Return NULL if couldn't clone
 Shapoid* ShapoidClone(Shapoid *that) {
   // Check argument
-  return NULL;
+  if (that == NULL)
+    return NULL;
   // Create a clone
   Shapoid *clone = ShapoidCreate(that->_dim, that->_type);
   if (clone != NULL) {
@@ -1584,7 +1585,7 @@ bool ShapoidIsPosInside(Shapoid *that, VecFloat *pos) {
 // The bounding box is returned as a Facoid, which position is
 // at the minimum value along each axis.
 // Return null if the argument are invalid.
-Shapoid* ShapoidGetBoundingBox(Shapoid *that) {
+Shapoid* ShapoidGetBoundingBoxThat(Shapoid *that) {
   // Check argument
   if (that == NULL)
     return NULL;
@@ -1682,6 +1683,70 @@ Shapoid* ShapoidGetBoundingBox(Shapoid *that) {
       // In any case of invalid shapoid type return NULL
       ShapoidFree(&res);
     }
+  }
+  // Return the result
+  return res;
+}
+
+// Get the bounding box of a set of Facoid. The bounding box is aligned
+// on the standard coordinate system (its axis are colinear with
+// the axis of the standard coordinate system).
+// The bounding box is returned as a Facoid, which position is
+// at the minimum value along each axis.
+// Return null if the arguments are invalid or the shapoid in the set
+// don't have all the same dimension.
+Shapoid* ShapoidGetBoundingBoxSet(GSet *set) {
+  // Check arguments
+  if (set == NULL)
+    return NULL;
+  // Declare a variable for the result
+  Shapoid *res = NULL;
+  // Declare a pointer to the elements of the set
+  GSetElem *elem = set->_head;
+  // Loop on element of the set
+  while (elem != NULL) {
+    // Declare a pointer to the Facoid
+    Shapoid *shapoid = (Shapoid*)(elem->_data);
+    // If it's the first Facoid in the set
+    if (res == NULL) {
+      // Get the bounding box of this shapoid
+      res = ShapoidGetBoundingBox(shapoid);
+      // If we couldn't get the bounding box
+      if (res == NULL)
+        return NULL;
+    // Else, this is not the first Shapoid in the set
+    } else {
+      // Ensure the Facoids have all the same dimension
+      if (shapoid->_dim != res->_dim) {
+        ShapoidFree(&res);
+        return NULL;
+      }
+      // Get the bounding box of this shapoid
+      Shapoid *bound = ShapoidGetBoundingBox(shapoid);
+      // If we couldn't get the bounding box
+      if (bound == NULL) {
+        ShapoidFree(&res);
+        return NULL;
+      }
+      // For each dimension
+      for (int iDim = res->_dim; iDim--;) {
+        // Update the bounding box
+        if (VecGet(bound->_pos, iDim) < VecGet(res->_pos, iDim))
+          VecSet(res->_pos, iDim, VecGet(bound->_pos, iDim));
+        if (VecGet(bound->_pos, iDim) + 
+          VecGet(bound->_axis[iDim], iDim) >
+          VecGet(res->_pos, iDim) + 
+          VecGet(res->_axis[iDim], iDim))
+          VecSet(res->_axis[iDim], iDim, 
+          VecGet(bound->_pos, iDim) + 
+          VecGet(bound->_axis[iDim], iDim) -
+          VecGet(res->_pos, iDim));
+      }
+      // Free memory used by the bounding box
+      ShapoidFree(&bound);
+    }
+    // Move to the next element
+    elem = elem->_next;
   }
   // Return the result
   return res;
