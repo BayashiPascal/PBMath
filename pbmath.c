@@ -1731,8 +1731,13 @@ Shapoid* ShapoidGetBoundingBoxSet(GSet *set) {
       // For each dimension
       for (int iDim = res->_dim; iDim--;) {
         // Update the bounding box
-        if (VecGet(bound->_pos, iDim) < VecGet(res->_pos, iDim))
+        if (VecGet(bound->_pos, iDim) < VecGet(res->_pos, iDim)) {
+          VecSet(res->_axis[iDim], iDim, 
+            VecGet(res->_axis[iDim], iDim) +
+            VecGet(res->_pos, iDim) -
+            VecGet(bound->_pos, iDim));
           VecSet(res->_pos, iDim, VecGet(bound->_pos, iDim));
+        }
         if (VecGet(bound->_pos, iDim) + 
           VecGet(bound->_axis[iDim], iDim) >
           VecGet(res->_pos, iDim) + 
