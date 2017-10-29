@@ -1466,7 +1466,7 @@ void ShapoidGrow(Shapoid *that, VecFloat *v) {
   ShapoidScale(that, v);
   // If the shapoid is a Facoid or Pyramidoid
   if (that->_type == ShapoidTypeFacoid || 
-    that->_type == ShapoidTypeSpheroid) {
+    that->_type == ShapoidTypePyramidoid) {
     // Reposition to keep center at the same position
     for (int iAxis = that->_dim; iAxis--;)
       VecOp(that->_pos, 1.0, 
