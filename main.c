@@ -644,6 +644,13 @@ int main(int argc, char **argv) {
   VecSet(v, 0, 2.0); VecSet(v, 1, 2.0);
   ShapoidGrow(facoidA, v);
   ShapoidPrint(facoidA, stdout);
+  // Coverage ratio
+  fprintf(stdout, "Percentage of :\n");
+  ShapoidPrint(facoidB, stdout);
+  fprintf(stdout, "included in :\n");
+  ShapoidPrint(facoidA, stdout);
+  float ratio = ShapoidGetCoverageRatio(facoidA, facoidB);
+  fprintf(stdout, "is %f\n", ratio);
   // Free memory
   ShapoidFree(&bounding);
   GSetFree(&setBounding);

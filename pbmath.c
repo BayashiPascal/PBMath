@@ -2001,6 +2001,64 @@ VecFloat* ShapoidGetCenter(Shapoid *that) {
   return res;
 }
 
+// Get the percentage of 'tho' included 'that' (in [0.0, 1.0])
+// 0.0 -> 'tho' is completely outside of 'that'
+// 1.0 -> 'tho' is completely inside of 'that'
+// 'that' and 'tho' must me of same dimensions
+// Return 0.0 if the arguments are invalid or something went wrong
+float ShapoidGetCoverageRatio(Shapoid *that, Shapoid *tho) {
+  // Check arguments
+  if (that == NULL || tho == NULL)
+    return 0.0;
+  // Declare a variable to memorize the result
+  float ratio = 0.0;
+  // Declare variables for the relative and absolute position in 'tho'
+  VecFloat *pRel = VecFloatCreate(ShapoidGetDim(that));
+  VecFloat *pAbs = NULL;
+  // If we couldn't allocate memory
+  if (pRel == NULL) {
+    // Free memory and stop here
+    VecFree(&pRel);
+    return 0.0;
+  }
+  // Declare a variable to memorize the step in relative coordinates
+  float delta = 0.1;
+  // Declare a variable to memorize the last index in dimension
+  int lastI = VecDim(pRel) - 1;
+  // Loop on relative coordinates
+  while (VecGet(pRel, lastI) < 1.0 + delta - PBMATH_EPSILON) {
+    // Get the absolute coordinates
+    pAbs = ShapoidExportCoord(tho, pRel);
+    // If we could get the position
+    if (pAbs != NULL) {
+      // If this position is inside 'that'
+      if (ShapoidIsPosInside(that, pAbs) == true)
+        // Increment the ratio
+        ratio += 1.0;
+      // Free memory
+      VecFree(&pAbs);
+    }
+    // Step the relative coordinates
+    int iDim = 0;
+    while (iDim >= 0) {
+      VecSet(pRel, iDim, VecGet(pRel, iDim) + delta);
+      if (iDim != lastI && 
+        VecGet(pRel, iDim) >= 1.0 + delta - PBMATH_EPSILON) {
+        VecSet(pRel, iDim, 0.0);
+        ++iDim;
+      } else {
+        iDim = -1;
+      }
+    }
+  }
+  // Finish the computation of the ratio
+  ratio /= pow(1.0 / delta + 1.0, (float)VecDim(pRel));
+  // Free memory
+  VecFree(&pRel);
+  // Return the result
+  return ratio;
+}
+
 // -------------- Conversion functions
 
 // ================ Functions implementation ====================

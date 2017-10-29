@@ -621,6 +621,12 @@ float ShapoidGetPosDepth(Shapoid *that, VecFloat *pos);
 // Return null if arguments are invalid
 VecFloat* ShapoidGetCenter(Shapoid *that);
 
+// Get the percentage of 'tho' included 'that' (in [0.0, 1.0])
+// 0.0 -> 'tho' is completely outside of 'that'
+// 1.0 -> 'tho' is completely inside of 'that'
+// 'that' and 'tho' must me of same dimensions
+// Return 0.0 if the arguments are invalid or something went wrong
+float ShapoidGetCoverageRatio(Shapoid *that, Shapoid *tho);
 
 // -------------- Conversion functions
 
