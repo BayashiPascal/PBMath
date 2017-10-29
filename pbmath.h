@@ -13,6 +13,8 @@
 #include "gset.h"
 struct VecFloat;
 typedef struct VecFloat VecFloat;
+struct Shapoid;
+typedef struct Shapoid Shapoid;
 #include "bcurve.h"
 
 // ================= Define ==================
@@ -560,7 +562,13 @@ void ShapoidTranslate(Shapoid *that, VecFloat *v);
 // Do nothing if arguments are invalid
 void ShapoidScale(Shapoid *that, VecFloat *v);
 
-// Rotate the Shapoid of dimension 2 by 'theta'
+// Scale the Shapoid by 'v' (each axis is multiplied by v[iAxis])
+// and translate the Shapoid such as its center after scaling
+// is at the same position than before scaling
+// Do nothing if arguments are invalid
+void ShapoidGrow(Shapoid *that, VecFloat *v);
+
+// Rotate the Shapoid of dimension 2 by 'theta' (in radians, CCW)
 // Do nothing if arguments are invalid
 void ShapoidRotate2D(Shapoid *that, float theta);
 

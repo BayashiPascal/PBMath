@@ -637,9 +637,16 @@ int main(int argc, char **argv) {
     return 40;
   }
   ShapoidPrint(bounding, stdout);
+  // Grow
+  fprintf(stdout, "Grow the facoid:\n");
+  ShapoidPrint(facoidA, stdout);
+  fprintf(stdout, "by 2.0:\n");
+  VecSet(v, 0, 2.0); VecSet(v, 1, 2.0);
+  ShapoidGrow(facoidA, v);
+  ShapoidPrint(facoidA, stdout);
+  // Free memory
   ShapoidFree(&bounding);
   GSetFree(&setBounding);
-  // Free memory
   VecFree(&coordEx);
   VecFree(&coordIm);
   VecFree(&v);

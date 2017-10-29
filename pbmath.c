@@ -1454,7 +1454,28 @@ void ShapoidScale(Shapoid *that, VecFloat *v) {
     VecOp(that->_axis[iAxis], VecGet(v, iAxis), NULL, 0.0);
 }
 
-// Rotate the Shapoid of dimension 2 by 'theta'
+// Scale the Shapoid by 'v' (each axis is multiplied by v[iAxis])
+// and translate the Shapoid such as its center after scaling
+// is at the same position than before scaling
+// Do nothing if arguments are invalid
+void ShapoidGrow(Shapoid *that, VecFloat *v) {
+  // Check arugments
+  if (that == NULL || v == NULL)
+    return;
+  // Scale
+  ShapoidScale(that, v);
+  // If the shapoid is a Facoid or Pyramidoid
+  if (that->_type == ShapoidTypeFacoid || 
+    that->_type == ShapoidTypeSpheroid) {
+    // Reposition to keep center at the same position
+    for (int iAxis = that->_dim; iAxis--;)
+      VecOp(that->_pos, 1.0, 
+        that->_axis[iAxis], -0.5 * (1.0 - 1.0 / VecGet(v, iAxis)));
+  }
+}
+
+
+// Rotate the Shapoid of dimension 2 by 'theta' (in radians, CCW)
 // Do nothing if arguments are invalid
 void ShapoidRotate2D(Shapoid *that, float theta) {
   // Check arugments
