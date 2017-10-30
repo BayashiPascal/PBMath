@@ -470,7 +470,7 @@ float VecFloatHamiltonDist(VecFloat *that, VecFloat *tho) {
   // Declare a variable to calculate the distance
   float ret = 0.0;
   for (int iDim = that->_dim; iDim--;)
-    ret += floor(fabs(VecGet(that, iDim) - VecGet(tho, iDim)));
+    ret += fabs(floor(VecGet(that, iDim)) - floor(VecGet(tho, iDim)));
   // Return the distance
   return ret;
 }
