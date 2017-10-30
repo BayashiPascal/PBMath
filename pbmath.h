@@ -74,6 +74,11 @@ void VecTypeUnsupported(void*t, ...);
   default: VecTypeUnsupported)(V)
 #define VecDist(V, W) _Generic((V), \
   VecFloat*: VecFloatDist, \
+  VecShort*: VecShortHamiltonDist, \
+  default: VecTypeUnsupported)(V, W)
+#define VecHamiltonDist(V, W) _Generic((V), \
+  VecFloat*: VecFloatHamiltonDist, \
+  VecShort*: VecShortHamiltonDist, \
   default: VecTypeUnsupported)(V, W)
 #define VecIsEqual(V, W) _Generic((V), \
   VecFloat*: VecFloatIsEqual, \
@@ -213,6 +218,12 @@ void VecShortSet(VecShort *that, int i, short v);
 // Return 0 if arguments are invalid
 int VecShortDim(VecShort *that);
 
+// Return the Hamiltonian distance between the VecShort 'that' and 'tho'
+// Return -1 if arguments are invalid
+// If dimensions are different, missing ones are considered to 
+// be equal to 0
+short VecShortHamiltonDist(VecShort *that, VecShort *tho);
+
 // Copy the values of 'w' in 'that' (must have same dimensions)
 // Do nothing if arguments are invalid
 void VecShortCopy(VecShort *that, VecShort *w);
@@ -295,6 +306,12 @@ void VecFloatNormalise(VecFloat *that);
 // If dimensions are different, missing ones are considered to 
 // be equal to 0.0
 float VecFloatDist(VecFloat *that, VecFloat *tho);
+
+// Return the Hamiltonian distance between the VecFloat 'that' and 'tho'
+// Return NaN if arguments are invalid
+// If dimensions are different, missing ones are considered to 
+// be equal to 0.0
+float VecFloatHamiltonDist(VecFloat *that, VecFloat *tho);
 
 // Return true if the VecFloat 'that' is equal to 'tho'
 // Return false if arguments are invalid
