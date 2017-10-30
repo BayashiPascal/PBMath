@@ -1573,10 +1573,9 @@ VecFloat* ShapoidExportCoord(Shapoid *that, VecFloat *pos) {
   // Allocate memory for the result
   VecFloat *res = VecClone(that->_pos);
   // If we could allocate memory
-  if (res != NULL) {
+  if (res != NULL)
     for (int dim = that->_dim; dim--;)
       VecOp(res, 1.0, that->_axis[dim], VecGet(pos, dim));
-  }
   // Return the result
   return res;
 }
@@ -2045,10 +2044,12 @@ VecFloat* ShapoidGetCenter(Shapoid *that) {
 // Return 0.0 if the arguments are invalid or something went wrong
 float ShapoidGetCoverage(Shapoid *that, Shapoid *tho) {
   // Check arguments
-  if (that == NULL || tho == NULL)
+  if (that == NULL || tho == NULL || 
+    ShapoidGetDim(that) != ShapoidGetDim(tho))
     return 0.0;
-  // Declare a variable to memorize the result
+  // Declare variables to compute the result
   float ratio = 0.0;
+  float sum = 0.0;
   // Declare variables for the relative and absolute position in 'tho'
   VecFloat *pRel = VecFloatCreate(ShapoidGetDim(that));
   VecFloat *pAbs = NULL;
@@ -2062,8 +2063,16 @@ float ShapoidGetCoverage(Shapoid *that, Shapoid *tho) {
   float delta = 0.1;
   // Declare a variable to memorize the last index in dimension
   int lastI = VecDim(pRel) - 1;
+  // Declare a variable to memorize the max value of coordinates
+  float max = 1.0;
+  // If 'tho' is a spheroid, reposition the start coordinates
+  if (tho->_type == ShapoidTypeSpheroid) {
+    max = 0.5;
+    for (int iDim = ShapoidGetDim(that); iDim--;)
+      VecSet(pRel, iDim, -0.5);
+  }
   // Loop on relative coordinates
-  while (VecGet(pRel, lastI) < 1.0 + delta - PBMATH_EPSILON) {
+  while (VecGet(pRel, lastI) <= max + PBMATH_EPSILON) {
     // Get the absolute coordinates
     pAbs = ShapoidExportCoord(tho, pRel);
     // If we could get the position
@@ -2072,6 +2081,7 @@ float ShapoidGetCoverage(Shapoid *that, Shapoid *tho) {
       if (ShapoidIsPosInside(that, pAbs) == true)
         // Increment the ratio
         ratio += 1.0;
+      sum += 1.0;
       // Free memory
       VecFree(&pAbs);
     }
@@ -2080,8 +2090,8 @@ float ShapoidGetCoverage(Shapoid *that, Shapoid *tho) {
     while (iDim >= 0) {
       VecSet(pRel, iDim, VecGet(pRel, iDim) + delta);
       if (iDim != lastI && 
-        VecGet(pRel, iDim) >= 1.0 + delta - PBMATH_EPSILON) {
-        VecSet(pRel, iDim, 0.0);
+        VecGet(pRel, iDim) > max + PBMATH_EPSILON) {
+        VecSet(pRel, iDim, max - 1.0);
         ++iDim;
       } else {
         iDim = -1;
@@ -2089,7 +2099,7 @@ float ShapoidGetCoverage(Shapoid *that, Shapoid *tho) {
     }
   }
   // Finish the computation of the ratio
-  ratio /= pow(1.0 / delta + 1.0, (float)VecDim(pRel));
+  ratio /= sum;
   // Free memory
   VecFree(&pRel);
   // Return the result
