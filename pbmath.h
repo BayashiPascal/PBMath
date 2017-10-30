@@ -603,10 +603,10 @@ Shapoid* ShapoidGetBoundingBoxThat(Shapoid *that);
 // don't have all the same dimension.
 Shapoid* ShapoidGetBoundingBoxSet(GSet *set);
 
-// Get a GSet of BCurves approximating the Shapoid 'that'
+// Get a SCurve approximating the Shapoid 'that'
 // 'that' must be of dimension 2
 // Return null if arguments are invalid
-GSet* ShapoidGetApproxBCurve2D(Shapoid *that);
+SCurve* Shapoid2SCurve(Shapoid *that);
 
 // Get the depth value in the Shapoid of 'pos'
 // The depth is defined as follow: the point with depth equals 1.0 is 

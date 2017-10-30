@@ -1778,15 +1778,20 @@ Shapoid* ShapoidGetBoundingBoxSet(GSet *set) {
   return res;
 }
 
-// Get a GSet of BCurves approximating the Shapoid 'that'
+// Get a SCurve approximating the Shapoid 'that'
 // 'that' must be of dimension 2
 // Return null if arguments are invalid
-GSet* ShapoidGetApproxBCurve2D(Shapoid *that) {
+SCurve* Shapoid2SCurve(Shapoid *that) {
   // Check arguments
   if (that == NULL || ShapoidGetDim(that) != 2)
     return NULL;
-  // Declare a GSet to memorize the result
-  GSet *set = GSetCreate();
+  // Declare a SCurve to memorize the result
+  SCurve *ret = SCurveCreate(ShapoidGetDim(that));
+  // If we couldn't allocate memory
+  if (ret == NULL)
+    return NULL;
+  // Declare a pointer to the GSet of the SCurve
+  GSet *set = ret->_curves;
   // If the shapoid is a Facoid
   if (ShapoidGetType(that) == ShapoidTypeFacoid) {
     VecFloat *A = VecGetOp(that->_pos, 1.0, that->_axis[0], 1.0);
@@ -1903,8 +1908,8 @@ GSet* ShapoidGetApproxBCurve2D(Shapoid *that) {
       GSetFree(&pointCloud);
     }
   }
-  // Return the GSet containing the result
-  return set;
+  // Return the result
+  return ret;
 }
 
 // Get the depth value in the Shapoid of 'pos'
