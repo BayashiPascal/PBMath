@@ -15,6 +15,8 @@ struct VecFloat;
 typedef struct VecFloat VecFloat;
 struct Shapoid;
 typedef struct Shapoid Shapoid;
+struct SCurve;
+typedef struct SCurve SCurve;
 #include "bcurve.h"
 
 // ================= Define ==================
