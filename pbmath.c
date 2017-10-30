@@ -2043,7 +2043,7 @@ VecFloat* ShapoidGetCenter(Shapoid *that) {
 // 1.0 -> 'tho' is completely inside of 'that'
 // 'that' and 'tho' must me of same dimensions
 // Return 0.0 if the arguments are invalid or something went wrong
-float ShapoidGetCoverageRatio(Shapoid *that, Shapoid *tho) {
+float ShapoidGetCoverage(Shapoid *that, Shapoid *tho) {
   // Check arguments
   if (that == NULL || tho == NULL)
     return 0.0;

@@ -651,7 +651,7 @@ int main(int argc, char **argv) {
   ShapoidPrint(facoidB, stdout);
   fprintf(stdout, "included in :\n");
   ShapoidPrint(facoidA, stdout);
-  float ratio = ShapoidGetCoverageRatio(facoidA, facoidB);
+  float ratio = ShapoidGetCoverage(facoidA, facoidB);
   fprintf(stdout, "is %f\n", ratio);
   // Free memory
   ShapoidFree(&bounding);
