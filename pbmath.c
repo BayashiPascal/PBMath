@@ -200,8 +200,12 @@ short VecShortHamiltonDist(VecShort *that, VecShort *tho) {
     return -1;
   // Declare a variable to calculate the distance
   short ret = 0;
-  for (int iDim = that->_dim; iDim--;)
-    ret += (short)floor(fabs(VecGet(that, iDim) - VecGet(tho, iDim)));
+  for (int iDim = that->_dim; iDim--;) {
+    short v = VecGet(that, iDim) - VecGet(tho, iDim);
+    if (v < 0) 
+      v *= -1;
+    ret += v;
+  }
   // Return the distance
   return ret;
 }
