@@ -166,6 +166,8 @@ int main(int argc, char **argv) {
   fprintf(stdout, "Distance between v and w: %.3f\n", VecDist(v, w));
   fprintf(stdout, "Hamiltonian distance between v and w: %.3f\n",
     VecHamiltonDist(v, w));
+  fprintf(stdout, "Pixel distance between v and w: %.3f\n",
+    VecPixelDist(v, w));
   // Equality
   if (VecIsEqual(v, w) == true)
     fprintf(stdout, "v = w\n");

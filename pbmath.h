@@ -80,6 +80,10 @@ void VecTypeUnsupported(void*t, ...);
   VecFloat*: VecFloatHamiltonDist, \
   VecShort*: VecShortHamiltonDist, \
   default: VecTypeUnsupported)(V, W)
+#define VecPixelDist(V, W) _Generic((V), \
+  VecFloat*: VecFloatPixelDist, \
+  VecShort*: VecShortHamiltonDist, \
+  default: VecTypeUnsupported)(V, W)
 #define VecIsEqual(V, W) _Generic((V), \
   VecFloat*: VecFloatIsEqual, \
   default: VecTypeUnsupported)(V, W)
@@ -312,6 +316,12 @@ float VecFloatDist(VecFloat *that, VecFloat *tho);
 // If dimensions are different, missing ones are considered to 
 // be equal to 0.0
 float VecFloatHamiltonDist(VecFloat *that, VecFloat *tho);
+
+// Return the Pixel distance between the VecFloat 'that' and 'tho'
+// Return NaN if arguments are invalid
+// If dimensions are different, missing ones are considered to 
+// be equal to 0.0
+float VecFloatPixelDist(VecFloat *that, VecFloat *tho);
 
 // Return true if the VecFloat 'that' is equal to 'tho'
 // Return false if arguments are invalid

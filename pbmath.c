@@ -470,6 +470,22 @@ float VecFloatHamiltonDist(VecFloat *that, VecFloat *tho) {
   // Declare a variable to calculate the distance
   float ret = 0.0;
   for (int iDim = that->_dim; iDim--;)
+    ret += fabs(VecGet(that, iDim) - VecGet(tho, iDim));
+  // Return the distance
+  return ret;
+}
+
+// Return the Pixel distance between the VecFloat 'that' and 'tho'
+// Return NaN if arguments are invalid
+// If dimensions are different, missing ones are considered to 
+// be equal to 0.0
+float VecFloatPixelDist(VecFloat *that, VecFloat *tho) {
+  // Check argument
+  if (that == NULL || tho == NULL)
+    return NAN;
+  // Declare a variable to calculate the distance
+  float ret = 0.0;
+  for (int iDim = that->_dim; iDim--;)
     ret += fabs(floor(VecGet(that, iDim)) - floor(VecGet(tho, iDim)));
   // Return the distance
   return ret;
