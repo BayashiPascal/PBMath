@@ -39,7 +39,30 @@ The \begin{ttfamily}Smoother\end{ttfamily} functions can be used to get values o
 
 \section{Definitions}
 
-\subsection{Angle between two vectors}
+\subsection{Vectors}
+
+\subsubsection{Distance between two vectors}
+
+For \begin{ttfamily}VecShort\end{ttfamily}:\\
+
+\begin{equation}
+\begin{array}{l}
+Dist(\overrightarrow{v},\overrightarrow{w})=\sum_i|v_i-w_i|\\
+HamiltonDist(\overrightarrow{v},\overrightarrow{w})=\sum_i|v_i-w_i|\\
+PixelDist(\overrightarrow{v},\overrightarrow{w})=\sum_i|v_i-w_i|\\
+\end{array}
+\end{equation}
+For \begin{ttfamily}VecFloat\end{ttfamily}:\\
+\begin{equation}
+\begin{array}{l}
+Dist(\overrightarrow{v},\overrightarrow{w})=\sum_i(v_i-w_i)^2\\
+HamiltonDist(\overrightarrow{v},\overrightarrow{w})=\sum_i|v_i-w_i|\\
+PixelDist(\overrightarrow{v},\overrightarrow{w})=\sum_i\left|\lfloor v_i\rfloor -\lfloor w_i\rfloor\right|\\
+\end{array}
+\end{equation}
+
+
+\subsubsection{Angle between two vectors}
 
 The problem is as follow: given two vectors $\vec{V}$ and $\vec{W}$ not null, how to calculate the angle $\theta$ from $\vec{V}$ to $\vec{W}$.\\
 
