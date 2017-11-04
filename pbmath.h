@@ -85,7 +85,12 @@ void VecTypeUnsupported(void*t, ...);
   VecShort*: VecShortHamiltonDist, \
   default: VecTypeUnsupported)(V, W)
 #define VecIsEqual(V, W) _Generic((V), \
-  VecFloat*: VecFloatIsEqual, \
+  VecFloat*: _Generic((W), \
+    VecFloat*: VecFloatIsEqual, \
+    default: VecTypeUnsupported), \
+  VecShort*: _Generic((W), \
+    VecShort*: VecShortIsEqual,\
+    default: VecTypeUnsupported), \
   default: VecTypeUnsupported)(V, W)
 #define VecOp(V, A, W, B) _Generic((V), \
   VecFloat*: VecFloatOp, \
@@ -227,6 +232,12 @@ int VecShortDim(VecShort *that);
 // If dimensions are different, missing ones are considered to 
 // be equal to 0
 short VecShortHamiltonDist(VecShort *that, VecShort *tho);
+
+// Return true if the VecShort 'that' is equal to 'tho'
+// Return false if arguments are invalid
+// If dimensions are different, missing ones are considered to 
+// be equal to 0.0
+bool VecShortIsEqual(VecShort *that, VecShort *tho);
 
 // Copy the values of 'w' in 'that' (must have same dimensions)
 // Do nothing if arguments are invalid

@@ -210,6 +210,25 @@ short VecShortHamiltonDist(VecShort *that, VecShort *tho) {
   return ret;
 }
 
+
+// Return true if the VecShort 'that' is equal to 'tho'
+// Return false if arguments are invalid
+// If dimensions are different, missing ones are considered to 
+// be equal to 0.0
+bool VecShortIsEqual(VecShort *that, VecShort *tho) {
+  // Check argument
+  if (that == NULL || tho == NULL)
+    return false;
+  // For each component
+  for (int iDim = that->_dim; iDim--;)
+    // If the values of this components are different
+    if (VecGet(that, iDim) != VecGet(tho, iDim))
+      // Return false
+      return false;
+  // Return true
+  return true;
+}
+
 // Copy the values of 'w' in 'that' (must have same dimensions)
 // Do nothing if arguments are invalid
 void VecShortCopy(VecShort *that, VecShort *w) {
