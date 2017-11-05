@@ -767,6 +767,18 @@ MatFloat* MatFloatClone(MatFloat *that) {
   return clone;
 }
 
+// Copy the values of 'w' in 'that' (must have same dimensions)
+// Do nothing if arguments are invalid
+void MatFloatCopy(MatFloat *that, MatFloat *w) {
+  // Check argument
+  if (that == NULL || w == NULL)
+    return;
+  // Copy the matrix values
+  int d = VecGet(that->_dim, 0) * VecGet(that->_dim, 1);
+  for (int i = d; i--;)
+    that->_val[i] = w->_val[i];
+}
+
 // Load the MatFloat from the stream
 // If the MatFloat is already allocated, it is freed before loading
 // Return 0 in case of success, or:
@@ -1261,6 +1273,12 @@ const char *ShapoidTypeString[4] = {
   (const char*)"InvalidShapoid", (const char*)"Facoid", 
   (const char*)"Spheroid", (const char*)"Pyramidoid"};
 
+// ================ Functions declaration ====================
+
+// Update the system of linear equation used to import coordinates
+// Do nothing if arguments are invalid or memory allocation failed 
+void ShapoidUpdateEqLinSysImport(Shapoid *that);
+
 // ================ Functions implementation ====================
 
 // Create a Shapoid of dimension 'dim' and type 'type', default values:
@@ -1271,10 +1289,26 @@ Shapoid* ShapoidCreate(int dim, ShapoidType type) {
   // Check argument
   if (dim < 0 || type == ShapoidTypeInvalid)
     return NULL;
+  // Declare a vector used for initialisation 
+  VecShort *d = VecShortCreate(2);
+  if (d == NULL)
+    return NULL;
+  // Declare a identity matrix used for initialisation 
+  VecSet(d, 0, dim);
+  VecSet(d, 1, dim);
+  MatFloat *mat = MatFloatCreate(d);
+  VecFree(&d);
+  if (mat == NULL)
+    return NULL;
+  MatFloatSetIdentity(mat);
   // Allocate memory
   Shapoid *that = (Shapoid*)malloc(sizeof(Shapoid));
   // If we could allocate memory
   if (that != NULL) {
+    // Init pointers
+    that->_pos = NULL;
+    that->_axis = NULL;
+    that->_eqLinSysImport = NULL;
     // Set the dimension and type
     that->_type = type;
     that->_dim = dim;
@@ -1282,29 +1316,71 @@ Shapoid* ShapoidCreate(int dim, ShapoidType type) {
     that->_pos = VecFloatCreate(dim);
     // If we couldn't allocate memory
     if (that->_pos == NULL) {
-      free(that);
+      MatFree(&mat);
+      ShapoidFree(&that);
       return NULL;
     }
     // Allocate memory for array of axis
     that->_axis = (VecFloat**)malloc(sizeof(VecFloat*) * dim);
     if (that->_axis == NULL) {
-      free(that);
+      MatFree(&mat);
+      ShapoidFree(&that);
       return NULL;
     }
+    for (int iAxis = dim; iAxis--;)
+      that->_axis[iAxis] = NULL;
     // Allocate memory for each axis
     for (int iAxis = 0; iAxis < dim; ++iAxis) {
       // Allocate memory for position
       that->_axis[iAxis] = VecFloatCreate(dim);
       // If we couldn't allocate memory
       if (that->_axis[iAxis] == NULL) {
+        MatFree(&mat);
         ShapoidFree(&that);
         return NULL;
       }
       // Set value of the axis
       VecSet(that->_axis[iAxis], iAxis, 1.0);
     }
+    // Create the linear system for coordinate importation
+    that->_eqLinSysImport = EqLinSysCreate(mat, NULL);
+    if (that->_eqLinSysImport == NULL) {
+      MatFree(&mat);
+      ShapoidFree(&that);
+      return NULL;
+    }
   }
+  // Free memory
+  MatFree(&mat);
+  // Return the new Shapoid
   return that;
+}
+
+// Update the system of linear equation used to import coordinates
+// Do nothing if arguments are invalid or memory allocation failed 
+void ShapoidUpdateEqLinSysImport(Shapoid *that) {
+  // Check argument
+  if (that == NULL)
+    return;
+  VecShort *dim = VecShortCreate(2);
+  if (dim == NULL)
+    return;
+  // Set a pointer to the matrix in the EqLinSys
+  MatFloat *mat = MatClone(that->_eqLinSysImport->_M);
+  // Set the values of the matrix
+  for (VecSet(dim, 0, 0); VecGet(dim, 0) < that->_dim; 
+    VecSet(dim, 0, VecGet(dim, 0) + 1)) {
+    for (VecSet(dim, 1, 0); VecGet(dim, 1) < that->_dim; 
+      VecSet(dim, 1, VecGet(dim, 1) + 1)) {
+      MatSet(mat, dim, VecGet(that->_axis[VecGet(dim, 0)], 
+        VecGet(dim, 1)));
+    }
+  }
+  // Update the EqLinSys
+  EqLinSysSetM(that->_eqLinSysImport, mat);
+  // Free memory
+  MatFree(&mat);
+  VecFree(&dim);
 }
 
 // Clone a Shapoid
@@ -1320,6 +1396,8 @@ Shapoid* ShapoidClone(Shapoid *that) {
     ShapoidSetPos(clone, that->_pos);
     for (int iAxis = clone->_dim; iAxis--;)
       ShapoidSetAxis(clone, iAxis, that->_axis[iAxis]);
+    // Clone the EqLinSys
+    // TODO
   }
   // Return the clone
   return clone;
@@ -1336,6 +1414,7 @@ void ShapoidFree(Shapoid **that) {
     VecFree((*that)->_axis + iAxis);
   free((*that)->_axis);
   VecFree(&((*that)->_pos));
+  EqLinSysFree(&((*that)->_eqLinSysImport));
   free(*that);
   *that = NULL;
 }
@@ -1384,6 +1463,8 @@ int ShapoidLoad(Shapoid **that, FILE *stream) {
     if (ret != 0)
       return ret;
   }
+  // Update the EqLinSys
+  ShapoidUpdateEqLinSysImport(*that);
   // Return success code
   return 0;
 }
@@ -1502,6 +1583,8 @@ void ShapoidSetAxis(Shapoid *that, int dim, VecFloat *v) {
     return;
   // Set the axis
   VecCopy(that->_axis[dim], v);
+  // Update the EqLinSys
+  ShapoidUpdateEqLinSysImport(that);
 }
 
 // Translate the Shapoid by 'v'
@@ -1523,6 +1606,8 @@ void ShapoidScale(Shapoid *that, VecFloat *v) {
   // Scale each axis
   for (int iAxis = that->_dim; iAxis--;)
     VecOp(that->_axis[iAxis], VecGet(v, iAxis), NULL, 0.0);
+  // Update the EqLinSys
+  ShapoidUpdateEqLinSysImport(that);
 }
 
 // Scale the Shapoid by 'v' (each axis is multiplied by v[iAxis])
@@ -1543,6 +1628,8 @@ void ShapoidGrow(Shapoid *that, VecFloat *v) {
       VecOp(that->_pos, 1.0, 
         that->_axis[iAxis], -0.5 * (1.0 - 1.0 / VecGet(v, iAxis)));
   }
+  // Update the EqLinSys
+  ShapoidUpdateEqLinSysImport(that);
 }
 
 
@@ -1555,6 +1642,8 @@ void ShapoidRotate2D(Shapoid *that, float theta) {
   // Rotate each axis
   for (int iAxis = that->_dim; iAxis--;)
     VecRot2D(that->_axis[iAxis], theta);
+  // Update the EqLinSys
+  ShapoidUpdateEqLinSysImport(that);
 }
 
 // Convert the coordinates of 'pos' from standard coordinate system 
@@ -2165,20 +2254,26 @@ float ConvDeg2Rad(float deg) {
 
 // Create a new EqLinSys with matrix 'm' and vector 'v'
 // The dimension of 'v' must be equal to the number of column of 'm'
+// If 'v' is null the vector null is used instead
 // The matrix 'm' must be a square matrix
 // Return NULL if we couldn't create the EqLinSys
 EqLinSys* EqLinSysCreate(MatFloat *m, VecFloat *v) {
   // Check arguments
-  if (m == NULL || v == NULL || VecGet(m->_dim, 0) != VecDim(v) ||
-    VecGet(m->_dim, 0) != VecGet(m->_dim, 1))
+  if (m == NULL || VecGet(m->_dim, 0) != VecGet(m->_dim, 1))
+    return NULL;
+  if (v != NULL && VecGet(m->_dim, 0) != VecDim(v))
     return NULL;
   // Allocate memory
   EqLinSys *that = (EqLinSys*)malloc(sizeof(EqLinSys));
   // If we could allocate memory
   if (that != NULL) {
     that->_M = MatClone(m);
-    that->_V = VecClone(v);
-    if (that->_M == NULL || that->_V == NULL) {
+    that->_Minv = MatInv(that->_M);
+    if (v != NULL)
+      that->_V = VecClone(v);
+    else
+      that->_V = VecFloatCreate(VecGet(m->_dim, 0));
+    if (that->_M == NULL || that->_V == NULL || that->_Minv == NULL) {
       EqLinSysFree(&that);
       return NULL;
     }
@@ -2195,6 +2290,7 @@ void EqLinSysFree(EqLinSys **that) {
     return;
   // Free memory
   MatFree(&((*that)->_M));
+  MatFree(&((*that)->_Minv));
   VecFree(&((*that)->_V));
   free(*that);
   *that = NULL;
@@ -2209,16 +2305,38 @@ VecFloat* EqLinSysSolve(EqLinSys *that) {
     return NULL;
   // Declare a variable to memorize the solution
   VecFloat *ret = NULL;
-  // Inverse the matrix
-  MatFloat *inv = MatInv(that->_M);
-  // If we could inverse the matrix
-  if (inv != NULL) {
-    // Calculate the solution
-    ret = MatProd(inv, that->_V);
-  }
-  // Free memory
-  MatFree(&inv);
+  // Calculate the solution
+  ret = MatProd(that->_Minv, that->_V);
   // Return the solution vector
   return ret;
+}
+
+// Set the matrix of the EqLinSys to a copy of 'm'
+// 'm' must have same dimensions has the current matrix
+// Do nothing if arguments are invalid
+void EqLinSysSetM(EqLinSys *that, MatFloat *m) {
+  // Check the arguments
+  if (that == NULL || m == NULL || 
+    VecIsEqual(m->_dim, that->_M->_dim) == false)
+    return;
+  // Update the matrix values
+  MatCopy(that->_M, m);
+  // Update the inverse matrix
+  MatFloat *inv = MatInv(that->_M);
+  if (inv != NULL) {
+    MatCopy(that->_Minv, inv);
+    MatFree(&inv);
+  }
+}
+
+// Set the vector of the EqLinSys to a copy of 'v'
+// 'v' must have same dimensions has the current vector
+// Do nothing if arguments are invalid
+void EqLinSysSetV(EqLinSys *that, VecFloat *v) {
+  // Check the arguments
+  if (that == NULL || v == NULL || v->_dim != that->_V->_dim)
+    return;
+  // Update the vector values
+  VecCopy(that->_V, v);
 }
 

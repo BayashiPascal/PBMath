@@ -18,6 +18,8 @@ typedef struct Shapoid Shapoid;
 struct SCurve;
 typedef struct SCurve SCurve;
 #include "bcurve.h"
+struct EqLinSys;
+typedef struct EqLinSys EqLinSys;
 
 // ================= Define ==================
 
@@ -134,7 +136,9 @@ void MatTypeUnsupported(void*t, ...);
   MatFloat*: MatFloatSet, \
   default: MatTypeUnsupported)(M, I, VAL)
 #define MatCopy(M, W) _Generic((M), \
-  MatFloat*: MatFloatCopy, \
+  MatFloat*: _Generic ((W), \
+    MatFloat*: MatFloatCopy, \
+    default: MatTypeUnsupported), \
   default: MatTypeUnsupported)(M, W)
 #define MatDim(M) _Generic((M), \
   MatFloat*: MatFloatDim, \
@@ -397,6 +401,10 @@ void MatFloatSetIdentity(MatFloat *that);
 // Return NULL if we couldn't clone the MatFloat
 MatFloat* MatFloatClone(MatFloat *that);
 
+// Copy the values of 'w' in 'that' (must have same dimensions)
+// Do nothing if arguments are invalid
+void MatFloatCopy(MatFloat *that, MatFloat *w);
+
 // Load the MatFloat from the stream
 // If the MatFloat is already allocated, it is freed before loading
 // Return 0 in case of success, or:
@@ -528,6 +536,8 @@ typedef struct Shapoid {
   VecFloat **_axis;
   // Type of Shapoid
   ShapoidType _type;
+  // Linear sytem used to import coordinates
+  EqLinSys *_eqLinSysImport;
 } Shapoid;
 
 // ================ Functions declaration ====================
@@ -686,6 +696,8 @@ float ConvDeg2Rad(float deg);
 typedef struct EqLinSys {
   // Matrix
   MatFloat *_M;
+  // Inverse of the matrix
+  MatFloat *_Minv;
   // Vector
   VecFloat *_V;
 } EqLinSys;
@@ -694,6 +706,7 @@ typedef struct EqLinSys {
 
 // Create a new EqLinSys with matrix 'm' and vector 'v'
 // The dimension of 'v' must be equal to the number of column of 'm'
+// If 'v' is null the vector null is used instead
 // The matrix 'm' must be a square matrix
 // Return NULL if we couldn't create the EqLinSys
 EqLinSys* EqLinSysCreate(MatFloat *m, VecFloat *v);
@@ -706,5 +719,14 @@ void EqLinSysFree(EqLinSys **that);
 // Return the solution vector, or null if there is no solution or the 
 // arguments are invalid
 VecFloat* EqLinSysSolve(EqLinSys *that);
+
+// Set the matrix of the EqLinSys to a clone of 'm'
+// Do nothing if arguments are invalid
+void EqLinSysSetM(EqLinSys *that, MatFloat *m);
+
+// Set the vector of the EqLinSys to a clone of 'v'
+// Do nothing if arguments are invalid
+void EqLinSysSetV(EqLinSys *that, VecFloat *v);
+
 
 #endif
