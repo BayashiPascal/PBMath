@@ -28,6 +28,7 @@ typedef struct EqLinSys EqLinSys;
 #define PBMATH_PI 3.14159
 #define PBMATH_HALFPI 1.57080
 #define PBMATH_QUARTERPI 0.78540
+#define PBMATH_SQRTTWO 1.41421
 
 // ================= Generic functions ==================
 
