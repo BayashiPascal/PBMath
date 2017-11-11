@@ -672,6 +672,10 @@ int main(int argc, char **argv) {
   fprintf(stdout, "%f radians -> %f degrees\n", 90.0, 
     ConvDeg2Rad(90.0));
 
+  // -------------- Usefull basic functions
+  fprintf(stdout, "-------- Usefull basic functions\n");
+  fprintf(stdout, "10^2 = %d\n", powi(10, 2));
+
   // Return success code
   return 0;
 }

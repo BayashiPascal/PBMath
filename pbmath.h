@@ -729,5 +729,14 @@ void EqLinSysSetM(EqLinSys *that, MatFloat *m);
 // Do nothing if arguments are invalid
 void EqLinSysSetV(EqLinSys *that, VecFloat *v);
 
+// -------------- Usefull basic functions
+
+// ================ Functions declaration ====================
+
+// Return x^y when x and y are int
+// to avoid numerical imprecision from (pow(double,double)
+// From https://stackoverflow.com/questions/29787310/
+// does-pow-work-for-int-data-type-in-c
+int powi(int base, int exp);
 
 #endif

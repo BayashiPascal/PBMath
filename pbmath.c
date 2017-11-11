@@ -2340,3 +2340,25 @@ void EqLinSysSetV(EqLinSys *that, VecFloat *v) {
   VecCopy(that->_V, v);
 }
 
+// -------------- Usefull basic functions
+
+// ================ Functions implementation ====================
+
+// Return x^y when x and y are int
+// to avoid numerical imprecision from (pow(double,double)
+// From https://stackoverflow.com/questions/29787310/
+// does-pow-work-for-int-data-type-in-c
+int powi(int base, int exp) {
+  // Declare a variable to memorize the result and init to 1
+  int res = 1;
+  // Loop on exponent
+  while (exp) {
+    // Do some magic trick
+    if (exp & 1)
+      res *= base;
+    exp /= 2;
+    base *= base;
+  }
+  // Return the result
+  return res;
+}
