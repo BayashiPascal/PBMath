@@ -286,7 +286,7 @@ bool VecStep(VecShort *that, VecShort *bound) {
   bool flag = true;
   do {
     ++(that->_val[iDim]);
-    if (that->_val[iDim] == bound->_val[iDim]) {
+    if (that->_val[iDim] >= bound->_val[iDim]) {
       that->_val[iDim] = 0;
       --iDim;
     } else {
