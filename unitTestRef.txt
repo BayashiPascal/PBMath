@@ -1,0 +1,82 @@
+5 1 2 3 4 5 
+2 1 2 
+3 1 2 3 
+4 1 2 3 4 
+5 1.000000 2.000000 3.000000 4.000000 5.000000 
+2 1.000000 2.000000 
+3 1.000000 2.000000 3.000000 
+2 3
+1.000000 4.000000 
+2.000000 5.000000 
+3.000000 6.000000 
+<0,0,0,0,0>
+<0,0>
+<0,0,0>
+<0,0,0,0>
+VecShortCreateFree OK
+VecShortClone OK
+VecShortLoadSave OK
+VecShortGetSetDim OK
+UnitTestVecShortStep OK
+UnitTestVecShortHamiltonDist OK
+UnitTestVecShortIsEqual OK
+UnitTestVecShortDotProd OK
+UnitTestVecShortCopy OK
+VecShort: 0.000047ms, array: 0.000031ms
+VecShort2D: 0.000013ms, array: 0.000014ms
+VecShort3D: 0.000014ms, array: 0.000014ms
+VecShort4D: 0.000014ms, array: 0.000013ms
+UnitTestSpeedVecShort OK
+<1.000,2.000,3.000,4.000,5.000>
+<1.000,2.000>
+<1.000,2.000,3.000>
+UnitTestVecShortToFloat OK
+UnitTestVecShort OK
+<0.000,0.000,0.000,0.000,0.000>
+<0.000,0.000>
+<0.000,0.000,0.000>
+VecFloatCreateFree OK
+VecFloatClone OK
+VecFloatLoadSave OK
+VecFloatGetSetDim OK
+UnitTestVecFloatCopy OK
+UnitTestVecFloatNorm OK
+UnitTestVecFloatDist OK
+UnitTestVecFloatIsEqual OK
+UnitTestVecFloatScale OK
+UnitTestVecFloatOp OK
+UnitTestVecFloatDotProd OK
+<0.707,0.707>
+UnitTestVecFloatAngleTo OK
+<1,2,3,4,5>
+<1,2>
+<1,2,3>
+UnitTestVecFloatToShort OK
+VecFloat: 0.000029ms, array: 0.000029ms
+VecFloat2D: 0.000013ms, array: 0.000013ms
+VecFloat3D: 0.000013ms, array: 0.000013ms
+UnitTestSpeedVecFloat OK
+UnitTestVecFloat OK
+UnitTestMatFloatCreateFree OK
+UnitTestMatFloatGetSetDim OK
+UnitTestMatFloatClone OK
+UnitTestMatFloatLoadSave OK
+UnitTestMatFloatInv OK
+UnitTestMatFloatProdVecFloat OK
+UnitTestMatFloatProdMatFloat OK
+MatFloat: 0.000006ms, array: 0.000007ms
+UnitTestSpeedMatFloat OK
+UnitTestMatFloat OK
+UnitTestSysLinEq OK
+UnitTestGauss OK
+UnitTestSmoother OK
+UnitTestConv OK
+powi OK
+average error: 0.000000 < 0.000010, max error: 0.000000 < 0.000100
+fastpow OK
+fastpow: 0.000025ms, pow: 0.000076ms
+speed fastpow OK
+fsquare OK
+UnitTestConv OK
+UnitTestBasicFunctions OK
+UnitTestAll OK

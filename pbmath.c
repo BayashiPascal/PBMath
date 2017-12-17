@@ -3,42 +3,31 @@
 // ================= Include =================
 
 #include "pbmath.h"
-
-// ================= Define ==================
-
-#define rnd() (float)(rand())/(float)(RAND_MAX)
+#if BUILDMODE == 0
+#include "pbmath_inline.c"
+#endif
 
 // -------------- VecShort
-
-// ================= Define ==================
 
 // ================ Functions implementation ====================
 
 // Create a new Vec of dimension 'dim'
 // Values are initalized to 0.0
-// Return NULL if we couldn't create the Vec
 VecShort* VecShortCreate(int dim) {
-  // Check argument
-  if (dim <= 0)
-    return NULL;
-  // Allocate memory
-  VecShort *that = (VecShort*)malloc(sizeof(VecShort));
-  //If we could allocate memory
-  if (that != NULL) {
-    // Allocate memory for values
-    that->_val = (short*)malloc(sizeof(short) * dim);
-    // If we couldn't allocate memory
-    if (that->_val == NULL) {
-      // Free memory
-      free(that);
-      // Stop here
-      return NULL;
-    }
-    // Set the default values
-    that->_dim = dim;
-    for (int i = dim; i--;)
-      that->_val[i] = 0.0;
+#if BUILDMODE == 0
+  if (dim <= 0) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "invalid 'dim' (%d)", dim);
+    PBErrCatch(PBMathErr);
   }
+#endif
+  // Allocate memory
+  VecShort *that = PBErrMalloc(PBMathErr, 
+    sizeof(VecShort) + sizeof(short) * dim);
+  // Set the default values
+  that->_dim = dim;
+  for (int i = dim; i--;)
+    that->_val[i] = 0;
   // Return the new VecShort
   return that;
 }
@@ -46,88 +35,96 @@ VecShort* VecShortCreate(int dim) {
 // Clone the VecShort
 // Return NULL if we couldn't clone the VecShort
 VecShort* VecShortClone(VecShort *that) {
-  // Check argument
-  if (that == NULL)
-    return NULL;
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
   // Create a clone
   VecShort *clone = VecShortCreate(that->_dim);
-  // If we could create the clone
-  if (clone != NULL) {
-    // Clone the properties
-    for (int i = that->_dim; i--;)
-      clone->_val[i] = that->_val[i];
-  }
+  // Copy the values
+  memcpy(clone, that, sizeof(VecShort) + sizeof(short) * that->_dim);
   // Return the clone
   return clone;
 }
 
 // Load the VecShort from the stream
 // If the VecShort is already allocated, it is freed before loading
-// Return 0 in case of success, or:
-// 1: invalid arguments
-// 2: can't allocate memory
-// 3: invalid data
-// 4: fscanf error
-int VecShortLoad(VecShort **that, FILE *stream) {
-  // Check arguments
-  if (that == NULL || stream == NULL)
-    return 1;
+// Return true in case of success, else false
+bool VecShortLoad(VecShort **that, FILE *stream) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (stream == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'stream' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
   // If 'that' is already allocated
-  if (*that != NULL) {
+  if (*that != NULL)
     // Free memory
     VecShortFree(that);
-  }
   // Read the number of dimension
   int dim;
   int ret = fscanf(stream, "%d", &dim);
   // If we coudln't fscanf
   if (ret == EOF)
-    return 4;
+    return false;
+  // Check the dimension
   if (dim <= 0)
-    return 3;
+    return false;
   // Allocate memory
   *that = VecShortCreate(dim);
-  // If we coudln't allocate memory
-  if (*that == NULL) {
-    return 2;
-  }
   // Read the values
   for (int i = 0; i < dim; ++i) {
     ret = fscanf(stream, "%hi", (*that)->_val + i);
     // If we coudln't fscanf
     if (ret == EOF)
-      return 4;
+      return false;
   }
   // Return success code
-  return 0;
+  return true;
 }
 
 // Save the VecShort to the stream
-// Return 0 upon success, or:
-// 1: invalid arguments
-// 2: fprintf error
-int VecShortSave(VecShort *that, FILE *stream) {
-  // Check arguments
-  if (that == NULL || stream == NULL)
-    return 1;
+// Return true in case of success, else false
+bool VecShortSave(VecShort *that, FILE *stream) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (stream == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'stream' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
   // Save the dimension
   int ret = fprintf(stream, "%d ", that->_dim);
   // If we coudln't fprintf
   if (ret < 0)
-    return 2;
+    return false;
   // Save the values
   for (int i = 0; i < that->_dim; ++i) {
     ret = fprintf(stream, "%hi ", that->_val[i]);
     // If we coudln't fprintf
     if (ret < 0)
-      return 2;
+      return false;
   }
   fprintf(stream, "\n");
   // If we coudln't fprintf
   if (ret < 0)
-    return 2;
+    return false;
   // Return success code
-  return 0;
+  return true;
 }
 
 // Free the memory used by a VecShort
@@ -137,17 +134,24 @@ void VecShortFree(VecShort **that) {
   if (that == NULL || *that == NULL)
     return;
   // Free memory
-  free((*that)->_val);
   free(*that);
   *that = NULL;
 }
 
 // Print the VecShort on 'stream' with 'prec' digit precision
-// Do nothing if arguments are invalid
 void VecShortPrint(VecShort *that, FILE *stream) {
-  // Check arguments
-  if (that == NULL || stream == NULL)
-    return;
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (stream == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'stream' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
   // Print the values
   fprintf(stream, "<");
   for (int i = 0; i < that->_dim; ++i) {
@@ -158,132 +162,39 @@ void VecShortPrint(VecShort *that, FILE *stream) {
   fprintf(stream, ">");
 }
 
-// Return the i-th value of the VecShort
-// Index starts at 0
-// Return 0.0 if arguments are invalid
-short VecShortGet(VecShort *that, int i) {
-  // Check argument
-  if (that == NULL || i < 0 || i >= that->_dim)
-    return 0.0;
-  // Return the value
-  return that->_val[i];
-}
-
-// Set the i-th value of the VecShort to v
-// Index starts at 0
-// Do nohting if arguments are invalid
-void VecShortSet(VecShort *that, int i, short v) {
-  // Check argument
-  if (that == NULL || i < 0 || i >= that->_dim)
-    return;
-  // Set the value
-  that->_val[i] = v;
-}
-
-// Return the dimension of the VecShort
-// Return 0 if arguments are invalid
-int VecShortDim(VecShort *that) {
-  // Check argument
-  if (that == NULL)
-    return 0;
-  // Return the dimension
-  return that->_dim;
-}
-
-// Return the Hamiltonian distance between the VecShort 'that' and 'tho'
-// Return -1 if arguments are invalid
-// If dimensions are different, missing ones are considered to 
-// be equal to 0
-short VecShortHamiltonDist(VecShort *that, VecShort *tho) {
-  // Check argument
-  if (that == NULL || tho == NULL)
-    return -1;
-  // Declare a variable to calculate the distance
-  short ret = 0;
-  for (int iDim = that->_dim; iDim--;) {
-    short v = VecGet(that, iDim) - VecGet(tho, iDim);
-    if (v < 0) 
-      v *= -1;
-    ret += v;
-  }
-  // Return the distance
-  return ret;
-}
-
-
-// Return true if the VecShort 'that' is equal to 'tho'
-// Return false if arguments are invalid
-// If dimensions are different, missing ones are considered to 
-// be equal to 0.0
-bool VecShortIsEqual(VecShort *that, VecShort *tho) {
-  // Check argument
-  if (that == NULL || tho == NULL)
-    return false;
-  // For each component
-  for (int iDim = that->_dim; iDim--;)
-    // If the values of this components are different
-    if (VecGet(that, iDim) != VecGet(tho, iDim))
-      // Return false
-      return false;
-  // Return true
-  return true;
-}
-
-// Copy the values of 'w' in 'that' (must have same dimensions)
-// Do nothing if arguments are invalid
-void VecShortCopy(VecShort *that, VecShort *w) {
-  // Check argument
-  if (that == NULL || w == NULL || that->_dim != w->_dim)
-    return;
-  // Copy the values
-  memcpy(that->_val, w->_val, sizeof(short) * that->_dim);
-}
-
-// Return the dot product of 'that' and 'tho'
-// Return 0 if arguments are invalid
-short VecShortDotProd(VecShort *that, VecShort *tho) {
-  // Check argument
-  if (that == NULL || tho == NULL)
-    return 0;
-  // Declare a variable ot memorise the result
-  short res = 0;
-  // For each component
-  for (int iDim = that->_dim; iDim--;)
-    // Calculate the product
-    res += VecGet(that, iDim) * VecGet(tho, iDim);
-  // Return the result
-  return res;
-}
-
-// Set all values of the vector 'that' to 0
-// Do nothing if arguments are invalid
-void VecSetNull(VecShort *that) {
-  // Check arguments
-  if (that == NULL)
-    return;
-  // Set values
-  for (int iDim = that->_dim; iDim--;)
-    that->_val[iDim] = 0;
-}
-
-// Step the values of the vector incrementally by 1
+// Step the values of the vector incrementally by 1 from 0
 // in the following order (for example) : 
 // (0,0,0)->(0,0,1)->(0,0,2)->(0,1,0)->(0,1,1)->...
-// The upper limit for each value is given by 'bound'
-// Return false if arguments are invalid or 
-// all values of 'that' have reach there upper limit (in which case
-// 'that''s values are all set back to 0
+// The upper limit for each value is given by 'bound' (val[i] < dim[i])
+// Return false if all values of 'that' have reached their upper limit 
+// (in which case 'that''s values are all set back to 0)
 // Return true else
-bool VecStep(VecShort *that, VecShort *bound) {
-  // Check arguments
-  if (that == NULL || bound == NULL || that->_dim != bound->_dim)
-    return false;
+bool VecShortStep(VecShort *that, VecShort *bound) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (bound == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'bound' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != bound->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+      that->_dim, bound->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
   // Declare a variable for the returned flag
   bool ret = true;
   // Declare a variable to memorise the dimension currently increasing
   int iDim = that->_dim - 1;
-  // Increment
+  // Declare a flag for the loop condition 
   bool flag = true;
+  // Increment
   do {
     ++(that->_val[iDim]);
     if (that->_val[iDim] >= bound->_val[iDim]) {
@@ -299,71 +210,112 @@ bool VecStep(VecShort *that, VecShort *bound) {
   return ret;
 }
 
+// Step the values of the vector incrementally by 1 from 0
+// in the following order (for example) : 
+// (0,0,0)->(1,0,0)->(2,0,0)->(0,1,0)->(1,1,0)->...
+// The upper limit for each value is given by 'bound' (val[i] < dim[i])
+// Return false if all values of 'that' have reached their upper limit 
+// (in which case 'that''s values are all set back to 0)
+// Return true else
+bool VecShortPStep(VecShort *that, VecShort *bound) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (bound == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'bound' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != bound->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+      that->_dim, bound->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable for the returned flag
+  bool ret = true;
+  // Declare a variable to memorise the dimension currently increasing
+  int iDim = 0;
+  // Declare a flag for the loop condition 
+  bool flag = true;
+  // Increment
+  do {
+    ++(that->_val[iDim]);
+    if (that->_val[iDim] >= bound->_val[iDim]) {
+      that->_val[iDim] = 0;
+      ++iDim;
+    } else {
+      flag = false;
+    }
+  } while (iDim < that->_dim && flag == true);
+  if (iDim == that->_dim)
+    ret = false;
+  // Return the flag
+  return ret;
+}
+
 
 // -------------- VecFloat
-
-// ================= Define ==================
 
 // ================ Functions implementation ====================
 
 // Create a new Vec of dimension 'dim'
 // Values are initalized to 0.0
-// Return NULL if we couldn't create the Vec
 VecFloat* VecFloatCreate(int dim) {
-  // Check argument
-  if (dim <= 0)
-    return NULL;
-  // Allocate memory
-  VecFloat *that = (VecFloat*)malloc(sizeof(VecFloat));
-  //If we could allocate memory
-  if (that != NULL) {
-    // Allocate memory for values
-    that->_val = (float*)malloc(sizeof(float) * dim);
-    // If we couldn't allocate memory
-    if (that->_val == NULL) {
-      // Free memory
-      free(that);
-      // Stop here
-      return NULL;
-    }
-    // Set the default values
-    that->_dim = dim;
-    for (int i = dim; i--;)
-      that->_val[i] = 0.0;
+#if BUILDMODE == 0
+  if (dim <= 0) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "invalid 'dim' (%d)", dim);
+    PBErrCatch(PBMathErr);
   }
+#endif
+  // Allocate memory
+  VecFloat *that = PBErrMalloc(PBMathErr, 
+    sizeof(VecFloat) + sizeof(float) * dim);
+  // Set the default values
+  that->_dim = dim;
+  for (int i = dim; i--;)
+    that->_val[i] = 0.0;
   // Return the new VecFloat
   return that;
 }
 
 // Clone the VecFloat
-// Return NULL if we couldn't clone the VecFloat
 VecFloat* VecFloatClone(VecFloat *that) {
-  // Check argument
-  if (that == NULL)
-    return NULL;
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
   // Create a clone
   VecFloat *clone = VecFloatCreate(that->_dim);
-  // If we could create the clone
-  if (clone != NULL) {
-    // Clone the properties
-    for (int i = that->_dim; i--;)
-      clone->_val[i] = that->_val[i];
-  }
+  // Clone the properties
+  memcpy(clone, that, sizeof(VecFloat) + sizeof(float) * that->_dim);
   // Return the clone
   return clone;
 }
 
 // Load the VecFloat from the stream
 // If the VecFloat is already allocated, it is freed before loading
-// Return 0 in case of success, or:
-// 1: invalid arguments
-// 2: can't allocate memory
-// 3: invalid data
-// 4: fscanf error
-int VecFloatLoad(VecFloat **that, FILE *stream) {
-  // Check arguments
-  if (that == NULL || stream == NULL)
-    return 1;
+bool VecFloatLoad(VecFloat **that, FILE *stream) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (stream == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'stream' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
   // If 'that' is already allocated
   if (*that != NULL) {
     // Free memory
@@ -374,52 +326,56 @@ int VecFloatLoad(VecFloat **that, FILE *stream) {
   int ret = fscanf(stream, "%d", &dim);
   // If we coudln't fscanf
   if (ret == EOF)
-    return 4;
+    return false;
+  // Check the dimension
   if (dim <= 0)
-    return 3;
+    return false;
   // Allocate memory
   *that = VecFloatCreate(dim);
-  // If we coudln't allocate memory
-  if (*that == NULL) {
-    return 2;
-  }
   // Read the values
   for (int i = 0; i < dim; ++i) {
     ret = fscanf(stream, "%f", (*that)->_val + i);
     // If we coudln't fscanf
     if (ret == EOF)
-      return 4;
+      return false;
   }
   // Return success code
-  return 0;
+  return true;
 }
 
 // Save the VecFloat to the stream
-// Return 0 upon success, or:
-// 1: invalid arguments
-// 2: fprintf error
-int VecFloatSave(VecFloat *that, FILE *stream) {
-  // Check arguments
-  if (that == NULL || stream == NULL)
-    return 1;
+// Return true in case of success, else false
+bool VecFloatSave(VecFloat *that, FILE *stream) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (stream == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'stream' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
   // Save the dimension
   int ret = fprintf(stream, "%d ", that->_dim);
   // If we coudln't fprintf
   if (ret < 0)
-    return 2;
+    return false;
   // Save the values
   for (int i = 0; i < that->_dim; ++i) {
     ret = fprintf(stream, "%f ", that->_val[i]);
     // If we coudln't fprintf
     if (ret < 0)
-      return 2;
+      return false;
   }
   fprintf(stream, "\n");
   // If we coudln't fprintf
   if (ret < 0)
-    return 2;
+    return false;
   // Return success code
-  return 0;
+  return true;
 }
 
 // Free the memory used by a VecFloat
@@ -429,19 +385,27 @@ void VecFloatFree(VecFloat **that) {
   if (that == NULL || *that == NULL)
     return;
   // Free memory
-  free((*that)->_val);
   free(*that);
   *that = NULL;
 }
 
 // Print the VecFloat on 'stream' with 'prec' digit precision
 // Do nothing if arguments are invalid
-void VecFloatPrint(VecFloat *that, FILE *stream, int prec) {
-  // Check arguments
-  if (that == NULL || stream == NULL)
-    return;
+void VecFloatPrint(VecFloat *that, FILE *stream, unsigned int prec) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (stream == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'stream' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
   // Create the format string
-  char format[20] = {'\0'};
+  char format[100] = {'\0'};
   sprintf(format, "%%.%df", prec);
   // Print the values
   fprintf(stream, "<");
@@ -452,325 +416,66 @@ void VecFloatPrint(VecFloat *that, FILE *stream, int prec) {
   }
   fprintf(stream, ">");
 }
-void VecFloatPrintDef(VecFloat *that, FILE *stream) {
-  VecFloatPrint(that, stream, 3);
-}
-
-// Return the i-th value of the VecFloat
-// Index starts at 0
-// Return 0.0 if arguments are invalid
-float VecFloatGet(VecFloat *that, int i) {
-  // Check argument
-  if (that == NULL || i < 0 || i >= that->_dim)
-    return 0.0;
-  // Return the value
-  return that->_val[i];
-}
-
-// Set the i-th value of the VecFloat to v
-// Index starts at 0
-// Do nohting if arguments are invalid
-void VecFloatSet(VecFloat *that, int i, float v) {
-  // Check argument
-  if (that == NULL || i < 0 || i >= that->_dim)
-    return;
-  // Set the value
-  that->_val[i] = v;
-}
-
-// Return the dimension of the VecFloat
-// Return 0 if arguments are invalid
-int VecFloatDim(VecFloat *that) {
-  // Check argument
-  if (that == NULL)
-    return 0;
-  // Return the dimension
-  return that->_dim;
-}
-
-// Copy the values of 'w' in 'that' (must have same dimensions)
-// Do nothing if arguments are invalid
-void VecFloatCopy(VecFloat *that, VecFloat *w) {
-  // Check argument
-  if (that == NULL || w == NULL || that->_dim != w->_dim)
-    return;
-  // Copy the values
-  memcpy(that->_val, w->_val, sizeof(float) * that->_dim);
-}
-
-// Return the norm of the VecFloat
-// Return 0.0 if arguments are invalid
-float VecFloatNorm(VecFloat *that) {
-  // Check argument
-  if (that == NULL)
-    return 0.0;
-  // Declare a variable to calculate the norm
-  float ret = 0.0;
-  // Calculate the norm
-  for (int iDim = that->_dim; iDim--;)
-    ret += pow(that->_val[iDim], 2.0);
-  ret = sqrt(ret);
-  // Return the result
-  return ret;
-}
-
-// Normalise the VecFloat
-// Do nothing if arguments are invalid
-void VecFloatNormalise(VecFloat *that) {
-  // Check argument
-  if (that == NULL)
-    return;
-  // Normalise
-  float norm = VecNorm(that);
-  for (int iDim = that->_dim; iDim--;)
-    that->_val[iDim] /= norm;
-}
-
-// Return the distance between the VecFloat 'that' and 'tho'
-// Return NaN if arguments are invalid
-// If dimensions are different, missing ones are considered to 
-// be equal to 0.0
-float VecFloatDist(VecFloat *that, VecFloat *tho) {
-  // Check argument
-  if (that == NULL || tho == NULL)
-    return NAN;
-  // Declare a variable to calculate the distance
-  float ret = 0.0;
-  for (int iDim = that->_dim; iDim--;)
-    ret += pow(VecGet(that, iDim) - VecGet(tho, iDim), 2.0);
-  ret = sqrt(ret);
-  // Return the distance
-  return ret;
-}
-
-// Return the Hamiltonian distance between the VecFloat 'that' and 'tho'
-// Return NaN if arguments are invalid
-// If dimensions are different, missing ones are considered to 
-// be equal to 0.0
-float VecFloatHamiltonDist(VecFloat *that, VecFloat *tho) {
-  // Check argument
-  if (that == NULL || tho == NULL)
-    return NAN;
-  // Declare a variable to calculate the distance
-  float ret = 0.0;
-  for (int iDim = that->_dim; iDim--;)
-    ret += fabs(VecGet(that, iDim) - VecGet(tho, iDim));
-  // Return the distance
-  return ret;
-}
-
-// Return the Pixel distance between the VecFloat 'that' and 'tho'
-// Return NaN if arguments are invalid
-// If dimensions are different, missing ones are considered to 
-// be equal to 0.0
-float VecFloatPixelDist(VecFloat *that, VecFloat *tho) {
-  // Check argument
-  if (that == NULL || tho == NULL)
-    return NAN;
-  // Declare a variable to calculate the distance
-  float ret = 0.0;
-  for (int iDim = that->_dim; iDim--;)
-    ret += fabs(floor(VecGet(that, iDim)) - floor(VecGet(tho, iDim)));
-  // Return the distance
-  return ret;
-}
-
-// Return true if the VecFloat 'that' is equal to 'tho'
-// Return false if arguments are invalid
-// If dimensions are different, missing ones are considered to 
-// be equal to 0.0
-bool VecFloatIsEqual(VecFloat *that, VecFloat *tho) {
-  // Check argument
-  if (that == NULL || tho == NULL)
-    return false;
-  // For each component
-  for (int iDim = that->_dim; iDim--;)
-    // If the values of this components are different
-    if (fabs(VecGet(that, iDim) - VecGet(tho, iDim)) > PBMATH_EPSILON)
-      // Return false
-      return false;
-  // Return true
-  return true;
-}
-
-// Calculate (that * a + tho * b) and store the result in 'that'
-// Do nothing if arguments are invalid
-// 'tho' can be null, in which case it is consider to be the null vector
-// If 'tho' is not null it must be of same dimension as 'that'
-void VecFloatOp(VecFloat *that, float a, VecFloat *tho, float b) {
-  // Check argument
-  if (that == NULL)
-    return;
-  // Calculate 
-  VecFloat *res = VecFloatGetOp(that, a, tho, b);
-  // If we could calculate
-  if (res != NULL) {
-    // Copy the result in 'that'
-    VecFloatCopy(that, res);
-    // Free memory
-    VecFloatFree(&res);
-  }
-}
-
-// Return a VecFloat equal to (that * a + tho * b)
-// Return NULL if arguments are invalid
-// 'tho' can be null, in which case it is consider to be the null vector
-// If 'tho' is not null it must be of same dimension as 'that'
-VecFloat* VecFloatGetOp(VecFloat *that, float a, 
-  VecFloat *tho, float b) {
-  // Check argument
-  if (that == NULL || (tho != NULL && that->_dim != tho->_dim))
-    return NULL;
-  // Declare a variable to memorize the result
-  VecFloat *res = VecFloatCreate(that->_dim);
-  // If we could allocate memory
-  if (res != NULL) {
-    // For each component
-    for (int iDim = that->_dim; iDim--;) {
-      // Calculate
-      res->_val[iDim] = a * that->_val[iDim];
-      if (tho != NULL)
-        res->_val[iDim] += b * tho->_val[iDim];
-    }
-  }
-  // Return the result
-  return res;
-}
-
-// Rotate CCW 'that' by 'theta' radians and store the result in 'that'
-// Do nothing if arguments are invalid
-void VecFloatRot2D(VecFloat *that, float theta) {
-  // Check argument
-  if (that == NULL || that->_dim != 2)
-    return;
-  // Calculate 
-  VecFloat *res = VecFloatGetRot2D(that, theta);
-  // If we could calculate
-  if (res != NULL) {
-    // Copy the result in 'that'
-    VecFloatCopy(that, res);
-    // Free memory
-    VecFloatFree(&res);
-  }
-}
-
-// Return a VecFloat equal to 'that' rotated CCW by 'theta' radians
-// Return NULL if arguments are invalid
-VecFloat* VecFloatGetRot2D(VecFloat *that, float theta) {
-  // Check argument
-  if (that == NULL || that->_dim != 2)
-    return NULL;
-  // Declare a variable to memorize the result 
-  VecFloat *res = VecFloatCreate(that->_dim);
-  // If we could allocate memory
-  if (res != NULL) {
-    // Calculate
-    res->_val[0] = 
-      cos(theta) * that->_val[0] - sin(theta) * that->_val[1];
-    res->_val[1] = 
-      sin(theta) * that->_val[0] + cos(theta) * that->_val[1];
-  }
-  // Return the result
-  return res;
-}
-
-// Return the dot product of 'that' and 'tho'
-// Return 0.0 if arguments are invalid
-float VecFloatDotProd(VecFloat *that, VecFloat *tho) {
-  // Check arguments
-  if (that == NULL || tho == NULL || that->_dim != tho->_dim)
-    return 0.0;
-  // Declare a variable to memorize the result
-  float res = 0.0;
-  // Calculate
-  for (int iDim = that->_dim; iDim--;)
-    res += that->_val[iDim] * tho->_val[iDim];
-  // Return the result
-  return res;
-}
 
 // Return the angle of the rotation making 'that' colinear to 'tho'
-// Return 0.0 if arguments are invalid
-float VecFloatAngleTo2D(VecFloat *that, VecFloat *tho) {
-  // Check arguments
-  if (that == NULL || tho == NULL || 
-    VecDim(that) != 2 || VecDim(tho) != 2)
-    return 0.0;
+// 'that' and 'tho' must be normalised
+// Return a value in [-PI,PI]
+float VecFloatAngleTo2D(VecFloat2D *that, VecFloat2D *tho) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (!ISEQUALF(VecNorm(that), 1.0)) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'that' is not a normed vector");
+    PBErrCatch(PBMathErr);
+  }
+  if (!ISEQUALF(VecNorm(tho), 1.0)) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'tho' is not a normed vector");
+    PBErrCatch(PBMathErr);
+  }
+#endif
   // Declare a variable to memorize the result
   float theta = 0.0;
   // Calculate the angle
-  VecFloat *v = VecClone(that);
-  if (v == NULL)
-    return 0.0;
-  VecFloat *w = VecClone(tho);
-  if (w == NULL) {
-    VecFree(&v);
-    return 0.0;
-  }
-  if (VecNorm(v) < PBMATH_EPSILON || VecNorm(v) < PBMATH_EPSILON) {
-    VecFree(&v);
-    VecFree(&w);
-    return 0.0;
-  }
-  VecNormalise(v);
-  VecNormalise(w);
-  float m[2];
-  if (fabs(VecGet(v, 0)) > fabs(VecGet(v, 1))) {
-    m[0] = (VecGet(w, 0) + VecGet(w, 1) * VecGet(v, 1) / VecGet(v, 0))/
-      (VecGet(v, 0) + pow(VecGet(v, 1), 2.0) / VecGet(v, 0));
-    m[1] = (m[0] * VecGet(v, 1) - VecGet(w, 1)) / VecGet(v, 0);
+  VecFloat2D m = VecFloatCreateStatic2D();
+  if (fabs(VecGet(that, 0)) > fabs(VecGet(that, 1))) {
+    VecSet(&m, 0, 
+      (VecGet(tho, 0) + VecGet(tho, 1) * VecGet(that, 1) / 
+      VecGet(that, 0)) /
+      (VecGet(that, 0) + fsquare(VecGet(that, 1)) / VecGet(that, 0)));
+    VecSet(&m, 1, 
+      (VecGet(&m, 0) * VecGet(that, 1) - VecGet(tho, 1)) / 
+      VecGet(that, 0));
   } else {
-    m[1] = (VecGet(w, 0) - VecGet(w, 1) * VecGet(v, 0) / VecGet(v, 1))/
-      (VecGet(v, 1) + pow(VecGet(v, 0), 2.0) / VecGet(v, 1));
-    m[0] = (VecGet(w, 1) + m[1] * VecGet(v, 0)) / VecGet(v, 1);
+    VecSet(&m, 1,
+      (VecGet(tho, 0) - VecGet(tho, 1) * VecGet(that, 0) / 
+      VecGet(that, 1)) /
+      (VecGet(that, 1) + fsquare(VecGet(that, 0)) / VecGet(that, 1)));
+    VecSet(&m, 0, 
+      (VecGet(tho, 1) + VecGet(&m, 1) * VecGet(that, 0)) / 
+      VecGet(that, 1));
   }
   // Due to numerical imprecision m[0] may be slightly out of [-1,1]
   // which makes acos return NaN, prevent this
-  if (m[0] < -1.0)
+  if (VecGet(&m, 0) < -1.0)
     theta = PBMATH_PI;
-  else if (m[0] > 1.0)
+  else if (VecGet(&m, 0) > 1.0)
     theta = 0.0;
   else
-    theta = acos(m[0]);
-  if (sin(theta) * m[1] > 0.0)
+    theta = acos(VecGet(&m, 0));
+  if (sin(theta) * VecGet(&m, 1) > 0.0)
     theta *= -1.0;
-  // Free memory
-  VecFree(&v);
-  VecFree(&w);
   // Return the result
   return theta;
-}
-
-// Return the conversion of VecFloat 'that' to a VecShort using round()
-// Return null if arguments are invalid or couldn't create the result
-VecShort* VecFloatToShort(VecFloat *that) {
-  // Check argument
-  if (that == NULL)
-    return NULL;
-  // Create the result
-  VecShort *res = VecShortCreate(that->_dim);
-  if (res != NULL) {
-    for (int iDim = that->_dim; iDim--;)
-      VecSet(res, iDim, SHORT(VecGet(that, iDim)));
-  }
-  // Return the result
-  return res;
-}
-
-// Return the conversion of VecShort 'that' to a VecFloat
-// Return null if arguments are invalid or couldn't create the result
-VecFloat* VecShortToFloat(VecShort *that) {
-  // Check argument
-  if (that == NULL)
-    return NULL;
-  // Create the result
-  VecFloat *res = VecFloatCreate(that->_dim);
-  if (res != NULL) {
-    for (int iDim = that->_dim; iDim--;)
-      VecSet(res, iDim, (float)VecGet(that, iDim));
-  }
-  // Return the result
-  return res;
 }
 
 // -------------- MatFloat
@@ -780,174 +485,127 @@ VecFloat* VecShortToFloat(VecShort *that) {
 // ================ Functions implementation ====================
 
 // Create a new MatFloat of dimension 'dim' (nbcol, nbline)
-// Values are initalized to 0.0, 'dim' must be a VecShort of dimension 2
-// Return NULL if we couldn't create the MatFloat
-MatFloat* MatFloatCreate(VecShort *dim) {
-  // Check argument
-  if (dim == NULL || VecDim(dim) != 2)
-    return NULL;
-  // Allocate memory
-  MatFloat *that = (MatFloat*)malloc(sizeof(MatFloat));
-  //If we could allocate memory
-  if (that != NULL) {
-    // Set the dimension
-    that->_dim = VecClone(dim);
-    if (that->_dim == NULL) {
-      // Free memory
-      free(that);
-      // Stop here
-      return NULL;
-    }
-    // Allocate memory for values
-    int d = VecGet(dim, 0) * VecGet(dim, 1);
-    that->_val = (float*)malloc(sizeof(float) * d);
-    // If we couldn't allocate memory
-    if (that->_val == NULL) {
-      // Free memory
-      free(that);
-      // Stop here
-      return NULL;
-    }
-    // Set the default values
-    for (int i = d; i--;)
-      that->_val[i] = 0.0;
+// Values are initalized to 0.0
+MatFloat* MatFloatCreate(VecShort2D *dim) {
+#if BUILDMODE == 0
+  if (dim == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'dim' is null");
+    PBErrCatch(PBMathErr);
   }
+#endif
+  // Allocate memory
+  int d = VecGet(dim, 0) * VecGet(dim, 1);
+  MatFloat *that = PBErrMalloc(PBMathErr, sizeof(MatFloat) + 
+    sizeof(float) * d);
+  // Set the dimension
+  that->_dim = *dim;
+  // Set the default values
+  for (int i = d; i--;)
+    that->_val[i] = 0.0;
   // Return the new MatFloat
   return that;
 }
 
-// Set the MatFloat to the identity matrix
-// The matrix must be a square matrix
-// Do nothing if arguments are invalid
-void MatFloatSetIdentity(MatFloat *that) {
-  // Check argument
-  if (that == NULL || VecGet(that->_dim, 0) != VecGet(that->_dim, 1))
-    return;
-  // Set the values
-  VecShort *i = VecShortCreate(2);
-  if (i != NULL) {
-    for (VecSet(i, 0, 0); VecGet(i, 0) < VecGet(that->_dim, 0);
-      VecSet(i, 0, VecGet(i, 0) + 1)) {
-      for (VecSet(i, 1, 0); VecGet(i, 1) < VecGet(that->_dim, 1);
-        VecSet(i, 1, VecGet(i, 1) + 1)) {
-        if (VecGet(i, 0) == VecGet(i, 1))
-          MatSet(that, i, 1.0);
-        else
-          MatSet(that, i, 0.0);
-      }
-    }
-  }
-  VecFree(&i);
-}
-
 // Clone the MatFloat
-// Return NULL if we couldn't clone the MatFloat
 MatFloat* MatFloatClone(MatFloat *that) {
-  // Check argument
-  if (that == NULL)
-    return NULL;
-  // Create a clone
-  MatFloat *clone = MatFloatCreate(that->_dim);
-  // If we could create the clone
-  if (clone != NULL) {
-    // Clone the properties
-    VecCopy(clone->_dim, that->_dim);
-    int d = VecGet(that->_dim, 0) * VecGet(that->_dim, 1);
-    for (int i = d; i--;)
-      clone->_val[i] = that->_val[i];
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
   }
+#endif
+  // Create a clone
+  MatFloat *clone = MatFloatCreate(&(that->_dim));
+  // Copy the values
+  int d = VecGet(&(that->_dim), 0) * VecGet(&(that->_dim), 1);
+  for (int i = d; i--;)
+    clone->_val[i] = that->_val[i];
   // Return the clone
   return clone;
 }
 
-// Copy the values of 'w' in 'that' (must have same dimensions)
-// Do nothing if arguments are invalid
-void MatFloatCopy(MatFloat *that, MatFloat *w) {
-  // Check argument
-  if (that == NULL || w == NULL)
-    return;
-  // Copy the matrix values
-  int d = VecGet(that->_dim, 0) * VecGet(that->_dim, 1);
-  for (int i = d; i--;)
-    that->_val[i] = w->_val[i];
-}
-
 // Load the MatFloat from the stream
 // If the MatFloat is already allocated, it is freed before loading
-// Return 0 in case of success, or:
-// 1: invalid arguments
-// 2: can't allocate memory
-// 3: invalid data
-// 4: fscanf error
-int MatFloatLoad(MatFloat **that, FILE *stream) {
-  // Check arguments
-  if (that == NULL || stream == NULL)
-    return 1;
+// Return true upon success, else false
+bool MatFloatLoad(MatFloat **that, FILE *stream) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (stream == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'stream' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
   // If 'that' is already allocated
-  if (*that != NULL) {
+  if (*that != NULL)
     // Free memory
     MatFloatFree(that);
-  }
   // Read the number of dimension
-  int dim[2];
-  int ret = fscanf(stream, "%d %d", dim , dim + 1);
+  VecShort2D dim = VecShortCreateStatic2D();
+  int ret = fscanf(stream, "%hi %hi", dim._val , dim._val + 1);
   // If we coudln't fscanf
   if (ret == EOF)
-    return 4;
-  if (dim[0] <= 0 || dim[1] <= 0)
-    return 3;
+    return false;
+  if (VecGet(&dim, 0) <= 0 || VecGet(&dim, 1) <= 0)
+    return false;
   // Allocate memory
-  VecShort *d = VecShortCreate(2);
-  VecSet(d, 0, dim[0]);
-  VecSet(d, 1, dim[1]);
-  *that = MatFloatCreate(d);
-  // If we coudln't allocate memory
-  if (*that == NULL)
-    return 2;
+  *that = MatFloatCreate(&dim);
   // Read the values
-  int nbVal = dim[0] * dim[1];
-  for (int i = 0; i < nbVal; ++i) {
-    ret = fscanf(stream, "%f", (*that)->_val + i);
+  VecShort2D index = VecShortCreateStatic2D();
+  do {
+    float v;
+    ret = fscanf(stream, "%f", &v);
     // If we coudln't fscanf
     if (ret == EOF)
-      return 4;
-  }
-  // Free memory
-  VecFree(&d);
+      return false;
+    MatSet(*that, &index, v);
+  } while (VecPStep(&index, &dim));
   // Return success code
-  return 0;
+  return true;
 }
 
 // Save the MatFloat to the stream
-// Return 0 upon success, or
-// 1: invalid arguments
-// 2: fprintf error
-int MatFloatSave(MatFloat *that, FILE *stream) {
-  // Check arguments
-  if (that == NULL || stream == NULL)
-    return 1;
+// Return true upon success, else false
+bool MatFloatSave(MatFloat *that, FILE *stream) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (stream == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'stream' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
   // Save the dimension
-  int ret = fprintf(stream, "%d %d\n", VecGet(that->_dim, 0), 
-    VecGet(that->_dim, 1));
-  // If we coudln't fprintf
+  int ret = fprintf(stream, "%hi %hi\n", 
+    VecGet(&(that->_dim), 0), VecGet(&(that->_dim), 1));
   if (ret < 0)
-    return 2;
+    return false;
   // Save the values
-  for (int i = 0; i < VecGet(that->_dim, 1); ++i) {
-    for (int j = 0; j < VecGet(that->_dim, 0); ++j) {
-      ret = fprintf(stream, "%f ", 
-        that->_val[i * VecGet(that->_dim, 0) + j]);
-      // If we coudln't fprintf
-      if (ret < 0)
-        return 2;
-    }
-    ret = fprintf(stream, "\n");
+  VecShort2D index = VecShortCreateStatic2D();
+  do {
+    ret = fprintf(stream, "%f ", MatGet(that, &index));
     // If we coudln't fprintf
     if (ret < 0)
-      return 2;
-  }
+      return false;
+    if (VecGet(&index, 0) == VecGet(&(that->_dim), 0) - 1) {
+      ret = fprintf(stream, "\n");
+      // If we coudln't fprintf
+      if (ret < 0)
+        return false;
+    }
+  } while (VecPStep(&index, &(that->_dim)));
   // Return success code
-  return 0;
+  return true;
 }
 
 // Free the memory used by a MatFloat
@@ -957,252 +615,172 @@ void MatFloatFree(MatFloat **that) {
   if (that == NULL || *that == NULL)
     return;
   // Free memory
-  VecFree(&((*that)->_dim));
-  free((*that)->_val);
   free(*that);
   *that = NULL;
 }
 
 // Print the MatFloat on 'stream' with 'prec' digit precision
 // Do nothing if arguments are invalid
-void MatFloatPrint(MatFloat *that, FILE *stream, int prec) {
-  // Check arguments
-  if (that == NULL || stream == NULL)
-    return;
+void MatFloatPrintln(MatFloat *that, FILE *stream, unsigned int prec) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (stream == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'stream' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
   // Create the format string
-  char format[20] = {'\0'};
+  char format[100] = {'\0'};
   sprintf(format, "%%.%df", prec);
   // Print the values
   fprintf(stream, "[");
-  for (int i = 0; i < VecGet(that->_dim, 1); ++i) {
-    if (i > 0)
+  VecShort2D index = VecShortCreateStatic2D();
+  do {
+    if (VecGet(&index, 1) != 0 || VecGet(&index, 0) != 0)
       fprintf(stream, " ");
-    for (int j = 0; j < VecGet(that->_dim, 0); ++j) {
-      fprintf(stream, format, 
-        that->_val[i * VecGet(that->_dim, 0) + j]);
-      if (j < VecGet(that->_dim, 0) - 1)
-        fprintf(stream, ",");
-    }
-    if (i < VecGet(that->_dim, 1) - 1)
+    fprintf(stream, format, MatGet(that, &index));
+    if (VecGet(&index, 0) < VecGet(&(that->_dim), 0) - 1)
+      fprintf(stream, ",");
+    if (VecGet(&index, 0) == VecGet(&(that->_dim), 0) - 1) {
+      if (VecGet(&index, 1) == VecGet(&(that->_dim), 1) - 1)
+        fprintf(stream, "]");
       fprintf(stream, "\n");
-  }
-  fprintf(stream, "]");
-}
-void MatFloatPrintDef(MatFloat *that, FILE *stream) {
-  MatFloatPrint(that, stream, 3);
-}
-
-// Return the value at index 'i' of the MatFloat
-// Index starts at 0, i must be a VecShort of dimension 2
-// Return 0.0 if arguments are invalid
-float MatFloatGet(MatFloat *that, VecShort *i) {
-  // Check argument
-  if (that == NULL || i == NULL || VecDim(i) != 2 || 
-    VecGet(i, 0) < 0 || VecGet(i, 0) >= VecGet(that->_dim, 0) ||
-    VecGet(i, 1) < 0 || VecGet(i, 1) >= VecGet(that->_dim, 1))
-    return 0.0;
-  // Return the value
-  return 
-    that->_val[VecGet(i, 1) * VecGet(that->_dim, 0) + VecGet(i, 0)];
-}
-
-// Set the value at index 'i' of the MatFloat to 'v'
-// Index starts at 0, 'i' must be a VecShort of dimension 2
-// Do nothing if arguments are invalid
-void MatFloatSet(MatFloat *that, VecShort *i, float v) {
-  // Check argument
-  if (that == NULL || i == NULL || VecDim(i) != 2 || 
-    VecGet(i, 0) < 0 || VecGet(i, 0) >= VecGet(that->_dim, 0) ||
-    VecGet(i, 1) < 0 || VecGet(i, 1) >= VecGet(that->_dim, 1))
-    return;
-  // Set the value
-  that->_val[VecGet(i, 1) * VecGet(that->_dim, 0) + VecGet(i, 0)] = v;
-}
-
-// Return a VecShort of dimension 2 containing the dimension of 
-// the MatFloat
-// Return NULL if arguments are invalid
-VecShort* MatFloatDim(MatFloat *that) {
-  // Check argument
-  if (that == NULL)
-    return NULL;
-  // Return the dimension
-  return VecClone(that->_dim);
+    }
+  } while (VecPStep(&index, &(that->_dim)));
 }
 
 // Return the inverse matrix of 'that'
 // The matrix must be a square matrix
-// Return null if arguments are invalids
+// Return NULL if the system can't be inversed
 MatFloat* MatFloatInv(MatFloat *that) {
-  // Check arguments
-  if (that == NULL || VecGet(that->_dim, 0) != VecGet(that->_dim, 1))
-    return NULL;
-  // Allocate memory for the pivot
-  VecShort *pivot = VecShortCreate(2);
-  if (pivot == NULL)
-    return NULL;
-  // Allocate memory for the result
-  MatFloat *res = MatFloatCreate(that->_dim);
-  // If we could allocate memory
-  if (res != NULL) {
-    // If the matrix is of dimension 1x1
-    if (VecGet(that->_dim, 0) == 1) {
-      MatSet(res, pivot, 1.0 / MatGet(that, pivot));
-    // Else, the matrix dimension is greater than 1x1
-    } else {
-      // Set the result to the identity
-      MatSetIdentity(res);
-      // Clone the original matrix
-      MatFloat *copy = MatClone(that);
-      // If we couldn't clone
-      if (copy == NULL) {
-        MatFree(&res);
-        return NULL;
-      }
-      // Allocate memory for the index to manipulate the matrix
-      VecShort *index = VecShortCreate(2);
-      // If we couldn't allocate memory
-      if (index == NULL) {
-        MatFree(&res);
-        MatFree(&copy);
-        return NULL;
-      }
-      // For each pivot
-      for (VecSet(pivot, 0, 0), VecSet(pivot, 1, 0);
-        VecGet(pivot, 0) < VecGet(that->_dim, 0);
-        VecSet(pivot, 0, VecGet(pivot, 0) + 1), 
-        VecSet(pivot, 1, VecGet(pivot, 1) + 1)) {
-        // If the pivot is null
-        if (MatGet(copy, pivot) < PBMATH_EPSILON) {
-          // Search a line where the value under the pivot is not null
-          VecCopy(index, pivot);
-          VecSet(index, 1, 0);
-          while (VecGet(index, 1) < VecGet(that->_dim, 1) &&
-            fabs(MatGet(copy, index)) < PBMATH_EPSILON)
-            VecSet(index, 1, VecGet(index, 1) + 1);
-          // If there is no line where the pivot is not null
-          if (VecGet(index, 1) >= VecGet(that->_dim, 1)) {
-            // The system has no solution
-            // Free memory
-            MatFree(&copy);
-            VecFree(&index);
-            MatFree(&res);
-            MatFree(&copy);
-            // Stop here
-            return NULL;
-          }
-          // Add the line where the pivot is not null to the line
-          // of the pivot to un-nullify it
-          VecSet(index, 0, 0);
-          VecSet(pivot, 0, 0);
-          while (VecGet(index, 0) < VecGet(that->_dim, 0)) {
-            MatSet(copy, pivot, 
-              MatGet(copy, pivot) + MatGet(copy, index));
-            MatSet(res, pivot, 
-              MatGet(res, pivot) + MatGet(res, index));
-            VecSet(index, 0, VecGet(index, 0) + 1);
-            VecSet(pivot, 0, VecGet(pivot, 0) + 1);
-          }
-          // Reposition the pivot
-          VecSet(pivot, 0, VecGet(pivot, 1));
-        }
-        // Divide the values by the pivot
-        float p = MatGet(copy, pivot);
-        VecSet(pivot, 0, 0);
-        while (VecGet(pivot, 0) < VecGet(that->_dim, 0)) {
-          MatSet(copy, pivot, MatGet(copy, pivot) / p);
-          MatSet(res, pivot, MatGet(res, pivot) / p);
-          VecSet(pivot, 0, VecGet(pivot, 0) + 1);
-        }
-        // Reposition the pivot
-        VecSet(pivot, 0, VecGet(pivot, 1));
-        // Nullify the values below the pivot
-        VecSet(pivot, 0, 0);
-        VecSet(index, 1, VecGet(pivot, 1) + 1);
-        while (VecGet(index, 1) < VecGet(that->_dim, 1)) {
-          VecSet(index, 0, VecGet(pivot, 1));
-          p = MatGet(copy, index);
-          VecSet(index, 0, 0);
-          while (VecGet(index, 0) < VecGet(that->_dim, 0)) {
-            MatSet(copy, index, 
-              MatGet(copy, index) - MatGet(copy, pivot) * p);
-            MatSet(res, index, 
-              MatGet(res, index) - MatGet(res, pivot) * p);
-            VecSet(pivot, 0, VecGet(pivot, 0) + 1);
-            VecSet(index, 0, VecGet(index, 0) + 1);
-          }
-          VecSet(pivot, 0, 0);
-          VecSet(index, 0, 0);
-          VecSet(index, 1, VecGet(index, 1) + 1);
-        }
-        // Reposition the pivot
-        VecSet(pivot, 0, VecGet(pivot, 1));
-      }
-      // Now the matrix is triangular, move back through the pivots
-      // to make it diagonal
-      for (; VecGet(pivot, 0) >= 0;
-        VecSet(pivot, 0, VecGet(pivot, 0) - 1), 
-        VecSet(pivot, 1, VecGet(pivot, 1) - 1)) {
-        // Nullify the values above the pivot by substracting the line
-        // of the pivot
-        VecSet(pivot, 0, 0);
-        VecSet(index, 1, VecGet(pivot, 1) - 1);
-        while (VecGet(index, 1) >= 0) {
-          VecSet(index, 0, VecGet(pivot, 1));
-          float p = MatGet(copy, index);
-          VecSet(index, 0, 0);
-          while (VecGet(index, 0) < VecGet(that->_dim, 0)) {
-            MatSet(copy, index, 
-              MatGet(copy, index) - MatGet(copy, pivot) * p);
-            MatSet(res, index, 
-              MatGet(res, index) - MatGet(res, pivot) * p);
-            VecSet(pivot, 0, VecGet(pivot, 0) + 1);
-            VecSet(index, 0, VecGet(index, 0) + 1);
-          }
-          VecSet(pivot, 0, 0);
-          VecSet(index, 0, 0);
-          VecSet(index, 1, VecGet(index, 1) - 1);
-        }
-        // Reposition the pivot
-        VecSet(pivot, 0, VecGet(pivot, 1));
-      }
-      // Free memory
-      MatFree(&copy);
-      VecFree(&index);
-    }
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
   }
-  // Free memory
-  VecShortFree(&pivot);
+  if (VecGet(&(that->_dim), 0) != VecGet(&(that->_dim), 1)) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "the matrix is not square (%dx%d)",
+      VecGet(&(that->_dim), 0), VecGet(&(that->_dim), 1));
+    PBErrCatch(PBMathErr);
+  }
+  if (VecGet(&(that->_dim), 0) > 3) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, 
+      "MatFloatInv is defined only for matrix of dim <= 3x3 (%dx%d)",
+      VecGet(&(that->_dim), 0), VecGet(&(that->_dim), 1));
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Allocate memory for the result
+  MatFloat *res = MatFloatCreate(&(that->_dim));
+  // If the matrix is of dimension 1x1
+  if (VecGet(&(that->_dim), 0) == 1) {
+#if BUILDMODE == 0
+    if (that->_val[0] < PBMATH_EPSILON) {
+      PBMathErr->_type = PBErrTypeOther;
+      sprintf(PBMathErr->_msg, "the matrix is not inversible");
+      PBErrCatch(PBMathErr);
+    }
+#endif 
+    that->_val[0] = 1.0 / that->_val[0];
+  // If the matrix is of dimension 2x2
+  } else if (VecGet(&(that->_dim), 0) == 2) {
+    float det = that->_val[0] * that->_val[3] - 
+      that->_val[2] * that->_val[1];
+#if BUILDMODE == 0
+    if (ISEQUALF(det, 0.0)) {
+      PBMathErr->_type = PBErrTypeOther;
+      sprintf(PBMathErr->_msg, "the matrix is not inversible");
+      PBErrCatch(PBMathErr);
+    }
+#endif 
+    res->_val[0] = that->_val[3] / det;
+    res->_val[1] = -1.0 * that->_val[1] / det;
+    res->_val[2] = -1.0 * that->_val[2] / det;
+    res->_val[3] = that->_val[0] / det;
+  // Else, the matrix dimension is 3x3
+  } else if (VecGet(&(that->_dim), 0) == 3) {
+    float det = 
+      that->_val[0] * 
+        (that->_val[4] * that->_val[8] - 
+        that->_val[5] * that->_val[7]) -
+      that->_val[3] * 
+        (that->_val[1] * that->_val[8] - 
+        that->_val[2] * that->_val[7]) +
+      that->_val[6] * 
+        (that->_val[1] * that->_val[5] - 
+        that->_val[2] * that->_val[4]);
+#if BUILDMODE == 0
+    if (ISEQUALF(det, 0.0)) {
+      PBMathErr->_type = PBErrTypeOther;
+      sprintf(PBMathErr->_msg, "the matrix is not inversible");
+      PBErrCatch(PBMathErr);
+    }
+#endif 
+    res->_val[0] = (that->_val[4] * that->_val[8] - 
+        that->_val[5] * that->_val[7]) / det;
+    res->_val[1] = -(that->_val[1] * that->_val[8] - 
+        that->_val[2] * that->_val[7]) / det;
+    res->_val[2] = (that->_val[1] * that->_val[5] - 
+        that->_val[2] * that->_val[4]) / det;
+    res->_val[3] = -(that->_val[3] * that->_val[8] - 
+        that->_val[5] * that->_val[6]) / det;
+    res->_val[4] = (that->_val[0] * that->_val[8] - 
+        that->_val[2] * that->_val[6]) / det;
+    res->_val[5] = -(that->_val[0] * that->_val[5] - 
+        that->_val[2] * that->_val[3]) / det;
+    res->_val[6] = (that->_val[3] * that->_val[7] - 
+        that->_val[4] * that->_val[6]) / det;
+    res->_val[7] = -(that->_val[0] * that->_val[7] - 
+        that->_val[1] * that->_val[6]) / det;
+    res->_val[8] = (that->_val[0] * that->_val[4] - 
+        that->_val[1] * that->_val[3]) / det;
+  }
   // Return the result
   return res;
 }
 
 // Return the product of matrix 'that' and vector 'v'
 // Number of colum of 'that' must equal dimension of 'v'
-// Return null if arguments are invalids
 VecFloat* MatFloatProdVecFloat(MatFloat *that, VecFloat *v) {
-  // Check arguments
-  if (that == NULL || v == NULL || VecGet(that->_dim, 0) != VecDim(v))
-    return NULL;
-  // Declare a variable to memorize the index in the matrix
-  VecShort *i = VecShortCreate(2);
-  if (i == NULL)
-    return NULL;
-  // Allocate memory for the solution
-  VecFloat *ret = VecFloatCreate(VecGet(that->_dim, 1));
-  // If we could allocate memory
-  if (ret != NULL) {
-    for (VecSet(i, 0, 0); VecGet(i, 0) < VecGet(that->_dim, 0);
-      VecSet(i, 0, VecGet(i, 0) + 1)) {
-      for (VecSet(i, 1, 0); VecGet(i, 1) < VecGet(that->_dim, 1);
-        VecSet(i, 1, VecGet(i, 1) + 1)) {
-        VecSet(ret, VecGet(i, 1), VecGet(ret, 
-          VecGet(i, 1)) + VecGet(v, VecGet(i, 0)) * MatGet(that, i));
-      }
-    }
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
   }
-  // Free memory
-  VecFree(&i);
+  if (v == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'v' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (VecGet(&(that->_dim), 0) != VecDim(v)) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, 
+      "the matrix and vector have incompatible dimensions (%d==%d)",
+      VecGet(&(that->_dim), 0), VecDim(v));
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable to memorize the index in the matrix
+  VecShort2D i = VecShortCreateStatic2D();
+  // Allocate memory for the solution
+  VecFloat *ret = VecFloatCreate(VecGet(&(that->_dim), 1));
+  // If we could allocate memory
+  if (ret != NULL)
+    for (VecSet(&i, 0, 0); VecGet(&i, 0) < VecGet(&(that->_dim), 0);
+      VecSet(&i, 0, VecGet(&i, 0) + 1))
+      for (VecSet(&i, 1, 0); VecGet(&i, 1) < VecGet(&(that->_dim), 1);
+        VecSet(&i, 1, VecGet(&i, 1) + 1))
+        VecSet(ret, VecGet(&i, 1), VecGet(ret, 
+          VecGet(&i, 1)) + VecGet(v, VecGet(&i, 0)) * MatGet(that, &i));
   // Return the result
   return ret;
 }
@@ -1211,50 +789,45 @@ VecFloat* MatFloatProdVecFloat(MatFloat *that, VecFloat *v) {
 // Number of columns of 'that' must equal number of line of 'tho'
 // Return null if arguments are invalids
 MatFloat* MatFloatProdMatFloat(MatFloat *that, MatFloat *tho) {
-  // Check arguments
-  if (that == NULL || tho == NULL || 
-    VecGet(that->_dim, 0) != VecGet(tho->_dim, 1))
-    return NULL;
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (VecGet(&(that->_dim), 0) != VecGet(&(tho->_dim), 1)) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, 
+      "the matrices have incompatible dimensions (%d==%d)",
+      VecGet(&(that->_dim), 0), VecGet(&(tho->_dim), 1));
+    PBErrCatch(PBMathErr);
+  }
+#endif
   // Declare 3 variables to memorize the index in the matrix
-  VecShort *i = VecShortCreate(2);
-  if (i == NULL)
-    return NULL;
-  VecShort *j = VecShortCreate(2);
-  if (j == NULL) {
-    VecFree(&i);
-    return NULL;
-  }
-  VecShort *k = VecShortCreate(2);
-  if (k == NULL) {
-    VecFree(&i);
-    VecFree(&j);
-    return NULL;
-  }
+  VecShort2D i = VecShortCreateStatic2D();
+  VecShort2D j = VecShortCreateStatic2D();
+  VecShort2D k = VecShortCreateStatic2D();
   // Allocate memory for the solution
-  VecSet(i, 0, VecGet(tho->_dim, 0));
-  VecSet(i, 1, VecGet(that->_dim, 1));
-  MatFloat *ret = MatFloatCreate(i);
-  // If we could allocate memory
-  if (ret != NULL) {
-    for (VecSet(i, 0, 0); VecGet(i, 0) < VecGet(tho->_dim, 0);
-      VecSet(i, 0, VecGet(i, 0) + 1)) {
-      for (VecSet(i, 1, 0); VecGet(i, 1) < VecGet(that->_dim, 1);
-        VecSet(i, 1, VecGet(i, 1) + 1)) {
-        for (VecSet(j, 0, 0), VecSet(j, 1, VecGet(i, 1)),
-          VecSet(k, 0, VecGet(i, 0)), VecSet(k, 1, 0); 
-          VecGet(j, 0) < VecGet(that->_dim, 0);
-          VecSet(j, 0, VecGet(j, 0) + 1), 
-          VecSet(k, 1, VecGet(k, 1) + 1)) {
-          MatSet(ret, i, MatGet(ret, i) + 
-            MatGet(that, j) * MatGet(tho, k));
-        }
+  VecSet(&i, 0, VecGet(&(tho->_dim), 0));
+  VecSet(&i, 1, VecGet(&(that->_dim), 1));
+  MatFloat *ret = MatFloatCreate(&i);
+  for (VecSet(&i, 0, 0); VecGet(&i, 0) < VecGet(&(tho->_dim), 0);
+    VecSet(&i, 0, VecGet(&i, 0) + 1))
+    for (VecSet(&i, 1, 0); VecGet(&i, 1) < VecGet(&(that->_dim), 1);
+      VecSet(&i, 1, VecGet(&i, 1) + 1))
+      for (VecSet(&j, 0, 0), VecSet(&j, 1, VecGet(&i, 1)),
+        VecSet(&k, 0, VecGet(&i, 0)), VecSet(&k, 1, 0); 
+        VecGet(&j, 0) < VecGet(&(that->_dim), 0);
+        VecSet(&j, 0, VecGet(&j, 0) + 1), 
+        VecSet(&k, 1, VecGet(&k, 1) + 1)) {
+        MatSet(ret, &i, MatGet(ret, &i) + 
+          MatGet(that, &j) * MatGet(tho, &k));
       }
-    }
-  }
-  // Free memory
-  VecFree(&i);
-  VecFree(&j);
-  VecFree(&k);
   // Return the result
   return ret;
 }
@@ -1269,14 +842,17 @@ MatFloat* MatFloatProdMatFloat(MatFloat *that, MatFloat *tho) {
 // Return NULL if we couldn't create the Gauss
 Gauss* GaussCreate(float mean, float sigma) {
   // Allocate memory
-  Gauss *that = (Gauss*)malloc(sizeof(Gauss));
-  // If we could allocate memory
-  if (that != NULL) {
-    // Set properties
-    that->_mean = mean;
-    that->_sigma = sigma;
-  }
-  // REturn the new Gauss
+  Gauss *that = PBErrMalloc(PBMathErr, sizeof(Gauss));
+  // Set properties
+  that->_mean = mean;
+  that->_sigma = sigma;
+  // Return the new Gauss
+  return that;
+}
+Gauss GaussCreateStatic(float mean, float sigma) {
+  // Allocate memory
+  Gauss that = {._mean = mean, ._sigma = sigma};
+  // Return the new Gauss
   return that;
 }
 
@@ -1291,122 +867,73 @@ void GaussFree(Gauss **that) {
   *that = NULL;
 }
 
-// Return the value of the Gauss 'that' at 'x'
-// Return 0.0 if the arguments are invalid
-float GaussGet(Gauss *that, float x) {
-  // Check arguments
-  if (that == NULL)
-    return 0.0;
-  // Calculate the value
-  float a = 1.0 / (that->_sigma * sqrt(2.0 * PBMATH_PI));
-  float ret = a * exp(-1.0 * pow(x - that->_mean, 2.0) / 
-    (2.0 * pow(that->_sigma, 2.0)));
-  // Return the value
-  return ret;
-}
-
-// Return a random value (in ]0.0, 1.0[)according to the 
-// Gauss distribution 'that'
-// random() must have been called before calling this function
-// Return 0.0 if the arguments are invalid
-float GaussRnd(Gauss *that) {
-  // Check arguments
-  if (that == NULL)
-    return 0.0;
-  // Declare variable for calcul
-  float v1,v2,s;
-  // Calculate the value
-  do {
-    v1 = (rnd() - 0.5) * 2.0;
-    v2 = (rnd() - 0.5) * 2.0;
-    s = v1 * v1 + v2 * v2;
-  } while (s >= 1.0);
-  // Return the value
-  float ret = 0.0;
-  if (s > PBMATH_EPSILON)
-    ret = v1 * sqrt(-2.0 * log(s) / s);
-  return ret * that->_sigma + that->_mean;
-}
-
-// -------------- Smoother
-
-// ================= Define ==================
+// -------------- SysLinEq
 
 // ================ Functions implementation ====================
 
-// Return the order 1 smooth value of 'x'
-// if x < 0.0 return 0.0
-// if x > 1.0 return 1.0
-float SmoothStep(float x) {
-  if (x <= 0.0)
-    return 0.0;
-  else if (x >= 1.0)
-    return 1.0;
-  else
-    return x * x * (3.0 - 2.0 * x);
-}
-
-// Return the order 2 smooth value of 'x'
-// if x < 0.0 return 0.0
-// if x > 1.0 return 1.0
-float SmootherStep(float x) {
-  if (x <= 0.0)
-    return 0.0;
-  else if (x >= 1.0)
-    return 1.0;
-  else
-    return x * x * x * (x * (x * 6.0 - 15.0) + 10.0);
-}
-
-// -------------- Conversion functions
-
-// ================ Functions implementation ====================
-
-// Convert radians to degrees
-float ConvRad2Deg(float rad) {
-  return 360.0 * rad / PBMATH_TWOPI;
-}
-
-// Convert degrees to radians
-float ConvDeg2Rad(float deg) {
-  return PBMATH_TWOPI * deg / 360.0;
-}
-
-// -------------- EqLinSys
-
-// ================ Functions implementation ====================
-
-// Create a new EqLinSys with matrix 'm' and vector 'v'
+// Create a new SysLinEq with matrix 'm' and vector 'v'
 // The dimension of 'v' must be equal to the number of column of 'm'
 // If 'v' is null the vector null is used instead
 // The matrix 'm' must be a square matrix
-// Return NULL if we couldn't create the EqLinSys
-EqLinSys* EqLinSysCreate(MatFloat *m, VecFloat *v) {
-  // Check arguments
-  if (m == NULL || VecGet(m->_dim, 0) != VecGet(m->_dim, 1))
-    return NULL;
-  if (v != NULL && VecGet(m->_dim, 0) != VecDim(v))
-    return NULL;
-  // Allocate memory
-  EqLinSys *that = (EqLinSys*)malloc(sizeof(EqLinSys));
-  // If we could allocate memory
-  if (that != NULL) {
-    that->_M = MatClone(m);
-    that->_Minv = MatInv(that->_M);
-    if (v != NULL)
-      that->_V = VecClone(v);
-    else
-      that->_V = VecFloatCreate(VecGet(m->_dim, 0));
-    if (that->_M == NULL || that->_V == NULL || that->_Minv == NULL)
-      EqLinSysFree(&that);
+// Return NULL if we couldn't create the SysLinEq
+SysLinEq* SLECreate(MatFloat *m, VecFloat *v) {
+#if BUILDMODE == 0
+  if (m == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'m' is null");
+    PBErrCatch(PBMathErr);
   }
-  // Return the new EqLinSys
+  if (VecGet(&(m->_dim), 0) != VecGet(&(m->_dim), 1)) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "the matrix is not square (%dx%d)",
+      VecGet(&(m->_dim), 0), VecGet(&(m->_dim), 1));
+    PBErrCatch(PBMathErr);
+  }
+  if (v != NULL) {
+    if (VecGet(&(m->_dim), 0) != VecDim(v)) {
+      PBMathErr->_type = PBErrTypeInvalidArg;
+      sprintf(PBMathErr->_msg, 
+        "the matrix and vector have incompatible dimensions (%d==%d)",
+        VecGet(&(m->_dim), 0), VecDim(v));
+      PBErrCatch(PBMathErr);
+    }
+  }
+#endif
+  // Allocate memory
+  SysLinEq *that = PBErrMalloc(PBMathErr, sizeof(SysLinEq));
+  that->_M = MatClone(m);
+  that->_Minv = MatInv(that->_M);
+  if (v != NULL)
+    that->_V = VecClone(v);
+  else
+    that->_V = VecFloatCreate(VecGet(&(m->_dim), 0));
+  if (that->_M == NULL || that->_V == NULL || that->_Minv == NULL) {
+#if BUILDMODE == 0
+    if (that->_M == NULL) {
+      PBMathErr->_type = PBErrTypeOther;
+      sprintf(PBMathErr->_msg, "couldn't create the matrix");
+      PBErrCatch(PBMathErr);
+    }
+    if (that->_Minv == NULL) {
+      PBMathErr->_type = PBErrTypeOther;
+      sprintf(PBMathErr->_msg, "couldn't inverse the matrix");
+      PBErrCatch(PBMathErr);
+    }
+    if (that->_V == NULL) {
+      PBMathErr->_type = PBErrTypeOther;
+      sprintf(PBMathErr->_msg, "couldn't create the vector");
+      PBErrCatch(PBMathErr);
+    }
+#endif
+    SysLinEqFree(&that);
+  }
+  // Return the new SysLinEq
   return that;
 }
 
-// Free the memory used by the EqLinSys
+// Free the memory used by the SysLinEq
 // Do nothing if arguments are invalid
-void EqLinSysFree(EqLinSys **that) {
+void SysLinEqFree(SysLinEq **that) {
   // Check arguments
   if (that == NULL || *that == NULL)
     return;
@@ -1418,89 +945,24 @@ void EqLinSysFree(EqLinSys **that) {
   *that = NULL;
 }
 
-// Clone the EqLinSys 'that'
-// Return NULL if we couldn't clone the EqLinSys
-EqLinSys* EqLinSysClone(EqLinSys * that) {
-  // Check arguments
-  if (that == NULL)
-    return NULL;
+// Clone the SysLinEq 'that'
+// Return NULL if we couldn't clone the SysLinEq
+SysLinEq* SysLinEqClone(SysLinEq *that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
   // Declare a variable for the result
-  EqLinSys *ret = (EqLinSys*)malloc(sizeof(EqLinSys));
-  // If we could allocate memory
-  if (ret != NULL) {
-    ret->_M = MatClone(that->_M);
-    ret->_Minv = MatClone(that->_Minv);
-    ret->_V = VecClone(that->_V);
-    if (ret->_M == NULL || ret->_V == NULL || ret->_Minv == NULL)
-      EqLinSysFree(&ret);
-  }
-  // Return the new EqLinSys
+  SysLinEq *ret = PBErrMalloc(PBMathErr, sizeof(SysLinEq));
+  ret->_M = MatClone(that->_M);
+  ret->_Minv = MatClone(that->_Minv);
+  ret->_V = VecClone(that->_V);
+  if (ret->_M == NULL || ret->_V == NULL || ret->_Minv == NULL)
+    SysLinEqFree(&ret);
+  // Return the new SysLinEq
   return ret;
 }
 
-// Solve the EqLinSys _M.x = _V
-// Return the solution vector, or null if there is no solution or the 
-// arguments are invalid
-VecFloat* EqLinSysSolve(EqLinSys *that) {
-  // Check the argument
-  if (that == NULL)
-    return NULL;
-  // Declare a variable to memorize the solution
-  VecFloat *ret = NULL;
-  // Calculate the solution
-  ret = MatProd(that->_Minv, that->_V);
-  // Return the solution vector
-  return ret;
-}
-
-// Set the matrix of the EqLinSys to a copy of 'm'
-// 'm' must have same dimensions has the current matrix
-// Do nothing if arguments are invalid
-void EqLinSysSetM(EqLinSys *that, MatFloat *m) {
-  // Check the arguments
-  if (that == NULL || m == NULL || 
-    VecIsEqual(m->_dim, that->_M->_dim) == false)
-    return;
-  // Update the matrix values
-  MatCopy(that->_M, m);
-  // Update the inverse matrix
-  MatFloat *inv = MatInv(that->_M);
-  if (inv != NULL) {
-    MatCopy(that->_Minv, inv);
-    MatFree(&inv);
-  }
-}
-
-// Set the vector of the EqLinSys to a copy of 'v'
-// 'v' must have same dimensions has the current vector
-// Do nothing if arguments are invalid
-void EqLinSysSetV(EqLinSys *that, VecFloat *v) {
-  // Check the arguments
-  if (that == NULL || v == NULL || v->_dim != that->_V->_dim)
-    return;
-  // Update the vector values
-  VecCopy(that->_V, v);
-}
-
-// -------------- Usefull basic functions
-
-// ================ Functions implementation ====================
-
-// Return x^y when x and y are int
-// to avoid numerical imprecision from (pow(double,double)
-// From https://stackoverflow.com/questions/29787310/
-// does-pow-work-for-int-data-type-in-c
-int powi(int base, int exp) {
-  // Declare a variable to memorize the result and init to 1
-  int res = 1;
-  // Loop on exponent
-  while (exp) {
-    // Do some magic trick
-    if (exp & 1)
-      res *= base;
-    exp /= 2;
-    base *= base;
-  }
-  // Return the result
-  return res;
-}
