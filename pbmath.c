@@ -4,7 +4,7 @@
 
 #include "pbmath.h"
 #if BUILDMODE == 0
-#include "pbmath_inline.c"
+#include "pbmath-inline.c"
 #endif
 
 // -------------- VecShort
