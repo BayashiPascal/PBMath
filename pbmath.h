@@ -406,6 +406,12 @@
   MatFloat*: MatFloatSetIdentity, \
   default: PBErrInvalidPolymorphism)(M)
 
+#define MatIsEqual(A, B) _Generic(A, \
+  MatFloat*: _Generic(B, \
+    MatFloat*: MatFloatIsEqual, \
+    default: PBErrInvalidPolymorphism), \
+  default: PBErrInvalidPolymorphism)((A), (B))
+
 #define SysLinEqCreate(M, V) _Generic((V), \
   VecFloat*: SLECreate, \
   VecFloat2D*: SLECreate, \
@@ -1035,18 +1041,18 @@ VecShort2D MatFloatDim(MatFloat *that);
 
 // Return the inverse matrix of 'that'
 // The matrix must be a square matrix
-// Return NULL if the system can't be inversed
 MatFloat* MatFloatInv(MatFloat *that);
 
 // Return the product of matrix 'that' and vector 'v'
 // Number of columns of 'that' must equal dimension of 'v'
-// Return null if arguments are invalids
 VecFloat* MatFloatProdVecFloat(MatFloat *that, VecFloat *v);
 
 // Return the product of matrix 'that' by matrix 'tho'
 // Number of columns of 'that' must equal number of line of 'tho'
-// Return null if arguments are invalids
 MatFloat* MatFloatProdMatFloat(MatFloat *that, MatFloat *tho);
+
+// Return true if 'that' is equal to 'tho', false else
+bool MatFloatIsEqual(MatFloat *that, MatFloat *tho);
 
 // -------------- Gauss
 
