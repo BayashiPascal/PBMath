@@ -1658,7 +1658,7 @@ void UnitTestMatFloatGetSetDim() {
   printf("UnitTestMatFloatGetSetDim OK\n");
 }
 
-void UnitTestMatFloatClone() {
+void UnitTestMatFloatCloneIsEqual() {
   VecShort2D dim = VecShortCreateStatic2D();
   VecSet(&dim, 0, 2);
   VecSet(&dim, 1, 3);
@@ -1676,18 +1676,28 @@ void UnitTestMatFloatClone() {
     PBErrCatch(PBMathErr);
   }
   VecSetNull(&i);
-  v = 1.0;
   do {
     if (!ISEQUALF(MatGet(mat, &i), MatGet(clone, &i))) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
       sprintf(PBMathErr->_msg, "UnitTestMatFloatClone NOK");
       PBErrCatch(PBMathErr);
     }
-    v += 1.0;
   } while(VecStep(&i, &dim));
+  if (MatIsEqual(mat, clone) == false) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "UnitTestMatFloatIsEqual NOK1");
+    PBErrCatch(PBMathErr);
+  }
+  VecSet(&i, 0, 0); VecSet(&i, 1, 0);
+  MatSet(clone, &i, -1.0);
+  if (MatIsEqual(mat, clone) == true) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "UnitTestMatFloatIsEqual NOK2");
+    PBErrCatch(PBMathErr);
+  }
   MatFree(&mat);
   MatFree(&clone);
-  printf("UnitTestMatFloatClone OK\n");
+  printf("UnitTestMatFloatCloneIsEqual OK\n");
 }
 
 void UnitTestMatFloatLoadSave() {
@@ -1929,7 +1939,7 @@ void UnitTestSpeedMatFloat() {
 void UnitTestMatFloat() {
   UnitTestMatFloatCreateFree();
   UnitTestMatFloatGetSetDim();
-  UnitTestMatFloatClone();
+  UnitTestMatFloatCloneIsEqual();
   UnitTestMatFloatLoadSave();
   UnitTestMatFloatInv();
   UnitTestMatFloatProdVecFloat();
