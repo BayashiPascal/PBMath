@@ -656,7 +656,6 @@ void MatFloatPrintln(MatFloat *that, FILE *stream, unsigned int prec) {
 
 // Return the inverse matrix of 'that'
 // The matrix must be a square matrix
-// Return NULL if the system can't be inversed
 MatFloat* MatFloatInv(MatFloat *that) {
 #if BUILDMODE == 0
   if (that == NULL) {
@@ -787,7 +786,6 @@ VecFloat* MatFloatProdVecFloat(MatFloat *that, VecFloat *v) {
 
 // Return the product of matrix 'that' by matrix 'tho'
 // Number of columns of 'that' must equal number of line of 'tho'
-// Return null if arguments are invalids
 MatFloat* MatFloatProdMatFloat(MatFloat *that, MatFloat *tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
@@ -830,6 +828,30 @@ MatFloat* MatFloatProdMatFloat(MatFloat *that, MatFloat *tho) {
       }
   // Return the result
   return ret;
+}
+
+// Return true if 'that' is equal to 'tho', false else
+bool MatFloatIsEqual(MatFloat *that, MatFloat *tho) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  if (!VecIsEqual(&(that->_dim), &(tho->_dim)))
+    return false;
+  VecShort2D v = VecShortCreateStatic2D();
+  do {
+    if (!ISEQUALF(MatGet(that, &v), MatGet(tho, &v)))
+      return false;
+  } while (VecStep(&v, &(that->_dim)));
+  return true;
 }
 
 // -------------- Gauss
