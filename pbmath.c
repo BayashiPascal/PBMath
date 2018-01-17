@@ -688,7 +688,7 @@ MatFloat* MatFloatInv(MatFloat *that) {
       PBErrCatch(PBMathErr);
     }
 #endif 
-    that->_val[0] = 1.0 / that->_val[0];
+    res->_val[0] = 1.0 / that->_val[0];
   // If the matrix is of dimension 2x2
   } else if (VecGet(&(that->_dim), 0) == 2) {
     float det = that->_val[0] * that->_val[3] - 
