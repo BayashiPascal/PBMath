@@ -21,8 +21,10 @@
 #define PBMATH_HALFPI 1.570796327
 #define PBMATH_QUARTERPI 0.7853981634
 #define PBMATH_SQRTTWO 1.414213562
+#if BUILDWITHGRAPHICLIB != 1
 #define MAX(a,b) ((a)>(b)?(a):(b))
 #define MIN(a,b) ((a)<(b)?(a):(b))
+#endif
 #define ISEQUALF(a,b) (fabs((a)-(b))<PBMATH_EPSILON)
 #define SHORT(a) ((short)(round(a)))
 #define INT(a) ((int)(round(a)))
