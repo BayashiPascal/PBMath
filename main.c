@@ -834,6 +834,90 @@ void UnitTestVecShortToFloat() {
   printf("UnitTestVecShortToFloat OK\n");
 }
 
+void UnitTestVecShortOp() {
+  VecShort *v = VecShortCreate(5);
+  VecShort2D v2 = VecShortCreateStatic2D();
+  VecShort3D v3 = VecShortCreateStatic3D();
+  VecShort4D v4 = VecShortCreateStatic4D();
+  VecShort *w = VecShortCreate(5);
+  VecShort2D w2 = VecShortCreateStatic2D();
+  VecShort3D w3 = VecShortCreateStatic3D();
+  VecShort4D w4 = VecShortCreateStatic4D();
+  for (int i = 5; i--;) VecSet(v, i, i + 1);
+  for (int i = 2; i--;) VecSet(&v2, i, i + 1);
+  for (int i = 3; i--;) VecSet(&v3, i, i + 1);
+  short a[2] = {-1, 2};
+  short b[5] = {-2, -1, 0, 1, 2};
+  for (int i = 5; i--;) VecSet(v, i, b[i]);
+  for (int i = 2; i--;) VecSet(&v2, i, b[i]);
+  for (int i = 3; i--;) VecSet(&v3, i, b[i]);
+  for (int i = 4; i--;) VecSet(&v4, i, b[i]);
+  for (int i = 5; i--;) VecSet(w, i, b[4 - i] + 1);
+  for (int i = 2; i--;) VecSet(&w2, i, b[1 - i] + 1);
+  for (int i = 3; i--;) VecSet(&w3, i, b[2 - i] + 1);
+  for (int i = 4; i--;) VecSet(&w4, i, b[3 - i] + 1);
+  VecShort *u = VecGetOp(v, a[0], w, a[1]);
+  VecShort2D u2 = VecGetOp(&v2, a[0], &w2, a[1]);
+  VecShort3D u3 = VecGetOp(&v3, a[0], &w3, a[1]);
+  VecShort4D u4 = VecGetOp(&v4, a[0], &w4, a[1]);
+  short checku[5] = {8,5,2,-1,-4};
+  short checku2[2] = {2,-1};
+  short checku3[3] = {4,1,-2};
+  short checku4[4] = {6,3,0,-3};
+  for (int i = 5; i--;)
+    if (!ISEQUALF(VecGet(u, i), checku[i])) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "VecShortGetOp NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 2; i--;)
+    if (!ISEQUALF(VecGet(&u2, i), checku2[i])) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "VecShortGetOp NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 3; i--;)
+    if (!ISEQUALF(VecGet(&u3, i), checku3[i])) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "VecShortGetOp NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 4; i--;)
+    if (!ISEQUALF(VecGet(&u4, i), checku4[i])) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "VecShortGetOp NOK");
+      PBErrCatch(PBMathErr);
+    }
+  VecOp(v, a[0], w, a[1]);
+  VecOp(&v2, a[0], &w2, a[1]);
+  VecOp(&v3, a[0], &w3, a[1]);
+  VecOp(&v4, a[0], &w4, a[1]);
+  if (!VecIsEqual(v, u)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecShortOp NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (!VecIsEqual(&v2, &u2)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecShortOp NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (!VecIsEqual(&v3, &u3)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecShortOp NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (!VecIsEqual(&v4, &u4)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecShortOp NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecFree(&v);
+  VecFree(&w);
+  VecFree(&u);
+  printf("UnitTestVecShortOp OK\n");
+}
+
 void UnitTestVecShort() {
   UnitTestVecShortCreateFree();
   UnitTestVecShortClone();
@@ -846,6 +930,7 @@ void UnitTestVecShort() {
   UnitTestVecShortCopy();
   UnitTestSpeedVecShort();
   UnitTestVecShortToFloat();
+  UnitTestVecShortOp();
   printf("UnitTestVecShort OK\n");
 }
 

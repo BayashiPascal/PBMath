@@ -284,6 +284,18 @@
   VecFloat3D*: _Generic((W), \
     VecFloat3D*: VecFloatOp3D, \
     default: PBErrInvalidPolymorphism), \
+  VecShort*: _Generic((W), \
+    VecShort*: VecShortOp, \
+    default: PBErrInvalidPolymorphism), \
+  VecShort2D*: _Generic((W), \
+    VecShort2D*: VecShortOp2D, \
+    default: PBErrInvalidPolymorphism), \
+  VecShort3D*: _Generic((W), \
+    VecShort3D*: VecShortOp3D, \
+    default: PBErrInvalidPolymorphism), \
+  VecShort4D*: _Generic((W), \
+    VecShort4D*: VecShortOp4D, \
+    default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(V, A, W, B)
 
 #define VecGetOp(V, A, W, B) _Generic((V), \
@@ -295,6 +307,18 @@
     default: PBErrInvalidPolymorphism), \
   VecFloat3D*: _Generic((W), \
     VecFloat3D*: VecFloatGetOp3D, \
+    default: PBErrInvalidPolymorphism), \
+  VecShort*: _Generic((W), \
+    VecShort*: VecShortGetOp, \
+    default: PBErrInvalidPolymorphism), \
+  VecShort2D*: _Generic((W), \
+    VecShort2D*: VecShortGetOp2D, \
+    default: PBErrInvalidPolymorphism), \
+  VecShort3D*: _Generic((W), \
+    VecShort3D*: VecShortGetOp3D, \
+    default: PBErrInvalidPolymorphism), \
+  VecShort4D*: _Generic((W), \
+    VecShort4D*: VecShortGetOp4D, \
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(V, A, W, B)
 
@@ -637,6 +661,51 @@ bool VecShortStep(VecShort *that, VecShort *bound);
 // (in which case 'that''s values are all set back to 0)
 // Return true else
 bool VecShortPStep(VecShort *that, VecShort *bound);
+
+// Calculate (that * a + tho * b) and store the result in 'that'
+// 'tho' can be null, in which case it is consider to be the null vector
+// If 'tho' is not null it must be of same dimension as 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+void VecShortOp(VecShort *that, short a, VecShort *tho, short b);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void VecShortOp2D(VecShort2D *that, short a, VecShort2D *tho, short b);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void VecShortOp3D(VecShort3D *that, short a, VecShort3D *tho, short b);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void VecShortOp4D(VecShort4D *that, short a, VecShort4D *tho, short b);
+
+// Return a VecShort equal to (that * a + tho * b)
+// Return NULL if arguments are invalid
+// 'tho' can be null, in which case it is consider to be the null vector
+// If 'tho' is not null it must be of same dimension as 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecShort* VecShortGetOp(VecShort *that, short a, 
+  VecShort *tho, short b);
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecShort2D VecShortGetOp2D(VecShort2D *that, short a, 
+  VecShort2D *tho, short b);
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecShort3D VecShortGetOp3D(VecShort3D *that, short a, 
+  VecShort3D *tho, short b);
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecShort4D VecShortGetOp4D(VecShort4D *that, short a, 
+  VecShort4D *tho, short b);
 
 // -------------- VecFloat
 

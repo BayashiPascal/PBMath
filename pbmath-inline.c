@@ -2012,3 +2012,192 @@ int powi(int base, int exp) {
   // Return the result
   return res;
 }
+
+// Calculate (that * a + tho * b) and store the result in 'that'
+#if BUILDMODE != 0
+inline
+#endif 
+void VecShortOp(VecShort *that, short a, VecShort *tho, short b) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != tho->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+      that->_dim, tho->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  for (int iDim = that->_dim; iDim--;)
+    VecSet(that, iDim, 
+      a * VecGet(that, iDim) + b * VecGet(tho, iDim));
+}
+#if BUILDMODE != 0
+inline
+#endif 
+void VecShortOp2D(VecShort2D *that, short a, VecShort2D *tho, short b) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecSet(that, 0, a * VecGet(that, 0) + b * VecGet(tho, 0));
+  VecSet(that, 1, a * VecGet(that, 1) + b * VecGet(tho, 1));
+}
+#if BUILDMODE != 0
+inline
+#endif 
+void VecShortOp3D(VecShort3D *that, short a, VecShort3D *tho, short b) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecSet(that, 0, a * VecGet(that, 0) + b * VecGet(tho, 0));
+  VecSet(that, 1, a * VecGet(that, 1) + b * VecGet(tho, 1));
+  VecSet(that, 2, a * VecGet(that, 2) + b * VecGet(tho, 2));
+}
+#if BUILDMODE != 0
+inline
+#endif 
+void VecShortOp4D(VecShort4D *that, short a, VecShort4D *tho, short b) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecSet(that, 0, a * VecGet(that, 0) + b * VecGet(tho, 0));
+  VecSet(that, 1, a * VecGet(that, 1) + b * VecGet(tho, 1));
+  VecSet(that, 2, a * VecGet(that, 2) + b * VecGet(tho, 2));
+  VecSet(that, 3, a * VecGet(that, 3) + b * VecGet(tho, 3));
+}
+
+// Return a VecShort equal to (that * a + tho * b)
+#if BUILDMODE != 0
+inline
+#endif 
+VecShort* VecShortGetOp(VecShort *that, short a, 
+  VecShort *tho, short b) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != tho->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+      that->_dim, tho->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecShort *res = VecShortCreate(that->_dim);
+  for (int iDim = that->_dim; iDim--;)
+    VecSet(res, iDim, 
+      a * VecGet(that, iDim) + b * VecGet(tho, iDim));
+  return res;
+}
+#if BUILDMODE != 0
+inline
+#endif 
+VecShort2D VecShortGetOp2D(VecShort2D *that, short a, 
+  VecShort2D *tho, short b) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecShort2D res = VecShortCreateStatic2D();
+  VecSet(&res, 0, a * VecGet(that, 0) + b * VecGet(tho, 0));
+  VecSet(&res, 1, a * VecGet(that, 1) + b * VecGet(tho, 1));
+  return res;
+}
+#if BUILDMODE != 0
+inline
+#endif 
+VecShort3D VecShortGetOp3D(VecShort3D *that, short a, 
+  VecShort3D *tho, short b) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecShort3D res = VecShortCreateStatic3D();
+  VecSet(&res, 0, a * VecGet(that, 0) + b * VecGet(tho, 0));
+  VecSet(&res, 1, a * VecGet(that, 1) + b * VecGet(tho, 1));
+  VecSet(&res, 2, a * VecGet(that, 2) + b * VecGet(tho, 2));
+  return res;
+}
+#if BUILDMODE != 0
+inline
+#endif 
+VecShort4D VecShortGetOp4D(VecShort4D *that, short a, 
+  VecShort4D *tho, short b) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecShort4D res = VecShortCreateStatic4D();
+  VecSet(&res, 0, a * VecGet(that, 0) + b * VecGet(tho, 0));
+  VecSet(&res, 1, a * VecGet(that, 1) + b * VecGet(tho, 1));
+  VecSet(&res, 2, a * VecGet(that, 2) + b * VecGet(tho, 2));
+  VecSet(&res, 3, a * VecGet(that, 3) + b * VecGet(tho, 3));
+  return res;
+}
+
