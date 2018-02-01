@@ -21,6 +21,7 @@
 #define PBMATH_HALFPI 1.570796327
 #define PBMATH_QUARTERPI 0.7853981634
 #define PBMATH_SQRTTWO 1.414213562
+#define PBMATH_SQRTONEHALF 0.707106781
 #if BUILDWITHGRAPHICLIB != 1
 #define MAX(a,b) ((a)>(b)?(a):(b))
 #define MIN(a,b) ((a)<(b)?(a):(b))
