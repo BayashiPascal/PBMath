@@ -116,7 +116,7 @@ void UnitTestFSquare() {
 }
 
 void UnitTestVecShortCreateFree() {
-  VecShort *v = VecShortCreate(5);
+  VecShort* v = VecShortCreate(5);
   VecShort2D v2 = VecShortCreateStatic2D();
   VecShort3D v3 = VecShortCreateStatic3D();
   VecShort4D v4 = VecShortCreateStatic4D();
@@ -134,9 +134,9 @@ void UnitTestVecShortCreateFree() {
 }
 
 void UnitTestVecShortClone() {
-  VecShort *v = VecShortCreate(5);
+  VecShort* v = VecShortCreate(5);
   for (int i = 5; i--;) VecSet(v, i, i + 1);
-  VecShort *w = VecClone(v);
+  VecShort* w = VecClone(v);
   if (memcmp(v, w, sizeof(VecShort) + sizeof(short) * 5) != 0) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
     sprintf(PBMathErr->_msg, "VecShortClone NOK");
@@ -148,7 +148,7 @@ void UnitTestVecShortClone() {
 }
 
 void UnitTestVecShortLoadSave() {
-  VecShort *v = VecShortCreate(5);
+  VecShort* v = VecShortCreate(5);
   VecShort2D v2 = VecShortCreateStatic2D();
   VecShort3D v3 = VecShortCreateStatic3D();
   VecShort4D v4 = VecShortCreateStatic4D();
@@ -156,7 +156,7 @@ void UnitTestVecShortLoadSave() {
   for (int i = 2; i--;) VecSet(&v2, i, i + 1);
   for (int i = 3; i--;) VecSet(&v3, i, i + 1);
   for (int i = 4; i--;) VecSet(&v4, i, i + 1);
-  FILE *f = fopen("./UnitTestVecShortLoadSave.txt", "w");
+  FILE* f = fopen("./UnitTestVecShortLoadSave.txt", "w");
   if (f == NULL) {
     PBMathErr->_type = PBErrTypeOther;
     sprintf(PBMathErr->_msg, 
@@ -184,7 +184,7 @@ void UnitTestVecShortLoadSave() {
     PBErrCatch(PBMathErr);
   }
   fclose(f);
-  VecShort *w = VecShortCreate(2);
+  VecShort* w = VecShortCreate(2);
   f = fopen("./UnitTestVecShortLoadSave.txt", "r");
   if (f == NULL) {
     PBMathErr->_type = PBErrTypeOther;
@@ -242,7 +242,7 @@ void UnitTestVecShortLoadSave() {
 }
 
 void UnitTestVecShortGetSetDim() {
-  VecShort *v = VecShortCreate(5);
+  VecShort* v = VecShortCreate(5);
   VecShort2D v2 = VecShortCreateStatic2D();
   VecShort3D v3 = VecShortCreateStatic3D();
   VecShort4D v4 = VecShortCreateStatic4D();
@@ -336,11 +336,11 @@ void UnitTestVecShortGetSetDim() {
 }
 
 void UnitTestVecShortStep() {
-  VecShort *v = VecShortCreate(5);
+  VecShort* v = VecShortCreate(5);
   VecShort2D v2 = VecShortCreateStatic2D();
   VecShort3D v3 = VecShortCreateStatic3D();
   VecShort4D v4 = VecShortCreateStatic4D();
-  VecShort *bv = VecShortCreate(5);
+  VecShort* bv = VecShortCreate(5);
   VecShort2D bv2 = VecShortCreateStatic2D();
   VecShort3D bv3 = VecShortCreateStatic3D();
   VecShort4D bv4 = VecShortCreateStatic4D();
@@ -453,11 +453,11 @@ void UnitTestVecShortStep() {
 }
 
 void UnitTestVecShortHamiltonDist() {
-  VecShort *v = VecShortCreate(5);
+  VecShort* v = VecShortCreate(5);
   VecShort2D v2 = VecShortCreateStatic2D();
   VecShort3D v3 = VecShortCreateStatic3D();
   VecShort4D v4 = VecShortCreateStatic4D();
-  VecShort *w = VecShortCreate(5);
+  VecShort* w = VecShortCreate(5);
   VecShort2D w2 = VecShortCreateStatic2D();
   VecShort3D w3 = VecShortCreateStatic3D();
   VecShort4D w4 = VecShortCreateStatic4D();
@@ -500,7 +500,7 @@ void UnitTestVecShortHamiltonDist() {
 }
 
 void UnitTestVecShortIsEqual() {
-  VecShort *v = VecShortCreate(5);
+  VecShort* v = VecShortCreate(5);
   VecShort2D v2 = VecShortCreateStatic2D();
   VecShort3D v3 = VecShortCreateStatic3D();
   VecShort4D v4 = VecShortCreateStatic4D();
@@ -508,7 +508,7 @@ void UnitTestVecShortIsEqual() {
   for (int i = 2; i--;) VecSet(&v2, i, i + 1);
   for (int i = 3; i--;) VecSet(&v3, i, i + 1);
   for (int i = 4; i--;) VecSet(&v4, i, i + 1);
-  VecShort *w = VecShortCreate(5);
+  VecShort* w = VecShortCreate(5);
   VecShort2D w2 = VecShortCreateStatic2D();
   VecShort3D w3 = VecShortCreateStatic3D();
   VecShort4D w4 = VecShortCreateStatic4D();
@@ -562,7 +562,7 @@ void UnitTestVecShortIsEqual() {
 }
 
 void UnitTestVecShortCopy() {
-  VecShort *v = VecShortCreate(5);
+  VecShort* v = VecShortCreate(5);
   VecShort2D v2 = VecShortCreateStatic2D();
   VecShort3D v3 = VecShortCreateStatic3D();
   VecShort4D v4 = VecShortCreateStatic4D();
@@ -570,7 +570,7 @@ void UnitTestVecShortCopy() {
   for (int i = 2; i--;) VecSet(&v2, i, i + 1);
   for (int i = 3; i--;) VecSet(&v3, i, i + 1);
   for (int i = 4; i--;) VecSet(&v4, i, i + 1);
-  VecShort *w = VecShortCreate(5);
+  VecShort* w = VecShortCreate(5);
   VecShort2D w2 = VecShortCreateStatic2D();
   VecShort3D w3 = VecShortCreateStatic3D();
   VecShort4D w4 = VecShortCreateStatic4D();
@@ -604,11 +604,11 @@ void UnitTestVecShortCopy() {
 }
 
 void UnitTestVecShortDotProd() {
-  VecShort *v = VecShortCreate(5);
+  VecShort* v = VecShortCreate(5);
   VecShort2D v2 = VecShortCreateStatic2D();
   VecShort3D v3 = VecShortCreateStatic3D();
   VecShort4D v4 = VecShortCreateStatic4D();
-  VecShort *w = VecShortCreate(5);
+  VecShort* w = VecShortCreate(5);
   VecShort2D w2 = VecShortCreateStatic2D();
   VecShort3D w3 = VecShortCreateStatic3D();
   VecShort4D w4 = VecShortCreateStatic4D();
@@ -651,7 +651,7 @@ void UnitTestVecShortDotProd() {
 }
 
 void UnitTestSpeedVecShort() {
-  VecShort *v = VecShortCreate(5);
+  VecShort* v = VecShortCreate(5);
   VecShort2D v2 = VecShortCreateStatic2D();
   VecShort3D v3 = VecShortCreateStatic3D();
   VecShort4D v4 = VecShortCreateStatic4D();
@@ -815,7 +815,7 @@ void UnitTestSpeedVecShort() {
 }
 
 void UnitTestVecShortToFloat() {
-  VecShort *v = VecShortCreate(5);
+  VecShort* v = VecShortCreate(5);
   VecShort2D v2 = VecShortCreateStatic2D();
   VecShort3D v3 = VecShortCreateStatic3D();
   VecShort4D v4 = VecShortCreateStatic4D();
@@ -823,7 +823,7 @@ void UnitTestVecShortToFloat() {
   for (int i = 2; i--;) VecSet(&v2, i, i + 1);
   for (int i = 3; i--;) VecSet(&v3, i, i + 1);
   for (int i = 4; i--;) VecSet(&v4, i, i + 1);
-  VecFloat *w = VecShortToFloat(v);
+  VecFloat* w = VecShortToFloat(v);
   VecFloat2D w2 = VecShortToFloat2D(&v2);
   VecFloat3D w3 = VecShortToFloat3D(&v3);
   VecPrint(w, stdout); printf("\n");
@@ -835,11 +835,11 @@ void UnitTestVecShortToFloat() {
 }
 
 void UnitTestVecShortOp() {
-  VecShort *v = VecShortCreate(5);
+  VecShort* v = VecShortCreate(5);
   VecShort2D v2 = VecShortCreateStatic2D();
   VecShort3D v3 = VecShortCreateStatic3D();
   VecShort4D v4 = VecShortCreateStatic4D();
-  VecShort *w = VecShortCreate(5);
+  VecShort* w = VecShortCreate(5);
   VecShort2D w2 = VecShortCreateStatic2D();
   VecShort3D w3 = VecShortCreateStatic3D();
   VecShort4D w4 = VecShortCreateStatic4D();
@@ -856,7 +856,7 @@ void UnitTestVecShortOp() {
   for (int i = 2; i--;) VecSet(&w2, i, b[1 - i] + 1);
   for (int i = 3; i--;) VecSet(&w3, i, b[2 - i] + 1);
   for (int i = 4; i--;) VecSet(&w4, i, b[3 - i] + 1);
-  VecShort *u = VecGetOp(v, a[0], w, a[1]);
+  VecShort* u = VecGetOp(v, a[0], w, a[1]);
   VecShort2D u2 = VecGetOp(&v2, a[0], &w2, a[1]);
   VecShort3D u3 = VecGetOp(&v3, a[0], &w3, a[1]);
   VecShort4D u4 = VecGetOp(&v4, a[0], &w4, a[1]);
@@ -935,7 +935,7 @@ void UnitTestVecShort() {
 }
 
 void UnitTestVecFloatCreateFree() {
-  VecFloat *v = VecFloatCreate(5);
+  VecFloat* v = VecFloatCreate(5);
   VecFloat2D v2 = VecFloatCreateStatic2D();
   VecFloat3D v3 = VecFloatCreateStatic3D();
   VecPrint(v, stdout);printf("\n");
@@ -951,9 +951,9 @@ void UnitTestVecFloatCreateFree() {
 }
 
 void UnitTestVecFloatClone() {
-  VecFloat *v = VecFloatCreate(5);
+  VecFloat* v = VecFloatCreate(5);
   for (int i = 5; i--;) VecSet(v, i, i + 1);
-  VecFloat *w = VecClone(v);
+  VecFloat* w = VecClone(v);
   if (memcmp(v, w, sizeof(VecFloat) + sizeof(float) * 5) != 0) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
     sprintf(PBMathErr->_msg, "VecFloatClone NOK");
@@ -965,13 +965,13 @@ void UnitTestVecFloatClone() {
 }
 
 void UnitTestVecFloatLoadSave() {
-  VecFloat *v = VecFloatCreate(5);
+  VecFloat* v = VecFloatCreate(5);
   VecFloat2D v2 = VecFloatCreateStatic2D();
   VecFloat3D v3 = VecFloatCreateStatic3D();
   for (int i = 5; i--;) VecSet(v, i, i + 1);
   for (int i = 2; i--;) VecSet(&v2, i, i + 1);
   for (int i = 3; i--;) VecSet(&v3, i, i + 1);
-  FILE *f = fopen("./UnitTestVecFloatLoadSave.txt", "w");
+  FILE* f = fopen("./UnitTestVecFloatLoadSave.txt", "w");
   if (f == NULL) {
     PBMathErr->_type = PBErrTypeOther;
     sprintf(PBMathErr->_msg, 
@@ -994,7 +994,7 @@ void UnitTestVecFloatLoadSave() {
     PBErrCatch(PBMathErr);
   }
   fclose(f);
-  VecFloat *w = VecFloatCreate(2);
+  VecFloat* w = VecFloatCreate(2);
   f = fopen("./UnitTestVecFloatLoadSave.txt", "r");
   if (f == NULL) {
     PBMathErr->_type = PBErrTypeOther;
@@ -1042,7 +1042,7 @@ void UnitTestVecFloatLoadSave() {
 }
 
 void UnitTestVecFloatGetSetDim() {
-  VecFloat *v = VecFloatCreate(5);
+  VecFloat* v = VecFloatCreate(5);
   VecFloat2D v2 = VecFloatCreateStatic2D();
   VecFloat3D v3 = VecFloatCreateStatic3D();
   if (VecDim(v) != 5) {
@@ -1115,13 +1115,13 @@ void UnitTestVecFloatGetSetDim() {
 }
 
 void UnitTestVecFloatCopy() {
-  VecFloat *v = VecFloatCreate(5);
+  VecFloat* v = VecFloatCreate(5);
   VecFloat2D v2 = VecFloatCreateStatic2D();
   VecFloat3D v3 = VecFloatCreateStatic3D();
   for (int i = 5; i--;) VecSet(v, i, i + 1);
   for (int i = 2; i--;) VecSet(&v2, i, i + 1);
   for (int i = 3; i--;) VecSet(&v3, i, i + 1);
-  VecFloat *w = VecFloatCreate(5);
+  VecFloat* w = VecFloatCreate(5);
   VecFloat2D w2 = VecFloatCreateStatic2D();
   VecFloat3D w3 = VecFloatCreateStatic3D();
   VecCopy(w, v);
@@ -1148,7 +1148,7 @@ void UnitTestVecFloatCopy() {
 }
 
 void UnitTestVecFloatNorm() {
-  VecFloat *v = VecFloatCreate(5);
+  VecFloat* v = VecFloatCreate(5);
   VecFloat2D v2 = VecFloatCreateStatic2D();
   VecFloat3D v3 = VecFloatCreateStatic3D();
   for (int i = 5; i--;) VecSet(v, i, i + 1);
@@ -1192,10 +1192,10 @@ void UnitTestVecFloatNorm() {
 }
 
 void UnitTestVecFloatDist() {
-  VecFloat *v = VecFloatCreate(5);
+  VecFloat* v = VecFloatCreate(5);
   VecFloat2D v2 = VecFloatCreateStatic2D();
   VecFloat3D v3 = VecFloatCreateStatic3D();
-  VecFloat *w = VecFloatCreate(5);
+  VecFloat* w = VecFloatCreate(5);
   VecFloat2D w2 = VecFloatCreateStatic2D();
   VecFloat3D w3 = VecFloatCreateStatic3D();
   float b[5] = {-2.0, -1.0, 0.0, 1.0, 2.0};
@@ -1256,13 +1256,13 @@ void UnitTestVecFloatDist() {
 }
 
 void UnitTestVecFloatIsEqual() {
-  VecFloat *v = VecFloatCreate(5);
+  VecFloat* v = VecFloatCreate(5);
   VecFloat2D v2 = VecFloatCreateStatic2D();
   VecFloat3D v3 = VecFloatCreateStatic3D();
   for (int i = 5; i--;) VecSet(v, i, i + 1);
   for (int i = 2; i--;) VecSet(&v2, i, i + 1);
   for (int i = 3; i--;) VecSet(&v3, i, i + 1);
-  VecFloat *w = VecFloatCreate(5);
+  VecFloat* w = VecFloatCreate(5);
   VecFloat2D w2 = VecFloatCreateStatic2D();
   VecFloat3D w3 = VecFloatCreateStatic3D();
   if (VecIsEqual(v, w)) {
@@ -1304,14 +1304,14 @@ void UnitTestVecFloatIsEqual() {
 }
 
 void UnitTestVecFloatScale() {
-  VecFloat *v = VecFloatCreate(5);
+  VecFloat* v = VecFloatCreate(5);
   VecFloat2D v2 = VecFloatCreateStatic2D();
   VecFloat3D v3 = VecFloatCreateStatic3D();
   for (int i = 5; i--;) VecSet(v, i, i + 1);
   for (int i = 2; i--;) VecSet(&v2, i, i + 1);
   for (int i = 3; i--;) VecSet(&v3, i, i + 1);
   float a = 0.1;
-  VecFloat *w = VecGetScale(v, a);
+  VecFloat* w = VecGetScale(v, a);
   VecFloat2D w2 = VecGetScale(&v2, a);
   VecFloat3D w3 = VecGetScale(&v3, a);
   VecScale(v, a);
@@ -1359,10 +1359,10 @@ void UnitTestVecFloatScale() {
 }
 
 void UnitTestVecFloatOp() {
-  VecFloat *v = VecFloatCreate(5);
+  VecFloat* v = VecFloatCreate(5);
   VecFloat2D v2 = VecFloatCreateStatic2D();
   VecFloat3D v3 = VecFloatCreateStatic3D();
-  VecFloat *w = VecFloatCreate(5);
+  VecFloat* w = VecFloatCreate(5);
   VecFloat2D w2 = VecFloatCreateStatic2D();
   VecFloat3D w3 = VecFloatCreateStatic3D();
   for (int i = 5; i--;) VecSet(v, i, i + 1);
@@ -1376,7 +1376,7 @@ void UnitTestVecFloatOp() {
   for (int i = 5; i--;) VecSet(w, i, b[4 - i] + 0.5);
   for (int i = 2; i--;) VecSet(&w2, i, b[1 - i] + 0.5);
   for (int i = 3; i--;) VecSet(&w3, i, b[2 - i] + 0.5);
-  VecFloat *u = VecGetOp(v, a[0], w, a[1]);
+  VecFloat* u = VecGetOp(v, a[0], w, a[1]);
   VecFloat2D u2 = VecGetOp(&v2, a[0], &w2, a[1]);
   VecFloat3D u3 = VecGetOp(&v3, a[0], &w3, a[1]);
   float checku[5] = {5.2,3.1,1.0,-1.1,-3.2};
@@ -1425,10 +1425,10 @@ void UnitTestVecFloatOp() {
 }
 
 void UnitTestVecFloatDotProd() {
-  VecFloat *v = VecFloatCreate(5);
+  VecFloat* v = VecFloatCreate(5);
   VecFloat2D v2 = VecFloatCreateStatic2D();
   VecFloat3D v3 = VecFloatCreateStatic3D();
-  VecFloat *w = VecFloatCreate(5);
+  VecFloat* w = VecFloatCreate(5);
   VecFloat2D w2 = VecFloatCreateStatic2D();
   VecFloat3D w3 = VecFloatCreateStatic3D();
   float b[5] = {-2.0, -1.0, 0.0, 1.0, 2.0};
@@ -1462,9 +1462,9 @@ void UnitTestVecFloatDotProd() {
 }
 
 void UnitTestVecFloatRotAngleTo() {
-  VecFloat *v = VecFloatCreate(2);
+  VecFloat* v = VecFloatCreate(2);
   VecFloat2D v2 = VecFloatCreateStatic2D();
-  VecFloat *w = VecFloatCreate(2);
+  VecFloat* w = VecFloatCreate(2);
   VecFloat2D w2 = VecFloatCreateStatic2D();
   VecSet(v, 0, 1.0);
   VecSet(&v2, 0, 1.0);
@@ -1520,13 +1520,13 @@ void UnitTestVecFloatRotAngleTo() {
 }
 
 void UnitTestVecFloatToShort() {
-  VecFloat *v = VecFloatCreate(5);
+  VecFloat* v = VecFloatCreate(5);
   VecFloat2D v2 = VecFloatCreateStatic2D();
   VecFloat3D v3 = VecFloatCreateStatic3D();
   for (int i = 5; i--;) VecSet(v, i, i + 1);
   for (int i = 2; i--;) VecSet(&v2, i, i + 1);
   for (int i = 3; i--;) VecSet(&v3, i, i + 1);
-  VecShort *w = VecFloatToShort(v);
+  VecShort* w = VecFloatToShort(v);
   VecShort2D w2 = VecFloatToShort2D(&v2);
   VecShort3D w3 = VecFloatToShort3D(&v3);
   VecPrint(w, stdout); printf("\n");
@@ -1538,7 +1538,7 @@ void UnitTestVecFloatToShort() {
 }
 
 void UnitTestSpeedVecFloat() {
-  VecFloat *v = VecFloatCreate(5);
+  VecFloat* v = VecFloatCreate(5);
   VecFloat2D v2 = VecFloatCreateStatic2D();
   VecFloat3D v3 = VecFloatCreateStatic3D();
   int nbTest = 100000;
@@ -1684,7 +1684,7 @@ void UnitTestMatFloatCreateFree() {
   VecShort2D dim = VecShortCreateStatic2D();
   VecSet(&dim, 0, 2);
   VecSet(&dim, 1, 3);
-  MatFloat *mat = MatFloatCreate(&dim);
+  MatFloat* mat = MatFloatCreate(&dim);
   for (int i = VecGet(&dim, 0) * VecGet(&dim, 1);i--;) {
     if (!ISEQUALF(mat->_val[i], 0.0)) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
@@ -1705,7 +1705,7 @@ void UnitTestMatFloatGetSetDim() {
   VecShort2D dim = VecShortCreateStatic2D();
   VecSet(&dim, 0, 2);
   VecSet(&dim, 1, 3);
-  MatFloat *mat = MatFloatCreate(&dim);
+  MatFloat* mat = MatFloatCreate(&dim);
   if (!VecIsEqual(&(mat->_dim), &dim)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
     sprintf(PBMathErr->_msg, "UnitTestMatFloatGetSetDim NOK");
@@ -1747,14 +1747,14 @@ void UnitTestMatFloatCloneIsEqual() {
   VecShort2D dim = VecShortCreateStatic2D();
   VecSet(&dim, 0, 2);
   VecSet(&dim, 1, 3);
-  MatFloat *mat = MatFloatCreate(&dim);
+  MatFloat* mat = MatFloatCreate(&dim);
   VecShort2D i = VecShortCreateStatic2D();
   float v = 1.0;
   do {
     MatSet(mat, &i, v);
     v += 1.0;
   } while(VecStep(&i, &dim));
-  MatFloat *clone = MatClone(mat);
+  MatFloat* clone = MatClone(mat);
   if (!VecIsEqual(&(mat->_dim), &(clone->_dim))) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
     sprintf(PBMathErr->_msg, "UnitTestMatFloatClone NOK");
@@ -1789,14 +1789,14 @@ void UnitTestMatFloatLoadSave() {
   VecShort2D dim = VecShortCreateStatic2D();
   VecSet(&dim, 0, 2);
   VecSet(&dim, 1, 3);
-  MatFloat *mat = MatFloatCreate(&dim);
+  MatFloat* mat = MatFloatCreate(&dim);
   VecShort2D i = VecShortCreateStatic2D();
   float v = 1.0;
   do {
     MatSet(mat, &i, v);
     v += 1.0;
   } while(VecStep(&i, &dim));
-  FILE *f = fopen("./UnitTestMatFloatLoadSave.txt", "w");
+  FILE* f = fopen("./UnitTestMatFloatLoadSave.txt", "w");
   if (f == NULL) {
     PBMathErr->_type = PBErrTypeOther;
     sprintf(PBMathErr->_msg, 
@@ -1809,7 +1809,7 @@ void UnitTestMatFloatLoadSave() {
     PBErrCatch(PBMathErr);
   }
   fclose(f);
-  MatFloat *clone = MatFloatCreate(&dim);
+  MatFloat* clone = MatFloatCreate(&dim);
   f = fopen("./UnitTestMatFloatLoadSave.txt", "r");
   if (f == NULL) {
     PBMathErr->_type = PBErrTypeOther;
@@ -1848,7 +1848,7 @@ void UnitTestMatFloatInv() {
   VecShort2D dim = VecShortCreateStatic2D();
   VecSet(&dim, 0, 3);
   VecSet(&dim, 1, 3);
-  MatFloat *mat = MatFloatCreate(&dim);
+  MatFloat* mat = MatFloatCreate(&dim);
   VecShort2D i = VecShortCreateStatic2D();
   float v[9] = {3.0, 2.0, 0.0, 0.0, 0.0, 1.0, 2.0, -2.0, 1.0};
   int j = 0;
@@ -1856,7 +1856,7 @@ void UnitTestMatFloatInv() {
     MatSet(mat, &i, v[j]);
     ++j;
   } while(VecStep(&i, &dim));
-  MatFloat *inv = MatInv(mat);
+  MatFloat* inv = MatInv(mat);
   float w[9] = {0.2, -0.2, 0.2, 0.2, 0.3, -0.3, 0.0, 1.0, 0.0};
   VecSetNull(&i);
   j = 0;
@@ -1901,7 +1901,7 @@ void UnitTestMatFloatProdVecFloat() {
   VecShort2D dim = VecShortCreateStatic2D();
   VecSet(&dim, 0, 2);
   VecSet(&dim, 1, 3);
-  MatFloat *mat = MatFloatCreate(&dim);
+  MatFloat* mat = MatFloatCreate(&dim);
   VecShort2D i = VecShortCreateStatic2D();
   float v = 1.0;
   do {
@@ -1911,7 +1911,7 @@ void UnitTestMatFloatProdVecFloat() {
   VecFloat2D u = VecFloatCreateStatic2D();
   for (int j = 2; j--;)
     VecSet(&u, j, (float)j + 1.0);
-  VecFloat *w = MatProdVec(mat, &u);
+  VecFloat* w = MatProdVec(mat, &u);
   float b[3] = {9.0, 12.0, 15.0};
   for (int j = 3; j--;) {
     if (!ISEQUALF(VecGet(w, j), b[j])) {
@@ -1929,7 +1929,7 @@ void UnitTestMatFloatProdMatFloat() {
   VecShort2D dim = VecShortCreateStatic2D();
   VecSet(&dim, 0, 3);
   VecSet(&dim, 1, 2);
-  MatFloat *mat = MatFloatCreate(&dim);
+  MatFloat* mat = MatFloatCreate(&dim);
   VecShort2D i = VecShortCreateStatic2D();
   float v = 1.0;
   do {
@@ -1938,14 +1938,14 @@ void UnitTestMatFloatProdMatFloat() {
   } while(VecStep(&i, &dim));
   VecSet(&dim, 0, 2);
   VecSet(&dim, 1, 3);
-  MatFloat *matb = MatFloatCreate(&dim);
+  MatFloat* matb = MatFloatCreate(&dim);
   VecSetNull(&i);
   v = 1.0;
   do {
     MatSet(matb, &i, v);
     v += 1.0;
   } while(VecStep(&i, &dim));
-  MatFloat *matc = MatProdMat(mat, matb);
+  MatFloat* matc = MatProdMat(mat, matb);
   float w[4] = {22.0, 28.0, 49.0, 64.0};
   VecSetNull(&i);
   int j = 0;
@@ -1974,7 +1974,7 @@ void UnitTestSpeedMatFloat() {
   VecShort2D dim = VecShortCreateStatic2D();
   VecSet(&dim, 0, 3);
   VecSet(&dim, 1, 3);
-  MatFloat *mat = MatFloatCreate(&dim);
+  MatFloat* mat = MatFloatCreate(&dim);
   int nbTest = 100000;
   srandom(RANDOMSEED);
   int i = nbTest;
@@ -2037,7 +2037,7 @@ void UnitTestSysLinEq() {
   VecShort2D dim = VecShortCreateStatic2D();
   VecSet(&dim, 0, 3);
   VecSet(&dim, 1, 3);
-  MatFloat *mat = MatFloatCreate(&dim);
+  MatFloat* mat = MatFloatCreate(&dim);
   float a[9] = {2.0, 2.0, 6.0, 1.0, 6.0, 8.0, 3.0, 8.0, 18.0};
   VecShort2D index = VecShortCreateStatic2D();
   int j = 0;
@@ -2049,8 +2049,8 @@ void UnitTestSysLinEq() {
   float b[3] = {1.0, 3.0, 5.0};
   for (int i = 3; i--;)
     VecSet(&v, i, b[i]);
-  SysLinEq *sys = SysLinEqCreate(mat, &v);
-  VecFloat *res = SysLinEqSolve(sys);
+  SysLinEq* sys = SysLinEqCreate(mat, &v);
+  VecFloat* res = SysLinEqSolve(sys);
   float c[3] = {0.3, 0.4, 0};
   for (int i = 3; i--;) {
     if (!ISEQUALF(c[i], VecGet(res, i))) {

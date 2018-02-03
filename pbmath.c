@@ -22,7 +22,7 @@ VecShort* VecShortCreate(int dim) {
   }
 #endif
   // Allocate memory
-  VecShort *that = PBErrMalloc(PBMathErr, 
+  VecShort* that = PBErrMalloc(PBMathErr, 
     sizeof(VecShort) + sizeof(short) * dim);
   // Set the default values
   that->_dim = dim;
@@ -34,7 +34,7 @@ VecShort* VecShortCreate(int dim) {
 
 // Clone the VecShort
 // Return NULL if we couldn't clone the VecShort
-VecShort* VecShortClone(VecShort *that) {
+VecShort* VecShortClone(VecShort* that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -43,7 +43,7 @@ VecShort* VecShortClone(VecShort *that) {
   }
 #endif
   // Create a clone
-  VecShort *clone = VecShortCreate(that->_dim);
+  VecShort* clone = VecShortCreate(that->_dim);
   // Copy the values
   memcpy(clone, that, sizeof(VecShort) + sizeof(short) * that->_dim);
   // Return the clone
@@ -53,7 +53,7 @@ VecShort* VecShortClone(VecShort *that) {
 // Load the VecShort from the stream
 // If the VecShort is already allocated, it is freed before loading
 // Return true in case of success, else false
-bool VecShortLoad(VecShort **that, FILE *stream) {
+bool VecShortLoad(VecShort** that, FILE* stream) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -94,7 +94,7 @@ bool VecShortLoad(VecShort **that, FILE *stream) {
 
 // Save the VecShort to the stream
 // Return true in case of success, else false
-bool VecShortSave(VecShort *that, FILE *stream) {
+bool VecShortSave(VecShort* that, FILE* stream) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -129,7 +129,7 @@ bool VecShortSave(VecShort *that, FILE *stream) {
 
 // Free the memory used by a VecShort
 // Do nothing if arguments are invalid
-void VecShortFree(VecShort **that) {
+void VecShortFree(VecShort** that) {
   // Check argument
   if (that == NULL || *that == NULL)
     return;
@@ -139,7 +139,7 @@ void VecShortFree(VecShort **that) {
 }
 
 // Print the VecShort on 'stream' with 'prec' digit precision
-void VecShortPrint(VecShort *that, FILE *stream) {
+void VecShortPrint(VecShort* that, FILE* stream) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -169,7 +169,7 @@ void VecShortPrint(VecShort *that, FILE *stream) {
 // Return false if all values of 'that' have reached their upper limit 
 // (in which case 'that''s values are all set back to 0)
 // Return true else
-bool VecShortStep(VecShort *that, VecShort *bound) {
+bool VecShortStep(VecShort* that, VecShort* bound) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -217,7 +217,7 @@ bool VecShortStep(VecShort *that, VecShort *bound) {
 // Return false if all values of 'that' have reached their upper limit 
 // (in which case 'that''s values are all set back to 0)
 // Return true else
-bool VecShortPStep(VecShort *that, VecShort *bound) {
+bool VecShortPStep(VecShort* that, VecShort* bound) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -274,7 +274,7 @@ VecFloat* VecFloatCreate(int dim) {
   }
 #endif
   // Allocate memory
-  VecFloat *that = PBErrMalloc(PBMathErr, 
+  VecFloat* that = PBErrMalloc(PBMathErr, 
     sizeof(VecFloat) + sizeof(float) * dim);
   // Set the default values
   that->_dim = dim;
@@ -285,7 +285,7 @@ VecFloat* VecFloatCreate(int dim) {
 }
 
 // Clone the VecFloat
-VecFloat* VecFloatClone(VecFloat *that) {
+VecFloat* VecFloatClone(VecFloat* that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -294,7 +294,7 @@ VecFloat* VecFloatClone(VecFloat *that) {
   }
 #endif
   // Create a clone
-  VecFloat *clone = VecFloatCreate(that->_dim);
+  VecFloat* clone = VecFloatCreate(that->_dim);
   // Clone the properties
   memcpy(clone, that, sizeof(VecFloat) + sizeof(float) * that->_dim);
   // Return the clone
@@ -303,7 +303,7 @@ VecFloat* VecFloatClone(VecFloat *that) {
 
 // Load the VecFloat from the stream
 // If the VecFloat is already allocated, it is freed before loading
-bool VecFloatLoad(VecFloat **that, FILE *stream) {
+bool VecFloatLoad(VecFloat** that, FILE* stream) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -345,7 +345,7 @@ bool VecFloatLoad(VecFloat **that, FILE *stream) {
 
 // Save the VecFloat to the stream
 // Return true in case of success, else false
-bool VecFloatSave(VecFloat *that, FILE *stream) {
+bool VecFloatSave(VecFloat* that, FILE* stream) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -380,7 +380,7 @@ bool VecFloatSave(VecFloat *that, FILE *stream) {
 
 // Free the memory used by a VecFloat
 // Do nothing if arguments are invalid
-void VecFloatFree(VecFloat **that) {
+void VecFloatFree(VecFloat** that) {
   // Check argument
   if (that == NULL || *that == NULL)
     return;
@@ -391,7 +391,7 @@ void VecFloatFree(VecFloat **that) {
 
 // Print the VecFloat on 'stream' with 'prec' digit precision
 // Do nothing if arguments are invalid
-void VecFloatPrint(VecFloat *that, FILE *stream, unsigned int prec) {
+void VecFloatPrint(VecFloat* that, FILE* stream, unsigned int prec) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -420,7 +420,7 @@ void VecFloatPrint(VecFloat *that, FILE *stream, unsigned int prec) {
 // Return the angle of the rotation making 'that' colinear to 'tho'
 // 'that' and 'tho' must be normalised
 // Return a value in [-PI,PI]
-float VecFloatAngleTo2D(VecFloat2D *that, VecFloat2D *tho) {
+float VecFloatAngleTo2D(VecFloat2D* that, VecFloat2D* tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -486,7 +486,7 @@ float VecFloatAngleTo2D(VecFloat2D *that, VecFloat2D *tho) {
 
 // Create a new MatFloat of dimension 'dim' (nbcol, nbline)
 // Values are initalized to 0.0
-MatFloat* MatFloatCreate(VecShort2D *dim) {
+MatFloat* MatFloatCreate(VecShort2D* dim) {
 #if BUILDMODE == 0
   if (dim == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -496,7 +496,7 @@ MatFloat* MatFloatCreate(VecShort2D *dim) {
 #endif
   // Allocate memory
   int d = VecGet(dim, 0) * VecGet(dim, 1);
-  MatFloat *that = PBErrMalloc(PBMathErr, sizeof(MatFloat) + 
+  MatFloat* that = PBErrMalloc(PBMathErr, sizeof(MatFloat) + 
     sizeof(float) * d);
   // Set the dimension
   that->_dim = *dim;
@@ -508,7 +508,7 @@ MatFloat* MatFloatCreate(VecShort2D *dim) {
 }
 
 // Clone the MatFloat
-MatFloat* MatFloatClone(MatFloat *that) {
+MatFloat* MatFloatClone(MatFloat* that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -517,7 +517,7 @@ MatFloat* MatFloatClone(MatFloat *that) {
   }
 #endif
   // Create a clone
-  MatFloat *clone = MatFloatCreate(&(that->_dim));
+  MatFloat* clone = MatFloatCreate(&(that->_dim));
   // Copy the values
   int d = VecGet(&(that->_dim), 0) * VecGet(&(that->_dim), 1);
   for (int i = d; i--;)
@@ -529,7 +529,7 @@ MatFloat* MatFloatClone(MatFloat *that) {
 // Load the MatFloat from the stream
 // If the MatFloat is already allocated, it is freed before loading
 // Return true upon success, else false
-bool MatFloatLoad(MatFloat **that, FILE *stream) {
+bool MatFloatLoad(MatFloat** that, FILE* stream) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -572,7 +572,7 @@ bool MatFloatLoad(MatFloat **that, FILE *stream) {
 
 // Save the MatFloat to the stream
 // Return true upon success, else false
-bool MatFloatSave(MatFloat *that, FILE *stream) {
+bool MatFloatSave(MatFloat* that, FILE* stream) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -610,7 +610,7 @@ bool MatFloatSave(MatFloat *that, FILE *stream) {
 
 // Free the memory used by a MatFloat
 // Do nothing if arguments are invalid
-void MatFloatFree(MatFloat **that) {
+void MatFloatFree(MatFloat** that) {
   // Check argument
   if (that == NULL || *that == NULL)
     return;
@@ -621,7 +621,7 @@ void MatFloatFree(MatFloat **that) {
 
 // Print the MatFloat on 'stream' with 'prec' digit precision
 // Do nothing if arguments are invalid
-void MatFloatPrintln(MatFloat *that, FILE *stream, unsigned int prec) {
+void MatFloatPrintln(MatFloat* that, FILE* stream, unsigned int prec) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -656,7 +656,7 @@ void MatFloatPrintln(MatFloat *that, FILE *stream, unsigned int prec) {
 
 // Return the inverse matrix of 'that'
 // The matrix must be a square matrix
-MatFloat* MatFloatInv(MatFloat *that) {
+MatFloat* MatFloatInv(MatFloat* that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -678,7 +678,7 @@ MatFloat* MatFloatInv(MatFloat *that) {
   }
 #endif
   // Allocate memory for the result
-  MatFloat *res = MatFloatCreate(&(that->_dim));
+  MatFloat* res = MatFloatCreate(&(that->_dim));
   // If the matrix is of dimension 1x1
   if (VecGet(&(that->_dim), 0) == 1) {
 #if BUILDMODE == 0
@@ -748,7 +748,7 @@ MatFloat* MatFloatInv(MatFloat *that) {
 
 // Return the product of matrix 'that' and vector 'v'
 // Number of colum of 'that' must equal dimension of 'v'
-VecFloat* MatFloatProdVecFloat(MatFloat *that, VecFloat *v) {
+VecFloat* MatFloatProdVecFloat(MatFloat* that, VecFloat* v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -771,7 +771,7 @@ VecFloat* MatFloatProdVecFloat(MatFloat *that, VecFloat *v) {
   // Declare a variable to memorize the index in the matrix
   VecShort2D i = VecShortCreateStatic2D();
   // Allocate memory for the solution
-  VecFloat *ret = VecFloatCreate(VecGet(&(that->_dim), 1));
+  VecFloat* ret = VecFloatCreate(VecGet(&(that->_dim), 1));
   // If we could allocate memory
   if (ret != NULL)
     for (VecSet(&i, 0, 0); VecGet(&i, 0) < VecGet(&(that->_dim), 0);
@@ -786,7 +786,7 @@ VecFloat* MatFloatProdVecFloat(MatFloat *that, VecFloat *v) {
 
 // Return the product of matrix 'that' by matrix 'tho'
 // Number of columns of 'that' must equal number of line of 'tho'
-MatFloat* MatFloatProdMatFloat(MatFloat *that, MatFloat *tho) {
+MatFloat* MatFloatProdMatFloat(MatFloat* that, MatFloat* tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -813,7 +813,7 @@ MatFloat* MatFloatProdMatFloat(MatFloat *that, MatFloat *tho) {
   // Allocate memory for the solution
   VecSet(&i, 0, VecGet(&(tho->_dim), 0));
   VecSet(&i, 1, VecGet(&(that->_dim), 1));
-  MatFloat *ret = MatFloatCreate(&i);
+  MatFloat* ret = MatFloatCreate(&i);
   for (VecSet(&i, 0, 0); VecGet(&i, 0) < VecGet(&(tho->_dim), 0);
     VecSet(&i, 0, VecGet(&i, 0) + 1))
     for (VecSet(&i, 1, 0); VecGet(&i, 1) < VecGet(&(that->_dim), 1);
@@ -831,7 +831,7 @@ MatFloat* MatFloatProdMatFloat(MatFloat *that, MatFloat *tho) {
 }
 
 // Return true if 'that' is equal to 'tho', false else
-bool MatFloatIsEqual(MatFloat *that, MatFloat *tho) {
+bool MatFloatIsEqual(MatFloat* that, MatFloat* tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -898,7 +898,7 @@ void GaussFree(Gauss **that) {
 // If 'v' is null the vector null is used instead
 // The matrix 'm' must be a square matrix
 // Return NULL if we couldn't create the SysLinEq
-SysLinEq* SLECreate(MatFloat *m, VecFloat *v) {
+SysLinEq* SLECreate(MatFloat* m, VecFloat* v) {
 #if BUILDMODE == 0
   if (m == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -922,7 +922,7 @@ SysLinEq* SLECreate(MatFloat *m, VecFloat *v) {
   }
 #endif
   // Allocate memory
-  SysLinEq *that = PBErrMalloc(PBMathErr, sizeof(SysLinEq));
+  SysLinEq* that = PBErrMalloc(PBMathErr, sizeof(SysLinEq));
   that->_M = MatClone(m);
   that->_Minv = MatInv(that->_M);
   if (v != NULL)
@@ -955,7 +955,7 @@ SysLinEq* SLECreate(MatFloat *m, VecFloat *v) {
 
 // Free the memory used by the SysLinEq
 // Do nothing if arguments are invalid
-void SysLinEqFree(SysLinEq **that) {
+void SysLinEqFree(SysLinEq** that) {
   // Check arguments
   if (that == NULL || *that == NULL)
     return;
@@ -969,7 +969,7 @@ void SysLinEqFree(SysLinEq **that) {
 
 // Clone the SysLinEq 'that'
 // Return NULL if we couldn't clone the SysLinEq
-SysLinEq* SysLinEqClone(SysLinEq *that) {
+SysLinEq* SysLinEqClone(SysLinEq* that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -978,7 +978,7 @@ SysLinEq* SysLinEqClone(SysLinEq *that) {
   }
 #endif
   // Declare a variable for the result
-  SysLinEq *ret = PBErrMalloc(PBMathErr, sizeof(SysLinEq));
+  SysLinEq* ret = PBErrMalloc(PBMathErr, sizeof(SysLinEq));
   ret->_M = MatClone(that->_M);
   ret->_Minv = MatClone(that->_Minv);
   ret->_V = VecClone(that->_V);
