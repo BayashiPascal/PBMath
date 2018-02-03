@@ -33,17 +33,17 @@
 
 // ================= Polymorphism ==================
 
-#define VecClone(V) _Generic((V), \
+#define VecClone(Vec) _Generic(Vec, \
   VecFloat*: VecFloatClone, \
   VecShort*: VecShortClone, \
-  default: PBErrInvalidPolymorphism)(V)
+  default: PBErrInvalidPolymorphism)(Vec)
 
-#define VecLoad(V, S) _Generic((V), \
+#define VecLoad(VecRef, Stream) _Generic(VecRef, \
   VecFloat**: VecFloatLoad, \
   VecShort**: VecShortLoad, \
-  default: PBErrInvalidPolymorphism)(V, S)
+  default: PBErrInvalidPolymorphism)(VecRef, Stream)
 
-#define VecSave(V, S) _Generic((V), \
+#define VecSave(Vec, Stream) _Generic(Vec, \
   VecFloat*: VecFloatSave, \
   VecFloat2D*: VecFloatSave, \
   VecFloat3D*: VecFloatSave, \
@@ -52,21 +52,21 @@
   VecShort3D*: VecShortSave, \
   VecShort4D*: VecShortSave, \
   default: PBErrInvalidPolymorphism)( \
-    _Generic((V),  \
-      VecFloat2D*: (VecFloat*)(V), \
-      VecFloat3D*: (VecFloat*)(V), \
-      VecShort2D*: (VecShort*)(V), \
-      VecShort3D*: (VecShort*)(V), \
-      VecShort4D*: (VecShort*)(V), \
-      default: (V)),  \
-    S)
+    _Generic(Vec,  \
+      VecFloat2D*: (VecFloat*)(Vec), \
+      VecFloat3D*: (VecFloat*)(Vec), \
+      VecShort2D*: (VecShort*)(Vec), \
+      VecShort3D*: (VecShort*)(Vec), \
+      VecShort4D*: (VecShort*)(Vec), \
+      default: Vec),  \
+    Stream)
 
-#define VecFree(V) _Generic((V), \
+#define VecFree(VecRef) _Generic(VecRef, \
   VecFloat**: VecFloatFree, \
   VecShort**: VecShortFree, \
-  default: PBErrInvalidPolymorphism)(V)
+  default: PBErrInvalidPolymorphism)(VecRef)
 
-#define VecPrint(V, S) _Generic((V), \
+#define VecPrint(Vec, Stream) _Generic(Vec, \
   VecFloat*: VecFloatPrintDef, \
   VecFloat2D*: VecFloatPrintDef, \
   VecFloat3D*: VecFloatPrintDef, \
@@ -75,16 +75,16 @@
   VecShort3D*: VecShortPrint, \
   VecShort4D*: VecShortPrint, \
   default: PBErrInvalidPolymorphism)( \
-    _Generic((V),  \
-      VecFloat2D*: (VecFloat*)(V), \
-      VecFloat3D*: (VecFloat*)(V), \
-      VecShort2D*: (VecShort*)(V), \
-      VecShort3D*: (VecShort*)(V), \
-      VecShort4D*: (VecShort*)(V), \
-      default: (V)),  \
-    S)
+    _Generic(Vec,  \
+      VecFloat2D*: (VecFloat*)(Vec), \
+      VecFloat3D*: (VecFloat*)(Vec), \
+      VecShort2D*: (VecShort*)(Vec), \
+      VecShort3D*: (VecShort*)(Vec), \
+      VecShort4D*: (VecShort*)(Vec), \
+      default: Vec),  \
+    Stream)
 
-#define VecGet(V, I) _Generic((V), \
+#define VecGet(Vec, Index) _Generic(Vec, \
   VecFloat*: VecFloatGet, \
   VecFloat2D*: VecFloatGet2D, \
   VecFloat3D*: VecFloatGet3D, \
@@ -92,9 +92,9 @@
   VecShort2D*: VecShortGet2D, \
   VecShort3D*: VecShortGet3D, \
   VecShort4D*: VecShortGet4D, \
-  default: PBErrInvalidPolymorphism)(V, I)
+  default: PBErrInvalidPolymorphism)(Vec, Index)
 
-#define VecSet(V, I, VAL) _Generic((V), \
+#define VecSet(Vec, Index, Val) _Generic(Vec, \
   VecFloat*: VecFloatSet, \
   VecFloat2D*: VecFloatSet2D, \
   VecFloat3D*: VecFloatSet3D, \
@@ -102,9 +102,9 @@
   VecShort2D*: VecShortSet2D, \
   VecShort3D*: VecShortSet3D, \
   VecShort4D*: VecShortSet4D, \
-  default: PBErrInvalidPolymorphism)(V, I, VAL)
+  default: PBErrInvalidPolymorphism)(Vec, Index, Val)
 
-#define VecSetNull(V) _Generic((V), \
+#define VecSetNull(Vec) _Generic(Vec, \
   VecFloat*: VecFloatSetNull, \
   VecFloat2D*: VecFloatSetNull2D, \
   VecFloat3D*: VecFloatSetNull3D, \
@@ -112,239 +112,239 @@
   VecShort2D*: VecShortSetNull2D, \
   VecShort3D*: VecShortSetNull3D, \
   VecShort4D*: VecShortSetNull4D, \
-  default: PBErrInvalidPolymorphism)(V)
+  default: PBErrInvalidPolymorphism)(Vec)
 
-#define VecCopy(V, W) _Generic((V), \
-  VecFloat*: _Generic((W), \
+#define VecCopy(VecDest, VecSrc) _Generic(VecDest, \
+  VecFloat*: _Generic(VecSrc, \
     VecFloat*: VecFloatCopy, \
     VecFloat2D*: VecFloatCopy, \
     VecFloat3D*: VecFloatCopy, \
     default: PBErrInvalidPolymorphism), \
-  VecFloat2D*: _Generic((W), \
+  VecFloat2D*: _Generic(VecSrc, \
     VecFloat*: VecFloatCopy, \
     VecFloat2D*: VecFloatCopy, \
     default: PBErrInvalidPolymorphism), \
-  VecFloat3D*: _Generic((W), \
+  VecFloat3D*: _Generic(VecSrc, \
     VecFloat*: VecFloatCopy, \
     VecFloat3D*: VecFloatCopy, \
     default: PBErrInvalidPolymorphism), \
-  VecShort*: _Generic((W), \
+  VecShort*: _Generic(VecSrc, \
     VecShort*: VecShortCopy, \
     VecShort2D*: VecShortCopy, \
     VecShort3D*: VecShortCopy, \
     VecShort4D*: VecShortCopy, \
     default: PBErrInvalidPolymorphism), \
-  VecShort2D*: _Generic((W), \
+  VecShort2D*: _Generic(VecSrc, \
     VecShort*: VecShortCopy, \
     VecShort2D*: VecShortCopy, \
     default: PBErrInvalidPolymorphism), \
-  VecShort3D*: _Generic((W), \
+  VecShort3D*: _Generic(VecSrc, \
     VecShort*: VecShortCopy, \
     VecShort3D*: VecShortCopy, \
     default: PBErrInvalidPolymorphism), \
-  VecShort4D*: _Generic((W), \
+  VecShort4D*: _Generic(VecSrc, \
     VecShort*: VecShortCopy, \
     VecShort4D*: VecShortCopy, \
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)( \
-    _Generic((V),  \
-      VecFloat2D*: (VecFloat*)(V), \
-      VecFloat3D*: (VecFloat*)(V), \
-      VecShort2D*: (VecShort*)(V), \
-      VecShort3D*: (VecShort*)(V), \
-      VecShort4D*: (VecShort*)(V), \
-      default: (V)),  \
-    _Generic((W),  \
-      VecFloat2D*: (VecFloat*)(W), \
-      VecFloat3D*: (VecFloat*)(W), \
-      VecShort2D*: (VecShort*)(W), \
-      VecShort3D*: (VecShort*)(W), \
-      VecShort4D*: (VecShort*)(W), \
-      default: (W)))
+    _Generic(VecDest,  \
+      VecFloat2D*: (VecFloat*)(VecDest), \
+      VecFloat3D*: (VecFloat*)(VecDest), \
+      VecShort2D*: (VecShort*)(VecDest), \
+      VecShort3D*: (VecShort*)(VecDest), \
+      VecShort4D*: (VecShort*)(VecDest), \
+      default: VecDest),  \
+    _Generic(VecSrc,  \
+      VecFloat2D*: (VecFloat*)(VecSrc), \
+      VecFloat3D*: (VecFloat*)(VecSrc), \
+      VecShort2D*: (VecShort*)(VecSrc), \
+      VecShort3D*: (VecShort*)(VecSrc), \
+      VecShort4D*: (VecShort*)(VecSrc), \
+      default: VecSrc))
 
-#define VecDim(V) _Generic((V), \
+#define VecDim(Vec) _Generic(Vec, \
   VecFloat*: VecFloatDim, \
   VecShort*: VecShortDim, \
-  default: PBErrInvalidPolymorphism)(V)
+  default: PBErrInvalidPolymorphism)(Vec)
 
-#define VecNorm(V) _Generic((V), \
+#define VecNorm(Vec) _Generic(Vec, \
   VecFloat*: VecFloatNorm, \
   VecFloat2D*: VecFloatNorm2D, \
   VecFloat3D*: VecFloatNorm3D, \
-  default: PBErrInvalidPolymorphism)(V)
+  default: PBErrInvalidPolymorphism)(Vec)
 
-#define VecNormalise(V) _Generic((V), \
+#define VecNormalise(Vec) _Generic(Vec, \
   VecFloat*: VecFloatNormalise, \
   VecFloat2D*: VecFloatNormalise2D, \
   VecFloat3D*: VecFloatNormalise3D, \
-  default: PBErrInvalidPolymorphism)(V)
+  default: PBErrInvalidPolymorphism)(Vec)
 
-#define VecDist(V, W) _Generic((V), \
-  VecFloat*: _Generic((W), \
+#define VecDist(VecA, VecB) _Generic(VecA, \
+  VecFloat*: _Generic(VecB, \
     VecFloat*: VecFloatDist, \
     default: PBErrInvalidPolymorphism), \
-  VecFloat2D*: _Generic((W), \
+  VecFloat2D*: _Generic(VecB, \
     VecFloat2D*: VecFloatDist2D, \
     default: PBErrInvalidPolymorphism), \
-  VecFloat3D*: _Generic((W), \
+  VecFloat3D*: _Generic(VecB, \
     VecFloat3D*: VecFloatDist3D, \
     default: PBErrInvalidPolymorphism), \
-  VecShort*: _Generic((W), \
+  VecShort*: _Generic(VecB, \
     VecShort*: VecShortHamiltonDist,\
     default: PBErrInvalidPolymorphism), \
-  VecShort2D*: _Generic((W), \
+  VecShort2D*: _Generic(VecB, \
     VecShort2D*: VecShortHamiltonDist2D,\
     default: PBErrInvalidPolymorphism), \
-  VecShort3D*: _Generic((W), \
+  VecShort3D*: _Generic(VecB, \
     VecShort3D*: VecShortHamiltonDist3D,\
     default: PBErrInvalidPolymorphism), \
-  VecShort4D*: _Generic((W), \
+  VecShort4D*: _Generic(VecB, \
     VecShort4D*: VecShortHamiltonDist4D,\
     default: PBErrInvalidPolymorphism), \
-  default: PBErrInvalidPolymorphism)(V, W)
+  default: PBErrInvalidPolymorphism)(VecA, VecB)
 
-#define VecHamiltonDist(V, W) _Generic((V), \
-  VecFloat*: _Generic((W), \
+#define VecHamiltonDist(VecA, VecB) _Generic(VecA, \
+  VecFloat*: _Generic(VecB, \
     VecFloat*: VecFloatHamiltonDist, \
     default: PBErrInvalidPolymorphism), \
-  VecFloat2D*: _Generic((W), \
+  VecFloat2D*: _Generic(VecB, \
     VecFloat2D*: VecFloatHamiltonDist2D, \
     default: PBErrInvalidPolymorphism), \
-  VecFloat3D*: _Generic((W), \
+  VecFloat3D*: _Generic(VecB, \
     VecFloat3D*: VecFloatHamiltonDist3D, \
     default: PBErrInvalidPolymorphism), \
-  VecShort*: _Generic((W), \
+  VecShort*: _Generic(VecB, \
     VecShort*: VecShortHamiltonDist,\
     default: PBErrInvalidPolymorphism), \
-  VecShort2D*: _Generic((W), \
+  VecShort2D*: _Generic(VecB, \
     VecShort2D*: VecShortHamiltonDist2D,\
     default: PBErrInvalidPolymorphism), \
-  VecShort3D*: _Generic((W), \
+  VecShort3D*: _Generic(VecB, \
     VecShort3D*: VecShortHamiltonDist3D,\
     default: PBErrInvalidPolymorphism), \
-  VecShort4D*: _Generic((W), \
+  VecShort4D*: _Generic(VecB, \
     VecShort4D*: VecShortHamiltonDist4D,\
     default: PBErrInvalidPolymorphism), \
-  default: PBErrInvalidPolymorphism)(V, W)
+  default: PBErrInvalidPolymorphism)(VecA, VecB)
 
-#define VecPixelDist(V, W) _Generic((V), \
-  VecFloat*: _Generic((W), \
+#define VecPixelDist(VecA, VecB) _Generic(VecA, \
+  VecFloat*: _Generic(VecB, \
     VecFloat*: VecFloatPixelDist, \
     default: PBErrInvalidPolymorphism), \
-  VecFloat2D*: _Generic((W), \
+  VecFloat2D*: _Generic(VecB, \
     VecFloat2D*: VecFloatPixelDist2D, \
     default: PBErrInvalidPolymorphism), \
-  VecFloat3D*: _Generic((W), \
+  VecFloat3D*: _Generic(VecB, \
     VecFloat3D*: VecFloatPixelDist3D, \
     default: PBErrInvalidPolymorphism), \
-  VecShort*: _Generic((W), \
+  VecShort*: _Generic(VecB, \
     VecShort*: VecShortHamiltonDist,\
     default: PBErrInvalidPolymorphism), \
-  VecShort2D*: _Generic((W), \
+  VecShort2D*: _Generic(VecB, \
     VecShort2D*: VecShortHamiltonDist2D,\
     default: PBErrInvalidPolymorphism), \
-  VecShort3D*: _Generic((W), \
+  VecShort3D*: _Generic(VecB, \
     VecShort3D*: VecShortHamiltonDist3D,\
     default: PBErrInvalidPolymorphism), \
-  VecShort4D*: _Generic((W), \
+  VecShort4D*: _Generic(VecB, \
     VecShort4D*: VecShortHamiltonDist4D,\
     default: PBErrInvalidPolymorphism), \
-  default: PBErrInvalidPolymorphism)(V, W)
+  default: PBErrInvalidPolymorphism)(VecA, VecB)
 
-#define VecIsEqual(V, W) _Generic((V), \
-  VecFloat*: _Generic((W), \
+#define VecIsEqual(VecA, VecB) _Generic(VecA, \
+  VecFloat*: _Generic(VecB, \
     VecFloat*: VecFloatIsEqual, \
     default: PBErrInvalidPolymorphism), \
-  VecFloat2D*: _Generic((W), \
+  VecFloat2D*: _Generic(VecB, \
     VecFloat2D*: VecFloatIsEqual2D, \
     default: PBErrInvalidPolymorphism), \
-  VecFloat3D*: _Generic((W), \
+  VecFloat3D*: _Generic(VecB, \
     VecFloat3D*: VecFloatIsEqual3D, \
     default: PBErrInvalidPolymorphism), \
-  VecShort*: _Generic((W), \
+  VecShort*: _Generic(VecB, \
     VecShort*: VecShortIsEqual,\
     default: PBErrInvalidPolymorphism), \
-  VecShort2D*: _Generic((W), \
+  VecShort2D*: _Generic(VecB, \
     VecShort2D*: VecShortIsEqual2D,\
     default: PBErrInvalidPolymorphism), \
-  VecShort3D*: _Generic((W), \
+  VecShort3D*: _Generic(VecB, \
     VecShort3D*: VecShortIsEqual3D,\
     default: PBErrInvalidPolymorphism), \
-  VecShort4D*: _Generic((W), \
+  VecShort4D*: _Generic(VecB, \
     VecShort4D*: VecShortIsEqual4D,\
     default: PBErrInvalidPolymorphism), \
-  default: PBErrInvalidPolymorphism)(V, W)
+  default: PBErrInvalidPolymorphism)(VecA, VecB)
 
-#define VecOp(V, A, W, B) _Generic((V), \
-  VecFloat*: _Generic((W), \
+#define VecOp(VecA, CoeffA, VecB, CoeffB) _Generic(VecA, \
+  VecFloat*: _Generic(VecB, \
     VecFloat*: VecFloatOp, \
     default: PBErrInvalidPolymorphism), \
-  VecFloat2D*: _Generic((W), \
+  VecFloat2D*: _Generic(VecB, \
     VecFloat2D*: VecFloatOp2D, \
     default: PBErrInvalidPolymorphism), \
-  VecFloat3D*: _Generic((W), \
+  VecFloat3D*: _Generic(VecB, \
     VecFloat3D*: VecFloatOp3D, \
     default: PBErrInvalidPolymorphism), \
-  VecShort*: _Generic((W), \
+  VecShort*: _Generic(VecB, \
     VecShort*: VecShortOp, \
     default: PBErrInvalidPolymorphism), \
-  VecShort2D*: _Generic((W), \
+  VecShort2D*: _Generic(VecB, \
     VecShort2D*: VecShortOp2D, \
     default: PBErrInvalidPolymorphism), \
-  VecShort3D*: _Generic((W), \
+  VecShort3D*: _Generic(VecB, \
     VecShort3D*: VecShortOp3D, \
     default: PBErrInvalidPolymorphism), \
-  VecShort4D*: _Generic((W), \
+  VecShort4D*: _Generic(VecB, \
     VecShort4D*: VecShortOp4D, \
     default: PBErrInvalidPolymorphism), \
-  default: PBErrInvalidPolymorphism)(V, A, W, B)
+  default: PBErrInvalidPolymorphism)(VecA, CoeffA, VecB, CoeffB)
 
-#define VecGetOp(V, A, W, B) _Generic((V), \
-  VecFloat*: _Generic((W), \
+#define VecGetOp(VecA, CoeffA, VecB, CoeffB) _Generic(VecA, \
+  VecFloat*: _Generic(VecB, \
     VecFloat*: VecFloatGetOp, \
     default: PBErrInvalidPolymorphism), \
-  VecFloat2D*: _Generic((W), \
+  VecFloat2D*: _Generic(VecB, \
     VecFloat2D*: VecFloatGetOp2D, \
     default: PBErrInvalidPolymorphism), \
-  VecFloat3D*: _Generic((W), \
+  VecFloat3D*: _Generic(VecB, \
     VecFloat3D*: VecFloatGetOp3D, \
     default: PBErrInvalidPolymorphism), \
-  VecShort*: _Generic((W), \
+  VecShort*: _Generic(VecB, \
     VecShort*: VecShortGetOp, \
     default: PBErrInvalidPolymorphism), \
-  VecShort2D*: _Generic((W), \
+  VecShort2D*: _Generic(VecB, \
     VecShort2D*: VecShortGetOp2D, \
     default: PBErrInvalidPolymorphism), \
-  VecShort3D*: _Generic((W), \
+  VecShort3D*: _Generic(VecB, \
     VecShort3D*: VecShortGetOp3D, \
     default: PBErrInvalidPolymorphism), \
-  VecShort4D*: _Generic((W), \
+  VecShort4D*: _Generic(VecB, \
     VecShort4D*: VecShortGetOp4D, \
     default: PBErrInvalidPolymorphism), \
-  default: PBErrInvalidPolymorphism)(V, A, W, B)
+  default: PBErrInvalidPolymorphism)(VecA, CoeffA, VecB, CoeffB)
 
-#define VecScale(V, A) _Generic((V), \
+#define VecScale(Vec, Scale) _Generic(Vec, \
   VecFloat*: VecFloatScale, \
   VecFloat2D*: VecFloatScale2D, \
   VecFloat3D*: VecFloatScale3D, \
-  default: PBErrInvalidPolymorphism)(V, A)
+  default: PBErrInvalidPolymorphism)(Vec, Scale)
 
-#define VecGetScale(V, A) _Generic((V), \
+#define VecGetScale(Vec, Scale) _Generic(Vec, \
   VecFloat*: VecFloatGetScale, \
   VecFloat2D*: VecFloatGetScale2D, \
   VecFloat3D*: VecFloatGetScale3D, \
-  default: PBErrInvalidPolymorphism)(V, A)
+  default: PBErrInvalidPolymorphism)(Vec, Scale)
 
-#define VecRot(V, A) _Generic((V), \
+#define VecRot(Vec, Theta) _Generic(Vec, \
   VecFloat*: VecFloatRot2D, \
   VecFloat2D*: VecFloatRot2D, \
-  default: PBErrInvalidPolymorphism)((VecFloat2D*)V, A)
+  default: PBErrInvalidPolymorphism)((VecFloat2D*)(Vec), Theta)
 
-#define VecGetRot(V, A) _Generic((V), \
+#define VecGetRot(Vec, Theta) _Generic(Vec, \
   VecFloat2D*: VecFloatGetRot2D, \
-  default: PBErrInvalidPolymorphism)(V, A)
+  default: PBErrInvalidPolymorphism)(Vec, Theta)
 
-#define VecDotProd(V, W) _Generic((V), \
+#define VecDotProd(VecA, VecB) _Generic(VecA, \
   VecShort*: VecShortDotProd,\
   VecShort2D*: VecShortDotProd2D,\
   VecShort3D*: VecShortDotProd3D,\
@@ -352,104 +352,107 @@
   VecFloat*: VecFloatDotProd, \
   VecFloat2D*: VecFloatDotProd2D, \
   VecFloat3D*: VecFloatDotProd3D, \
-  default: PBErrInvalidPolymorphism) (V, W) \
+  default: PBErrInvalidPolymorphism) (VecA, VecB) \
 
-#define VecAngleTo(V, W) _Generic((V), \
+#define VecAngleTo(VecFrom, VecTo) _Generic(VecFrom, \
   VecFloat*: VecFloatAngleTo2D, \
   VecFloat2D*: VecFloatAngleTo2D, \
-  default: PBErrInvalidPolymorphism)((VecFloat2D*)V, (VecFloat2D*)W)
+  default: PBErrInvalidPolymorphism)((VecFloat2D*)(VecFrom), \
+    (VecFloat2D*)(VecTo))
 
-#define VecStep(V, W) _Generic((V), \
+#define VecStep(Vec, VecBound) _Generic(Vec, \
   VecShort*: VecShortStep, \
   VecShort2D*: VecShortStep, \
   VecShort3D*: VecShortStep, \
   VecShort4D*: VecShortStep, \
-  default: PBErrInvalidPolymorphism)((VecShort*)V, (VecShort*)W)
+  default: PBErrInvalidPolymorphism)((VecShort*)(Vec), \
+    (VecShort*)(VecBound))
 
-#define VecPStep(V, W) _Generic((V), \
+#define VecPStep(Vec, VecBound) _Generic(Vec, \
   VecShort*: VecShortPStep, \
   VecShort2D*: VecShortPStep, \
   VecShort3D*: VecShortPStep, \
   VecShort4D*: VecShortPStep, \
-  default: PBErrInvalidPolymorphism)((VecShort*)V, (VecShort*)W)
+  default: PBErrInvalidPolymorphism)((VecShort*)(Vec), \
+    (VecShort*)(VecBound))
 
-#define MatClone(M) _Generic((M), \
+#define MatClone(Mat) _Generic(Mat, \
   MatFloat*: MatFloatClone, \
-  default: PBErrInvalidPolymorphism)(M)
+  default: PBErrInvalidPolymorphism)(Mat)
 
-#define MatLoad(M, S) _Generic((M), \
+#define MatLoad(MatRef, Stream) _Generic(MatRef, \
   MatFloat**: MatFloatLoad, \
-  default: PBErrInvalidPolymorphism)(M, S)
+  default: PBErrInvalidPolymorphism)(MatRef, Stream)
 
-#define MatSave(M, S) _Generic((M), \
+#define MatSave(Mat, Stream) _Generic(Mat, \
   MatFloat*: MatFloatSave, \
-  default: PBErrInvalidPolymorphism)(M, S)
+  default: PBErrInvalidPolymorphism)(Mat, Stream)
 
-#define MatFree(M) _Generic((M), \
+#define MatFree(MatRef) _Generic(MatRef, \
   MatFloat**: MatFloatFree, \
-  default: PBErrInvalidPolymorphism)(M)
+  default: PBErrInvalidPolymorphism)(MatRef)
 
-#define MatPrintln(M, S) _Generic((M), \
+#define MatPrintln(Mat, Stream) _Generic(Mat, \
   MatFloat*: MatFloatPrintlnDef, \
-  default: PBErrInvalidPolymorphism)(M, S)
+  default: PBErrInvalidPolymorphism)(Mat, Stream)
 
-#define MatGet(M, I) _Generic((M), \
+#define MatGet(Mat, VecIndex) _Generic(Mat, \
   MatFloat*: MatFloatGet, \
-  default: PBErrInvalidPolymorphism)(M, I)
+  default: PBErrInvalidPolymorphism)(Mat, VecIndex)
 
-#define MatSet(M, I, VAL) _Generic((M), \
+#define MatSet(Mat, VecIndex, Val) _Generic(Mat, \
   MatFloat*: MatFloatSet, \
-  default: PBErrInvalidPolymorphism)(M, I, VAL)
+  default: PBErrInvalidPolymorphism)(Mat, VecIndex, Val)
 
-#define MatCopy(M, W) _Generic((M), \
-  MatFloat*: _Generic ((W), \
+#define MatCopy(MatDest, MatSrc) _Generic(MatDest, \
+  MatFloat*: _Generic (MatSrc, \
     MatFloat*: MatFloatCopy, \
     default: PBErrInvalidPolymorphism), \
-  default: PBErrInvalidPolymorphism)(M, W)
+  default: PBErrInvalidPolymorphism)(MatDest, MatSrc)
 
-#define MatDim(M) _Generic((M), \
+#define MatDim(Mat) _Generic(Mat, \
   MatFloat*: MatFloatDim, \
-  default: PBErrInvalidPolymorphism)(M)
+  default: PBErrInvalidPolymorphism)(Mat)
 
-#define MatInv(M) _Generic((M), \
+#define MatInv(Mat) _Generic(Mat, \
   MatFloat*: MatFloatInv, \
-  default: PBErrInvalidPolymorphism)(M)
+  default: PBErrInvalidPolymorphism)(Mat)
 
-#define MatProdMat(A, B) _Generic(A, \
-  MatFloat*: _Generic(B, \
+#define MatProdMat(MatA, MatB) _Generic(MatA, \
+  MatFloat*: _Generic(MatB, \
     MatFloat*: MatFloatProdMatFloat, \
     default: PBErrInvalidPolymorphism), \
-  default: PBErrInvalidPolymorphism)((A), (B))
+  default: PBErrInvalidPolymorphism)(MatA, MatB)
 
-#define MatProdVec(A, B) _Generic(A, \
-  MatFloat*: _Generic(B, \
+#define MatProdVec(Mat, Vec) _Generic(Mat, \
+  MatFloat*: _Generic(Vec, \
     VecFloat*: MatFloatProdVecFloat, \
     VecFloat2D*: MatFloatProdVecFloat, \
     VecFloat3D*: MatFloatProdVecFloat, \
     default: PBErrInvalidPolymorphism), \
-  default: PBErrInvalidPolymorphism)((A), (VecFloat*)(B))
+  default: PBErrInvalidPolymorphism)(Mat, (VecFloat*)(Vec))
 
-#define MatSetIdentity(M) _Generic((M), \
+#define MatSetIdentity(Mat) _Generic(Mat, \
   MatFloat*: MatFloatSetIdentity, \
-  default: PBErrInvalidPolymorphism)(M)
+  default: PBErrInvalidPolymorphism)(Mat)
 
-#define MatIsEqual(A, B) _Generic(A, \
-  MatFloat*: _Generic(B, \
+#define MatIsEqual(MatA, MatB) _Generic(MatA, \
+  MatFloat*: _Generic(MatB, \
     MatFloat*: MatFloatIsEqual, \
     default: PBErrInvalidPolymorphism), \
-  default: PBErrInvalidPolymorphism)((A), (B))
+  default: PBErrInvalidPolymorphism)(MatA, MatB)
 
-#define SysLinEqCreate(M, V) _Generic((V), \
+#define SysLinEqCreate(Mat, Vec) _Generic(Vec, \
   VecFloat*: SLECreate, \
   VecFloat2D*: SLECreate, \
   VecFloat3D*: SLECreate, \
-  default: PBErrInvalidPolymorphism)(M, (VecFloat*)V)
+  default: PBErrInvalidPolymorphism)(Mat, (VecFloat*)(Vec))
 
-#define SysLinEqSetV(S, V) _Generic((V), \
+#define SysLinEqSetV(Sys, Vec) _Generic(Vec, \
   VecFloat*: SLESetV, \
   VecFloat2D*: SLESetV, \
   VecFloat3D*: SLESetV, \
-  default: PBErrInvalidPolymorphism)(S, (VecFloat*)V)
+  default: PBErrInvalidPolymorphism)(Sys, (VecFloat*)(Vec))
 
 // -------------- VecShort
 
