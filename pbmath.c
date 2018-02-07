@@ -258,6 +258,67 @@ bool VecShortPStep(VecShort* that, VecShort* bound) {
   return ret;
 }
 
+// Step the values of the vector incrementally by 1
+// in the following order (for example) : 
+// (0,0,0)->(0,0,1)->(0,0,2)->(0,1,0)->(0,1,1)->...
+// The lower limit for each value is given by 'from' (val[i] >= from[i])
+// The upper limit for each value is given by 'to' (val[i] < to[i])
+// 'that' must be initialised to 'from' before the first call of this
+// function
+// Return false if all values of 'that' have reached their upper limit 
+// (in which case 'that''s values are all set back to 0)
+// Return true else
+bool VecShortShiftStep(VecShort* that, VecShort* from, VecShort* to) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (from == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'from' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != from->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'from' dimensions don't match (%d==%d)", 
+      that->_dim, from->_dim);
+    PBErrCatch(PBMathErr);
+  }
+  if (to == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'to' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != to->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'to' dimensions don't match (%d==%d)", 
+      that->_dim, to->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable for the returned flag
+  bool ret = true;
+  // Declare a variable to memorise the dimension currently increasing
+  int iDim = that->_dim - 1;
+  // Declare a flag for the loop condition 
+  bool flag = true;
+  // Increment
+  do {
+    ++(that->_val[iDim]);
+    if (that->_val[iDim] >= to->_val[iDim]) {
+      that->_val[iDim] = from->_val[iDim];
+      --iDim;
+    } else {
+      flag = false;
+    }
+  } while (iDim >= 0 && flag == true);
+  if (iDim == -1)
+    ret = false;
+  // Return the flag
+  return ret;
+}
 
 // -------------- VecFloat
 

@@ -376,6 +376,14 @@
   default: PBErrInvalidPolymorphism)((VecShort*)(Vec), \
     (VecShort*)(VecBound))
 
+#define VecShiftStep(Vec, VecFrom, VecTo) _Generic(Vec, \
+  VecShort*: VecShortShiftStep, \
+  VecShort2D*: VecShortShiftStep, \
+  VecShort3D*: VecShortShiftStep, \
+  VecShort4D*: VecShortShiftStep, \
+  default: PBErrInvalidPolymorphism)((VecShort*)(Vec), \
+    (VecShort*)(VecFrom), (VecShort*)(VecTo))
+
 #define MatClone(Mat) _Generic(Mat, \
   MatFloat*: MatFloatClone, \
   default: PBErrInvalidPolymorphism)(Mat)
@@ -665,6 +673,18 @@ bool VecShortStep(VecShort* that, VecShort* bound);
 // (in which case 'that''s values are all set back to 0)
 // Return true else
 bool VecShortPStep(VecShort* that, VecShort* bound);
+
+// Step the values of the vector incrementally by 1
+// in the following order (for example) : 
+// (0,0,0)->(0,0,1)->(0,0,2)->(0,1,0)->(0,1,1)->...
+// The lower limit for each value is given by 'from' (val[i] >= from[i])
+// The upper limit for each value is given by 'to' (val[i] < to[i])
+// 'that' must be initialised to 'from' before the first call of this
+// function
+// Return false if all values of 'that' have reached their upper limit 
+// (in which case 'that''s values are all set back to 0)
+// Return true else
+bool VecShortShiftStep(VecShort* that, VecShort* from, VecShort* to);
 
 // Calculate (that * a + tho * b) and store the result in 'that'
 // 'tho' can be null, in which case it is consider to be the null vector

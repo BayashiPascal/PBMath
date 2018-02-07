@@ -918,6 +918,42 @@ void UnitTestVecShortOp() {
   printf("UnitTestVecShortOp OK\n");
 }
 
+void UnitTestVecShortShiftStep() {
+  VecShort3D v = VecShortCreateStatic3D();
+  VecShort3D from = VecShortCreateStatic3D();
+  VecShort3D to = VecShortCreateStatic3D();
+  VecSet(&from, 0, 0);
+  VecSet(&from, 1, 1);
+  VecSet(&from, 2, 2);
+  VecSet(&to, 0, 3);
+  VecSet(&to, 1, 4);
+  VecSet(&to, 2, 5);
+  VecCopy(&v, &from);
+  short check[81] = {
+    0, 1, 2, 0, 1, 3, 0, 1, 4,
+    0, 2, 2, 0, 2, 3, 0, 2, 4,
+    0, 3, 2, 0, 3, 3, 0, 3, 4,
+    1, 1, 2, 1, 1, 3, 1, 1, 4,
+    1, 2, 2, 1, 2, 3, 1, 2, 4,
+    1, 3, 2, 1, 3, 3, 1, 3, 4,
+    2, 1, 2, 2, 1, 3, 2, 1, 4,
+    2, 2, 2, 2, 2, 3, 2, 2, 4,
+    2, 3, 2, 2, 3, 3, 2, 3, 4
+    };
+  int iCheck = 0;
+  do {
+    for (int i = 0; i < 3; ++i) {
+      if (ISEQUALF(check[iCheck], VecGet(&v, i)) == false) {
+        PBMathErr->_type = PBErrTypeUnitTestFailed;
+        sprintf(PBMathErr->_msg, "VecShiftStep NOK");
+        PBErrCatch(PBMathErr);
+      }
+      ++iCheck;
+    }
+  } while(VecShiftStep(&v, &from, &to));
+  printf("UnitTestVecShortShiftStep OK\n");
+}
+
 void UnitTestVecShort() {
   UnitTestVecShortCreateFree();
   UnitTestVecShortClone();
@@ -931,6 +967,7 @@ void UnitTestVecShort() {
   UnitTestSpeedVecShort();
   UnitTestVecShortToFloat();
   UnitTestVecShortOp();
+  UnitTestVecShortShiftStep();
   printf("UnitTestVecShort OK\n");
 }
 
