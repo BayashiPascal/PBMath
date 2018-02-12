@@ -1550,7 +1550,7 @@ void UnitTestVecFloatRotAngleTo() {
     PBErrCatch(PBMathErr);
   }
   VecFree(&v);
-  //VecFree(&w);
+  VecFree(&w);
   printf("UnitTestVecFloatAngleTo OK\n");
 }
 
