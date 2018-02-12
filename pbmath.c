@@ -556,16 +556,16 @@ VecFloat3D _VecFloatGetRotAxis(VecFloat3D* that, VecFloat3D* axis,
     sprintf(PBMathErr->_msg, "'axis' is null");
     PBErrCatch(PBMathErr);
   }
-  if (VecDim(that) != 3) {
+  if (VecGetDim(that) != 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=3)",
-      VecDim(that));
+      VecGetDim(that));
     PBErrCatch(PBMathErr);
   }
-  if (VecDim(axis) != 3) {
+  if (VecGetDim(axis) != 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, "'axis' 's dimension is invalid (%d=3)",
-      VecDim(axis));
+      VecGetDim(axis));
     PBErrCatch(PBMathErr);
   }
   if (ISEQUALF(VecNorm(axis), 1.0) == false) {
@@ -615,7 +615,7 @@ VecFloat3D _VecFloatGetRotAxis(VecFloat3D* that, VecFloat3D* axis,
   v = cosTheta + fastpow(VecGet(axis, 2), 2) * (1.0 - cosTheta);
   MatSet(rot, &d, v);
   // Calculate the result vector
-  VecFloat* w = MatProdVec(rot, that);
+  VecFloat* w = MatGetProdVec(rot, that);
   VecFloat3D res = *(VecFloat3D*)w;
   // Free memory
   VecFree(&w);
@@ -626,17 +626,17 @@ VecFloat3D _VecFloatGetRotAxis(VecFloat3D* that, VecFloat3D* axis,
 
 // Return a VecFloat3D equal to 'that' rotated right-hand by 'theta' 
 // radians around X
-VecFloat3D _VecFloatGetRotAxisX(VecFloat3D* that, float theta) {
+VecFloat3D _VecFloatGetRotX(VecFloat3D* that, float theta) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
     sprintf(PBMathErr->_msg, "'that' is null");
     PBErrCatch(PBMathErr);
   }
-  if (VecDim(that) != 3) {
+  if (VecGetDim(that) != 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=3)",
-      VecDim(that));
+      VecGetDim(that));
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -675,7 +675,7 @@ VecFloat3D _VecFloatGetRotAxisX(VecFloat3D* that, float theta) {
   v = cosTheta;
   MatSet(rot, &d, v);
   // Calculate the result vector
-  VecFloat* w = MatProdVec(rot, that);
+  VecFloat* w = MatGetProdVec(rot, that);
   VecFloat3D res = *(VecFloat3D*)w;
   // Free memory
   VecFree(&w);
@@ -686,17 +686,17 @@ VecFloat3D _VecFloatGetRotAxisX(VecFloat3D* that, float theta) {
 
 // Return a VecFloat3D equal to 'that' rotated right-hand by 'theta' 
 // radians around Y
-VecFloat3D _VecFloatGetRotAxisY(VecFloat3D* that, float theta) {
+VecFloat3D _VecFloatGetRotY(VecFloat3D* that, float theta) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
     sprintf(PBMathErr->_msg, "'that' is null");
     PBErrCatch(PBMathErr);
   }
-  if (VecDim(that) != 3) {
+  if (VecGetDim(that) != 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=3)",
-      VecDim(that));
+      VecGetDim(that));
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -735,7 +735,7 @@ VecFloat3D _VecFloatGetRotAxisY(VecFloat3D* that, float theta) {
   v = cosTheta;
   MatSet(rot, &d, v);
   // Calculate the result vector
-  VecFloat* w = MatProdVec(rot, that);
+  VecFloat* w = MatGetProdVec(rot, that);
   VecFloat3D res = *(VecFloat3D*)w;
   // Free memory
   VecFree(&w);
@@ -746,17 +746,17 @@ VecFloat3D _VecFloatGetRotAxisY(VecFloat3D* that, float theta) {
 
 // Return a VecFloat3D equal to 'that' rotated right-hand by 'theta' 
 // radians around Z
-VecFloat3D _VecFloatGetRotAxisZ(VecFloat3D* that, float theta) {
+VecFloat3D _VecFloatGetRotZ(VecFloat3D* that, float theta) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
     sprintf(PBMathErr->_msg, "'that' is null");
     PBErrCatch(PBMathErr);
   }
-  if (VecDim(that) != 3) {
+  if (VecGetDim(that) != 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=3)",
-      VecDim(that));
+      VecGetDim(that));
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -795,7 +795,7 @@ VecFloat3D _VecFloatGetRotAxisZ(VecFloat3D* that, float theta) {
   v = 1.0;
   MatSet(rot, &d, v);
   // Calculate the result vector
-  VecFloat* w = MatProdVec(rot, that);
+  VecFloat* w = MatGetProdVec(rot, that);
   VecFloat3D res = *(VecFloat3D*)w;
   // Free memory
   VecFree(&w);
@@ -1074,7 +1074,7 @@ MatFloat* _MatFloatInv(MatFloat* that) {
 
 // Return the product of matrix 'that' and vector 'v'
 // Number of colum of 'that' must equal dimension of 'v'
-VecFloat* _MatFloatProdVecFloat(MatFloat* that, VecFloat* v) {
+VecFloat* _MatFloatGetProdVecFloat(MatFloat* that, VecFloat* v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1086,11 +1086,11 @@ VecFloat* _MatFloatProdVecFloat(MatFloat* that, VecFloat* v) {
     sprintf(PBMathErr->_msg, "'v' is null");
     PBErrCatch(PBMathErr);
   }
-  if (VecGet(&(that->_dim), 0) != VecDim(v)) {
+  if (VecGet(&(that->_dim), 0) != VecGetDim(v)) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, 
       "the matrix and vector have incompatible dimensions (%d==%d)",
-      VecGet(&(that->_dim), 0), VecDim(v));
+      VecGet(&(that->_dim), 0), VecGetDim(v));
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -1112,7 +1112,7 @@ VecFloat* _MatFloatProdVecFloat(MatFloat* that, VecFloat* v) {
 
 // Return the product of matrix 'that' by matrix 'tho'
 // Number of columns of 'that' must equal number of line of 'tho'
-MatFloat* _MatFloatProdMatFloat(MatFloat* that, MatFloat* tho) {
+MatFloat* _MatFloatGetProdMatFloat(MatFloat* that, MatFloat* tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1238,11 +1238,11 @@ SysLinEq* _SLECreate(MatFloat* m, VecFloat* v) {
     PBErrCatch(PBMathErr);
   }
   if (v != NULL) {
-    if (VecGet(&(m->_dim), 0) != VecDim(v)) {
+    if (VecGet(&(m->_dim), 0) != VecGetDim(v)) {
       PBMathErr->_type = PBErrTypeInvalidArg;
       sprintf(PBMathErr->_msg, 
         "the matrix and vector have incompatible dimensions (%d==%d)",
-        VecGet(&(m->_dim), 0), VecDim(v));
+        VecGet(&(m->_dim), 0), VecGetDim(v));
       PBErrCatch(PBMathErr);
     }
   }

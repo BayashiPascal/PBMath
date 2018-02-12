@@ -246,9 +246,9 @@ void UnitTestVecShortGetSetDim() {
   VecShort2D v2 = VecShortCreateStatic2D();
   VecShort3D v3 = VecShortCreateStatic3D();
   VecShort4D v4 = VecShortCreateStatic4D();
-  if (VecDim(v) != 5) {
+  if (VecGetDim(v) != 5) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "_VecShortDim NOK");
+    sprintf(PBMathErr->_msg, "_VecShortGetDim NOK");
     PBErrCatch(PBMathErr);
   }
   for (int i = 5; i--;) VecSet(v, i, i + 1);
@@ -355,7 +355,7 @@ void UnitTestVecShortStep() {
   int iCheck = 0;
   do {
     int a = VecGet(v, 0);
-    for (int i = 1; i < VecDim(v); ++i)
+    for (int i = 1; i < VecGetDim(v); ++i)
       a = a * b[i] + VecGet(v, i);
     if (a != acheck[iCheck]) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
@@ -402,8 +402,8 @@ void UnitTestVecShortStep() {
   } while (VecStep(&v4, &bv4));
   iCheck = 0;
   do {
-    int a = VecGet(v, VecDim(v) - 1);
-    for (int i = VecDim(v) - 2; i >= 0; --i)
+    int a = VecGet(v, VecGetDim(v) - 1);
+    for (int i = VecGetDim(v) - 2; i >= 0; --i)
       a = a * b[i] + VecGet(v, i);
     if (a != acheck[iCheck]) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
@@ -661,7 +661,7 @@ void UnitTestSpeedVecShort() {
   int i = nbTest;
   clock_t clockBefore = clock();
   for (; i--;) {
-    int j = INT(rnd() * ((float)(VecDim(v) - 1) - PBMATH_EPSILON));
+    int j = INT(rnd() * ((float)(VecGetDim(v) - 1) - PBMATH_EPSILON));
     short val = 1;
     VecSet(v, j, val);
     short valb = VecGet(v, j);
@@ -675,7 +675,7 @@ void UnitTestSpeedVecShort() {
   clockBefore = clock();
   short* array = malloc(sizeof(short) * 5);
   for (; i--;) {
-    int j = INT(rnd() * ((float)(VecDim(v) - 1) - PBMATH_EPSILON));
+    int j = INT(rnd() * ((float)(VecGetDim(v) - 1) - PBMATH_EPSILON));
     short val = 1;
     array[j] = val;
     short valb = array[j];
@@ -1082,9 +1082,9 @@ void UnitTestVecFloatGetSetDim() {
   VecFloat* v = VecFloatCreate(5);
   VecFloat2D v2 = VecFloatCreateStatic2D();
   VecFloat3D v3 = VecFloatCreateStatic3D();
-  if (VecDim(v) != 5) {
+  if (VecGetDim(v) != 5) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "_VecFloatDim NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatGetDim NOK");
     PBErrCatch(PBMathErr);
   }
   for (int i = 5; i--;) VecSet(v, i, (float)(i + 1));
@@ -1582,7 +1582,7 @@ void UnitTestSpeedVecFloat() {
   int i = nbTest;
   clock_t clockBefore = clock();
   for (; i--;) {
-    int j = INT(rnd() * ((float)(VecDim(v) - 1) - PBMATH_EPSILON));
+    int j = INT(rnd() * ((float)(VecGetDim(v) - 1) - PBMATH_EPSILON));
     float val = 1.0;
     VecSet(v, j, val);
     float valb = VecGet(v, j);
@@ -1596,7 +1596,7 @@ void UnitTestSpeedVecFloat() {
   clockBefore = clock();
   float* array = malloc(sizeof(float) * 5);
   for (; i--;) {
-    int j = INT(rnd() * ((float)(VecDim(v) - 1) - PBMATH_EPSILON));
+    int j = INT(rnd() * ((float)(VecGetDim(v) - 1) - PBMATH_EPSILON));
     float val = 1.0;
     array[j] = val;
     float valb = array[j];
@@ -1722,32 +1722,32 @@ void UnitTestVecFloatRotAxis() {
   }
   VecSet(&v, 0, 1.0); VecSet(&v, 1, 1.0); VecSet(&v, 2, 1.0); 
   theta = PBMATH_PI;
-  VecRotAxisX(&v, theta);
+  VecRotX(&v, theta);
   if (!ISEQUALF(VecGet(&v, 0), 1.0) ||
     !ISEQUALF(VecGet(&v, 1), -1.0) ||
     !ISEQUALF(VecGet(&v, 2), -1.0)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecRotAxisX NOK");
+    sprintf(PBMathErr->_msg, "VecRotX NOK");
     PBErrCatch(PBMathErr);
   }
   VecSet(&v, 0, 1.0); VecSet(&v, 1, 1.0); VecSet(&v, 2, 1.0); 
   theta = PBMATH_PI;
-  VecRotAxisY(&v, theta);
+  VecRotY(&v, theta);
   if (!ISEQUALF(VecGet(&v, 0), -1.0) ||
     !ISEQUALF(VecGet(&v, 1), 1.0) ||
     !ISEQUALF(VecGet(&v, 2), -1.0)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecRotAxisY NOK");
+    sprintf(PBMathErr->_msg, "VecRotY NOK");
     PBErrCatch(PBMathErr);
   }
   VecSet(&v, 0, 1.0); VecSet(&v, 1, 1.0); VecSet(&v, 2, 1.0); 
   theta = PBMATH_PI;
-  VecRotAxisZ(&v, theta);
+  VecRotZ(&v, theta);
   if (!ISEQUALF(VecGet(&v, 0), -1.0) ||
     !ISEQUALF(VecGet(&v, 1), -1.0) ||
     !ISEQUALF(VecGet(&v, 2), 1.0)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecRotAxisZ NOK");
+    sprintf(PBMathErr->_msg, "VecRotZ NOK");
     PBErrCatch(PBMathErr);
   }
   printf("UnitTestVecFloatRotAxis OK\n");
@@ -2008,7 +2008,7 @@ void UnitTestMatFloatProdVecFloat() {
   VecFloat2D u = VecFloatCreateStatic2D();
   for (int j = 2; j--;)
     VecSet(&u, j, (float)j + 1.0);
-  VecFloat* w = MatProdVec(mat, &u);
+  VecFloat* w = MatGetProdVec(mat, &u);
   float b[3] = {9.0, 12.0, 15.0};
   for (int j = 3; j--;) {
     if (!ISEQUALF(VecGet(w, j), b[j])) {
@@ -2042,7 +2042,7 @@ void UnitTestMatFloatProdMatFloat() {
     MatSet(matb, &i, v);
     v += 1.0;
   } while(VecStep(&i, &dim));
-  MatFloat* matc = MatProdMat(mat, matb);
+  MatFloat* matc = MatGetProdMat(mat, matb);
   float w[4] = {22.0, 28.0, 49.0, 64.0};
   VecSetNull(&i);
   int j = 0;

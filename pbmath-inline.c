@@ -191,60 +191,12 @@ void _VecShortSetNull(VecShort* that) {
   for (int iDim = that->_dim; iDim--;)
     that->_val[iDim] = 0;
 }
-#if BUILDMODE != 0
-inline
-#endif 
-void _VecShortSetNull2D(VecShort2D* that) {
-#if BUILDMODE == 0
-  if (that == NULL) {
-    PBMathErr->_type = PBErrTypeNullPointer;
-    sprintf(PBMathErr->_msg, "'that' is null");
-    PBErrCatch(PBMathErr);
-  }
-#endif
-  // Set values
-  that->_val[0] = 0;
-  that->_val[1] = 0;
-}
-#if BUILDMODE != 0
-inline
-#endif 
-void _VecShortSetNull3D(VecShort3D* that) {
-#if BUILDMODE == 0
-  if (that == NULL) {
-    PBMathErr->_type = PBErrTypeNullPointer;
-    sprintf(PBMathErr->_msg, "'that' is null");
-    PBErrCatch(PBMathErr);
-  }
-#endif
-  // Set values
-  that->_val[0] = 0;
-  that->_val[1] = 0;
-  that->_val[2] = 0;
-}
-#if BUILDMODE != 0
-inline
-#endif 
-void _VecShortSetNull4D(VecShort4D* that) {
-#if BUILDMODE == 0
-  if (that == NULL) {
-    PBMathErr->_type = PBErrTypeNullPointer;
-    sprintf(PBMathErr->_msg, "'that' is null");
-    PBErrCatch(PBMathErr);
-  }
-#endif
-  // Set values
-  that->_val[0] = 0;
-  that->_val[1] = 0;
-  that->_val[2] = 0;
-  that->_val[3] = 0;
-}
 
 // Return the dimension of the VecShort
 #if BUILDMODE != 0
 inline
 #endif 
-int _VecShortDim(VecShort* that) {
+int _VecShortGetDim(VecShort* that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -279,7 +231,7 @@ short _VecShortHamiltonDist(VecShort* that, VecShort* tho) {
 #endif
   // Declare a variable to calculate the distance
   short ret = 0;
-  for (int iDim = VecDim(that); iDim--;)
+  for (int iDim = VecGetDim(that); iDim--;)
     ret += abs(VecGet(that, iDim) - VecGet(tho, iDim));
   // Return the distance
   return ret;
@@ -373,60 +325,6 @@ bool _VecShortIsEqual(VecShort* that, VecShort* tho) {
 #endif
   return 
     (memcmp(that->_val, tho->_val, sizeof(short) * that->_dim) == 0);
-}
-#if BUILDMODE != 0
-inline
-#endif 
-bool _VecShortIsEqual2D(VecShort2D* that, VecShort2D* tho) {
-#if BUILDMODE == 0
-  if (that == NULL) {
-    PBMathErr->_type = PBErrTypeNullPointer;
-    sprintf(PBMathErr->_msg, "'that' is null");
-    PBErrCatch(PBMathErr);
-  }
-  if (tho == NULL) {
-    PBMathErr->_type = PBErrTypeNullPointer;
-    sprintf(PBMathErr->_msg, "'tho' is null");
-    PBErrCatch(PBMathErr);
-  }
-#endif
-  return (memcmp(that->_val, tho->_val, sizeof(short) * 2) == 0);
-}
-#if BUILDMODE != 0
-inline
-#endif 
-bool _VecShortIsEqual3D(VecShort3D* that, VecShort3D* tho) {
-#if BUILDMODE == 0
-  if (that == NULL) {
-    PBMathErr->_type = PBErrTypeNullPointer;
-    sprintf(PBMathErr->_msg, "'that' is null");
-    PBErrCatch(PBMathErr);
-  }
-  if (tho == NULL) {
-    PBMathErr->_type = PBErrTypeNullPointer;
-    sprintf(PBMathErr->_msg, "'tho' is null");
-    PBErrCatch(PBMathErr);
-  }
-#endif
-  return (memcmp(that->_val, tho->_val, sizeof(short) * 3) == 0);
-}
-#if BUILDMODE != 0
-inline
-#endif 
-bool _VecShortIsEqual4D(VecShort4D* that, VecShort4D* tho) {
-#if BUILDMODE == 0
-  if (that == NULL) {
-    PBMathErr->_type = PBErrTypeNullPointer;
-    sprintf(PBMathErr->_msg, "'that' is null");
-    PBErrCatch(PBMathErr);
-  }
-  if (tho == NULL) {
-    PBMathErr->_type = PBErrTypeNullPointer;
-    sprintf(PBMathErr->_msg, "'tho' is null");
-    PBErrCatch(PBMathErr);
-  }
-#endif
-  return (memcmp(that->_val, tho->_val, sizeof(short) * 4) == 0);
 }
 
 // Copy the values of 'tho' in 'that'
@@ -547,50 +445,6 @@ short _VecShortDotProd4D(VecShort4D* that, VecShort4D* tho) {
     VecGet(that, 1) * VecGet(tho, 1) +
     VecGet(that, 2) * VecGet(tho, 2) +
     VecGet(that, 3) * VecGet(tho, 3);
-}
-
-// Set all values of the vector 'that' to 0
-#if BUILDMODE != 0
-inline
-#endif 
-void VecSetNull2D(VecShort2D* that) {
-#if BUILDMODE == 0
-  if (that == NULL) {
-    PBMathErr->_type = PBErrTypeNullPointer;
-    sprintf(PBMathErr->_msg, "'that' is null");
-    PBErrCatch(PBMathErr);
-  }
-#endif
-  // Set values
-  that->_val[0] = that->_val[1] = 0;
-}
-#if BUILDMODE != 0
-inline
-#endif 
-void VecSetNull3D(VecShort3D* that) {
-#if BUILDMODE == 0
-  if (that == NULL) {
-    PBMathErr->_type = PBErrTypeNullPointer;
-    sprintf(PBMathErr->_msg, "'that' is null");
-    PBErrCatch(PBMathErr);
-  }
-#endif
-  // Set values
-  that->_val[0] = that->_val[1] = that->_val[2] = 0;
-}
-#if BUILDMODE != 0
-inline
-#endif 
-void VecSetNull4D(VecShort4D* that) {
-#if BUILDMODE == 0
-  if (that == NULL) {
-    PBMathErr->_type = PBErrTypeNullPointer;
-    sprintf(PBMathErr->_msg, "'that' is null");
-    PBErrCatch(PBMathErr);
-  }
-#endif
-  // Set values
-  that->_val[0] = that->_val[1] = that->_val[2] = that->_val[3] = 0;
 }
 
 // Static constructors for VecFloat
@@ -781,7 +635,7 @@ void _VecFloatSetNull3D(VecFloat3D* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-int _VecFloatDim(VecFloat* that) {
+int _VecFloatGetDim(VecFloat* that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1171,45 +1025,6 @@ bool _VecFloatIsEqual(VecFloat* that, VecFloat* tho) {
   // Return true
   return true;
 }
-#if BUILDMODE != 0
-inline
-#endif 
-bool _VecFloatIsEqual2D(VecFloat2D* that, VecFloat2D* tho) {
-#if BUILDMODE == 0
-  if (that == NULL) {
-    PBMathErr->_type = PBErrTypeNullPointer;
-    sprintf(PBMathErr->_msg, "'that' is null");
-    PBErrCatch(PBMathErr);
-  }
-  if (tho == NULL) {
-    PBMathErr->_type = PBErrTypeNullPointer;
-    sprintf(PBMathErr->_msg, "'tho' is null");
-    PBErrCatch(PBMathErr);
-  }
-#endif
-  return ISEQUALF(VecGet(that, 0), VecGet(tho, 0)) &&
-    ISEQUALF(VecGet(that, 1), VecGet(tho, 1));
-}
-#if BUILDMODE != 0
-inline
-#endif 
-bool _VecFloatIsEqual3D(VecFloat3D* that, VecFloat3D* tho) {
-#if BUILDMODE == 0
-  if (that == NULL) {
-    PBMathErr->_type = PBErrTypeNullPointer;
-    sprintf(PBMathErr->_msg, "'that' is null");
-    PBErrCatch(PBMathErr);
-  }
-  if (tho == NULL) {
-    PBMathErr->_type = PBErrTypeNullPointer;
-    sprintf(PBMathErr->_msg, "'tho' is null");
-    PBErrCatch(PBMathErr);
-  }
-#endif
-  return ISEQUALF(VecGet(that, 0), VecGet(tho, 0)) &&
-    ISEQUALF(VecGet(that, 1), VecGet(tho, 1)) &&
-    ISEQUALF(VecGet(that, 2), VecGet(tho, 2));
-}
 
 // Calculate (that * a + tho * b) and store the result in 'that'
 #if BUILDMODE != 0
@@ -1461,10 +1276,10 @@ void _VecFloatRot2D(VecFloat2D* that, float theta) {
     sprintf(PBMathErr->_msg, "'that' is null");
     PBErrCatch(PBMathErr);
   }
-  if (VecDim(that) != 2) {
+  if (VecGetDim(that) != 2) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=2)",
-      VecDim(that));
+      VecGetDim(that));
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -1482,10 +1297,10 @@ VecFloat2D _VecFloatGetRot2D(VecFloat2D* that, float theta) {
     sprintf(PBMathErr->_msg, "'that' is null");
     PBErrCatch(PBMathErr);
   }
-  if (VecDim(that) != 2) {
+  if (VecGetDim(that) != 2) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=2)",
-      VecDim(that));
+      VecGetDim(that));
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -2009,7 +1824,7 @@ VecFloat* SysLinEqSolve(SysLinEq* that) {
   // Declare a variable to memorize the solution
   VecFloat* ret = NULL;
   // Calculate the solution
-  ret = MatProdVec(that->_Minv, that->_V);
+  ret = MatGetProdVec(that->_Minv, that->_V);
   // Return the solution vector
   return ret;
 }
@@ -2072,10 +1887,10 @@ void _SLESetV(SysLinEq* that, VecFloat* v) {
     sprintf(PBMathErr->_msg, "'v' is null");
     PBErrCatch(PBMathErr);
   }
-  if (VecDim(v) != VecDim(that->_V)) {
+  if (VecGetDim(v) != VecGetDim(that->_V)) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, "'v' has invalid dimension (%d==%d)",
-      VecDim(v), VecDim(that->_V));
+      VecGetDim(v), VecGetDim(that->_V));
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -2312,16 +2127,16 @@ void _VecFloatRotAxis(VecFloat3D* that, VecFloat3D* axis, float theta) {
     sprintf(PBMathErr->_msg, "'axis' is null");
     PBErrCatch(PBMathErr);
   }
-  if (VecDim(that) != 3) {
+  if (VecGetDim(that) != 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=3)",
-      VecDim(that));
+      VecGetDim(that));
     PBErrCatch(PBMathErr);
   }
-  if (VecDim(axis) != 3) {
+  if (VecGetDim(axis) != 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, "'axis' 's dimension is invalid (%d=3)",
-      VecDim(axis));
+      VecGetDim(axis));
     PBErrCatch(PBMathErr);
   }
   if (ISEQUALF(VecNorm(axis), 1.0) == false) {
@@ -2338,21 +2153,21 @@ void _VecFloatRotAxis(VecFloat3D* that, VecFloat3D* axis, float theta) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatRotAxisX(VecFloat3D* that, float theta) {
+void _VecFloatRotX(VecFloat3D* that, float theta) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
     sprintf(PBMathErr->_msg, "'that' is null");
     PBErrCatch(PBMathErr);
   }
-  if (VecDim(that) != 3) {
+  if (VecGetDim(that) != 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=3)",
-      VecDim(that));
+      VecGetDim(that));
     PBErrCatch(PBMathErr);
   }
 #endif
-  *that = _VecFloatGetRotAxisX(that, theta);
+  *that = _VecFloatGetRotX(that, theta);
 }
 
 // Rotate right-hand 'that' by 'theta' radians around Y and 
@@ -2360,21 +2175,21 @@ void _VecFloatRotAxisX(VecFloat3D* that, float theta) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatRotAxisY(VecFloat3D* that, float theta) {
+void _VecFloatRotY(VecFloat3D* that, float theta) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
     sprintf(PBMathErr->_msg, "'that' is null");
     PBErrCatch(PBMathErr);
   }
-  if (VecDim(that) != 3) {
+  if (VecGetDim(that) != 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=3)",
-      VecDim(that));
+      VecGetDim(that));
     PBErrCatch(PBMathErr);
   }
 #endif
-  *that = _VecFloatGetRotAxisY(that, theta);
+  *that = _VecFloatGetRotY(that, theta);
 }
 
 // Rotate right-hand 'that' by 'theta' radians around Z and 
@@ -2382,20 +2197,20 @@ void _VecFloatRotAxisY(VecFloat3D* that, float theta) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatRotAxisZ(VecFloat3D* that, float theta) {
+void _VecFloatRotZ(VecFloat3D* that, float theta) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
     sprintf(PBMathErr->_msg, "'that' is null");
     PBErrCatch(PBMathErr);
   }
-  if (VecDim(that) != 3) {
+  if (VecGetDim(that) != 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=3)",
-      VecDim(that));
+      VecGetDim(that));
     PBErrCatch(PBMathErr);
   }
 #endif
-  *that = _VecFloatGetRotAxisZ(that, theta);
+  *that = _VecFloatGetRotZ(that, theta);
 }
 
