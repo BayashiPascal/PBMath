@@ -34,23 +34,23 @@
 // ================= Polymorphism ==================
 
 #define VecClone(Vec) _Generic(Vec, \
-  VecFloat*: VecFloatClone, \
-  VecShort*: VecShortClone, \
+  VecFloat*: _VecFloatClone, \
+  VecShort*: _VecShortClone, \
   default: PBErrInvalidPolymorphism)(Vec)
 
 #define VecLoad(VecRef, Stream) _Generic(VecRef, \
-  VecFloat**: VecFloatLoad, \
-  VecShort**: VecShortLoad, \
+  VecFloat**: _VecFloatLoad, \
+  VecShort**: _VecShortLoad, \
   default: PBErrInvalidPolymorphism)(VecRef, Stream)
 
 #define VecSave(Vec, Stream) _Generic(Vec, \
-  VecFloat*: VecFloatSave, \
-  VecFloat2D*: VecFloatSave, \
-  VecFloat3D*: VecFloatSave, \
-  VecShort*: VecShortSave, \
-  VecShort2D*: VecShortSave, \
-  VecShort3D*: VecShortSave, \
-  VecShort4D*: VecShortSave, \
+  VecFloat*: _VecFloatSave, \
+  VecFloat2D*: _VecFloatSave, \
+  VecFloat3D*: _VecFloatSave, \
+  VecShort*: _VecShortSave, \
+  VecShort2D*: _VecShortSave, \
+  VecShort3D*: _VecShortSave, \
+  VecShort4D*: _VecShortSave, \
   default: PBErrInvalidPolymorphism)( \
     _Generic(Vec,  \
       VecFloat2D*: (VecFloat*)(Vec), \
@@ -62,18 +62,18 @@
     Stream)
 
 #define VecFree(VecRef) _Generic(VecRef, \
-  VecFloat**: VecFloatFree, \
-  VecShort**: VecShortFree, \
+  VecFloat**: _VecFloatFree, \
+  VecShort**: _VecShortFree, \
   default: PBErrInvalidPolymorphism)(VecRef)
 
 #define VecPrint(Vec, Stream) _Generic(Vec, \
-  VecFloat*: VecFloatPrintDef, \
-  VecFloat2D*: VecFloatPrintDef, \
-  VecFloat3D*: VecFloatPrintDef, \
-  VecShort*: VecShortPrint, \
-  VecShort2D*: VecShortPrint, \
-  VecShort3D*: VecShortPrint, \
-  VecShort4D*: VecShortPrint, \
+  VecFloat*: _VecFloatPrintDef, \
+  VecFloat2D*: _VecFloatPrintDef, \
+  VecFloat3D*: _VecFloatPrintDef, \
+  VecShort*: _VecShortPrint, \
+  VecShort2D*: _VecShortPrint, \
+  VecShort3D*: _VecShortPrint, \
+  VecShort4D*: _VecShortPrint, \
   default: PBErrInvalidPolymorphism)( \
     _Generic(Vec,  \
       VecFloat2D*: (VecFloat*)(Vec), \
@@ -85,66 +85,66 @@
     Stream)
 
 #define VecGet(Vec, Index) _Generic(Vec, \
-  VecFloat*: VecFloatGet, \
-  VecFloat2D*: VecFloatGet2D, \
-  VecFloat3D*: VecFloatGet3D, \
-  VecShort*: VecShortGet, \
-  VecShort2D*: VecShortGet2D, \
-  VecShort3D*: VecShortGet3D, \
-  VecShort4D*: VecShortGet4D, \
+  VecFloat*: _VecFloatGet, \
+  VecFloat2D*: _VecFloatGet2D, \
+  VecFloat3D*: _VecFloatGet3D, \
+  VecShort*: _VecShortGet, \
+  VecShort2D*: _VecShortGet2D, \
+  VecShort3D*: _VecShortGet3D, \
+  VecShort4D*: _VecShortGet4D, \
   default: PBErrInvalidPolymorphism)(Vec, Index)
 
 #define VecSet(Vec, Index, Val) _Generic(Vec, \
-  VecFloat*: VecFloatSet, \
-  VecFloat2D*: VecFloatSet2D, \
-  VecFloat3D*: VecFloatSet3D, \
-  VecShort*: VecShortSet, \
-  VecShort2D*: VecShortSet2D, \
-  VecShort3D*: VecShortSet3D, \
-  VecShort4D*: VecShortSet4D, \
+  VecFloat*: _VecFloatSet, \
+  VecFloat2D*: _VecFloatSet2D, \
+  VecFloat3D*: _VecFloatSet3D, \
+  VecShort*: _VecShortSet, \
+  VecShort2D*: _VecShortSet2D, \
+  VecShort3D*: _VecShortSet3D, \
+  VecShort4D*: _VecShortSet4D, \
   default: PBErrInvalidPolymorphism)(Vec, Index, Val)
 
 #define VecSetNull(Vec) _Generic(Vec, \
-  VecFloat*: VecFloatSetNull, \
-  VecFloat2D*: VecFloatSetNull2D, \
-  VecFloat3D*: VecFloatSetNull3D, \
-  VecShort*: VecShortSetNull, \
-  VecShort2D*: VecShortSetNull2D, \
-  VecShort3D*: VecShortSetNull3D, \
-  VecShort4D*: VecShortSetNull4D, \
+  VecFloat*: _VecFloatSetNull, \
+  VecFloat2D*: _VecFloatSetNull2D, \
+  VecFloat3D*: _VecFloatSetNull3D, \
+  VecShort*: _VecShortSetNull, \
+  VecShort2D*: _VecShortSetNull2D, \
+  VecShort3D*: _VecShortSetNull3D, \
+  VecShort4D*: _VecShortSetNull4D, \
   default: PBErrInvalidPolymorphism)(Vec)
 
 #define VecCopy(VecDest, VecSrc) _Generic(VecDest, \
   VecFloat*: _Generic(VecSrc, \
-    VecFloat*: VecFloatCopy, \
-    VecFloat2D*: VecFloatCopy, \
-    VecFloat3D*: VecFloatCopy, \
+    VecFloat*: _VecFloatCopy, \
+    VecFloat2D*: _VecFloatCopy, \
+    VecFloat3D*: _VecFloatCopy, \
     default: PBErrInvalidPolymorphism), \
   VecFloat2D*: _Generic(VecSrc, \
-    VecFloat*: VecFloatCopy, \
-    VecFloat2D*: VecFloatCopy, \
+    VecFloat*: _VecFloatCopy, \
+    VecFloat2D*: _VecFloatCopy, \
     default: PBErrInvalidPolymorphism), \
   VecFloat3D*: _Generic(VecSrc, \
-    VecFloat*: VecFloatCopy, \
-    VecFloat3D*: VecFloatCopy, \
+    VecFloat*: _VecFloatCopy, \
+    VecFloat3D*: _VecFloatCopy, \
     default: PBErrInvalidPolymorphism), \
   VecShort*: _Generic(VecSrc, \
-    VecShort*: VecShortCopy, \
-    VecShort2D*: VecShortCopy, \
-    VecShort3D*: VecShortCopy, \
-    VecShort4D*: VecShortCopy, \
+    VecShort*: _VecShortCopy, \
+    VecShort2D*: _VecShortCopy, \
+    VecShort3D*: _VecShortCopy, \
+    VecShort4D*: _VecShortCopy, \
     default: PBErrInvalidPolymorphism), \
   VecShort2D*: _Generic(VecSrc, \
-    VecShort*: VecShortCopy, \
-    VecShort2D*: VecShortCopy, \
+    VecShort*: _VecShortCopy, \
+    VecShort2D*: _VecShortCopy, \
     default: PBErrInvalidPolymorphism), \
   VecShort3D*: _Generic(VecSrc, \
-    VecShort*: VecShortCopy, \
-    VecShort3D*: VecShortCopy, \
+    VecShort*: _VecShortCopy, \
+    VecShort3D*: _VecShortCopy, \
     default: PBErrInvalidPolymorphism), \
   VecShort4D*: _Generic(VecSrc, \
-    VecShort*: VecShortCopy, \
-    VecShort4D*: VecShortCopy, \
+    VecShort*: _VecShortCopy, \
+    VecShort4D*: _VecShortCopy, \
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)( \
     _Generic(VecDest,  \
@@ -163,303 +163,373 @@
       default: VecSrc))
 
 #define VecDim(Vec) _Generic(Vec, \
-  VecFloat*: VecFloatDim, \
-  VecShort*: VecShortDim, \
-  default: PBErrInvalidPolymorphism)(Vec)
+  VecFloat*: _VecFloatDim, \
+  VecFloat2D*: _VecFloatDim, \
+  VecFloat3D*: _VecFloatDim, \
+  VecShort*: _VecShortDim, \
+  VecShort2D*: _VecShortDim, \
+  VecShort3D*: _VecShortDim, \
+  VecShort4D*: _VecShortDim, \
+  default: PBErrInvalidPolymorphism)( \
+    _Generic(Vec, \
+      VecFloat*: Vec, \
+      VecFloat2D*: (VecFloat*)(Vec), \
+      VecFloat3D*: (VecFloat*)(Vec), \
+      VecShort*: Vec, \
+      VecShort2D*: (VecShort*)(Vec), \
+      VecShort3D*: (VecShort*)(Vec), \
+      VecShort4D*: (VecShort*)(Vec), \
+      default: Vec))
 
 #define VecNorm(Vec) _Generic(Vec, \
-  VecFloat*: VecFloatNorm, \
-  VecFloat2D*: VecFloatNorm2D, \
-  VecFloat3D*: VecFloatNorm3D, \
+  VecFloat*: _VecFloatNorm, \
+  VecFloat2D*: _VecFloatNorm2D, \
+  VecFloat3D*: _VecFloatNorm3D, \
   default: PBErrInvalidPolymorphism)(Vec)
 
 #define VecNormalise(Vec) _Generic(Vec, \
-  VecFloat*: VecFloatNormalise, \
-  VecFloat2D*: VecFloatNormalise2D, \
-  VecFloat3D*: VecFloatNormalise3D, \
+  VecFloat*: _VecFloatNormalise, \
+  VecFloat2D*: _VecFloatNormalise2D, \
+  VecFloat3D*: _VecFloatNormalise3D, \
   default: PBErrInvalidPolymorphism)(Vec)
 
 #define VecDist(VecA, VecB) _Generic(VecA, \
   VecFloat*: _Generic(VecB, \
-    VecFloat*: VecFloatDist, \
+    VecFloat*: _VecFloatDist, \
     default: PBErrInvalidPolymorphism), \
   VecFloat2D*: _Generic(VecB, \
-    VecFloat2D*: VecFloatDist2D, \
+    VecFloat2D*: _VecFloatDist2D, \
     default: PBErrInvalidPolymorphism), \
   VecFloat3D*: _Generic(VecB, \
-    VecFloat3D*: VecFloatDist3D, \
+    VecFloat3D*: _VecFloatDist3D, \
     default: PBErrInvalidPolymorphism), \
   VecShort*: _Generic(VecB, \
-    VecShort*: VecShortHamiltonDist,\
+    VecShort*: _VecShortHamiltonDist,\
     default: PBErrInvalidPolymorphism), \
   VecShort2D*: _Generic(VecB, \
-    VecShort2D*: VecShortHamiltonDist2D,\
+    VecShort2D*: _VecShortHamiltonDist2D,\
     default: PBErrInvalidPolymorphism), \
   VecShort3D*: _Generic(VecB, \
-    VecShort3D*: VecShortHamiltonDist3D,\
+    VecShort3D*: _VecShortHamiltonDist3D,\
     default: PBErrInvalidPolymorphism), \
   VecShort4D*: _Generic(VecB, \
-    VecShort4D*: VecShortHamiltonDist4D,\
+    VecShort4D*: _VecShortHamiltonDist4D,\
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(VecA, VecB)
 
 #define VecHamiltonDist(VecA, VecB) _Generic(VecA, \
   VecFloat*: _Generic(VecB, \
-    VecFloat*: VecFloatHamiltonDist, \
+    VecFloat*: _VecFloatHamiltonDist, \
     default: PBErrInvalidPolymorphism), \
   VecFloat2D*: _Generic(VecB, \
-    VecFloat2D*: VecFloatHamiltonDist2D, \
+    VecFloat2D*: _VecFloatHamiltonDist2D, \
     default: PBErrInvalidPolymorphism), \
   VecFloat3D*: _Generic(VecB, \
-    VecFloat3D*: VecFloatHamiltonDist3D, \
+    VecFloat3D*: _VecFloatHamiltonDist3D, \
     default: PBErrInvalidPolymorphism), \
   VecShort*: _Generic(VecB, \
-    VecShort*: VecShortHamiltonDist,\
+    VecShort*: _VecShortHamiltonDist,\
     default: PBErrInvalidPolymorphism), \
   VecShort2D*: _Generic(VecB, \
-    VecShort2D*: VecShortHamiltonDist2D,\
+    VecShort2D*: _VecShortHamiltonDist2D,\
     default: PBErrInvalidPolymorphism), \
   VecShort3D*: _Generic(VecB, \
-    VecShort3D*: VecShortHamiltonDist3D,\
+    VecShort3D*: _VecShortHamiltonDist3D,\
     default: PBErrInvalidPolymorphism), \
   VecShort4D*: _Generic(VecB, \
-    VecShort4D*: VecShortHamiltonDist4D,\
+    VecShort4D*: _VecShortHamiltonDist4D,\
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(VecA, VecB)
 
 #define VecPixelDist(VecA, VecB) _Generic(VecA, \
   VecFloat*: _Generic(VecB, \
-    VecFloat*: VecFloatPixelDist, \
+    VecFloat*: _VecFloatPixelDist, \
     default: PBErrInvalidPolymorphism), \
   VecFloat2D*: _Generic(VecB, \
-    VecFloat2D*: VecFloatPixelDist2D, \
+    VecFloat2D*: _VecFloatPixelDist2D, \
     default: PBErrInvalidPolymorphism), \
   VecFloat3D*: _Generic(VecB, \
-    VecFloat3D*: VecFloatPixelDist3D, \
+    VecFloat3D*: _VecFloatPixelDist3D, \
     default: PBErrInvalidPolymorphism), \
   VecShort*: _Generic(VecB, \
-    VecShort*: VecShortHamiltonDist,\
+    VecShort*: _VecShortHamiltonDist,\
     default: PBErrInvalidPolymorphism), \
   VecShort2D*: _Generic(VecB, \
-    VecShort2D*: VecShortHamiltonDist2D,\
+    VecShort2D*: _VecShortHamiltonDist2D,\
     default: PBErrInvalidPolymorphism), \
   VecShort3D*: _Generic(VecB, \
-    VecShort3D*: VecShortHamiltonDist3D,\
+    VecShort3D*: _VecShortHamiltonDist3D,\
     default: PBErrInvalidPolymorphism), \
   VecShort4D*: _Generic(VecB, \
-    VecShort4D*: VecShortHamiltonDist4D,\
+    VecShort4D*: _VecShortHamiltonDist4D,\
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(VecA, VecB)
 
 #define VecIsEqual(VecA, VecB) _Generic(VecA, \
   VecFloat*: _Generic(VecB, \
-    VecFloat*: VecFloatIsEqual, \
+    VecFloat*: _VecFloatIsEqual, \
     default: PBErrInvalidPolymorphism), \
   VecFloat2D*: _Generic(VecB, \
-    VecFloat2D*: VecFloatIsEqual2D, \
+    VecFloat2D*: _VecFloatIsEqual2D, \
     default: PBErrInvalidPolymorphism), \
   VecFloat3D*: _Generic(VecB, \
-    VecFloat3D*: VecFloatIsEqual3D, \
+    VecFloat3D*: _VecFloatIsEqual3D, \
     default: PBErrInvalidPolymorphism), \
   VecShort*: _Generic(VecB, \
-    VecShort*: VecShortIsEqual,\
+    VecShort*: _VecShortIsEqual,\
     default: PBErrInvalidPolymorphism), \
   VecShort2D*: _Generic(VecB, \
-    VecShort2D*: VecShortIsEqual2D,\
+    VecShort2D*: _VecShortIsEqual2D,\
     default: PBErrInvalidPolymorphism), \
   VecShort3D*: _Generic(VecB, \
-    VecShort3D*: VecShortIsEqual3D,\
+    VecShort3D*: _VecShortIsEqual3D,\
     default: PBErrInvalidPolymorphism), \
   VecShort4D*: _Generic(VecB, \
-    VecShort4D*: VecShortIsEqual4D,\
+    VecShort4D*: _VecShortIsEqual4D,\
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(VecA, VecB)
 
 #define VecOp(VecA, CoeffA, VecB, CoeffB) _Generic(VecA, \
   VecFloat*: _Generic(VecB, \
-    VecFloat*: VecFloatOp, \
+    VecFloat*: _VecFloatOp, \
     default: PBErrInvalidPolymorphism), \
   VecFloat2D*: _Generic(VecB, \
-    VecFloat2D*: VecFloatOp2D, \
+    VecFloat2D*: _VecFloatOp2D, \
     default: PBErrInvalidPolymorphism), \
   VecFloat3D*: _Generic(VecB, \
-    VecFloat3D*: VecFloatOp3D, \
+    VecFloat3D*: _VecFloatOp3D, \
     default: PBErrInvalidPolymorphism), \
   VecShort*: _Generic(VecB, \
-    VecShort*: VecShortOp, \
+    VecShort*: _VecShortOp, \
     default: PBErrInvalidPolymorphism), \
   VecShort2D*: _Generic(VecB, \
-    VecShort2D*: VecShortOp2D, \
+    VecShort2D*: _VecShortOp2D, \
     default: PBErrInvalidPolymorphism), \
   VecShort3D*: _Generic(VecB, \
-    VecShort3D*: VecShortOp3D, \
+    VecShort3D*: _VecShortOp3D, \
     default: PBErrInvalidPolymorphism), \
   VecShort4D*: _Generic(VecB, \
-    VecShort4D*: VecShortOp4D, \
+    VecShort4D*: _VecShortOp4D, \
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(VecA, CoeffA, VecB, CoeffB)
 
 #define VecGetOp(VecA, CoeffA, VecB, CoeffB) _Generic(VecA, \
   VecFloat*: _Generic(VecB, \
-    VecFloat*: VecFloatGetOp, \
+    VecFloat*: _VecFloatGetOp, \
     default: PBErrInvalidPolymorphism), \
   VecFloat2D*: _Generic(VecB, \
-    VecFloat2D*: VecFloatGetOp2D, \
+    VecFloat2D*: _VecFloatGetOp2D, \
     default: PBErrInvalidPolymorphism), \
   VecFloat3D*: _Generic(VecB, \
-    VecFloat3D*: VecFloatGetOp3D, \
+    VecFloat3D*: _VecFloatGetOp3D, \
     default: PBErrInvalidPolymorphism), \
   VecShort*: _Generic(VecB, \
-    VecShort*: VecShortGetOp, \
+    VecShort*: _VecShortGetOp, \
     default: PBErrInvalidPolymorphism), \
   VecShort2D*: _Generic(VecB, \
-    VecShort2D*: VecShortGetOp2D, \
+    VecShort2D*: _VecShortGetOp2D, \
     default: PBErrInvalidPolymorphism), \
   VecShort3D*: _Generic(VecB, \
-    VecShort3D*: VecShortGetOp3D, \
+    VecShort3D*: _VecShortGetOp3D, \
     default: PBErrInvalidPolymorphism), \
   VecShort4D*: _Generic(VecB, \
-    VecShort4D*: VecShortGetOp4D, \
+    VecShort4D*: _VecShortGetOp4D, \
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(VecA, CoeffA, VecB, CoeffB)
 
 #define VecScale(Vec, Scale) _Generic(Vec, \
-  VecFloat*: VecFloatScale, \
-  VecFloat2D*: VecFloatScale2D, \
-  VecFloat3D*: VecFloatScale3D, \
+  VecFloat*: _VecFloatScale, \
+  VecFloat2D*: _VecFloatScale2D, \
+  VecFloat3D*: _VecFloatScale3D, \
   default: PBErrInvalidPolymorphism)(Vec, Scale)
 
 #define VecGetScale(Vec, Scale) _Generic(Vec, \
-  VecFloat*: VecFloatGetScale, \
-  VecFloat2D*: VecFloatGetScale2D, \
-  VecFloat3D*: VecFloatGetScale3D, \
+  VecFloat*: _VecFloatGetScale, \
+  VecFloat2D*: _VecFloatGetScale2D, \
+  VecFloat3D*: _VecFloatGetScale3D, \
   default: PBErrInvalidPolymorphism)(Vec, Scale)
 
 #define VecRot(Vec, Theta) _Generic(Vec, \
-  VecFloat*: VecFloatRot2D, \
-  VecFloat2D*: VecFloatRot2D, \
+  VecFloat*: _VecFloatRot2D, \
+  VecFloat2D*: _VecFloatRot2D, \
   default: PBErrInvalidPolymorphism)((VecFloat2D*)(Vec), Theta)
 
 #define VecGetRot(Vec, Theta) _Generic(Vec, \
-  VecFloat2D*: VecFloatGetRot2D, \
-  default: PBErrInvalidPolymorphism)(Vec, Theta)
+  VecFloat*: _VecFloatGetRot2D, \
+  VecFloat2D*: _VecFloatGetRot2D, \
+  default: PBErrInvalidPolymorphism)((VecFloat2D*)(Vec), Theta)
+
+#define VecRotAxis(Vec, Axis, Theta) _Generic(Vec, \
+  VecFloat*: _VecFloatRotAxis, \
+  VecFloat3D*: _VecFloatRotAxis, \
+  default: PBErrInvalidPolymorphism)((VecFloat3D*)(Vec), \
+    (VecFloat3D*)(Axis), Theta)
+
+#define VecGetRotAxis(Vec, Axis, Theta) _Generic(Vec, \
+  VecFloat*: _VecFloatGetRotAxis, \
+  VecFloat3D*: _VecFloatGetRotAxis, \
+  default: PBErrInvalidPolymorphism)((VecFloat3D*)(Vec), \
+    (VecFloat3D*)(Axis), Theta)
+
+#define VecRotAxisX(Vec, Theta) _Generic(Vec, \
+  VecFloat*: _VecFloatRotAxisX, \
+  VecFloat3D*: _VecFloatRotAxisX, \
+  default: PBErrInvalidPolymorphism)((VecFloat3D*)(Vec), Theta)
+
+#define VecGetRotAxisX(Vec, Theta) _Generic(Vec, \
+  VecFloat*: _VecFloatGetRotAxisX, \
+  VecFloat3D*: _VecFloatGetRotAxisX, \
+  default: PBErrInvalidPolymorphism)((VecFloat3D*)(Vec), Theta)
+
+#define VecRotAxisY(Vec, Theta) _Generic(Vec, \
+  VecFloat*: _VecFloatRotAxisY, \
+  VecFloat3D*: _VecFloatRotAxisY, \
+  default: PBErrInvalidPolymorphism)((VecFloat3D*)(Vec), Theta)
+
+#define VecGetRotAxisY(Vec, Theta) _Generic(Vec, \
+  VecFloat*: _VecFloatGetRotAxisY, \
+  VecFloat3D*: _VecFloatGetRotAxisY, \
+  default: PBErrInvalidPolymorphism)((VecFloat3D*)(Vec), Theta)
+
+#define VecRotAxisZ(Vec, Theta) _Generic(Vec, \
+  VecFloat*: _VecFloatRotAxisZ, \
+  VecFloat3D*: _VecFloatRotAxisZ, \
+  default: PBErrInvalidPolymorphism)((VecFloat3D*)(Vec), Theta)
+
+#define VecGetRotAxisZ(Vec, Theta) _Generic(Vec, \
+  VecFloat*: _VecFloatGetRotAxisZ, \
+  VecFloat3D*: _VecFloatGetRotAxisZ, \
+  default: PBErrInvalidPolymorphism)((VecFloat3D*)(Vec), Theta)
+
 
 #define VecDotProd(VecA, VecB) _Generic(VecA, \
-  VecShort*: VecShortDotProd,\
-  VecShort2D*: VecShortDotProd2D,\
-  VecShort3D*: VecShortDotProd3D,\
-  VecShort4D*: VecShortDotProd4D,\
-  VecFloat*: VecFloatDotProd, \
-  VecFloat2D*: VecFloatDotProd2D, \
-  VecFloat3D*: VecFloatDotProd3D, \
+  VecShort*: _VecShortDotProd,\
+  VecShort2D*: _VecShortDotProd2D,\
+  VecShort3D*: _VecShortDotProd3D,\
+  VecShort4D*: _VecShortDotProd4D,\
+  VecFloat*: _VecFloatDotProd, \
+  VecFloat2D*: _VecFloatDotProd2D, \
+  VecFloat3D*: _VecFloatDotProd3D, \
   default: PBErrInvalidPolymorphism) (VecA, VecB) \
 
 #define VecAngleTo(VecFrom, VecTo) _Generic(VecFrom, \
-  VecFloat*: VecFloatAngleTo2D, \
-  VecFloat2D*: VecFloatAngleTo2D, \
+  VecFloat*: _VecFloatAngleTo2D, \
+  VecFloat2D*: _VecFloatAngleTo2D, \
   default: PBErrInvalidPolymorphism)((VecFloat2D*)(VecFrom), \
     (VecFloat2D*)(VecTo))
 
 #define VecStep(Vec, VecBound) _Generic(Vec, \
-  VecShort*: VecShortStep, \
-  VecShort2D*: VecShortStep, \
-  VecShort3D*: VecShortStep, \
-  VecShort4D*: VecShortStep, \
+  VecShort*: _VecShortStep, \
+  VecShort2D*: _VecShortStep, \
+  VecShort3D*: _VecShortStep, \
+  VecShort4D*: _VecShortStep, \
   default: PBErrInvalidPolymorphism)((VecShort*)(Vec), \
     (VecShort*)(VecBound))
 
 #define VecPStep(Vec, VecBound) _Generic(Vec, \
-  VecShort*: VecShortPStep, \
-  VecShort2D*: VecShortPStep, \
-  VecShort3D*: VecShortPStep, \
-  VecShort4D*: VecShortPStep, \
+  VecShort*: _VecShortPStep, \
+  VecShort2D*: _VecShortPStep, \
+  VecShort3D*: _VecShortPStep, \
+  VecShort4D*: _VecShortPStep, \
   default: PBErrInvalidPolymorphism)((VecShort*)(Vec), \
     (VecShort*)(VecBound))
 
 #define VecShiftStep(Vec, VecFrom, VecTo) _Generic(Vec, \
-  VecShort*: VecShortShiftStep, \
-  VecShort2D*: VecShortShiftStep, \
-  VecShort3D*: VecShortShiftStep, \
-  VecShort4D*: VecShortShiftStep, \
+  VecShort*: _VecShortShiftStep, \
+  VecShort2D*: _VecShortShiftStep, \
+  VecShort3D*: _VecShortShiftStep, \
+  VecShort4D*: _VecShortShiftStep, \
   default: PBErrInvalidPolymorphism)((VecShort*)(Vec), \
     (VecShort*)(VecFrom), (VecShort*)(VecTo))
 
 #define MatClone(Mat) _Generic(Mat, \
-  MatFloat*: MatFloatClone, \
+  MatFloat*: _MatFloatClone, \
   default: PBErrInvalidPolymorphism)(Mat)
 
 #define MatLoad(MatRef, Stream) _Generic(MatRef, \
-  MatFloat**: MatFloatLoad, \
+  MatFloat**: _MatFloatLoad, \
   default: PBErrInvalidPolymorphism)(MatRef, Stream)
 
 #define MatSave(Mat, Stream) _Generic(Mat, \
-  MatFloat*: MatFloatSave, \
+  MatFloat*: _MatFloatSave, \
   default: PBErrInvalidPolymorphism)(Mat, Stream)
 
 #define MatFree(MatRef) _Generic(MatRef, \
-  MatFloat**: MatFloatFree, \
+  MatFloat**: _MatFloatFree, \
   default: PBErrInvalidPolymorphism)(MatRef)
 
 #define MatPrintln(Mat, Stream) _Generic(Mat, \
-  MatFloat*: MatFloatPrintlnDef, \
+  MatFloat*: _MatFloatPrintlnDef, \
   default: PBErrInvalidPolymorphism)(Mat, Stream)
 
 #define MatGet(Mat, VecIndex) _Generic(Mat, \
-  MatFloat*: MatFloatGet, \
+  MatFloat*: _MatFloatGet, \
   default: PBErrInvalidPolymorphism)(Mat, VecIndex)
 
 #define MatSet(Mat, VecIndex, Val) _Generic(Mat, \
-  MatFloat*: MatFloatSet, \
+  MatFloat*: _MatFloatSet, \
   default: PBErrInvalidPolymorphism)(Mat, VecIndex, Val)
 
 #define MatCopy(MatDest, MatSrc) _Generic(MatDest, \
   MatFloat*: _Generic (MatSrc, \
-    MatFloat*: MatFloatCopy, \
+    MatFloat*: _MatFloatCopy, \
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(MatDest, MatSrc)
 
 #define MatDim(Mat) _Generic(Mat, \
-  MatFloat*: MatFloatDim, \
+  MatFloat*: _MatFloatDim, \
   default: PBErrInvalidPolymorphism)(Mat)
 
 #define MatInv(Mat) _Generic(Mat, \
-  MatFloat*: MatFloatInv, \
+  MatFloat*: _MatFloatInv, \
   default: PBErrInvalidPolymorphism)(Mat)
 
 #define MatProdMat(MatA, MatB) _Generic(MatA, \
   MatFloat*: _Generic(MatB, \
-    MatFloat*: MatFloatProdMatFloat, \
+    MatFloat*: _MatFloatProdMatFloat, \
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(MatA, MatB)
 
 #define MatProdVec(Mat, Vec) _Generic(Mat, \
   MatFloat*: _Generic(Vec, \
-    VecFloat*: MatFloatProdVecFloat, \
-    VecFloat2D*: MatFloatProdVecFloat, \
-    VecFloat3D*: MatFloatProdVecFloat, \
+    VecFloat*: _MatFloatProdVecFloat, \
+    VecFloat2D*: _MatFloatProdVecFloat, \
+    VecFloat3D*: _MatFloatProdVecFloat, \
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(Mat, (VecFloat*)(Vec))
 
+#define MatAdd(MatA, MatB) _Generic(MatA, \
+  MatFloat*: _Generic(MatB, \
+    MatFloat*: _MatFloatAdd, \
+    default: PBErrInvalidPolymorphism), \
+  default: PBErrInvalidPolymorphism)(MatA, MatB)
+
+#define MatGetAdd(MatA, MatB) _Generic(MatA, \
+  MatFloat*: _Generic(MatB, \
+    MatFloat*: _MatFloatGetAdd, \
+    default: PBErrInvalidPolymorphism), \
+  default: PBErrInvalidPolymorphism)(MatA, MatB)
+
 #define MatSetIdentity(Mat) _Generic(Mat, \
-  MatFloat*: MatFloatSetIdentity, \
+  MatFloat*: _MatFloatSetIdentity, \
   default: PBErrInvalidPolymorphism)(Mat)
 
 #define MatIsEqual(MatA, MatB) _Generic(MatA, \
   MatFloat*: _Generic(MatB, \
-    MatFloat*: MatFloatIsEqual, \
+    MatFloat*: _MatFloatIsEqual, \
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(MatA, MatB)
 
 #define SysLinEqCreate(Mat, Vec) _Generic(Vec, \
-  VecFloat*: SLECreate, \
-  VecFloat2D*: SLECreate, \
-  VecFloat3D*: SLECreate, \
+  VecFloat*: _SLECreate, \
+  VecFloat2D*: _SLECreate, \
+  VecFloat3D*: _SLECreate, \
   default: PBErrInvalidPolymorphism)(Mat, (VecFloat*)(Vec))
 
 #define SysLinEqSetV(Sys, Vec) _Generic(Vec, \
-  VecFloat*: SLESetV, \
-  VecFloat2D*: SLESetV, \
-  VecFloat3D*: SLESetV, \
+  VecFloat*: _SLESetV, \
+  VecFloat2D*: _SLESetV, \
+  VecFloat3D*: _SLESetV, \
   default: PBErrInvalidPolymorphism)(Sys, (VecFloat*)(Vec))
 
 // -------------- VecShort
@@ -517,144 +587,144 @@ VecShort4D VecShortCreateStatic4D();
 
 // Clone the VecShort
 // Return NULL if we couldn't clone the VecShort
-VecShort* VecShortClone(VecShort* that);
+VecShort* _VecShortClone(VecShort* that);
 
 // Load the VecShort from the stream
 // If the VecShort is already allocated, it is freed before loading
 // Return true in case of success, else false
-bool VecShortLoad(VecShort** that, FILE* stream);
+bool _VecShortLoad(VecShort** that, FILE* stream);
 
 // Save the VecShort to the stream
 // Return true in case of success, else false
-bool VecShortSave(VecShort* that, FILE* stream);
+bool _VecShortSave(VecShort* that, FILE* stream);
 
 // Free the memory used by a VecShort
 // Do nothing if arguments are invalid
-void VecShortFree(VecShort** that);
+void _VecShortFree(VecShort** that);
 
 // Print the VecShort on 'stream'
-void VecShortPrint(VecShort* that, FILE* stream);
+void _VecShortPrint(VecShort* that, FILE* stream);
 
 // Return the i-th value of the VecShort
 #if BUILDMODE != 0 
 inline 
 #endif 
-short VecShortGet(VecShort* that, int i);
+short _VecShortGet(VecShort* that, int i);
 #if BUILDMODE != 0 
 inline 
 #endif 
-short VecShortGet2D(VecShort2D* that, int i);
+short _VecShortGet2D(VecShort2D* that, int i);
 #if BUILDMODE != 0 
 inline 
 #endif 
-short VecShortGet3D(VecShort3D* that, int i);
+short _VecShortGet3D(VecShort3D* that, int i);
 #if BUILDMODE != 0 
 inline 
 #endif 
-short VecShortGet4D(VecShort4D* that, int i);
+short _VecShortGet4D(VecShort4D* that, int i);
 
 // Set the i-th value of the VecShort to v
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecShortSet(VecShort* that, int i, short v);
+void _VecShortSet(VecShort* that, int i, short v);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecShortSet2D(VecShort2D* that, int i, short v);
+void _VecShortSet2D(VecShort2D* that, int i, short v);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecShortSet3D(VecShort3D* that, int i, short v);
+void _VecShortSet3D(VecShort3D* that, int i, short v);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecShortSet4D(VecShort4D* that, int i, short v);
+void _VecShortSet4D(VecShort4D* that, int i, short v);
 
 // Return the dimension of the VecShort
 // Return 0 if arguments are invalid
 #if BUILDMODE != 0 
 inline 
 #endif 
-int VecShortDim(VecShort* that);
+int _VecShortDim(VecShort* that);
 
 // Return the Hamiltonian distance between the VecShort 'that' and 'tho'
 #if BUILDMODE != 0 
 inline 
 #endif 
-short VecShortHamiltonDist(VecShort* that, VecShort* tho);
+short _VecShortHamiltonDist(VecShort* that, VecShort* tho);
 #if BUILDMODE != 0 
 inline 
 #endif 
-short VecShortHamiltonDist2D(VecShort2D* that, VecShort2D* tho);
+short _VecShortHamiltonDist2D(VecShort2D* that, VecShort2D* tho);
 #if BUILDMODE != 0 
 inline 
 #endif 
-short VecShortHamiltonDist3D(VecShort3D* that, VecShort3D* tho);
+short _VecShortHamiltonDist3D(VecShort3D* that, VecShort3D* tho);
 #if BUILDMODE != 0 
 inline 
 #endif 
-short VecShortHamiltonDist4D(VecShort4D* that, VecShort4D* tho);
+short _VecShortHamiltonDist4D(VecShort4D* that, VecShort4D* tho);
 
 // Return true if the VecShort 'that' is equal to 'tho', else false
 #if BUILDMODE != 0 
 inline 
 #endif 
-bool VecShortIsEqual(VecShort* that, VecShort* tho);
+bool _VecShortIsEqual(VecShort* that, VecShort* tho);
 #if BUILDMODE != 0 
 inline 
 #endif 
-bool VecShortIsEqual2D(VecShort2D* that, VecShort2D* tho);
+bool _VecShortIsEqual2D(VecShort2D* that, VecShort2D* tho);
 #if BUILDMODE != 0 
 inline 
 #endif 
-bool VecShortIsEqual3D(VecShort3D* that, VecShort3D* tho);
+bool _VecShortIsEqual3D(VecShort3D* that, VecShort3D* tho);
 #if BUILDMODE != 0 
 inline 
 #endif 
-bool VecShortIsEqual4D(VecShort4D* that, VecShort4D* tho);
+bool _VecShortIsEqual4D(VecShort4D* that, VecShort4D* tho);
 
 // Copy the values of 'w' in 'that' (must have same dimensions)
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecShortCopy(VecShort* that, VecShort* w);
+void _VecShortCopy(VecShort* that, VecShort* w);
 
 // Return the dot product of 'that' and 'tho'
 #if BUILDMODE != 0 
 inline 
 #endif 
-short VecShortDotProd(VecShort* that, VecShort* tho);
+short _VecShortDotProd(VecShort* that, VecShort* tho);
 #if BUILDMODE != 0 
 inline 
 #endif 
-short VecShortDotProd2D(VecShort2D* that, VecShort2D* tho);
+short _VecShortDotProd2D(VecShort2D* that, VecShort2D* tho);
 #if BUILDMODE != 0 
 inline 
 #endif 
-short VecShortDotProd3D(VecShort3D* that, VecShort3D* tho);
+short _VecShortDotProd3D(VecShort3D* that, VecShort3D* tho);
 #if BUILDMODE != 0 
 inline 
 #endif 
-short VecShortDotProd4D(VecShort4D* that, VecShort4D* tho);
+short _VecShortDotProd4D(VecShort4D* that, VecShort4D* tho);
 
 // Set all values of the vector 'that' to 0
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecShortSetNull(VecShort* that);
+void _VecShortSetNull(VecShort* that);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecShortSetNull2D(VecShort2D* that);
+void _VecShortSetNull2D(VecShort2D* that);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecShortSetNull3D(VecShort3D* that);
+void _VecShortSetNull3D(VecShort3D* that);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecShortSetNull4D(VecShort4D* that);
+void _VecShortSetNull4D(VecShort4D* that);
 
 // Step the values of the vector incrementally by 1 from 0
 // in the following order (for example) : 
@@ -663,7 +733,7 @@ void VecShortSetNull4D(VecShort4D* that);
 // Return false if all values of 'that' have reached their upper limit 
 // (in which case 'that''s values are all set back to 0)
 // Return true else
-bool VecShortStep(VecShort* that, VecShort* bound);
+bool _VecShortStep(VecShort* that, VecShort* bound);
 
 // Step the values of the vector incrementally by 1 from 0
 // in the following order (for example) : 
@@ -672,7 +742,7 @@ bool VecShortStep(VecShort* that, VecShort* bound);
 // Return false if all values of 'that' have reached their upper limit 
 // (in which case 'that''s values are all set back to 0)
 // Return true else
-bool VecShortPStep(VecShort* that, VecShort* bound);
+bool _VecShortPStep(VecShort* that, VecShort* bound);
 
 // Step the values of the vector incrementally by 1
 // in the following order (for example) : 
@@ -684,7 +754,7 @@ bool VecShortPStep(VecShort* that, VecShort* bound);
 // Return false if all values of 'that' have reached their upper limit 
 // (in which case 'that''s values are all set back to 0)
 // Return true else
-bool VecShortShiftStep(VecShort* that, VecShort* from, VecShort* to);
+bool _VecShortShiftStep(VecShort* that, VecShort* from, VecShort* to);
 
 // Calculate (that * a + tho * b) and store the result in 'that'
 // 'tho' can be null, in which case it is consider to be the null vector
@@ -692,19 +762,19 @@ bool VecShortShiftStep(VecShort* that, VecShort* from, VecShort* to);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecShortOp(VecShort* that, short a, VecShort* tho, short b);
+void _VecShortOp(VecShort* that, short a, VecShort* tho, short b);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecShortOp2D(VecShort2D* that, short a, VecShort2D* tho, short b);
+void _VecShortOp2D(VecShort2D* that, short a, VecShort2D* tho, short b);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecShortOp3D(VecShort3D* that, short a, VecShort3D* tho, short b);
+void _VecShortOp3D(VecShort3D* that, short a, VecShort3D* tho, short b);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecShortOp4D(VecShort4D* that, short a, VecShort4D* tho, short b);
+void _VecShortOp4D(VecShort4D* that, short a, VecShort4D* tho, short b);
 
 // Return a VecShort equal to (that * a + tho * b)
 // Return NULL if arguments are invalid
@@ -713,22 +783,22 @@ void VecShortOp4D(VecShort4D* that, short a, VecShort4D* tho, short b);
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecShort* VecShortGetOp(VecShort* that, short a, 
+VecShort* _VecShortGetOp(VecShort* that, short a, 
   VecShort* tho, short b);
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecShort2D VecShortGetOp2D(VecShort2D* that, short a, 
+VecShort2D _VecShortGetOp2D(VecShort2D* that, short a, 
   VecShort2D* tho, short b);
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecShort3D VecShortGetOp3D(VecShort3D* that, short a, 
+VecShort3D _VecShortGetOp3D(VecShort3D* that, short a, 
   VecShort3D* tho, short b);
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecShort4D VecShortGetOp4D(VecShort4D* that, short a, 
+VecShort4D _VecShortGetOp4D(VecShort4D* that, short a, 
   VecShort4D* tho, short b);
 
 // -------------- VecFloat
@@ -774,25 +844,25 @@ inline
 VecFloat3D VecFloatCreateStatic3D();
 
 // Clone the VecFloat
-VecFloat* VecFloatClone(VecFloat* that);
+VecFloat* _VecFloatClone(VecFloat* that);
 
 // Load the VecFloat from the stream
 // If the VecFloat is already allocated, it is freed before loading
 // Return true in case of success, else false
-bool VecFloatLoad(VecFloat** that, FILE* stream);
+bool _VecFloatLoad(VecFloat** that, FILE* stream);
 
 // Save the VecFloat to the stream
 // Return true in case of success, else false
-bool VecFloatSave(VecFloat* that, FILE* stream);
+bool _VecFloatSave(VecFloat* that, FILE* stream);
 
 // Free the memory used by a VecFloat
 // Do nothing if arguments are invalid
-void VecFloatFree(VecFloat** that);
+void _VecFloatFree(VecFloat** that);
 
 // Print the VecFloat on 'stream' with 'prec' digit precision
 // Do nothing if arguments are invalid
 void VecFloatPrint(VecFloat* that, FILE* stream, unsigned int prec);
-inline void VecFloatPrintDef(VecFloat* that, FILE* stream) {
+inline void _VecFloatPrintDef(VecFloat* that, FILE* stream) {
   VecFloatPrint(that, stream, 3);
 }
 
@@ -800,170 +870,170 @@ inline void VecFloatPrintDef(VecFloat* that, FILE* stream) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-float VecFloatGet(VecFloat* that, int i);
+float _VecFloatGet(VecFloat* that, int i);
 #if BUILDMODE != 0 
 inline 
 #endif 
-float VecFloatGet2D(VecFloat2D* that, int i);
+float _VecFloatGet2D(VecFloat2D* that, int i);
 #if BUILDMODE != 0 
 inline 
 #endif 
-float VecFloatGet3D(VecFloat3D* that, int i);
+float _VecFloatGet3D(VecFloat3D* that, int i);
 
 // Set the 'i'-th value of the VecFloat to 'v'
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecFloatSet(VecFloat* that, int i, float v);
+void _VecFloatSet(VecFloat* that, int i, float v);
 #if BUILDMODE != 0
 inline
 #endif 
-void VecFloatSet2D(VecFloat2D* that, int i, float v);
+void _VecFloatSet2D(VecFloat2D* that, int i, float v);
 #if BUILDMODE != 0
 inline
 #endif 
-void VecFloatSet3D(VecFloat3D* that, int i, float v);
+void _VecFloatSet3D(VecFloat3D* that, int i, float v);
 
 // Set all values of the vector 'that' to 0
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecFloatSetNull(VecFloat* that);
+void _VecFloatSetNull(VecFloat* that);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecFloatSetNull2D(VecFloat2D* that);
+void _VecFloatSetNull2D(VecFloat2D* that);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecFloatSetNull3D(VecFloat3D* that);
+void _VecFloatSetNull3D(VecFloat3D* that);
 
 // Return the dimension of the VecFloat
 // Return 0 if arguments are invalid
 #if BUILDMODE != 0 
 inline 
 #endif 
-int VecFloatDim(VecFloat* that);
+int _VecFloatDim(VecFloat* that);
 
 // Copy the values of 'w' in 'that' (must have same dimensions)
 // Do nothing if arguments are invalid
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecFloatCopy(VecFloat* that, VecFloat* w);
+void _VecFloatCopy(VecFloat* that, VecFloat* w);
 
 // Return the norm of the VecFloat
 // Return 0.0 if arguments are invalid
 #if BUILDMODE != 0 
 inline 
 #endif 
-float VecFloatNorm(VecFloat* that);
+float _VecFloatNorm(VecFloat* that);
 #if BUILDMODE != 0 
 inline 
 #endif 
-float VecFloatNorm2D(VecFloat2D* that);
+float _VecFloatNorm2D(VecFloat2D* that);
 #if BUILDMODE != 0 
 inline 
 #endif 
-float VecFloatNorm3D(VecFloat3D* that);
+float _VecFloatNorm3D(VecFloat3D* that);
 
 // Normalise the VecFloat
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecFloatNormalise(VecFloat* that);
+void _VecFloatNormalise(VecFloat* that);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecFloatNormalise2D(VecFloat2D* that);
+void _VecFloatNormalise2D(VecFloat2D* that);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecFloatNormalise3D(VecFloat3D* that);
+void _VecFloatNormalise3D(VecFloat3D* that);
 
 // Return the distance between the VecFloat 'that' and 'tho'
 #if BUILDMODE != 0 
 inline 
 #endif 
-float VecFloatDist(VecFloat* that, VecFloat* tho);
+float _VecFloatDist(VecFloat* that, VecFloat* tho);
 #if BUILDMODE != 0 
 inline 
 #endif 
-float VecFloatDist2D(VecFloat2D* that, VecFloat2D* tho);
+float _VecFloatDist2D(VecFloat2D* that, VecFloat2D* tho);
 #if BUILDMODE != 0 
 inline 
 #endif 
-float VecFloatDist3D(VecFloat3D* that, VecFloat3D* tho);
+float _VecFloatDist3D(VecFloat3D* that, VecFloat3D* tho);
 
 // Return the Hamiltonian distance between the VecFloat 'that' and 'tho'
 #if BUILDMODE != 0 
 inline 
 #endif 
-float VecFloatHamiltonDist(VecFloat* that, VecFloat* tho);
+float _VecFloatHamiltonDist(VecFloat* that, VecFloat* tho);
 #if BUILDMODE != 0 
 inline 
 #endif 
-float VecFloatHamiltonDist2D(VecFloat2D* that, VecFloat2D* tho);
+float _VecFloatHamiltonDist2D(VecFloat2D* that, VecFloat2D* tho);
 #if BUILDMODE != 0 
 inline 
 #endif 
-float VecFloatHamiltonDist3D(VecFloat3D* that, VecFloat3D* tho);
+float _VecFloatHamiltonDist3D(VecFloat3D* that, VecFloat3D* tho);
 
 // Return the Pixel distance between the VecFloat 'that' and 'tho'
 #if BUILDMODE != 0 
 inline 
 #endif 
-float VecFloatPixelDist(VecFloat* that, VecFloat* tho);
+float _VecFloatPixelDist(VecFloat* that, VecFloat* tho);
 #if BUILDMODE != 0 
 inline 
 #endif 
-float VecFloatPixelDist2D(VecFloat2D* that, VecFloat2D* tho);
+float _VecFloatPixelDist2D(VecFloat2D* that, VecFloat2D* tho);
 #if BUILDMODE != 0 
 inline 
 #endif 
-float VecFloatPixelDist3D(VecFloat3D* that, VecFloat3D* tho);
+float _VecFloatPixelDist3D(VecFloat3D* that, VecFloat3D* tho);
 
 // Return true if the VecFloat 'that' is equal to 'tho', else false
 #if BUILDMODE != 0 
 inline 
 #endif 
-bool VecFloatIsEqual(VecFloat* that, VecFloat* tho);
+bool _VecFloatIsEqual(VecFloat* that, VecFloat* tho);
 #if BUILDMODE != 0 
 inline 
 #endif 
-bool VecFloatIsEqual2D(VecFloat2D* that, VecFloat2D* tho);
+bool _VecFloatIsEqual2D(VecFloat2D* that, VecFloat2D* tho);
 #if BUILDMODE != 0 
 inline 
 #endif 
-bool VecFloatIsEqual3D(VecFloat3D* that, VecFloat3D* tho);
+bool _VecFloatIsEqual3D(VecFloat3D* that, VecFloat3D* tho);
 
 // Calculate (that * a) and store the result in 'that'
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecFloatScale(VecFloat* that, float a);
+void _VecFloatScale(VecFloat* that, float a);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecFloatScale2D(VecFloat2D* that, float a);
+void _VecFloatScale2D(VecFloat2D* that, float a);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecFloatScale3D(VecFloat3D* that, float a);
+void _VecFloatScale3D(VecFloat3D* that, float a);
 
 // Return a VecFloat equal to (that * a)
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecFloat* VecFloatGetScale(VecFloat* that, float a);
+VecFloat* _VecFloatGetScale(VecFloat* that, float a);
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecFloat2D VecFloatGetScale2D(VecFloat2D* that, float a);
+VecFloat2D _VecFloatGetScale2D(VecFloat2D* that, float a);
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecFloat3D VecFloatGetScale3D(VecFloat3D* that, float a);
+VecFloat3D _VecFloatGetScale3D(VecFloat3D* that, float a);
 
 // Calculate (that * a + tho * b) and store the result in 'that'
 // 'tho' can be null, in which case it is consider to be the null vector
@@ -971,15 +1041,15 @@ VecFloat3D VecFloatGetScale3D(VecFloat3D* that, float a);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecFloatOp(VecFloat* that, float a, VecFloat* tho, float b);
+void _VecFloatOp(VecFloat* that, float a, VecFloat* tho, float b);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecFloatOp2D(VecFloat2D* that, float a, VecFloat2D* tho, float b);
+void _VecFloatOp2D(VecFloat2D* that, float a, VecFloat2D* tho, float b);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecFloatOp3D(VecFloat3D* that, float a, VecFloat3D* tho, float b);
+void _VecFloatOp3D(VecFloat3D* that, float a, VecFloat3D* tho, float b);
 
 // Return a VecFloat equal to (that * a + tho * b)
 // Return NULL if arguments are invalid
@@ -988,49 +1058,98 @@ void VecFloatOp3D(VecFloat3D* that, float a, VecFloat3D* tho, float b);
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecFloat* VecFloatGetOp(VecFloat* that, float a, 
+VecFloat* _VecFloatGetOp(VecFloat* that, float a, 
   VecFloat* tho, float b);
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecFloat2D VecFloatGetOp2D(VecFloat2D* that, float a, 
+VecFloat2D _VecFloatGetOp2D(VecFloat2D* that, float a, 
   VecFloat2D* tho, float b);
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecFloat3D VecFloatGetOp3D(VecFloat3D* that, float a, 
+VecFloat3D _VecFloatGetOp3D(VecFloat3D* that, float a, 
   VecFloat3D* tho, float b);
 
 // Rotate CCW 'that' by 'theta' radians and store the result in 'that'
 #if BUILDMODE != 0 
 inline 
 #endif 
-void VecFloatRot2D(VecFloat2D* that, float theta);
+void _VecFloatRot2D(VecFloat2D* that, float theta);
 
-// Return a VecFloat equal to 'that' rotated CCW by 'theta' radians
+// Return a VecFloat2D equal to 'that' rotated CCW by 'theta' radians
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecFloat2D VecFloatGetRot2D(VecFloat2D* that, float theta);
+VecFloat2D _VecFloatGetRot2D(VecFloat2D* that, float theta);
+
+// Rotate right-hand 'that' by 'theta' radians around 'axis' and 
+// store the result in 'that'
+// 'axis' must be normalized
+// https://en.wikipedia.org/wiki/Rotation_matrix
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecFloatRotAxis(VecFloat3D* that, VecFloat3D* axis, float theta);
+
+// Return a VecFloat3D equal to 'that' rotated right-hand by 'theta' 
+// radians around 'axis'
+// 'axis' must be normalized
+// https://en.wikipedia.org/wiki/Rotation_matrix
+VecFloat3D _VecFloatGetRotAxis(VecFloat3D* that, VecFloat3D* axis, 
+  float theta);
+
+// Rotate right-hand 'that' by 'theta' radians around X and 
+// store the result in 'that'
+#if BUILDMODE != 0
+inline
+#endif 
+void _VecFloatRotAxisX(VecFloat3D* that, float theta);
+
+// Rotate right-hand 'that' by 'theta' radians around Y and 
+// store the result in 'that'
+#if BUILDMODE != 0
+inline
+#endif 
+void _VecFloatRotAxisY(VecFloat3D* that, float theta);
+
+// Rotate right-hand 'that' by 'theta' radians around Z and 
+// store the result in 'that'
+#if BUILDMODE != 0
+inline
+#endif 
+void _VecFloatRotAxisZ(VecFloat3D* that, float theta);
+
+// Return a VecFloat3D equal to 'that' rotated right-hand by 'theta' 
+// radians around X
+VecFloat3D _VecFloatGetRotAxisX(VecFloat3D* that, float theta);
+
+// Return a VecFloat3D equal to 'that' rotated right-hand by 'theta' 
+// radians around Y
+VecFloat3D _VecFloatGetRotAxisY(VecFloat3D* that, float theta);
+
+// Return a VecFloat3D equal to 'that' rotated right-hand by 'theta' 
+// radians around Z
+VecFloat3D _VecFloatGetRotAxisZ(VecFloat3D* that, float theta);
 
 // Return the dot product of 'that' and 'tho'
 #if BUILDMODE != 0 
 inline 
 #endif 
-float VecFloatDotProd(VecFloat* that, VecFloat* tho);
+float _VecFloatDotProd(VecFloat* that, VecFloat* tho);
 #if BUILDMODE != 0 
 inline 
 #endif 
-float VecFloatDotProd2D(VecFloat2D* that, VecFloat2D* tho);
+float _VecFloatDotProd2D(VecFloat2D* that, VecFloat2D* tho);
 #if BUILDMODE != 0 
 inline 
 #endif 
-float VecFloatDotProd3D(VecFloat3D* that, VecFloat3D* tho);
+float _VecFloatDotProd3D(VecFloat3D* that, VecFloat3D* tho);
 
 // Return the angle of the rotation making 'that' colinear to 'tho'
 // 'that' and 'tho' must be normalised
 // Return a value in [-PI,PI]
-float VecFloatAngleTo2D(VecFloat2D* that, VecFloat2D* tho);
+float _VecFloatAngleTo2D(VecFloat2D* that, VecFloat2D* tho);
 
 // Return the conversion of VecFloat 'that' to a VecShort using round()
 #if BUILDMODE != 0 
@@ -1083,34 +1202,34 @@ MatFloat* MatFloatCreate(VecShort2D* dim);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void MatFloatSetIdentity(MatFloat* that);
+void _MatFloatSetIdentity(MatFloat* that);
 
 // Clone the MatFloat
-MatFloat* MatFloatClone(MatFloat* that);
+MatFloat* _MatFloatClone(MatFloat* that);
 
 // Copy the values of 'w' in 'that' (must have same dimensions)
 #if BUILDMODE != 0 
 inline 
 #endif 
-void MatFloatCopy(MatFloat* that, MatFloat* w);
+void _MatFloatCopy(MatFloat* that, MatFloat* w);
 
 // Load the MatFloat from the stream
 // If the MatFloat is already allocated, it is freed before loading
 // Return true upon success, else false
-bool MatFloatLoad(MatFloat** that, FILE* stream);
+bool _MatFloatLoad(MatFloat** that, FILE* stream);
 
 // Save the MatFloat to the stream
 // Return true upon success, else false
-bool MatFloatSave(MatFloat* that, FILE* stream);
+bool _MatFloatSave(MatFloat* that, FILE* stream);
 
 // Free the memory used by a MatFloat
 // Do nothing if arguments are invalid
-void MatFloatFree(MatFloat** that);
+void _MatFloatFree(MatFloat** that);
 
 // Print the MatFloat on 'stream' with 'prec' digit precision
 // Do nothing if arguments are invalid
 void MatFloatPrintln(MatFloat* that, FILE* stream, unsigned int prec);
-inline void MatFloatPrintlnDef(MatFloat* that, FILE* stream) {
+inline void _MatFloatPrintlnDef(MatFloat* that, FILE* stream) {
   MatFloatPrintln(that, stream, 3);
 }
 
@@ -1119,35 +1238,55 @@ inline void MatFloatPrintlnDef(MatFloat* that, FILE* stream) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-float MatFloatGet(MatFloat* that, VecShort2D* index);
+float _MatFloatGet(MatFloat* that, VecShort2D* index);
 
 // Set the value at index (col, line) of the MatFloat to 'v'
 // Index starts at 0, index in matrix = line * nbCol + col
 #if BUILDMODE != 0 
 inline 
 #endif 
-void MatFloatSet(MatFloat* that, VecShort2D* index, float v);
+void _MatFloatSet(MatFloat* that, VecShort2D* index, float v);
+
+// Return the dimension of the MatFloat
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecShort2D* _MatFloatDim(MatFloat* that);
 
 // Return a VecShort2D containing the dimension of the MatFloat
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecShort2D MatFloatDim(MatFloat* that);
+VecShort2D _MatFloatGetDim(MatFloat* that);
 
 // Return the inverse matrix of 'that'
 // The matrix must be a square matrix
-MatFloat* MatFloatInv(MatFloat* that);
+MatFloat* _MatFloatInv(MatFloat* that);
 
 // Return the product of matrix 'that' and vector 'v'
 // Number of columns of 'that' must equal dimension of 'v'
-VecFloat* MatFloatProdVecFloat(MatFloat* that, VecFloat* v);
+VecFloat* _MatFloatProdVecFloat(MatFloat* that, VecFloat* v);
 
 // Return the product of matrix 'that' by matrix 'tho'
 // Number of columns of 'that' must equal number of line of 'tho'
-MatFloat* MatFloatProdMatFloat(MatFloat* that, MatFloat* tho);
+MatFloat* _MatFloatProdMatFloat(MatFloat* that, MatFloat* tho);
+
+// Return the addition of matrix 'that' with matrix 'tho'
+// 'that' and 'tho' must have same dimensions
+#if BUILDMODE != 0 
+inline 
+#endif 
+MatFloat* _MatFloatGetAdd(MatFloat* that, MatFloat* tho);
+
+// Add matrix 'that' with matrix 'tho' and store the result in 'that'
+// 'that' and 'tho' must have same dimensions
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _MatFloatAdd(MatFloat* that, MatFloat* tho);
 
 // Return true if 'that' is equal to 'tho', false else
-bool MatFloatIsEqual(MatFloat* that, MatFloat* tho);
+bool _MatFloatIsEqual(MatFloat* that, MatFloat* tho);
 
 // -------------- Gauss
 
@@ -1246,7 +1385,7 @@ typedef struct SysLinEq {
 // If 'v' is null the vector null is used instead
 // The matrix 'm' must be a square matrix
 // Return NULL if we couldn't create the SysLinEq
-SysLinEq* SLECreate(MatFloat* m, VecFloat* v);
+SysLinEq* _SLECreate(MatFloat* m, VecFloat* v);
 
 // Free the memory used by the SysLinEq
 // Do nothing if arguments are invalid
@@ -1276,7 +1415,7 @@ void SysLinEqSetM(SysLinEq* that, MatFloat* m);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void SLESetV(SysLinEq* that, VecFloat* v);
+void _SLESetV(SysLinEq* that, VecFloat* v);
 
 // -------------- Usefull basic functions
 

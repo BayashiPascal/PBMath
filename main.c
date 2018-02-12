@@ -139,12 +139,12 @@ void UnitTestVecShortClone() {
   VecShort* w = VecClone(v);
   if (memcmp(v, w, sizeof(VecShort) + sizeof(short) * 5) != 0) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortClone NOK");
+    sprintf(PBMathErr->_msg, "_VecShortClone NOK");
     PBErrCatch(PBMathErr);
   }
   VecFree(&v);
   VecFree(&w);
-  printf("VecShortClone OK\n");
+  printf("_VecShortClone OK\n");
 }
 
 void UnitTestVecShortLoadSave() {
@@ -165,22 +165,22 @@ void UnitTestVecShortLoadSave() {
   }
   if (!VecSave(v, f)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortSave NOK");
+    sprintf(PBMathErr->_msg, "_VecShortSave NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecSave(&v2, f)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortSave NOK");
+    sprintf(PBMathErr->_msg, "_VecShortSave NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecSave(&v3, f)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortSave NOK");
+    sprintf(PBMathErr->_msg, "_VecShortSave NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecSave(&v4, f)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortSave NOK");
+    sprintf(PBMathErr->_msg, "_VecShortSave NOK");
     PBErrCatch(PBMathErr);
   }
   fclose(f);
@@ -194,49 +194,49 @@ void UnitTestVecShortLoadSave() {
   }
   if (!VecLoad(&w, f)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortLoad NOK");
+    sprintf(PBMathErr->_msg, "_VecShortLoad NOK");
     PBErrCatch(PBMathErr);
   }
   if (memcmp(v, w, sizeof(VecShort) + sizeof(short) * 5) != 0) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortLoadSave NOK");
+    sprintf(PBMathErr->_msg, "_VecShortLoadSave NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecLoad(&w, f)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortLoad NOK");
+    sprintf(PBMathErr->_msg, "_VecShortLoad NOK");
     PBErrCatch(PBMathErr);
   }
   if (memcmp(&v2, w, sizeof(VecShort) + sizeof(short) * 2) != 0) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortLoadSave NOK");
+    sprintf(PBMathErr->_msg, "_VecShortLoadSave NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecLoad(&w, f)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortLoad NOK");
+    sprintf(PBMathErr->_msg, "_VecShortLoad NOK");
     PBErrCatch(PBMathErr);
   }
   if (memcmp(&v3, w, sizeof(VecShort) + sizeof(short) * 3) != 0) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortLoadSave NOK");
+    sprintf(PBMathErr->_msg, "_VecShortLoadSave NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecLoad(&w, f)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortLoad NOK");
+    sprintf(PBMathErr->_msg, "_VecShortLoad NOK");
     PBErrCatch(PBMathErr);
   }
   if (memcmp(&v4, w, sizeof(VecShort) + sizeof(short) * 4) != 0) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortLoadSave NOK");
+    sprintf(PBMathErr->_msg, "_VecShortLoadSave NOK");
     PBErrCatch(PBMathErr);
   }
   fclose(f);
   VecFree(&v);
   VecFree(&w);
   int ret = system("cat ./UnitTestVecShortLoadSave.txt");
-  printf("VecShortLoadSave OK\n");
+  printf("_VecShortLoadSave OK\n");
   ret = system("rm ./UnitTestVecShortLoadSave.txt");
   ret = ret;
 }
@@ -248,7 +248,7 @@ void UnitTestVecShortGetSetDim() {
   VecShort4D v4 = VecShortCreateStatic4D();
   if (VecDim(v) != 5) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortDim NOK");
+    sprintf(PBMathErr->_msg, "_VecShortDim NOK");
     PBErrCatch(PBMathErr);
   }
   for (int i = 5; i--;) VecSet(v, i, i + 1);
@@ -258,49 +258,49 @@ void UnitTestVecShortGetSetDim() {
   for (int i = 5; i--;)
     if (v->_val[i] != i + 1) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortSet NOK");
+      sprintf(PBMathErr->_msg, "_VecShortSet NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 2; i--;)
     if (v2._val[i] != i + 1) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortSet NOK");
+      sprintf(PBMathErr->_msg, "_VecShortSet NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 3; i--;)
     if (v3._val[i] != i + 1) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortSet NOK");
+      sprintf(PBMathErr->_msg, "_VecShortSet NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 4; i--;)
     if (v4._val[i] != i + 1) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortSet NOK");
+      sprintf(PBMathErr->_msg, "_VecShortSet NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 5; i--;)
     if (VecGet(v, i) != i + 1) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortGet NOK");
+      sprintf(PBMathErr->_msg, "_VecShortGet NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 2; i--;)
     if (VecGet(&v2, i) != i + 1) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortGet NOK");
+      sprintf(PBMathErr->_msg, "_VecShortGet NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 3; i--;)
     if (VecGet(&v3, i) != i + 1) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortGet NOK");
+      sprintf(PBMathErr->_msg, "_VecShortGet NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 4; i--;)
     if (VecGet(&v4, i) != i + 1) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortGet NOK");
+      sprintf(PBMathErr->_msg, "_VecShortGet NOK");
       PBErrCatch(PBMathErr);
     }
   VecSetNull(v);
@@ -310,29 +310,29 @@ void UnitTestVecShortGetSetDim() {
   for (int i = 5; i--;)
     if (VecGet(v, i) != 0) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortGet NOK");
+      sprintf(PBMathErr->_msg, "_VecShortGet NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 2; i--;)
     if (VecGet(&v2, i) != 0) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortGet NOK");
+      sprintf(PBMathErr->_msg, "_VecShortGet NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 3; i--;)
     if (VecGet(&v3, i) != 0) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortGet NOK");
+      sprintf(PBMathErr->_msg, "_VecShortGet NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 4; i--;)
     if (VecGet(&v4, i) != 0) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortGet NOK");
+      sprintf(PBMathErr->_msg, "_VecShortGet NOK");
       PBErrCatch(PBMathErr);
     }
   VecFree(&v);
-  printf("VecShortGetSetDim OK\n");
+  printf("_VecShortGetSetDim OK\n");
 }
 
 void UnitTestVecShortStep() {
@@ -359,7 +359,7 @@ void UnitTestVecShortStep() {
       a = a * b[i] + VecGet(v, i);
     if (a != acheck[iCheck]) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortStep NOK");
+      sprintf(PBMathErr->_msg, "_VecShortStep NOK");
       PBErrCatch(PBMathErr);
     }
     ++iCheck;
@@ -371,7 +371,7 @@ void UnitTestVecShortStep() {
       a = a * b[i] + VecGet(&v2, i);
     if (a != acheck[iCheck]) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortStep NOK");
+      sprintf(PBMathErr->_msg, "_VecShortStep NOK");
       PBErrCatch(PBMathErr);
     }
     ++iCheck;
@@ -383,7 +383,7 @@ void UnitTestVecShortStep() {
       a = a * b[i] + VecGet(&v3, i);
     if (a != acheck[iCheck]) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortStep NOK");
+      sprintf(PBMathErr->_msg, "_VecShortStep NOK");
       PBErrCatch(PBMathErr);
     }
     ++iCheck;
@@ -395,7 +395,7 @@ void UnitTestVecShortStep() {
       a = a * b[i] + VecGet(&v4, i);
     if (a != acheck[iCheck]) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortStep NOK");
+      sprintf(PBMathErr->_msg, "_VecShortStep NOK");
       PBErrCatch(PBMathErr);
     }
     ++iCheck;
@@ -407,7 +407,7 @@ void UnitTestVecShortStep() {
       a = a * b[i] + VecGet(v, i);
     if (a != acheck[iCheck]) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortPStep NOK");
+      sprintf(PBMathErr->_msg, "_VecShortPStep NOK");
       PBErrCatch(PBMathErr);
     }
     ++iCheck;
@@ -418,7 +418,7 @@ void UnitTestVecShortStep() {
     a = a * b[0] + VecGet(&v2, 0);
     if (a != acheck[iCheck]) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortPStep NOK");
+      sprintf(PBMathErr->_msg, "_VecShortPStep NOK");
       PBErrCatch(PBMathErr);
     }
     ++iCheck;
@@ -430,7 +430,7 @@ void UnitTestVecShortStep() {
       a = a * b[i] + VecGet(&v3, i);
     if (a != acheck[iCheck]) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortPStep NOK");
+      sprintf(PBMathErr->_msg, "_VecShortPStep NOK");
       PBErrCatch(PBMathErr);
     }
     ++iCheck;
@@ -442,7 +442,7 @@ void UnitTestVecShortStep() {
       a = a * b[i] + VecGet(&v4, i);
     if (a != acheck[iCheck]) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortPStep NOK");
+      sprintf(PBMathErr->_msg, "_VecShortPStep NOK");
       PBErrCatch(PBMathErr);
     }
     ++iCheck;
@@ -473,25 +473,25 @@ void UnitTestVecShortHamiltonDist() {
   short dist = VecHamiltonDist(v, w);
   if (dist != 13) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortHamiltonDist NOK");
+    sprintf(PBMathErr->_msg, "_VecShortHamiltonDist NOK");
     PBErrCatch(PBMathErr);
   }
   dist = VecHamiltonDist(&v2, &w2);
   if (dist != 2) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortHamiltonDist NOK");
+    sprintf(PBMathErr->_msg, "_VecShortHamiltonDist NOK");
     PBErrCatch(PBMathErr);
   }
   dist = VecHamiltonDist(&v3, &w3);
   if (dist != 5) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortHamiltonDist NOK");
+    sprintf(PBMathErr->_msg, "_VecShortHamiltonDist NOK");
     PBErrCatch(PBMathErr);
   }
   dist = VecHamiltonDist(&v4, &w4);
   if (dist != 8) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortHamiltonDist NOK");
+    sprintf(PBMathErr->_msg, "_VecShortHamiltonDist NOK");
     PBErrCatch(PBMathErr);
   }
   VecFree(&v);
@@ -514,22 +514,22 @@ void UnitTestVecShortIsEqual() {
   VecShort4D w4 = VecShortCreateStatic4D();
   if (VecIsEqual(v, w)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortIsEqual NOK");
+    sprintf(PBMathErr->_msg, "_VecShortIsEqual NOK");
     PBErrCatch(PBMathErr);
   }
   if (VecIsEqual(&v2, &w2)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortIsEqual NOK");
+    sprintf(PBMathErr->_msg, "_VecShortIsEqual NOK");
     PBErrCatch(PBMathErr);
   }
   if (VecIsEqual(&v3, &w3)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortIsEqual NOK");
+    sprintf(PBMathErr->_msg, "_VecShortIsEqual NOK");
     PBErrCatch(PBMathErr);
   }
   if (VecIsEqual(&v4, &w4)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortIsEqual NOK");
+    sprintf(PBMathErr->_msg, "_VecShortIsEqual NOK");
     PBErrCatch(PBMathErr);
   }
   for (int i = 5; i--;) VecSet(w, i, i + 1);
@@ -538,22 +538,22 @@ void UnitTestVecShortIsEqual() {
   for (int i = 4; i--;) VecSet(&w4, i, i + 1);
   if (!VecIsEqual(v, w)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortIsEqual NOK");
+    sprintf(PBMathErr->_msg, "_VecShortIsEqual NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecIsEqual(&v2, &w2)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortIsEqual NOK");
+    sprintf(PBMathErr->_msg, "_VecShortIsEqual NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecIsEqual(&v3, &w3)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortIsEqual NOK");
+    sprintf(PBMathErr->_msg, "_VecShortIsEqual NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecIsEqual(&v4, &w4)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortIsEqual NOK");
+    sprintf(PBMathErr->_msg, "_VecShortIsEqual NOK");
     PBErrCatch(PBMathErr);
   }
   VecFree(&v);
@@ -580,22 +580,22 @@ void UnitTestVecShortCopy() {
   VecCopy(&w4, &v4);
   if (!VecIsEqual(v, w)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortCopy NOK");
+    sprintf(PBMathErr->_msg, "_VecShortCopy NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecIsEqual(&v2, &w2)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortCopy NOK");
+    sprintf(PBMathErr->_msg, "_VecShortCopy NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecIsEqual(&v3, &w3)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortCopy NOK");
+    sprintf(PBMathErr->_msg, "_VecShortCopy NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecIsEqual(&v4, &w4)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortCopy NOK");
+    sprintf(PBMathErr->_msg, "_VecShortCopy NOK");
     PBErrCatch(PBMathErr);
   }
   VecFree(&v);
@@ -624,25 +624,25 @@ void UnitTestVecShortDotProd() {
   short prod = VecDotProd(v, w);
   if (prod != -10) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortDotProd NOK");
+    sprintf(PBMathErr->_msg, "_VecShortDotProd NOK");
     PBErrCatch(PBMathErr);
   }
   prod = VecDotProd(&v2, &w2);
   if (prod != 1) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortDotProd NOK");
+    sprintf(PBMathErr->_msg, "_VecShortDotProd NOK");
     PBErrCatch(PBMathErr);
   }
   prod = VecDotProd(&v3, &w3);
   if (prod != -2) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortDotProd NOK");
+    sprintf(PBMathErr->_msg, "_VecShortDotProd NOK");
     PBErrCatch(PBMathErr);
   }
   prod = VecDotProd(&v4, &w4);
   if (prod != -6) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortDotProd NOK");
+    sprintf(PBMathErr->_msg, "_VecShortDotProd NOK");
     PBErrCatch(PBMathErr);
   }
   VecFree(&v);
@@ -867,25 +867,25 @@ void UnitTestVecShortOp() {
   for (int i = 5; i--;)
     if (!ISEQUALF(VecGet(u, i), checku[i])) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortGetOp NOK");
+      sprintf(PBMathErr->_msg, "_VecShortGetOp NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 2; i--;)
     if (!ISEQUALF(VecGet(&u2, i), checku2[i])) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortGetOp NOK");
+      sprintf(PBMathErr->_msg, "_VecShortGetOp NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 3; i--;)
     if (!ISEQUALF(VecGet(&u3, i), checku3[i])) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortGetOp NOK");
+      sprintf(PBMathErr->_msg, "_VecShortGetOp NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 4; i--;)
     if (!ISEQUALF(VecGet(&u4, i), checku4[i])) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecShortGetOp NOK");
+      sprintf(PBMathErr->_msg, "_VecShortGetOp NOK");
       PBErrCatch(PBMathErr);
     }
   VecOp(v, a[0], w, a[1]);
@@ -894,22 +894,22 @@ void UnitTestVecShortOp() {
   VecOp(&v4, a[0], &w4, a[1]);
   if (!VecIsEqual(v, u)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortOp NOK");
+    sprintf(PBMathErr->_msg, "_VecShortOp NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecIsEqual(&v2, &u2)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortOp NOK");
+    sprintf(PBMathErr->_msg, "_VecShortOp NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecIsEqual(&v3, &u3)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortOp NOK");
+    sprintf(PBMathErr->_msg, "_VecShortOp NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecIsEqual(&v4, &u4)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecShortOp NOK");
+    sprintf(PBMathErr->_msg, "_VecShortOp NOK");
     PBErrCatch(PBMathErr);
   }
   VecFree(&v);
@@ -978,10 +978,10 @@ void UnitTestVecFloatCreateFree() {
   VecPrint(v, stdout);printf("\n");
   VecPrint(&v2, stdout);printf("\n");
   VecPrint(&v3, stdout);printf("\n");
-  VecFloatFree(&v);
+  _VecFloatFree(&v);
   if (v != NULL) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloat is not null after VecFloatFree");
+    sprintf(PBMathErr->_msg, "VecFloat is not null after _VecFloatFree");
     PBErrCatch(PBMathErr);
   }
   printf("VecFloatCreateFree OK\n");
@@ -993,12 +993,12 @@ void UnitTestVecFloatClone() {
   VecFloat* w = VecClone(v);
   if (memcmp(v, w, sizeof(VecFloat) + sizeof(float) * 5) != 0) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatClone NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatClone NOK");
     PBErrCatch(PBMathErr);
   }
-  VecFloatFree(&v);
-  VecFloatFree(&w);
-  printf("VecFloatClone OK\n");
+  _VecFloatFree(&v);
+  _VecFloatFree(&w);
+  printf("_VecFloatClone OK\n");
 }
 
 void UnitTestVecFloatLoadSave() {
@@ -1017,17 +1017,17 @@ void UnitTestVecFloatLoadSave() {
   }
   if (!VecSave(v, f)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatSave NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatSave NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecSave(&v2, f)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatSave NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatSave NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecSave(&v3, f)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatSave NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatSave NOK");
     PBErrCatch(PBMathErr);
   }
   fclose(f);
@@ -1041,39 +1041,39 @@ void UnitTestVecFloatLoadSave() {
   }
   if (!VecLoad(&w, f)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatLoad NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatLoad NOK");
     PBErrCatch(PBMathErr);
   }
   if (memcmp(v, w, sizeof(VecFloat) + sizeof(float) * 5) != 0) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatLoadSave NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatLoadSave NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecLoad(&w, f)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatLoad NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatLoad NOK");
     PBErrCatch(PBMathErr);
   }
   if (memcmp(&v2, w, sizeof(VecFloat) + sizeof(float) * 2) != 0) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatLoadSave NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatLoadSave NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecLoad(&w, f)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatLoad NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatLoad NOK");
     PBErrCatch(PBMathErr);
   }
   if (memcmp(&v3, w, sizeof(VecFloat) + sizeof(float) * 3) != 0) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatLoadSave NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatLoadSave NOK");
     PBErrCatch(PBMathErr);
   }
   fclose(f);
   VecFree(&v);
   VecFree(&w);
   int ret = system("cat ./UnitTestVecFloatLoadSave.txt");
-  printf("VecFloatLoadSave OK\n");
+  printf("_VecFloatLoadSave OK\n");
   ret = system("rm ./UnitTestVecFloatLoadSave.txt");
   ret = ret;
 }
@@ -1084,7 +1084,7 @@ void UnitTestVecFloatGetSetDim() {
   VecFloat3D v3 = VecFloatCreateStatic3D();
   if (VecDim(v) != 5) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatDim NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatDim NOK");
     PBErrCatch(PBMathErr);
   }
   for (int i = 5; i--;) VecSet(v, i, (float)(i + 1));
@@ -1093,37 +1093,37 @@ void UnitTestVecFloatGetSetDim() {
   for (int i = 5; i--;)
     if (!ISEQUALF(v->_val[i], (float)(i + 1))) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecFloatSet NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatSet NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 2; i--;)
     if (!ISEQUALF(v2._val[i], (float)(i + 1))) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecFloatSet NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatSet NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 3; i--;)
     if (!ISEQUALF(v3._val[i], (float)(i + 1))) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecFloatSet NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatSet NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 5; i--;)
     if (!ISEQUALF(VecGet(v, i), (float)(i + 1))) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecFloatGet NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatGet NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 2; i--;)
     if (!ISEQUALF(VecGet(&v2, i), (float)(i + 1))) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecFloatGet NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatGet NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 3; i--;)
     if (!ISEQUALF(VecGet(&v3, i), (float)(i + 1))) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecFloatGet NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatGet NOK");
       PBErrCatch(PBMathErr);
     }
   VecSetNull(v);
@@ -1132,23 +1132,23 @@ void UnitTestVecFloatGetSetDim() {
   for (int i = 5; i--;)
     if (!ISEQUALF(VecGet(v, i), 0.0)) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecFloatGet NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatGet NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 2; i--;)
     if (!ISEQUALF(VecGet(&v2, i), 0.0)) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecFloatGet NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatGet NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 3; i--;)
     if (!ISEQUALF(VecGet(&v3, i), 0.0)) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecFloatGet NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatGet NOK");
       PBErrCatch(PBMathErr);
     }
   VecFree(&v);
-  printf("VecFloatGetSetDim OK\n");
+  printf("_VecFloatGetSetDim OK\n");
 }
 
 void UnitTestVecFloatCopy() {
@@ -1166,17 +1166,17 @@ void UnitTestVecFloatCopy() {
   VecCopy(&w3, &v3);
   if (!VecIsEqual(v, w)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatCopy NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatCopy NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecIsEqual(&v2, &w2)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatCopy NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatCopy NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecIsEqual(&v3, &w3)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatCopy NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatCopy NOK");
     PBErrCatch(PBMathErr);
   }
   VecFree(&v);
@@ -1193,17 +1193,17 @@ void UnitTestVecFloatNorm() {
   for (int i = 3; i--;) VecSet(&v3, i, i + 1);
   if (!ISEQUALF(VecNorm(v), 7.416198)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatNorm NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatNorm NOK");
     PBErrCatch(PBMathErr);
   }
   if (!ISEQUALF(VecNorm(&v2), 2.236068)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatNorm NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatNorm NOK");
     PBErrCatch(PBMathErr);
   }
   if (!ISEQUALF(VecNorm(&v3), 3.741657)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatNorm NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatNorm NOK");
     PBErrCatch(PBMathErr);
   }
   VecNormalise(v);
@@ -1211,17 +1211,17 @@ void UnitTestVecFloatNorm() {
   VecNormalise(&v3);
   if (!ISEQUALF(VecNorm(v), 1.0)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatNormalise NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatNormalise NOK");
     PBErrCatch(PBMathErr);
   }
   if (!ISEQUALF(VecNorm(&v2), 1.0)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatNormalise NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatNormalise NOK");
     PBErrCatch(PBMathErr);
   }
   if (!ISEQUALF(VecNorm(&v3), 1.0)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatNormalise NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatNormalise NOK");
     PBErrCatch(PBMathErr);
   }
   VecFree(&v);
@@ -1244,47 +1244,47 @@ void UnitTestVecFloatDist() {
   for (int i = 3; i--;) VecSet(&w3, i, b[2 - i] + 1.5);
   if (!ISEQUALF(VecDist(v, w), 7.158911)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatDist NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatDist NOK");
     PBErrCatch(PBMathErr);
   }
   if (!ISEQUALF(VecDist(&v2, &w2), 2.549510)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatDist NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatDist NOK");
     PBErrCatch(PBMathErr);
   }
   if (!ISEQUALF(VecDist(&v3, &w3), 3.840573)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatDist NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatDist NOK");
     PBErrCatch(PBMathErr);
   }
   if (!ISEQUALF(VecHamiltonDist(v, w), 13.5)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatHamiltonDist NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatHamiltonDist NOK");
     PBErrCatch(PBMathErr);
   }
   if (!ISEQUALF(VecHamiltonDist(&v2, &w2), 3.0)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatHamiltonDist NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatHamiltonDist NOK");
     PBErrCatch(PBMathErr);
   }
   if (!ISEQUALF(VecHamiltonDist(&v3, &w3), 5.5)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatHamiltonDist NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatHamiltonDist NOK");
     PBErrCatch(PBMathErr);
   }
   if (!ISEQUALF(VecPixelDist(v, w), 13.0)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatPixelDist NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatPixelDist NOK");
     PBErrCatch(PBMathErr);
   }
   if (!ISEQUALF(VecPixelDist(&v2, &w2), 2.0)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatPixelDist NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatPixelDist NOK");
     PBErrCatch(PBMathErr);
   }
   if (!ISEQUALF(VecPixelDist(&v3, &w3), 5.0)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatPixelDist NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatPixelDist NOK");
     PBErrCatch(PBMathErr);
   }
   VecFree(&v);
@@ -1304,17 +1304,17 @@ void UnitTestVecFloatIsEqual() {
   VecFloat3D w3 = VecFloatCreateStatic3D();
   if (VecIsEqual(v, w)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatIsEqual NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatIsEqual NOK");
     PBErrCatch(PBMathErr);
   }
   if (VecIsEqual(&v2, &w2)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatIsEqual NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatIsEqual NOK");
     PBErrCatch(PBMathErr);
   }
   if (VecIsEqual(&v3, &w3)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatIsEqual NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatIsEqual NOK");
     PBErrCatch(PBMathErr);
   }
   for (int i = 5; i--;) VecSet(w, i, i + 1);
@@ -1322,17 +1322,17 @@ void UnitTestVecFloatIsEqual() {
   for (int i = 3; i--;) VecSet(&w3, i, i + 1);
   if (!VecIsEqual(v, w)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatIsEqual NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatIsEqual NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecIsEqual(&v2, &w2)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatIsEqual NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatIsEqual NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecIsEqual(&v3, &w3)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatIsEqual NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatIsEqual NOK");
     PBErrCatch(PBMathErr);
   }
   VecFree(&v);
@@ -1357,37 +1357,37 @@ void UnitTestVecFloatScale() {
   for (int i = 5; i--;)
     if (!ISEQUALF(VecGet(w, i), (float)(i + 1) * a)) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecFloatGetScale NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatGetScale NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 2; i--;)
     if (!ISEQUALF(VecGet(&w2, i), (float)(i + 1) * a)) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecFloatGetScale NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatGetScale NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 3; i--;)
     if (!ISEQUALF(VecGet(&w3, i), (float)(i + 1) * a)) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecFloatGetScale NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatGetScale NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 5; i--;)
     if (!ISEQUALF(VecGet(v, i), (float)(i + 1) * a)) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecFloatScale NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatScale NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 2; i--;)
     if (!ISEQUALF(VecGet(&v2, i), (float)(i + 1) * a)) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecFloatScale NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatScale NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 3; i--;)
     if (!ISEQUALF(VecGet(&v3, i), (float)(i + 1) * a)) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecFloatScale NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatScale NOK");
       PBErrCatch(PBMathErr);
     }
   VecFree(&v);
@@ -1422,19 +1422,19 @@ void UnitTestVecFloatOp() {
   for (int i = 5; i--;)
     if (!ISEQUALF(VecGet(u, i), checku[i])) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecFloatGetOp NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatGetOp NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 2; i--;)
     if (!ISEQUALF(VecGet(&u2, i), checku2[i])) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecFloatGetOp NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatGetOp NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 3; i--;)
     if (!ISEQUALF(VecGet(&u3, i), checku3[i])) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "VecFloatGetOp NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatGetOp NOK");
       PBErrCatch(PBMathErr);
     }
   VecOp(v, a[0], w, a[1]);
@@ -1442,17 +1442,17 @@ void UnitTestVecFloatOp() {
   VecOp(&v3, a[0], &w3, a[1]);
   if (!VecIsEqual(v, u)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatOp NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatOp NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecIsEqual(&v2, &u2)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatOp NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatOp NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecIsEqual(&v3, &u3)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatOp NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatOp NOK");
     PBErrCatch(PBMathErr);
   }
   VecFree(&v);
@@ -1478,19 +1478,19 @@ void UnitTestVecFloatDotProd() {
   float prod = VecDotProd(v, w);
   if (!ISEQUALF(prod, -10.0)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatDotProd NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatDotProd NOK");
     PBErrCatch(PBMathErr);
   }
   prod = VecDotProd(&v2, &w2);
   if (!ISEQUALF(prod, -0.5)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatDotProd NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatDotProd NOK");
     PBErrCatch(PBMathErr);
   }
   prod = VecDotProd(&v3, &w3);
   if (!ISEQUALF(prod, -3.5)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatDotProd NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatDotProd NOK");
     PBErrCatch(PBMathErr);
   }
   VecFree(&v);
@@ -1519,23 +1519,23 @@ void UnitTestVecFloatRotAngleTo() {
       a = -PBMATH_PI;
       if (!ISEQUALF(fabs(VecAngleTo(w, v)), fabs(a))) {
         PBMathErr->_type = PBErrTypeUnitTestFailed;
-        sprintf(PBMathErr->_msg, "VecFloatAngleTo NOK");
+        sprintf(PBMathErr->_msg, "_VecFloatAngleTo NOK");
         PBErrCatch(PBMathErr);
       }
       if (!ISEQUALF(fabs(VecAngleTo(&w2, &v2)), fabs(a))) {
         PBMathErr->_type = PBErrTypeUnitTestFailed;
-        sprintf(PBMathErr->_msg, "VecFloatAngleTo NOK");
+        sprintf(PBMathErr->_msg, "_VecFloatAngleTo NOK");
         PBErrCatch(PBMathErr);
       }
     } else {
       if (!ISEQUALF(VecAngleTo(w, v), a)) {
         PBMathErr->_type = PBErrTypeUnitTestFailed;
-        sprintf(PBMathErr->_msg, "VecFloatAngleTo NOK");
+        sprintf(PBMathErr->_msg, "_VecFloatAngleTo NOK");
         PBErrCatch(PBMathErr);
       }
       if (!ISEQUALF(VecAngleTo(&w2, &v2), a)) {
         PBMathErr->_type = PBErrTypeUnitTestFailed;
-        sprintf(PBMathErr->_msg, "VecFloatAngleTo NOK");
+        sprintf(PBMathErr->_msg, "_VecFloatAngleTo NOK");
         PBErrCatch(PBMathErr);
       }
     }
@@ -1543,16 +1543,14 @@ void UnitTestVecFloatRotAngleTo() {
   VecSet(v, 0, 1.0);
   VecSet(v, 1, 0.0);
   VecRot(v, PBMATH_QUARTERPI);
-  VecNormalise(v);
-  VecPrint(v,stdout);printf("\n");
   if (!ISEQUALF(VecGet(v, 0), 0.70711) ||
     !ISEQUALF(VecGet(v, 1), 0.70711)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "VecFloatRot NOK");
+    sprintf(PBMathErr->_msg, "_VecFloatRot NOK");
     PBErrCatch(PBMathErr);
   }
   VecFree(&v);
-  VecFree(&w);
+  //VecFree(&w);
   printf("UnitTestVecFloatAngleTo OK\n");
 }
 
@@ -1693,10 +1691,66 @@ void UnitTestSpeedVecFloat() {
     sprintf(PBMathErr->_msg, "UnitTestSpeedVecFloat NOK");
     PBErrCatch(PBMathErr);
   }
-
   VecFree(&v);
   free(array);
   printf("UnitTestSpeedVecFloat OK\n");
+}
+
+void UnitTestVecFloatRotAxis() {
+  VecFloat3D v = VecFloatCreateStatic3D();
+  VecSet(&v, 0, 1.0); VecSet(&v, 1, 0.0); VecSet(&v, 2, 1.0); 
+  VecFloat3D axis = VecFloatCreateStatic3D();
+  VecSet(&axis, 0, 1.0); VecSet(&axis, 1, 1.0); VecSet(&axis, 2, 1.0); 
+  VecNormalise(&axis);
+  float theta = PBMATH_PI;
+  VecRotAxis(&v, &axis, theta);
+  if (!ISEQUALF(VecGet(&v, 0), 0.333333) ||
+    !ISEQUALF(VecGet(&v, 1), 1.333333) ||
+    !ISEQUALF(VecGet(&v, 2), 0.333333)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecRotAxis NOK");
+    PBErrCatch(PBMathErr);
+  }
+  theta = PBMATH_HALFPI;
+  VecRotAxis(&v, &axis, theta);
+  if (!ISEQUALF(VecGet(&v, 0), 0.089316) ||
+    !ISEQUALF(VecGet(&v, 1), 0.666666) ||
+    !ISEQUALF(VecGet(&v, 2), 1.244017)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecRotAxis NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecSet(&v, 0, 1.0); VecSet(&v, 1, 1.0); VecSet(&v, 2, 1.0); 
+  theta = PBMATH_PI;
+  VecRotAxisX(&v, theta);
+  if (!ISEQUALF(VecGet(&v, 0), 1.0) ||
+    !ISEQUALF(VecGet(&v, 1), -1.0) ||
+    !ISEQUALF(VecGet(&v, 2), -1.0)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecRotAxisX NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecSet(&v, 0, 1.0); VecSet(&v, 1, 1.0); VecSet(&v, 2, 1.0); 
+  theta = PBMATH_PI;
+  VecRotAxisY(&v, theta);
+  if (!ISEQUALF(VecGet(&v, 0), -1.0) ||
+    !ISEQUALF(VecGet(&v, 1), 1.0) ||
+    !ISEQUALF(VecGet(&v, 2), -1.0)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecRotAxisY NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecSet(&v, 0, 1.0); VecSet(&v, 1, 1.0); VecSet(&v, 2, 1.0); 
+  theta = PBMATH_PI;
+  VecRotAxisZ(&v, theta);
+  if (!ISEQUALF(VecGet(&v, 0), -1.0) ||
+    !ISEQUALF(VecGet(&v, 1), -1.0) ||
+    !ISEQUALF(VecGet(&v, 2), 1.0)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecRotAxisZ NOK");
+    PBErrCatch(PBMathErr);
+  }
+  printf("UnitTestVecFloatRotAxis OK\n");
 }
 
 void UnitTestVecFloat() {
@@ -1713,6 +1767,7 @@ void UnitTestVecFloat() {
   UnitTestVecFloatDotProd();
   UnitTestVecFloatRotAngleTo();
   UnitTestVecFloatToShort();
+  UnitTestVecFloatRotAxis();
   UnitTestSpeedVecFloat();
   printf("UnitTestVecFloat OK\n");
 }
@@ -1744,6 +1799,11 @@ void UnitTestMatFloatGetSetDim() {
   VecSet(&dim, 1, 3);
   MatFloat* mat = MatFloatCreate(&dim);
   if (!VecIsEqual(&(mat->_dim), &dim)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "UnitTestMatFloatGetSetDim NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (!VecIsEqual(MatDim(mat), &dim)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
     sprintf(PBMathErr->_msg, "UnitTestMatFloatGetSetDim NOK");
     PBErrCatch(PBMathErr);
@@ -1842,7 +1902,7 @@ void UnitTestMatFloatLoadSave() {
   }
   if (!MatSave(mat, f)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "MatFloatSave NOK");
+    sprintf(PBMathErr->_msg, "_MatFloatSave NOK");
     PBErrCatch(PBMathErr);
   }
   fclose(f);
@@ -1856,7 +1916,7 @@ void UnitTestMatFloatLoadSave() {
   }
   if (!MatLoad(&clone, f)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "MatFloatLoad NOK");
+    sprintf(PBMathErr->_msg, "_MatFloatLoad NOK");
     PBErrCatch(PBMathErr);
   }
   if (!VecIsEqual(&(mat->_dim), &(clone->_dim))) {

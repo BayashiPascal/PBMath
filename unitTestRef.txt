@@ -14,17 +14,17 @@
 <0,0,0>
 <0,0,0,0>
 VecShortCreateFree OK
-VecShortClone OK
-VecShortLoadSave OK
-VecShortGetSetDim OK
+_VecShortClone OK
+_VecShortLoadSave OK
+_VecShortGetSetDim OK
 UnitTestVecShortStep OK
 UnitTestVecShortHamiltonDist OK
 UnitTestVecShortIsEqual OK
 UnitTestVecShortDotProd OK
 UnitTestVecShortCopy OK
-VecShort: 0.000050ms, array: 0.000044ms
-VecShort2D: 0.000018ms, array: 0.000018ms
-VecShort3D: 0.000014ms, array: 0.000013ms
+VecShort: 0.000047ms, array: 0.000034ms
+VecShort2D: 0.000013ms, array: 0.000013ms
+VecShort3D: 0.000013ms, array: 0.000013ms
 VecShort4D: 0.000013ms, array: 0.000013ms
 UnitTestSpeedVecShort OK
 <1.000,2.000,3.000,4.000,5.000>
@@ -38,9 +38,9 @@ UnitTestVecShort OK
 <0.000,0.000>
 <0.000,0.000,0.000>
 VecFloatCreateFree OK
-VecFloatClone OK
-VecFloatLoadSave OK
-VecFloatGetSetDim OK
+_VecFloatClone OK
+_VecFloatLoadSave OK
+_VecFloatGetSetDim OK
 UnitTestVecFloatCopy OK
 UnitTestVecFloatNorm OK
 UnitTestVecFloatDist OK
@@ -48,15 +48,15 @@ UnitTestVecFloatIsEqual OK
 UnitTestVecFloatScale OK
 UnitTestVecFloatOp OK
 UnitTestVecFloatDotProd OK
-<0.707,0.707>
 UnitTestVecFloatAngleTo OK
 <1,2,3,4,5>
 <1,2>
 <1,2,3>
 UnitTestVecFloatToShort OK
-VecFloat: 0.000030ms, array: 0.000030ms
-VecFloat2D: 0.000014ms, array: 0.000015ms
-VecFloat3D: 0.000014ms, array: 0.000015ms
+UnitTestVecFloatRotAxis OK
+VecFloat: 0.000029ms, array: 0.000031ms
+VecFloat2D: 0.000013ms, array: 0.000013ms
+VecFloat3D: 0.000013ms, array: 0.000013ms
 UnitTestSpeedVecFloat OK
 UnitTestVecFloat OK
 UnitTestMatFloatCreateFree OK
@@ -66,7 +66,7 @@ UnitTestMatFloatLoadSave OK
 UnitTestMatFloatInv OK
 UnitTestMatFloatProdVecFloat OK
 UnitTestMatFloatProdMatFloat OK
-MatFloat: 0.000006ms, array: 0.000006ms
+MatFloat: 0.000006ms, array: 0.000007ms
 UnitTestSpeedMatFloat OK
 UnitTestMatFloat OK
 UnitTestSysLinEq OK
@@ -76,7 +76,7 @@ UnitTestConv OK
 powi OK
 average error: 0.000000 < 0.000010, max error: 0.000000 < 0.000100
 fastpow OK
-fastpow: 0.000028ms, pow: 0.000077ms
+fastpow: 0.000025ms, pow: 0.000074ms
 speed fastpow OK
 fsquare OK
 UnitTestConv OK

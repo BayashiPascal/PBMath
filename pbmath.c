@@ -34,7 +34,7 @@ VecShort* VecShortCreate(int dim) {
 
 // Clone the VecShort
 // Return NULL if we couldn't clone the VecShort
-VecShort* VecShortClone(VecShort* that) {
+VecShort* _VecShortClone(VecShort* that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -53,7 +53,7 @@ VecShort* VecShortClone(VecShort* that) {
 // Load the VecShort from the stream
 // If the VecShort is already allocated, it is freed before loading
 // Return true in case of success, else false
-bool VecShortLoad(VecShort** that, FILE* stream) {
+bool _VecShortLoad(VecShort** that, FILE* stream) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -69,7 +69,7 @@ bool VecShortLoad(VecShort** that, FILE* stream) {
   // If 'that' is already allocated
   if (*that != NULL)
     // Free memory
-    VecShortFree(that);
+    _VecShortFree(that);
   // Read the number of dimension
   int dim;
   int ret = fscanf(stream, "%d", &dim);
@@ -94,7 +94,7 @@ bool VecShortLoad(VecShort** that, FILE* stream) {
 
 // Save the VecShort to the stream
 // Return true in case of success, else false
-bool VecShortSave(VecShort* that, FILE* stream) {
+bool _VecShortSave(VecShort* that, FILE* stream) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -129,7 +129,7 @@ bool VecShortSave(VecShort* that, FILE* stream) {
 
 // Free the memory used by a VecShort
 // Do nothing if arguments are invalid
-void VecShortFree(VecShort** that) {
+void _VecShortFree(VecShort** that) {
   // Check argument
   if (that == NULL || *that == NULL)
     return;
@@ -139,7 +139,7 @@ void VecShortFree(VecShort** that) {
 }
 
 // Print the VecShort on 'stream' with 'prec' digit precision
-void VecShortPrint(VecShort* that, FILE* stream) {
+void _VecShortPrint(VecShort* that, FILE* stream) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -169,7 +169,7 @@ void VecShortPrint(VecShort* that, FILE* stream) {
 // Return false if all values of 'that' have reached their upper limit 
 // (in which case 'that''s values are all set back to 0)
 // Return true else
-bool VecShortStep(VecShort* that, VecShort* bound) {
+bool _VecShortStep(VecShort* that, VecShort* bound) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -217,7 +217,7 @@ bool VecShortStep(VecShort* that, VecShort* bound) {
 // Return false if all values of 'that' have reached their upper limit 
 // (in which case 'that''s values are all set back to 0)
 // Return true else
-bool VecShortPStep(VecShort* that, VecShort* bound) {
+bool _VecShortPStep(VecShort* that, VecShort* bound) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -268,7 +268,7 @@ bool VecShortPStep(VecShort* that, VecShort* bound) {
 // Return false if all values of 'that' have reached their upper limit 
 // (in which case 'that''s values are all set back to 0)
 // Return true else
-bool VecShortShiftStep(VecShort* that, VecShort* from, VecShort* to) {
+bool _VecShortShiftStep(VecShort* that, VecShort* from, VecShort* to) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -346,7 +346,7 @@ VecFloat* VecFloatCreate(int dim) {
 }
 
 // Clone the VecFloat
-VecFloat* VecFloatClone(VecFloat* that) {
+VecFloat* _VecFloatClone(VecFloat* that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -364,7 +364,7 @@ VecFloat* VecFloatClone(VecFloat* that) {
 
 // Load the VecFloat from the stream
 // If the VecFloat is already allocated, it is freed before loading
-bool VecFloatLoad(VecFloat** that, FILE* stream) {
+bool _VecFloatLoad(VecFloat** that, FILE* stream) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -380,7 +380,7 @@ bool VecFloatLoad(VecFloat** that, FILE* stream) {
   // If 'that' is already allocated
   if (*that != NULL) {
     // Free memory
-    VecFloatFree(that);
+    _VecFloatFree(that);
   }
   // Read the number of dimension
   int dim;
@@ -406,7 +406,7 @@ bool VecFloatLoad(VecFloat** that, FILE* stream) {
 
 // Save the VecFloat to the stream
 // Return true in case of success, else false
-bool VecFloatSave(VecFloat* that, FILE* stream) {
+bool _VecFloatSave(VecFloat* that, FILE* stream) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -441,7 +441,7 @@ bool VecFloatSave(VecFloat* that, FILE* stream) {
 
 // Free the memory used by a VecFloat
 // Do nothing if arguments are invalid
-void VecFloatFree(VecFloat** that) {
+void _VecFloatFree(VecFloat** that) {
   // Check argument
   if (that == NULL || *that == NULL)
     return;
@@ -481,7 +481,7 @@ void VecFloatPrint(VecFloat* that, FILE* stream, unsigned int prec) {
 // Return the angle of the rotation making 'that' colinear to 'tho'
 // 'that' and 'tho' must be normalised
 // Return a value in [-PI,PI]
-float VecFloatAngleTo2D(VecFloat2D* that, VecFloat2D* tho) {
+float _VecFloatAngleTo2D(VecFloat2D* that, VecFloat2D* tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -539,6 +539,271 @@ float VecFloatAngleTo2D(VecFloat2D* that, VecFloat2D* tho) {
   return theta;
 }
 
+// Return a VecFloat3D equal to 'that' rotated right-hand by 'theta' 
+// radians around 'axis'
+// 'axis' must be normalized
+// https://en.wikipedia.org/wiki/Rotation_matrix
+VecFloat3D _VecFloatGetRotAxis(VecFloat3D* that, VecFloat3D* axis, 
+  float theta) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (axis == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'axis' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (VecDim(that) != 3) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=3)",
+      VecDim(that));
+    PBErrCatch(PBMathErr);
+  }
+  if (VecDim(axis) != 3) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'axis' 's dimension is invalid (%d=3)",
+      VecDim(axis));
+    PBErrCatch(PBMathErr);
+  }
+  if (ISEQUALF(VecNorm(axis), 1.0) == false) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'axis' is not normalized");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare variable for optimisation
+  float cosTheta = cos(theta);
+  float sinTheta = sin(theta);
+  // Create the rotation matrix
+  VecShort2D d = VecShortCreateStatic2D();
+  VecSet(&d, 0, 3); VecSet(&d, 1, 3); 
+  MatFloat* rot = MatFloatCreate(&d);
+  VecSet(&d, 0, 0); VecSet(&d, 1, 0); 
+  float v = cosTheta + fastpow(VecGet(axis, 0), 2) * (1.0 - cosTheta);
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 1); VecSet(&d, 1, 0); 
+  v = VecGet(axis, 0) * VecGet(axis, 1) * (1.0 - cosTheta) - 
+    VecGet(axis, 2) * sinTheta;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 2); VecSet(&d, 1, 0); 
+  v = VecGet(axis, 0) * VecGet(axis, 2) * (1.0 - cosTheta) + 
+    VecGet(axis, 1) * sinTheta;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 0); VecSet(&d, 1, 1); 
+  v = VecGet(axis, 0) * VecGet(axis, 1) * (1.0 - cosTheta) + 
+    VecGet(axis, 2) * sinTheta;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 1); VecSet(&d, 1, 1); 
+  v = cosTheta + fastpow(VecGet(axis, 1), 2) * (1.0 - cosTheta);
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 2); VecSet(&d, 1, 1); 
+  v = VecGet(axis, 1) * VecGet(axis, 2) * (1.0 - cosTheta) - 
+    VecGet(axis, 0) * sinTheta;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 0); VecSet(&d, 1, 2); 
+  v = VecGet(axis, 0) * VecGet(axis, 2) * (1.0 - cosTheta) - 
+    VecGet(axis, 1) * sinTheta;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 1); VecSet(&d, 1, 2); 
+  v = VecGet(axis, 1) * VecGet(axis, 2) * (1.0 - cosTheta) + 
+    VecGet(axis, 0) * sinTheta;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 2); VecSet(&d, 1, 2); 
+  v = cosTheta + fastpow(VecGet(axis, 2), 2) * (1.0 - cosTheta);
+  MatSet(rot, &d, v);
+  // Calculate the result vector
+  VecFloat* w = MatProdVec(rot, that);
+  VecFloat3D res = *(VecFloat3D*)w;
+  // Free memory
+  VecFree(&w);
+  MatFree(&rot);
+  // Return the result
+  return res;
+}
+
+// Return a VecFloat3D equal to 'that' rotated right-hand by 'theta' 
+// radians around X
+VecFloat3D _VecFloatGetRotAxisX(VecFloat3D* that, float theta) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (VecDim(that) != 3) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=3)",
+      VecDim(that));
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare variable for optimisation
+  float cosTheta = cos(theta);
+  float sinTheta = sin(theta);
+  // Create the rotation matrix
+  VecShort2D d = VecShortCreateStatic2D();
+  VecSet(&d, 0, 3); VecSet(&d, 1, 3); 
+  MatFloat* rot = MatFloatCreate(&d);
+  VecSet(&d, 0, 0); VecSet(&d, 1, 0); 
+  float v = 1.0;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 1); VecSet(&d, 1, 0); 
+  v = 0.0;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 2); VecSet(&d, 1, 0); 
+  v = 0.0;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 0); VecSet(&d, 1, 1); 
+  v = 0.0;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 1); VecSet(&d, 1, 1); 
+  v = cosTheta;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 2); VecSet(&d, 1, 1); 
+  v = -sinTheta;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 0); VecSet(&d, 1, 2); 
+  v = 0.0;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 1); VecSet(&d, 1, 2); 
+  v = sinTheta;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 2); VecSet(&d, 1, 2); 
+  v = cosTheta;
+  MatSet(rot, &d, v);
+  // Calculate the result vector
+  VecFloat* w = MatProdVec(rot, that);
+  VecFloat3D res = *(VecFloat3D*)w;
+  // Free memory
+  VecFree(&w);
+  MatFree(&rot);
+  // Return the result
+  return res;
+}
+
+// Return a VecFloat3D equal to 'that' rotated right-hand by 'theta' 
+// radians around Y
+VecFloat3D _VecFloatGetRotAxisY(VecFloat3D* that, float theta) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (VecDim(that) != 3) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=3)",
+      VecDim(that));
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare variable for optimisation
+  float cosTheta = cos(theta);
+  float sinTheta = sin(theta);
+  // Create the rotation matrix
+  VecShort2D d = VecShortCreateStatic2D();
+  VecSet(&d, 0, 3); VecSet(&d, 1, 3); 
+  MatFloat* rot = MatFloatCreate(&d);
+  VecSet(&d, 0, 0); VecSet(&d, 1, 0); 
+  float v = cosTheta;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 1); VecSet(&d, 1, 0); 
+  v = 0.0;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 2); VecSet(&d, 1, 0); 
+  v = sinTheta;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 0); VecSet(&d, 1, 1); 
+  v = 0.0;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 1); VecSet(&d, 1, 1); 
+  v = 1.0;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 2); VecSet(&d, 1, 1); 
+  v = 0.0;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 0); VecSet(&d, 1, 2); 
+  v = -sinTheta;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 1); VecSet(&d, 1, 2); 
+  v = 0.0;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 2); VecSet(&d, 1, 2); 
+  v = cosTheta;
+  MatSet(rot, &d, v);
+  // Calculate the result vector
+  VecFloat* w = MatProdVec(rot, that);
+  VecFloat3D res = *(VecFloat3D*)w;
+  // Free memory
+  VecFree(&w);
+  MatFree(&rot);
+  // Return the result
+  return res;
+}
+
+// Return a VecFloat3D equal to 'that' rotated right-hand by 'theta' 
+// radians around Z
+VecFloat3D _VecFloatGetRotAxisZ(VecFloat3D* that, float theta) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (VecDim(that) != 3) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=3)",
+      VecDim(that));
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare variable for optimisation
+  float cosTheta = cos(theta);
+  float sinTheta = sin(theta);
+  // Create the rotation matrix
+  VecShort2D d = VecShortCreateStatic2D();
+  VecSet(&d, 0, 3); VecSet(&d, 1, 3); 
+  MatFloat* rot = MatFloatCreate(&d);
+  VecSet(&d, 0, 0); VecSet(&d, 1, 0); 
+  float v = cosTheta;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 1); VecSet(&d, 1, 0); 
+  v = -sinTheta;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 2); VecSet(&d, 1, 0); 
+  v = 0.0;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 0); VecSet(&d, 1, 1); 
+  v = sinTheta;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 1); VecSet(&d, 1, 1); 
+  v = cosTheta;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 2); VecSet(&d, 1, 1); 
+  v = 0.0;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 0); VecSet(&d, 1, 2); 
+  v = 0.0;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 1); VecSet(&d, 1, 2); 
+  v = 0.0;
+  MatSet(rot, &d, v);
+  VecSet(&d, 0, 2); VecSet(&d, 1, 2); 
+  v = 1.0;
+  MatSet(rot, &d, v);
+  // Calculate the result vector
+  VecFloat* w = MatProdVec(rot, that);
+  VecFloat3D res = *(VecFloat3D*)w;
+  // Free memory
+  VecFree(&w);
+  MatFree(&rot);
+  // Return the result
+  return res;
+}
+
 // -------------- MatFloat
 
 // ================= Define ==================
@@ -569,7 +834,7 @@ MatFloat* MatFloatCreate(VecShort2D* dim) {
 }
 
 // Clone the MatFloat
-MatFloat* MatFloatClone(MatFloat* that) {
+MatFloat* _MatFloatClone(MatFloat* that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -590,7 +855,7 @@ MatFloat* MatFloatClone(MatFloat* that) {
 // Load the MatFloat from the stream
 // If the MatFloat is already allocated, it is freed before loading
 // Return true upon success, else false
-bool MatFloatLoad(MatFloat** that, FILE* stream) {
+bool _MatFloatLoad(MatFloat** that, FILE* stream) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -606,7 +871,7 @@ bool MatFloatLoad(MatFloat** that, FILE* stream) {
   // If 'that' is already allocated
   if (*that != NULL)
     // Free memory
-    MatFloatFree(that);
+    _MatFloatFree(that);
   // Read the number of dimension
   VecShort2D dim = VecShortCreateStatic2D();
   int ret = fscanf(stream, "%hi %hi", dim._val , dim._val + 1);
@@ -633,7 +898,7 @@ bool MatFloatLoad(MatFloat** that, FILE* stream) {
 
 // Save the MatFloat to the stream
 // Return true upon success, else false
-bool MatFloatSave(MatFloat* that, FILE* stream) {
+bool _MatFloatSave(MatFloat* that, FILE* stream) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -671,7 +936,7 @@ bool MatFloatSave(MatFloat* that, FILE* stream) {
 
 // Free the memory used by a MatFloat
 // Do nothing if arguments are invalid
-void MatFloatFree(MatFloat** that) {
+void _MatFloatFree(MatFloat** that) {
   // Check argument
   if (that == NULL || *that == NULL)
     return;
@@ -717,7 +982,7 @@ void MatFloatPrintln(MatFloat* that, FILE* stream, unsigned int prec) {
 
 // Return the inverse matrix of 'that'
 // The matrix must be a square matrix
-MatFloat* MatFloatInv(MatFloat* that) {
+MatFloat* _MatFloatInv(MatFloat* that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -733,7 +998,7 @@ MatFloat* MatFloatInv(MatFloat* that) {
   if (VecGet(&(that->_dim), 0) > 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, 
-      "MatFloatInv is defined only for matrix of dim <= 3x3 (%dx%d)",
+      "_MatFloatInv is defined only for matrix of dim <= 3x3 (%dx%d)",
       VecGet(&(that->_dim), 0), VecGet(&(that->_dim), 1));
     PBErrCatch(PBMathErr);
   }
@@ -809,7 +1074,7 @@ MatFloat* MatFloatInv(MatFloat* that) {
 
 // Return the product of matrix 'that' and vector 'v'
 // Number of colum of 'that' must equal dimension of 'v'
-VecFloat* MatFloatProdVecFloat(MatFloat* that, VecFloat* v) {
+VecFloat* _MatFloatProdVecFloat(MatFloat* that, VecFloat* v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -847,7 +1112,7 @@ VecFloat* MatFloatProdVecFloat(MatFloat* that, VecFloat* v) {
 
 // Return the product of matrix 'that' by matrix 'tho'
 // Number of columns of 'that' must equal number of line of 'tho'
-MatFloat* MatFloatProdMatFloat(MatFloat* that, MatFloat* tho) {
+MatFloat* _MatFloatProdMatFloat(MatFloat* that, MatFloat* tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -892,7 +1157,7 @@ MatFloat* MatFloatProdMatFloat(MatFloat* that, MatFloat* tho) {
 }
 
 // Return true if 'that' is equal to 'tho', false else
-bool MatFloatIsEqual(MatFloat* that, MatFloat* tho) {
+bool _MatFloatIsEqual(MatFloat* that, MatFloat* tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -959,7 +1224,7 @@ void GaussFree(Gauss **that) {
 // If 'v' is null the vector null is used instead
 // The matrix 'm' must be a square matrix
 // Return NULL if we couldn't create the SysLinEq
-SysLinEq* SLECreate(MatFloat* m, VecFloat* v) {
+SysLinEq* _SLECreate(MatFloat* m, VecFloat* v) {
 #if BUILDMODE == 0
   if (m == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1048,4 +1313,7 @@ SysLinEq* SysLinEqClone(SysLinEq* that) {
   // Return the new SysLinEq
   return ret;
 }
+
+
+
 
