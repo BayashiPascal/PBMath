@@ -97,6 +97,31 @@ Mb = \frac{W_x-W_yV_x/V_y}{V_y+V_x^2/V_y}\\
 \end{equation}
 Then we have $\theta=\pm cos^{-1}(M_a)$ where the sign can be determined by verifying that the sign of $sin(\theta)$ matches the sign of $-M_b$: if $sin(cos^{-1}(M_a))*M_b > 0.0$ then multiply $\theta=-cos^{-1}(M_a)$ else $\theta=cos^{-1}(M_a)$.
 
+\subsubsection{Rotation}
+
+Rotation if a vector is only defined in 2D and 3D. In 2D, for a right-handed rotation of angle $\theta$ the rotation matrix is equal to:\\
+
+\begin{equation}
+R=\left[
+\begin{array}{cc}
+cos(\theta)&-sin(\theta)\\
+sin(\theta)&cos(\theta)\\
+\end{array}
+\right]
+\end{equation}
+
+In 3D, for a right-handed rotation of angle $\theta$ around axis $\overrightarrow{u}$ the rotation is equal to (to shorten notation $\theta$ is not written in the matrix below):\\
+
+\begin{equation}
+R=\left[
+\begin{array}{ccc}
+cos+u_x^2(1-cos)&u_xu_y(1-cos)-u_zsin&u_xu_z(1-cos)+u_ysin\\
+u_xu_y(1-cos)+u_zsin&cos+u_y^2(1-cos)&u_yu_z(1-cos)-u_xsin\\
+u_xu_z(1-cos)-u_ysin&u_yu_z(1-cos)+u_xsin&cos+u_z^2(1-cos)\\
+\end{array}
+\right]
+\end{equation}
+
 \subsection{Matrix}
 
 \subsubsection{Inverse matrix}
@@ -153,7 +178,7 @@ det=&M_0(M_4M_8-M_5M_7)-\\
 
 \begin{scriptsize}
 \begin{ttfamily}
-\verbatiminput{../pbmath.h}
+\verbatiminput{/home/bayashi/Coding/PBMath/pbmath.h}
 \end{ttfamily}
 \end{scriptsize}
 
@@ -163,7 +188,7 @@ det=&M_0(M_4M_8-M_5M_7)-\\
 
 \begin{scriptsize}
 \begin{ttfamily}
-\verbatiminput{../pbmath.c}
+\verbatiminput{/home/bayashi/Coding/PBMath/pbmath.c}
 \end{ttfamily}
 \end{scriptsize}
 
@@ -171,7 +196,7 @@ det=&M_0(M_4M_8-M_5M_7)-\\
 
 \begin{scriptsize}
 \begin{ttfamily}
-\verbatiminput{../pbmath-inline.c}
+\verbatiminput{/home/bayashi/Coding/PBMath/pbmath-inline.c}
 \end{ttfamily}
 \end{scriptsize}
 
@@ -179,7 +204,7 @@ det=&M_0(M_4M_8-M_5M_7)-\\
 
 \begin{scriptsize}
 \begin{ttfamily}
-\verbatiminput{../Makefile}
+\verbatiminput{/home/bayashi/Coding/PBMath/Makefile}
 \end{ttfamily}
 \end{scriptsize}
 
@@ -187,7 +212,7 @@ det=&M_0(M_4M_8-M_5M_7)-\\
 
 \begin{scriptsize}
 \begin{ttfamily}
-\verbatiminput{../main.c}
+\verbatiminput{/home/bayashi/Coding/PBMath/main.c}
 \end{ttfamily}
 \end{scriptsize}
 
@@ -195,7 +220,7 @@ det=&M_0(M_4M_8-M_5M_7)-\\
 
 \begin{scriptsize}
 \begin{ttfamily}
-\verbatiminput{../unitTestRef.txt}
+\verbatiminput{/home/bayashi/Coding/PBMath/unitTestRef.txt}
 \end{ttfamily}
 \end{scriptsize}
 
@@ -204,21 +229,21 @@ det=&M_0(M_4M_8-M_5M_7)-\\
 vecshort.txt:\\
 \begin{scriptsize}
 \begin{ttfamily}
-\verbatiminput{../vecshort.txt}
+\verbatiminput{/home/bayashi/Coding/PBMath/vecshort.txt}
 \end{ttfamily}
 \end{scriptsize}
 
 vecfloat.txt:\\
 \begin{scriptsize}
 \begin{ttfamily}
-\verbatiminput{../vecfloat.txt}
+\verbatiminput{/home/bayashi/Coding/PBMath/vecfloat.txt}
 \end{ttfamily}
 \end{scriptsize}
 
 matfloat.txt:\\
 \begin{scriptsize}
 \begin{ttfamily}
-\verbatiminput{../matfloat.txt}
+\verbatiminput{/home/bayashi/Coding/PBMath/matfloat.txt}
 \end{ttfamily}
 \end{scriptsize}
 
