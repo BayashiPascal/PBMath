@@ -266,7 +266,7 @@ bool _VecShortPStep(VecShort* that, VecShort* bound) {
 // 'that' must be initialised to 'from' before the first call of this
 // function
 // Return false if all values of 'that' have reached their upper limit 
-// (in which case 'that''s values are all set back to 0)
+// (in which case 'that''s values are all set back to from)
 // Return true else
 bool _VecShortShiftStep(VecShort* that, VecShort* from, VecShort* to) {
 #if BUILDMODE == 0
@@ -802,6 +802,142 @@ VecFloat3D _VecFloatGetRotZ(VecFloat3D* that, float theta) {
   MatFree(&rot);
   // Return the result
   return res;
+}
+
+// Step the values of the vector incrementally by delta from 0
+// in the following order (for example) : 
+// (0.,0.,0.)->(0.,0.,1.)->(0.,0.,2.)->(0.,1.,0.)->(0.,1.,1.)->...
+// The upper limit for each value is given by 'bound' (val[i] <= dim[i])
+// Return false after all values of 'that' have reached their upper 
+// limit (in which case 'that''s values are all set back to 0.)
+// Return true else
+bool _VecFloatStepDelta(VecFloat* that, VecFloat* bound, 
+  VecFloat* delta) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (bound == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'bound' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (delta == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'delta' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != bound->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, 
+      "'bound' 's dimensions don't match (%d==%d)", 
+      that->_dim, bound->_dim);
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != delta->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, 
+      "'delta' 's dimensions don't match (%d==%d)", 
+      that->_dim, delta->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable for the returned flag
+  bool ret = true;
+  // Declare a variable to memorise the dimension currently increasing
+  int iDim = that->_dim - 1;
+  // Declare a flag for the loop condition 
+  bool flag = true;
+  // Increment
+  do {
+    that->_val[iDim] += delta->_val[iDim];
+    if (that->_val[iDim] > bound->_val[iDim] + PBMATH_EPSILON) {
+      that->_val[iDim] = 0;
+      --iDim;
+    } else {
+      flag = false;
+    }
+  } while (iDim >= 0 && flag == true);
+  if (iDim == -1)
+    ret = false;
+  // Return the flag
+  return ret;
+}
+
+// Step the values of the vector incrementally by delta
+// in the following order (for example) : 
+// (0.,0.,0.)->(0.,0.,1.)->(0.,0.,2.)->(0.,1.,0.)->(0.,1.,1.)->...
+// The lower limit for each value is given by 'from' (val[i] >= from[i])
+// The upper limit for each value is given by 'to' (val[i] <= to[i])
+// 'that' must be initialised to 'from' before the first call of this
+// function
+// Return false after all values of 'that' have reached their upper 
+// limit (in which case 'that''s values are all set back to from)
+// Return true else
+bool _VecFloatShiftStepDelta(VecFloat* that, VecFloat* from, 
+  VecFloat* to, VecFloat* delta) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (from == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'from' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != from->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'from' dimensions don't match (%d==%d)", 
+      that->_dim, from->_dim);
+    PBErrCatch(PBMathErr);
+  }
+  if (to == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'to' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != to->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'to' dimensions don't match (%d==%d)", 
+      that->_dim, to->_dim);
+    PBErrCatch(PBMathErr);
+  }
+  if (delta == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'delta' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != delta->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'delta' dimensions don't match (%d==%d)", 
+      that->_dim, delta->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable for the returned flag
+  bool ret = true;
+  // Declare a variable to memorise the dimension currently increasing
+  int iDim = that->_dim - 1;
+  // Declare a flag for the loop condition 
+  bool flag = true;
+  // Increment
+  do {
+    that->_val[iDim] += delta->_val[iDim];
+    if (that->_val[iDim] > to->_val[iDim] + PBMATH_EPSILON) {
+      that->_val[iDim] = from->_val[iDim];
+      --iDim;
+    } else {
+      flag = false;
+    }
+  } while (iDim >= 0 && flag == true);
+  if (iDim == -1)
+    ret = false;
+  // Return the flag
+  return ret;
 }
 
 // -------------- MatFloat

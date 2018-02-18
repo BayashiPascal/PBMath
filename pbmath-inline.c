@@ -1501,6 +1501,48 @@ VecFloat3D VecShortToFloat3D(VecShort3D* that) {
   return res;
 }
 
+// Get the max value in components of the vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+float _VecFloatGetMaxVal(VecFloat* that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable to memorize the result
+  float max = VecGet(that, 0);
+  // Search for the maximum value
+  for (int i = VecGetDim(that); i-- && i != 0;)
+    max = MAX(max, VecGet(that, i));
+  // Return the result
+  return max;
+}
+
+// Get the min value in components of the vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+float _VecFloatGetMinVal(VecFloat* that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable to memorize the result
+  float min = VecGet(that, 0);
+  // Search for the minimum value
+  for (int i = VecGetDim(that); i-- && i != 0;)
+    min = MIN(min, VecGet(that, i));
+  // Return the result
+  return min;
+}
+
 // Set the MatFloat to the identity matrix
 // The matrix must be a square matrix
 #if BUILDMODE != 0
@@ -2106,6 +2148,48 @@ VecShort4D _VecShortGetOp4D(VecShort4D* that, short a,
   VecSet(&res, 2, a * VecGet(that, 2) + b * VecGet(tho, 2));
   VecSet(&res, 3, a * VecGet(that, 3) + b * VecGet(tho, 3));
   return res;
+}
+
+// Get the max value in components of the vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+short _VecShortGetMaxVal(VecShort* that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable to memorize the result
+  short max = VecGet(that, 0);
+  // Search for the maximum value
+  for (int i = VecGetDim(that); i-- && i != 0;)
+    max = MAX(max, VecGet(that, i));
+  // Return the result
+  return max;
+}
+
+// Get the min value in components of the vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+short _VecShortGetMinVal(VecShort* that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable to memorize the result
+  short min = VecGet(that, 0);
+  // Search for the minimum value
+  for (int i = VecGetDim(that); i-- && i != 0;)
+    min = MIN(min, VecGet(that, i));
+  // Return the result
+  return min;
 }
 
 // Rotate right-hand 'that' by 'theta' radians around 'axis' and 

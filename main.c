@@ -954,6 +954,24 @@ void UnitTestVecShortShiftStep() {
   printf("UnitTestVecShortShiftStep OK\n");
 }
 
+void UnitTestVecShortGetMinMax() {
+  VecShort2D v = VecShortCreateStatic2D();
+  VecSet(&v, 0, 1); VecSet(&v, 1, 2);
+  short val = VecGetMaxVal(&v);
+  if (val != 2) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecGetMaxVal NOK");
+    PBErrCatch(PBMathErr);
+  }
+  val = VecGetMinVal(&v);
+  if (val != 1) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecGetMinVal NOK");
+    PBErrCatch(PBMathErr);
+  }
+  printf("UnitTestVecShortGetMinMax OK\n");
+}
+
 void UnitTestVecShort() {
   UnitTestVecShortCreateFree();
   UnitTestVecShortClone();
@@ -968,6 +986,7 @@ void UnitTestVecShort() {
   UnitTestVecShortToFloat();
   UnitTestVecShortOp();
   UnitTestVecShortShiftStep();
+  UnitTestVecShortGetMinMax();
   printf("UnitTestVecShort OK\n");
 }
 
@@ -1753,6 +1772,24 @@ void UnitTestVecFloatRotAxis() {
   printf("UnitTestVecFloatRotAxis OK\n");
 }
 
+void UnitTestVecFloatGetMinMax() {
+  VecFloat2D v = VecFloatCreateStatic2D();
+  VecSet(&v, 0, 1.0); VecSet(&v, 1, 2.0);
+  float val = VecGetMaxVal(&v);
+  if (ISEQUALF(val, 2.0) == false) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecGetMaxVal NOK");
+    PBErrCatch(PBMathErr);
+  }
+  val = VecGetMinVal(&v);
+  if (ISEQUALF(val, 1.0) == false) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecGetMinVal NOK");
+    PBErrCatch(PBMathErr);
+  }
+  printf("UnitTestVecFloatGetMinMax OK\n");
+}
+
 void UnitTestVecFloat() {
   UnitTestVecFloatCreateFree();
   UnitTestVecFloatClone();
@@ -1767,6 +1804,7 @@ void UnitTestVecFloat() {
   UnitTestVecFloatDotProd();
   UnitTestVecFloatRotAngleTo();
   UnitTestVecFloatToShort();
+  UnitTestVecFloatGetMinMax();
   UnitTestVecFloatRotAxis();
   UnitTestSpeedVecFloat();
   printf("UnitTestVecFloat OK\n");

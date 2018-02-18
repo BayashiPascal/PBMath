@@ -472,6 +472,52 @@
   default: PBErrInvalidPolymorphism)((VecShort*)(Vec), \
     (VecShort*)(VecFrom), (VecShort*)(VecTo))
 
+#define VecGetMaxVal(Vec) _Generic(Vec, \
+  VecFloat*: _VecFloatGetMaxVal, \
+  VecFloat2D*: _VecFloatGetMaxVal, \
+  VecFloat3D*: _VecFloatGetMaxVal, \
+  VecShort*: _VecShortGetMaxVal, \
+  VecShort2D*: _VecShortGetMaxVal, \
+  VecShort3D*: _VecShortGetMaxVal, \
+  VecShort4D*: _VecShortGetMaxVal, \
+  default: PBErrInvalidPolymorphism) (_Generic(Vec, \
+    VecFloat2D*: (VecFloat*)(Vec), \
+    VecFloat3D*: (VecFloat*)(Vec), \
+    VecShort2D*: (VecShort*)(Vec), \
+    VecShort3D*: (VecShort*)(Vec), \
+    VecShort4D*: (VecShort*)(Vec), \
+    default: Vec))
+
+#define VecGetMinVal(Vec) _Generic(Vec, \
+  VecFloat*: _VecFloatGetMinVal, \
+  VecFloat2D*: _VecFloatGetMinVal, \
+  VecFloat3D*: _VecFloatGetMinVal, \
+  VecShort*: _VecShortGetMinVal, \
+  VecShort2D*: _VecShortGetMinVal, \
+  VecShort3D*: _VecShortGetMinVal, \
+  VecShort4D*: _VecShortGetMinVal, \
+  default: PBErrInvalidPolymorphism) (_Generic(Vec, \
+    VecFloat2D*: (VecFloat*)(Vec), \
+    VecFloat3D*: (VecFloat*)(Vec), \
+    VecShort2D*: (VecShort*)(Vec), \
+    VecShort3D*: (VecShort*)(Vec), \
+    VecShort4D*: (VecShort*)(Vec), \
+    default: Vec))
+
+#define VecStepDelta(Vec, VecBound, Delta) _Generic(Vec, \
+  VecFloat*: _VecFloatStepDelta, \
+  VecFloat2D*: _VecFloatStepDelta, \
+  VecFloat3D*: _VecFloatStepDelta, \
+  default: PBErrInvalidPolymorphism)((VecFloat*)(Vec), \
+    (VecFloat*)(VecBound), (VecFloat*)(Delta))
+
+#define VecShiftStepDelta(Vec, VecFrom, VecTo, Delta) _Generic(Vec, \
+  VecFloat*: _VecFloatShiftStepDelta, \
+  VecFloat2D*: _VecFloatShiftStepDelta, \
+  VecFloat3D*: _VecFloatShiftStepDelta, \
+  default: PBErrInvalidPolymorphism)((VecFloat*)(Vec), \
+    (VecFloat*)(VecFrom), (VecFloat*)(VecTo), (VecFloat*)(Delta))
+
 #define MatClone(Mat) _Generic(Mat, \
   MatFloat*: _MatFloatClone, \
   default: PBErrInvalidPolymorphism)(Mat)
@@ -762,7 +808,7 @@ bool _VecShortPStep(VecShort* that, VecShort* bound);
 // 'that' must be initialised to 'from' before the first call of this
 // function
 // Return false if all values of 'that' have reached their upper limit 
-// (in which case 'that''s values are all set back to 0)
+// (in which case 'that''s values are all set back to from)
 // Return true else
 bool _VecShortShiftStep(VecShort* that, VecShort* from, VecShort* to);
 
@@ -810,6 +856,18 @@ inline
 #endif 
 VecShort4D _VecShortGetOp4D(VecShort4D* that, short a, 
   VecShort4D* tho, short b);
+
+// Get the max value in components of the vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+short _VecShortGetMaxVal(VecShort* that);
+
+// Get the min value in components of the vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+short _VecShortGetMinVal(VecShort* that);
 
 // -------------- VecFloat
 
@@ -1180,6 +1238,41 @@ VecFloat2D VecShortToFloat2D(VecShort2D* that);
 inline 
 #endif 
 VecFloat3D VecShortToFloat3D(VecShort3D* that);
+
+// Get the max value in components of the vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+float _VecFloatGetMaxVal(VecFloat* that);
+
+// Get the min value in components of the vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+float _VecFloatGetMinVal(VecFloat* that);
+
+// Step the values of the vector incrementally by delta from 0
+// in the following order (for example) : 
+// (0.,0.,0.)->(0.,0.,1.)->(0.,0.,2.)->(0.,1.,0.)->(0.,1.,1.)->...
+// The upper limit for each value is given by 'bound' (val[i] <= dim[i])
+// Return false after all values of 'that' have reached their upper 
+// limit (in which case 'that''s values are all set back to 0.)
+// Return true else
+bool _VecFloatStepDelta(VecFloat* that, VecFloat* bound, 
+  VecFloat* delta);
+
+// Step the values of the vector incrementally by delta
+// in the following order (for example) : 
+// (0.,0.,0.)->(0.,0.,1.)->(0.,0.,2.)->(0.,1.,0.)->(0.,1.,1.)->...
+// The lower limit for each value is given by 'from' (val[i] >= from[i])
+// The upper limit for each value is given by 'to' (val[i] <= to[i])
+// 'that' must be initialised to 'from' before the first call of this
+// function
+// Return false after all values of 'that' have reached their upper 
+// limit (in which case 'that''s values are all set back to from)
+// Return true else
+bool _VecFloatShiftStepDelta(VecFloat* that, VecFloat* from, 
+  VecFloat* to, VecFloat* delta);
 
 // -------------- MatFloat
 

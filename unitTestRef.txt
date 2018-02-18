@@ -22,9 +22,9 @@ UnitTestVecShortHamiltonDist OK
 UnitTestVecShortIsEqual OK
 UnitTestVecShortDotProd OK
 UnitTestVecShortCopy OK
-VecShort: 0.000047ms, array: 0.000034ms
-VecShort2D: 0.000013ms, array: 0.000013ms
-VecShort3D: 0.000013ms, array: 0.000013ms
+VecShort: 0.000042ms, array: 0.000034ms
+VecShort2D: 0.000014ms, array: 0.000014ms
+VecShort3D: 0.000014ms, array: 0.000014ms
 VecShort4D: 0.000013ms, array: 0.000013ms
 UnitTestSpeedVecShort OK
 <1.000,2.000,3.000,4.000,5.000>
@@ -33,6 +33,7 @@ UnitTestSpeedVecShort OK
 UnitTestVecShortToFloat OK
 UnitTestVecShortOp OK
 UnitTestVecShortShiftStep OK
+UnitTestVecShortGetMinMax OK
 UnitTestVecShort OK
 <0.000,0.000,0.000,0.000,0.000>
 <0.000,0.000>
@@ -53,8 +54,9 @@ UnitTestVecFloatAngleTo OK
 <1,2>
 <1,2,3>
 UnitTestVecFloatToShort OK
+UnitTestVecFloatGetMinMax OK
 UnitTestVecFloatRotAxis OK
-VecFloat: 0.000029ms, array: 0.000031ms
+VecFloat: 0.000031ms, array: 0.000029ms
 VecFloat2D: 0.000013ms, array: 0.000013ms
 VecFloat3D: 0.000013ms, array: 0.000013ms
 UnitTestSpeedVecFloat OK
@@ -66,7 +68,7 @@ UnitTestMatFloatLoadSave OK
 UnitTestMatFloatInv OK
 UnitTestMatFloatProdVecFloat OK
 UnitTestMatFloatProdMatFloat OK
-MatFloat: 0.000006ms, array: 0.000007ms
+MatFloat: 0.000006ms, array: 0.000006ms
 UnitTestSpeedMatFloat OK
 UnitTestMatFloat OK
 UnitTestSysLinEq OK
@@ -76,7 +78,7 @@ UnitTestConv OK
 powi OK
 average error: 0.000000 < 0.000010, max error: 0.000000 < 0.000100
 fastpow OK
-fastpow: 0.000025ms, pow: 0.000074ms
+fastpow: 0.000024ms, pow: 0.000075ms
 speed fastpow OK
 fsquare OK
 UnitTestConv OK
