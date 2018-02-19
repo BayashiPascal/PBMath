@@ -1543,6 +1543,50 @@ float _VecFloatGetMinVal(VecFloat* that) {
   return min;
 }
 
+// Get the max value (in absolute value) in components of the 
+// vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+float _VecFloatGetMaxValAbs(VecFloat* that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable to memorize the result
+  float max = fabs(VecGet(that, 0));
+  // Search for the maximum value
+  for (int i = VecGetDim(that); i-- && i != 0;)
+    max = (fabs(max) > fabs(VecGet(that, i)) ? max : VecGet(that, i));
+  // Return the result
+  return max;
+}
+
+// Get the min value (in absolute value) in components of the 
+// vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+float _VecFloatGetMinValAbs(VecFloat* that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable to memorize the result
+  float min = fabs(VecGet(that, 0));
+  // Search for the minimum value
+  for (int i = VecGetDim(that); i-- && i != 0;)
+    min = (fabs(min) < fabs(VecGet(that, i)) ? min : VecGet(that, i));
+  // Return the result
+  return min;
+}
+
 // Set the MatFloat to the identity matrix
 // The matrix must be a square matrix
 #if BUILDMODE != 0
@@ -2188,6 +2232,49 @@ short _VecShortGetMinVal(VecShort* that) {
   // Search for the minimum value
   for (int i = VecGetDim(that); i-- && i != 0;)
     min = MIN(min, VecGet(that, i));
+  // Return the result
+  return min;
+}
+
+// Get the max value (in absolute value) in components of the 
+// vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+short _VecShortGetMaxValAbs(VecShort* that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable to memorize the result
+  short max = abs(VecGet(that, 0));
+  // Search for the maximum value
+  for (int i = VecGetDim(that); i-- && i != 0;)
+    max = (abs(max) > abs(VecGet(that, i)) ? max : VecGet(that, i));
+  // Return the result
+  return max;
+}
+
+// Get the min value (in absolute value) in components of the vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+short _VecShortGetMinValAbs(VecShort* that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable to memorize the result
+  short min = abs(VecGet(that, 0));
+  // Search for the minimum value
+  for (int i = VecGetDim(that); i-- && i != 0;)
+    min = (abs(min) < abs(VecGet(that, i)) ? min : VecGet(that, i));
   // Return the result
   return min;
 }

@@ -955,18 +955,33 @@ void UnitTestVecShortShiftStep() {
 }
 
 void UnitTestVecShortGetMinMax() {
-  VecShort2D v = VecShortCreateStatic2D();
-  VecSet(&v, 0, 1); VecSet(&v, 1, 2);
+  VecShort3D v = VecShortCreateStatic3D();
+  VecSet(&v, 0, 2); VecSet(&v, 1, 4); VecSet(&v, 2, 3);
   short val = VecGetMaxVal(&v);
-  if (val != 2) {
+  if (val != 4) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
     sprintf(PBMathErr->_msg, "VecGetMaxVal NOK");
     PBErrCatch(PBMathErr);
   }
+  VecSet(&v, 0, 2); VecSet(&v, 1, 1); VecSet(&v, 2, 3);
   val = VecGetMinVal(&v);
   if (val != 1) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
     sprintf(PBMathErr->_msg, "VecGetMinVal NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecSet(&v, 0, 2); VecSet(&v, 1, -4); VecSet(&v, 2, 3);
+  val = VecGetMaxValAbs(&v);
+  if (val != -4) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecGetMaxValAbs NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecSet(&v, 0, -2); VecSet(&v, 1, 1); VecSet(&v, 2, 3);
+  val = VecGetMinValAbs(&v);
+  if (val != 1) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecGetMinValAbs NOK");
     PBErrCatch(PBMathErr);
   }
   printf("UnitTestVecShortGetMinMax OK\n");
@@ -1785,6 +1800,19 @@ void UnitTestVecFloatGetMinMax() {
   if (ISEQUALF(val, 1.0) == false) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
     sprintf(PBMathErr->_msg, "VecGetMinVal NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecSet(&v, 0, 1.0); VecSet(&v, 1, -2.0);
+  val = VecGetMaxValAbs(&v);
+  if (ISEQUALF(val, -2.0) == false) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecGetMaxValAbs NOK");
+    PBErrCatch(PBMathErr);
+  }
+  val = VecGetMinValAbs(&v);
+  if (ISEQUALF(val, 1.0) == false) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecGetMinValAbs NOK");
     PBErrCatch(PBMathErr);
   }
   printf("UnitTestVecFloatGetMinMax OK\n");

@@ -22,10 +22,10 @@ UnitTestVecShortHamiltonDist OK
 UnitTestVecShortIsEqual OK
 UnitTestVecShortDotProd OK
 UnitTestVecShortCopy OK
-VecShort: 0.000042ms, array: 0.000034ms
+VecShort: 0.000031ms, array: 0.000033ms
 VecShort2D: 0.000014ms, array: 0.000014ms
 VecShort3D: 0.000014ms, array: 0.000014ms
-VecShort4D: 0.000013ms, array: 0.000013ms
+VecShort4D: 0.000012ms, array: 0.000013ms
 UnitTestSpeedVecShort OK
 <1.000,2.000,3.000,4.000,5.000>
 <1.000,2.000>
@@ -56,8 +56,8 @@ UnitTestVecFloatAngleTo OK
 UnitTestVecFloatToShort OK
 UnitTestVecFloatGetMinMax OK
 UnitTestVecFloatRotAxis OK
-VecFloat: 0.000031ms, array: 0.000029ms
-VecFloat2D: 0.000013ms, array: 0.000013ms
+VecFloat: 0.000029ms, array: 0.000029ms
+VecFloat2D: 0.000016ms, array: 0.000014ms
 VecFloat3D: 0.000013ms, array: 0.000013ms
 UnitTestSpeedVecFloat OK
 UnitTestVecFloat OK

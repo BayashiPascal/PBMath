@@ -504,6 +504,38 @@
     VecShort4D*: (VecShort*)(Vec), \
     default: Vec))
 
+#define VecGetMaxValAbs(Vec) _Generic(Vec, \
+  VecFloat*: _VecFloatGetMaxValAbs, \
+  VecFloat2D*: _VecFloatGetMaxValAbs, \
+  VecFloat3D*: _VecFloatGetMaxValAbs, \
+  VecShort*: _VecShortGetMaxValAbs, \
+  VecShort2D*: _VecShortGetMaxValAbs, \
+  VecShort3D*: _VecShortGetMaxValAbs, \
+  VecShort4D*: _VecShortGetMaxValAbs, \
+  default: PBErrInvalidPolymorphism) (_Generic(Vec, \
+    VecFloat2D*: (VecFloat*)(Vec), \
+    VecFloat3D*: (VecFloat*)(Vec), \
+    VecShort2D*: (VecShort*)(Vec), \
+    VecShort3D*: (VecShort*)(Vec), \
+    VecShort4D*: (VecShort*)(Vec), \
+    default: Vec))
+
+#define VecGetMinValAbs(Vec) _Generic(Vec, \
+  VecFloat*: _VecFloatGetMinValAbs, \
+  VecFloat2D*: _VecFloatGetMinValAbs, \
+  VecFloat3D*: _VecFloatGetMinValAbs, \
+  VecShort*: _VecShortGetMinValAbs, \
+  VecShort2D*: _VecShortGetMinValAbs, \
+  VecShort3D*: _VecShortGetMinValAbs, \
+  VecShort4D*: _VecShortGetMinValAbs, \
+  default: PBErrInvalidPolymorphism) (_Generic(Vec, \
+    VecFloat2D*: (VecFloat*)(Vec), \
+    VecFloat3D*: (VecFloat*)(Vec), \
+    VecShort2D*: (VecShort*)(Vec), \
+    VecShort3D*: (VecShort*)(Vec), \
+    VecShort4D*: (VecShort*)(Vec), \
+    default: Vec))
+
 #define VecStepDelta(Vec, VecBound, Delta) _Generic(Vec, \
   VecFloat*: _VecFloatStepDelta, \
   VecFloat2D*: _VecFloatStepDelta, \
@@ -868,6 +900,20 @@ short _VecShortGetMaxVal(VecShort* that);
 inline 
 #endif 
 short _VecShortGetMinVal(VecShort* that);
+
+// Get the max value (in absolute value) in components of the 
+// vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+short _VecShortGetMaxValAbs(VecShort* that);
+
+// Get the min value (in absolute value) in components of the 
+// vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+short _VecShortGetMinValAbs(VecShort* that);
 
 // -------------- VecFloat
 
@@ -1250,6 +1296,20 @@ float _VecFloatGetMaxVal(VecFloat* that);
 inline 
 #endif 
 float _VecFloatGetMinVal(VecFloat* that);
+
+// Get the max value (in absolute value) in components of the 
+// vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+float _VecFloatGetMaxValAbs(VecFloat* that);
+
+// Get the min value (in absolute value) in components of the 
+// vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+float _VecFloatGetMinValAbs(VecFloat* that);
 
 // Step the values of the vector incrementally by delta from 0
 // in the following order (for example) : 
