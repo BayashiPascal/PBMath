@@ -22,9 +22,11 @@
 #define PBMATH_QUARTERPI 0.7853981634
 #define PBMATH_SQRTTWO 1.414213562
 #define PBMATH_SQRTONEHALF 0.707106781
-#if BUILDWITHGRAPHICLIB != 1
-#define MAX(a,b) ((a)>(b)?(a):(b))
-#define MIN(a,b) ((a)<(b)?(a):(b))
+#ifndef MAX
+  #define MAX(a,b) ((a)>(b)?(a):(b))
+#endif
+#ifndef MIN
+  #define MIN(a,b) ((a)<(b)?(a):(b))
 #endif
 #define ISEQUALF(a,b) (fabs((a)-(b))<PBMATH_EPSILON)
 #define SHORT(a) ((short)(round(a)))
