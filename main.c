@@ -1818,6 +1818,34 @@ void UnitTestVecFloatGetMinMax() {
   printf("UnitTestVecFloatGetMinMax OK\n");
 }
 
+void UnitTestVecFloatGetNewDim() {
+  VecFloat* v = VecFloatCreate(3);
+  for (int i = 3; i--;)
+    VecSet(v, i, (float)i);
+  VecFloat* u = VecGetNewDim(v, 2);
+  if (VecGetDim(u) != 2 ||
+    ISEQUALF(VecGet(u, 0), 0.0) == false ||
+    ISEQUALF(VecGet(u, 1), 1.0) == false) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecGetNewDim NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecFloat* w = VecGetNewDim(v, 4);
+  if (VecGetDim(w) != 4 ||
+    ISEQUALF(VecGet(w, 0), 0.0) == false ||
+    ISEQUALF(VecGet(w, 1), 1.0) == false ||
+    ISEQUALF(VecGet(w, 2), 2.0) == false ||
+    ISEQUALF(VecGet(w, 3), 0.0) == false) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecGetNewDim NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecFree(&v);
+  VecFree(&u);
+  VecFree(&w);
+  printf("UnitTestVecFloatGetNewDim OK\n");
+}
+
 void UnitTestVecFloat() {
   UnitTestVecFloatCreateFree();
   UnitTestVecFloatClone();
@@ -1834,6 +1862,7 @@ void UnitTestVecFloat() {
   UnitTestVecFloatToShort();
   UnitTestVecFloatGetMinMax();
   UnitTestVecFloatRotAxis();
+  UnitTestVecFloatGetNewDim();
   UnitTestSpeedVecFloat();
   printf("UnitTestVecFloat OK\n");
 }

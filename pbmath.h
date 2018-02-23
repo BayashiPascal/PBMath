@@ -190,6 +190,13 @@
       VecShort4D*: (VecShort*)(Vec), \
       default: Vec))
 
+#define VecGetNewDim(Vec, Dim) _Generic(Vec, \
+  VecFloat*: _VecFloatGetNewDim, \
+  default: PBErrInvalidPolymorphism)( \
+    _Generic(Vec, \
+      VecFloat*: Vec, \
+      default: Vec), Dim)
+
 #define VecNorm(Vec) _Generic(Vec, \
   VecFloat*: _VecFloatNorm, \
   VecFloat2D*: _VecFloatNorm2D, \
@@ -1030,6 +1037,12 @@ void _VecFloatSetNull3D(VecFloat3D* that);
 inline 
 #endif 
 int _VecFloatGetDim(VecFloat* that);
+
+// Return a new VecFloat as a copy of the VecFloat 'that' with 
+// dimension changed to 'dim'
+// if it is extended, the values of new components are 0.0
+// If it is shrinked, values are discarded from the end of the vector
+VecFloat* _VecFloatGetNewDim(VecFloat* that, int dim); 
 
 // Copy the values of 'w' in 'that' (must have same dimensions)
 // Do nothing if arguments are invalid

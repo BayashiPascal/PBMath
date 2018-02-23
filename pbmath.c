@@ -940,6 +940,39 @@ bool _VecFloatShiftStepDelta(VecFloat* that, VecFloat* from,
   return ret;
 }
 
+// Return a new VecFloat as a copy of the VecFloat 'that' with 
+// dimension changed to 'dim'
+// if it is extended, the values of new components are 0.0
+// If it is shrinked, values are discarded from the end of the vector
+VecFloat* _VecFloatGetNewDim(VecFloat* that, int dim) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (dim <= 0) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'dim' is invalid match (%d>0)", dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // If the new dimension is the same as the current one
+  if (dim == VecGetDim(that)) {
+    // Return the clone of the vector
+    return VecClone(that);
+  // Else, the new dimension is actually different
+  } else {
+    // Declare the returned vector
+    VecFloat* ret = VecFloatCreate(dim);
+    // Copy the components
+    for (int iAxis = MIN(VecGetDim(that), dim); iAxis--;)
+      VecSet(ret, iAxis, VecGet(that, iAxis));
+    // Return the new vector
+    return ret;
+  }
+}
+
 // -------------- MatFloat
 
 // ================= Define ==================
