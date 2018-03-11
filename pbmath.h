@@ -377,6 +377,54 @@
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(VecA, CoeffA, VecB, CoeffB)
 
+#define VecHadamardProd(VecA, VecB) _Generic(VecA, \
+  VecFloat*: _Generic(VecB, \
+    VecFloat*: _VecFloatHadamardProd, \
+    default: PBErrInvalidPolymorphism), \
+  VecFloat2D*: _Generic(VecB, \
+    VecFloat2D*: _VecFloatHadamardProd2D, \
+    default: PBErrInvalidPolymorphism), \
+  VecFloat3D*: _Generic(VecB, \
+    VecFloat3D*: _VecFloatHadamardProd3D, \
+    default: PBErrInvalidPolymorphism), \
+  VecShort*: _Generic(VecB, \
+    VecShort*: _VecShortHadamardProd, \
+    default: PBErrInvalidPolymorphism), \
+  VecShort2D*: _Generic(VecB, \
+    VecShort2D*: _VecShortHadamardProd2D, \
+    default: PBErrInvalidPolymorphism), \
+  VecShort3D*: _Generic(VecB, \
+    VecShort3D*: _VecShortHadamardProd3D, \
+    default: PBErrInvalidPolymorphism), \
+  VecShort4D*: _Generic(VecB, \
+    VecShort4D*: _VecShortHadamardProd4D, \
+    default: PBErrInvalidPolymorphism), \
+  default: PBErrInvalidPolymorphism)(VecA, VecB)
+
+#define VecGetHadamardProd(VecA, VecB) _Generic(VecA, \
+  VecFloat*: _Generic(VecB, \
+    VecFloat*: _VecFloatGetHadamardProd, \
+    default: PBErrInvalidPolymorphism), \
+  VecFloat2D*: _Generic(VecB, \
+    VecFloat2D*: _VecFloatGetHadamardProd2D, \
+    default: PBErrInvalidPolymorphism), \
+  VecFloat3D*: _Generic(VecB, \
+    VecFloat3D*: _VecFloatGetHadamardProd3D, \
+    default: PBErrInvalidPolymorphism), \
+  VecShort*: _Generic(VecB, \
+    VecShort*: _VecShortGetHadamardProd, \
+    default: PBErrInvalidPolymorphism), \
+  VecShort2D*: _Generic(VecB, \
+    VecShort2D*: _VecShortGetHadamardProd2D, \
+    default: PBErrInvalidPolymorphism), \
+  VecShort3D*: _Generic(VecB, \
+    VecShort3D*: _VecShortGetHadamardProd3D, \
+    default: PBErrInvalidPolymorphism), \
+  VecShort4D*: _Generic(VecB, \
+    VecShort4D*: _VecShortGetHadamardProd4D, \
+    default: PBErrInvalidPolymorphism), \
+  default: PBErrInvalidPolymorphism)(VecA, VecB)
+
 #define VecScale(Vec, Scale) _Generic(Vec, \
   VecFloat*: _VecFloatScale, \
   VecFloat2D*: _VecFloatScale2D, \
@@ -898,6 +946,49 @@ inline
 VecShort4D _VecShortGetOp4D(VecShort4D* that, short a, 
   VecShort4D* tho, short b);
 
+// Calculate the Hadamard product of that by tho and store the 
+// result in 'that'
+// 'tho' and 'that' must be of same dimension
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecShortHadamardProd(VecShort* that, VecShort* tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecShortHadamardProd2D(VecShort2D* that, VecShort2D* tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecShortHadamardProd3D(VecShort3D* that, VecShort3D* tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecShortHadamardProd4D(VecShort4D* that, VecShort4D* tho);
+
+// Return a VecShort equal to the hadamard product of 'that' and 'tho'
+// Return NULL if arguments are invalid
+// 'tho' and 'that' must be of same dimension
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecShort* _VecShortGetHadamardProd(VecShort* that, VecShort* tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecShort2D _VecShortGetHadamardProd2D(VecShort2D* that, 
+  VecShort2D* tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecShort3D _VecShortGetHadamardProd3D(VecShort3D* that, 
+  VecShort3D* tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecShort4D _VecShortGetHadamardProd4D(VecShort4D* that, 
+  VecShort4D* tho);
+
 // Get the max value in components of the vector 'that'
 #if BUILDMODE != 0 
 inline 
@@ -1192,6 +1283,40 @@ inline
 VecFloat3D _VecFloatGetOp3D(VecFloat3D* that, float a, 
   VecFloat3D* tho, float b);
 
+// Calculate the Hadamard product of that by tho and store the 
+// result in 'that'
+// 'tho' and 'that' must be of same dimension
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecFloatHadamardProd(VecFloat* that, VecFloat* tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecFloatHadamardProd2D(VecFloat2D* that, VecFloat2D* tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecFloatHadamardProd3D(VecFloat3D* that, VecFloat3D* tho);
+
+// Return a VecFloat equal to the hadamard product of 'that' and 'tho'
+// Return NULL if arguments are invalid
+// 'tho' and 'that' must be of same dimension
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecFloat* _VecFloatGetHadamardProd(VecFloat* that, VecFloat* tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecFloat2D _VecFloatGetHadamardProd2D(VecFloat2D* that, 
+  VecFloat2D* tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecFloat3D _VecFloatGetHadamardProd3D(VecFloat3D* that, 
+  VecFloat3D* tho);
+
 // Rotate CCW 'that' by 'theta' radians and store the result in 'that'
 #if BUILDMODE != 0 
 inline 
@@ -1357,7 +1482,7 @@ bool _VecFloatShiftStepDelta(VecFloat* that, VecFloat* from,
 typedef struct MatFloat {
   // Dimension
   VecShort2D _dim;
-  // Values (memorized by columns)
+  // Values (memorized by lines)
   float _val[0];
 } MatFloat;
 

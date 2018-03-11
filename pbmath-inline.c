@@ -1169,6 +1169,150 @@ VecFloat3D _VecFloatGetOp3D(VecFloat3D* that, float a,
   return res;
 }
 
+// Calculate the Hadamard product of that by tho and store the 
+// result in 'that'
+// 'tho' and 'that' must be of same dimension
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecFloatHadamardProd(VecFloat* that, VecFloat* tho) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != tho->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+      that->_dim, tho->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  for (int iDim = that->_dim; iDim--;)
+    VecSet(that, iDim, VecGet(that, iDim) * VecGet(tho, iDim));
+}
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecFloatHadamardProd2D(VecFloat2D* that, VecFloat2D* tho) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecSet(that, 0, VecGet(that, 0) * VecGet(tho, 0));
+  VecSet(that, 1, VecGet(that, 1) * VecGet(tho, 1));
+}
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecFloatHadamardProd3D(VecFloat3D* that, VecFloat3D* tho) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecSet(that, 0, VecGet(that, 0) * VecGet(tho, 0));
+  VecSet(that, 1, VecGet(that, 1) * VecGet(tho, 1));
+  VecSet(that, 2, VecGet(that, 2) * VecGet(tho, 2));
+}
+
+// Return a VecFloat equal to the hadamard product of 'that' and 'tho'
+// Return NULL if arguments are invalid
+// 'tho' and 'that' must be of same dimension
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecFloat* _VecFloatGetHadamardProd(VecFloat* that, VecFloat* tho) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != tho->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+      that->_dim, tho->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecFloat* res = VecFloatCreate(that->_dim);
+  for (int iDim = that->_dim; iDim--;)
+    VecSet(res, iDim, VecGet(that, iDim) * VecGet(tho, iDim));
+  return res;
+}
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecFloat2D _VecFloatGetHadamardProd2D(VecFloat2D* that, 
+  VecFloat2D* tho) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecFloat2D res = VecFloatCreateStatic2D();
+  VecSet(&res, 0, VecGet(that, 0) * VecGet(tho, 0));
+  VecSet(&res, 1, VecGet(that, 1) * VecGet(tho, 1));
+  return res;
+}
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecFloat3D _VecFloatGetHadamardProd3D(VecFloat3D* that, 
+  VecFloat3D* tho) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecFloat3D res = VecFloatCreateStatic3D();
+  VecSet(&res, 0, VecGet(that, 0) * VecGet(tho, 0));
+  VecSet(&res, 1, VecGet(that, 1) * VecGet(tho, 1));
+  VecSet(&res, 2, VecGet(that, 2) * VecGet(tho, 2));
+  return res;
+}
+
 // Calculate (that * a) and store the result in 'that'
 #if BUILDMODE != 0
 inline
@@ -2191,6 +2335,195 @@ VecShort4D _VecShortGetOp4D(VecShort4D* that, short a,
   VecSet(&res, 1, a * VecGet(that, 1) + b * VecGet(tho, 1));
   VecSet(&res, 2, a * VecGet(that, 2) + b * VecGet(tho, 2));
   VecSet(&res, 3, a * VecGet(that, 3) + b * VecGet(tho, 3));
+  return res;
+}
+
+// Calculate the Hadamard product of that by tho and store the 
+// result in 'that'
+// 'tho' and 'that' must be of same dimension
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecShortHadamardProd(VecShort* that, VecShort* tho) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != tho->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+      that->_dim, tho->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  for (int iDim = that->_dim; iDim--;)
+    VecSet(that, iDim, VecGet(that, iDim) * VecGet(tho, iDim));
+}
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecShortHadamardProd2D(VecShort2D* that, VecShort2D* tho) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecSet(that, 0, VecGet(that, 0) * VecGet(tho, 0));
+  VecSet(that, 1, VecGet(that, 1) * VecGet(tho, 1));
+}
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecShortHadamardProd3D(VecShort3D* that, VecShort3D* tho) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecSet(that, 0, VecGet(that, 0) * VecGet(tho, 0));
+  VecSet(that, 1, VecGet(that, 1) * VecGet(tho, 1));
+  VecSet(that, 2, VecGet(that, 2) * VecGet(tho, 2));
+}
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecShortHadamardProd4D(VecShort4D* that, VecShort4D* tho) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecSet(that, 0, VecGet(that, 0) * VecGet(tho, 0));
+  VecSet(that, 1, VecGet(that, 1) * VecGet(tho, 1));
+  VecSet(that, 2, VecGet(that, 2) * VecGet(tho, 2));
+  VecSet(that, 3, VecGet(that, 3) * VecGet(tho, 3));
+}
+
+// Return a VecShort equal to the hadamard product of 'that' and 'tho'
+// Return NULL if arguments are invalid
+// 'tho' and 'that' must be of same dimension
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecShort* _VecShortGetHadamardProd(VecShort* that, VecShort* tho) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != tho->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+      that->_dim, tho->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecShort* res = VecShortCreate(that->_dim);
+  for (int iDim = that->_dim; iDim--;)
+    VecSet(res, iDim, VecGet(that, iDim) * VecGet(tho, iDim));
+  return res;
+}
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecShort2D _VecShortGetHadamardProd2D(VecShort2D* that, 
+  VecShort2D* tho) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecShort2D res = VecShortCreateStatic2D();
+  VecSet(&res, 0, VecGet(that, 0) * VecGet(tho, 0));
+  VecSet(&res, 1, VecGet(that, 1) * VecGet(tho, 1));
+  return res;
+}
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecShort3D _VecShortGetHadamardProd3D(VecShort3D* that, 
+  VecShort3D* tho) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecShort3D res = VecShortCreateStatic3D();
+  VecSet(&res, 0, VecGet(that, 0) * VecGet(tho, 0));
+  VecSet(&res, 1, VecGet(that, 1) * VecGet(tho, 1));
+  VecSet(&res, 2, VecGet(that, 2) * VecGet(tho, 2));
+  return res;
+}
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecShort4D _VecShortGetHadamardProd4D(VecShort4D* that, 
+  VecShort4D* tho) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecShort4D res = VecShortCreateStatic4D();
+  VecSet(&res, 0, VecGet(that, 0) * VecGet(tho, 0));
+  VecSet(&res, 1, VecGet(that, 1) * VecGet(tho, 1));
+  VecSet(&res, 2, VecGet(that, 2) * VecGet(tho, 2));
+  VecSet(&res, 3, VecGet(that, 3) * VecGet(tho, 3));
   return res;
 }
 

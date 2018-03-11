@@ -987,6 +987,80 @@ void UnitTestVecShortGetMinMax() {
   printf("UnitTestVecShortGetMinMax OK\n");
 }
 
+void UnitTestVecShortHadamardProd() {
+  VecShort* u = VecShortCreate(3);
+  for (int i = 3; i--;)
+    VecSet(u, i, i + 2);
+  VecShort* uprod = VecGetHadamardProd(u, u);
+  VecHadamardProd(u, u);
+  short checku[3] = {4, 9, 16};
+  for (int i = 3; i--;)
+    if (ISEQUALF(VecGet(uprod, i), checku[i]) == false) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "VecGetHadamardProd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  if (VecIsEqual(uprod, u) == false) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecHadamardProd NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecFree(&uprod);
+  VecFree(&u);
+  VecShort2D v = VecShortCreateStatic2D();
+  for (int i = 2; i--;)
+    VecSet(&v, i, i + 2);
+  VecShort2D vprod = VecGetHadamardProd(&v, &v);
+  VecHadamardProd(&v, &v);
+  short checkv[2] = {4, 9};
+  for (int i = 2; i--;)
+    if (ISEQUALF(VecGet(&vprod, i), checkv[i]) == false) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "VecGetHadamardProd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  if (VecIsEqual(&vprod, &v) == false) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecHadamardProd NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecShort3D w = VecShortCreateStatic3D();
+  for (int i = 3; i--;)
+    VecSet(&w, i, i + 2);
+  VecShort3D wprod = VecGetHadamardProd(&w, &w);
+  VecHadamardProd(&w, &w);
+  short checkw[3] = {4, 9, 16};
+  for (int i = 3; i--;)
+    if (ISEQUALF(VecGet(&wprod, i), checkw[i]) == false) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "VecGetHadamardProd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  if (VecIsEqual(&wprod, &w) == false) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecHadamardProd NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecShort4D x = VecShortCreateStatic4D();
+  for (int i = 4; i--;)
+    VecSet(&x, i, i + 2);
+  VecShort4D xprod = VecGetHadamardProd(&x, &x);
+  VecHadamardProd(&x, &x);
+  short checkx[4] = {4, 9, 16, 25};
+  for (int i = 4; i--;)
+    if (ISEQUALF(VecGet(&xprod, i), checkx[i]) == false) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "VecGetHadamardProd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  if (VecIsEqual(&xprod, &x) == false) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecHadamardProd NOK");
+    PBErrCatch(PBMathErr);
+  }
+  printf("UnitTestVecShortHadamardProd OK\n");
+}
+
 void UnitTestVecShort() {
   UnitTestVecShortCreateFree();
   UnitTestVecShortClone();
@@ -1002,6 +1076,7 @@ void UnitTestVecShort() {
   UnitTestVecShortOp();
   UnitTestVecShortShiftStep();
   UnitTestVecShortGetMinMax();
+  UnitTestVecShortHadamardProd();
   printf("UnitTestVecShort OK\n");
 }
 
@@ -1846,6 +1921,63 @@ void UnitTestVecFloatGetNewDim() {
   printf("UnitTestVecFloatGetNewDim OK\n");
 }
 
+void UnitTestVecFloatHadamardProd() {
+  VecFloat* u = VecFloatCreate(3);
+  for (int i = 3; i--;)
+    VecSet(u, i, (float)i + 2.0);
+  VecFloat* uprod = VecGetHadamardProd(u, u);
+  VecHadamardProd(u, u);
+  float checku[3] = {4.0, 9.0, 16.0};
+  for (int i = 3; i--;)
+    if (ISEQUALF(VecGet(uprod, i), checku[i]) == false) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "VecGetHadamardProd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  if (VecIsEqual(uprod, u) == false) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecHadamardProd NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecFree(&uprod);
+  VecFree(&u);
+  VecFloat2D v = VecFloatCreateStatic2D();
+  for (int i = 2; i--;)
+    VecSet(&v, i, (float)i + 2.0);
+  VecFloat2D vprod = VecGetHadamardProd(&v, &v);
+  VecHadamardProd(&v, &v);
+  float checkv[2] = {4.0, 9.0};
+  for (int i = 2; i--;)
+    if (ISEQUALF(VecGet(&vprod, i), checkv[i]) == false) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "VecGetHadamardProd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  if (VecIsEqual(&vprod, &v) == false) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecHadamardProd NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecFloat3D w = VecFloatCreateStatic3D();
+  for (int i = 3; i--;)
+    VecSet(&w, i, (float)i + 2.0);
+  VecFloat3D wprod = VecGetHadamardProd(&w, &w);
+  VecHadamardProd(&w, &w);
+  float checkw[3] = {4.0, 9.0, 16.0};
+  for (int i = 3; i--;)
+    if (ISEQUALF(VecGet(&wprod, i), checkw[i]) == false) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "VecGetHadamardProd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  if (VecIsEqual(&wprod, &w) == false) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecHadamardProd NOK");
+    PBErrCatch(PBMathErr);
+  }
+  printf("UnitTestVecFloatHadamardProd OK\n");
+}
+
 void UnitTestVecFloat() {
   UnitTestVecFloatCreateFree();
   UnitTestVecFloatClone();
@@ -1863,6 +1995,7 @@ void UnitTestVecFloat() {
   UnitTestVecFloatGetMinMax();
   UnitTestVecFloatRotAxis();
   UnitTestVecFloatGetNewDim();
+  UnitTestVecFloatHadamardProd();
   UnitTestSpeedVecFloat();
   printf("UnitTestVecFloat OK\n");
 }
