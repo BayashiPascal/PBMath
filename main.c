@@ -303,6 +303,34 @@ void UnitTestVecShortGetSetDim() {
       sprintf(PBMathErr->_msg, "_VecShortGet NOK");
       PBErrCatch(PBMathErr);
     }
+  for (int i = 5; i--;) VecSetAdd(v, i, i + 1);
+  for (int i = 2; i--;) VecSetAdd(&v2, i, i + 1);
+  for (int i = 3; i--;) VecSetAdd(&v3, i, i + 1);
+  for (int i = 4; i--;) VecSetAdd(&v4, i, i + 1);
+  for (int i = 5; i--;)
+    if (VecGet(v, i) != 2 * (i + 1)) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecShortSetAdd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 2; i--;)
+    if (VecGet(&v2, i) != 2 * (i + 1)) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecShortSetAdd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 3; i--;)
+    if (VecGet(&v3, i) != 2 * (i + 1)) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecShortSetAdd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 4; i--;)
+    if (VecGet(&v4, i) != 2 * (i + 1)) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecShortSetAdd NOK");
+      PBErrCatch(PBMathErr);
+    }
   VecSetNull(v);
   VecSetNull(&v2);
   VecSetNull(&v3);
@@ -1233,6 +1261,27 @@ void UnitTestVecFloatGetSetDim() {
     if (!ISEQUALF(VecGet(&v3, i), (float)(i + 1))) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
       sprintf(PBMathErr->_msg, "_VecFloatGet NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 5; i--;) VecSetAdd(v, i, (float)(i + 1));
+  for (int i = 2; i--;) VecSetAdd(&v2, i, (float)(i + 1));
+  for (int i = 3; i--;) VecSetAdd(&v3, i, (float)(i + 1));
+  for (int i = 5; i--;)
+    if (!ISEQUALF(VecGet(v, i), 2.0 * (float)(i + 1))) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecFloatSetAdd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 2; i--;)
+    if (!ISEQUALF(VecGet(&v2, i), 2.0 * (float)(i + 1))) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecFloatSetAdd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 3; i--;)
+    if (!ISEQUALF(VecGet(&v3, i), 2.0 * (float)(i + 1))) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecFloatSetAdd NOK");
       PBErrCatch(PBMathErr);
     }
   VecSetNull(v);

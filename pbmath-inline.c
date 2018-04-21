@@ -175,6 +175,81 @@ void _VecShortSet4D(VecShort4D* that, int i, short v) {
   that->_val[i] = v;
 }
 
+// Set the i-th value of the VecShort to v plus its current value
+#if BUILDMODE != 0
+inline
+#endif 
+void _VecShortSetAdd(VecShort* that, int i, short v) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (i < 0 || i >= that->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<%d)", i, 
+      that->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  ((short*)(((void*)that) + sizeof(int)))[i] += v;
+}
+#if BUILDMODE != 0
+inline
+#endif 
+void _VecShortSetAdd2D(VecShort2D* that, int i, short v) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (i < 0 || i >= 2) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<2)", i);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  that->_val[i] += v;
+}
+#if BUILDMODE != 0
+inline
+#endif 
+void _VecShortSetAdd3D(VecShort3D* that, int i, short v) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (i < 0 || i >= 3) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<3)", i);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  that->_val[i] += v;
+}
+#if BUILDMODE != 0
+inline
+#endif 
+void _VecShortSetAdd4D(VecShort4D* that, int i, short v) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (i < 0 || i >= 4) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<4)", i);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  that->_val[i] += v;
+}
+
 // Set all values of the vector 'that' to 0
 #if BUILDMODE != 0
 inline
@@ -581,6 +656,66 @@ void _VecFloatSet3D(VecFloat3D* that, int i, float v) {
 #endif
   // Set the value
   that->_val[i] = v;
+}
+
+// Set the i-th value of the VecFloat to v plus its current value
+#if BUILDMODE != 0
+inline
+#endif 
+void _VecFloatSetAdd(VecFloat* that, int i, float v) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (i < 0 || i >= that->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, 
+      "'i' is invalid (0<=%d<%d)", i, that->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Set the value
+  that->_val[i] += v;
+}
+#if BUILDMODE != 0
+inline
+#endif 
+void _VecFloatSetAdd2D(VecFloat2D* that, int i, float v) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (i < 0 || i >= 2) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<2)", i);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Set the value
+  that->_val[i] += v;
+}
+#if BUILDMODE != 0
+inline
+#endif 
+void _VecFloatSetAdd3D(VecFloat3D* that, int i, float v) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (i < 0 || i >= 3) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<3)", i);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Set the value
+  that->_val[i] += v;
 }
 
 // Set all values of the vector 'that' to 0.0

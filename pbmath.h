@@ -106,6 +106,16 @@
   VecShort4D*: _VecShortSet4D, \
   default: PBErrInvalidPolymorphism)(Vec, Index, Val)
 
+#define VecSetAdd(Vec, Index, Val) _Generic(Vec, \
+  VecFloat*: _VecFloatSetAdd, \
+  VecFloat2D*: _VecFloatSetAdd2D, \
+  VecFloat3D*: _VecFloatSetAdd3D, \
+  VecShort*: _VecShortSetAdd, \
+  VecShort2D*: _VecShortSetAdd2D, \
+  VecShort3D*: _VecShortSetAdd3D, \
+  VecShort4D*: _VecShortSetAdd4D, \
+  default: PBErrInvalidPolymorphism)(Vec, Index, Val)
+
 #define VecSetNull(Vec) _Generic(Vec, \
   VecFloat*: _VecFloatSetNull, \
   VecFloat2D*: _VecFloatSetNull, \
@@ -810,6 +820,24 @@ inline
 #endif 
 void _VecShortSet4D(VecShort4D* that, int i, short v);
 
+// Set the i-th value of the VecShort to v plus its current value
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecShortSetAdd(VecShort* that, int i, short v);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecShortSetAdd2D(VecShort2D* that, int i, short v);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecShortSetAdd3D(VecShort3D* that, int i, short v);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecShortSetAdd4D(VecShort4D* that, int i, short v);
+
 // Return the dimension of the VecShort
 // Return 0 if arguments are invalid
 #if BUILDMODE != 0 
@@ -1107,6 +1135,20 @@ void _VecFloatSet2D(VecFloat2D* that, int i, float v);
 inline
 #endif 
 void _VecFloatSet3D(VecFloat3D* that, int i, float v);
+
+// Set the 'i'-th value of the VecFloat to 'v' plus its current value
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecFloatSetAdd(VecFloat* that, int i, float v);
+#if BUILDMODE != 0
+inline
+#endif 
+void _VecFloatSetAdd2D(VecFloat2D* that, int i, float v);
+#if BUILDMODE != 0
+inline
+#endif 
+void _VecFloatSetAdd3D(VecFloat3D* that, int i, float v);
 
 // Set all values of the vector 'that' to 0
 #if BUILDMODE != 0 
