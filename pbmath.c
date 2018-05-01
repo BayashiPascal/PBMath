@@ -103,6 +103,9 @@ bool _VecShortDecodeAsJSON(VecShort** that, JSONNode* json) {
     return false;
   }
   int dim = atoi(JSONLabel(JSONValue(prop, 0)));
+  // If data are invalid
+  if (dim < 1)
+    return false;
   // Allocate memory
   *that = VecShortCreate(dim);
   // Get the values
@@ -467,6 +470,9 @@ bool _VecFloatDecodeAsJSON(VecFloat** that, JSONNode* json) {
     return false;
   }
   int dim = atoi(JSONLabel(JSONValue(prop, 0)));
+  // If data are invalid
+  if (dim < 1)
+    return false;
   // Allocate memory
   *that = VecFloatCreate(dim);
   // Get the values
@@ -1186,6 +1192,9 @@ bool _MatFloatDecodeAsJSON(MatFloat** that, JSONNode* json) {
     return false;
   }
   VecSet(&dim, 1, atoi(JSONLabel(JSONValue(prop, 0))));
+  // If data are invalid
+  if (VecGet(&dim, 0) < 1 || VecGet(&dim, 1) < 1)
+    return false;
   // Allocate memory
   *that = MatFloatCreate(&dim);
   // Get the values
