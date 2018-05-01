@@ -163,22 +163,23 @@ void UnitTestVecShortLoadSave() {
       "Can't open ./UnitTestVecShortLoadSave.txt for writing");
     PBErrCatch(PBMathErr);
   }
-  if (!VecSave(v, f)) {
+  bool compact = false;
+  if (!VecSave(v, f, compact)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
     sprintf(PBMathErr->_msg, "_VecShortSave NOK");
     PBErrCatch(PBMathErr);
   }
-  if (!VecSave(&v2, f)) {
+  if (!VecSave(&v2, f, compact)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
     sprintf(PBMathErr->_msg, "_VecShortSave NOK");
     PBErrCatch(PBMathErr);
   }
-  if (!VecSave(&v3, f)) {
+  if (!VecSave(&v3, f, compact)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
     sprintf(PBMathErr->_msg, "_VecShortSave NOK");
     PBErrCatch(PBMathErr);
   }
-  if (!VecSave(&v4, f)) {
+  if (!VecSave(&v4, f, compact)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
     sprintf(PBMathErr->_msg, "_VecShortSave NOK");
     PBErrCatch(PBMathErr);
@@ -237,7 +238,6 @@ void UnitTestVecShortLoadSave() {
   VecFree(&w);
   int ret = system("cat ./UnitTestVecShortLoadSave.txt");
   printf("_VecShortLoadSave OK\n");
-  ret = system("rm ./UnitTestVecShortLoadSave.txt");
   ret = ret;
 }
 
@@ -1152,17 +1152,18 @@ void UnitTestVecFloatLoadSave() {
       "Can't open ./UnitTestVecFloatLoadSave.txt for writing");
     PBErrCatch(PBMathErr);
   }
-  if (!VecSave(v, f)) {
+  bool compact = false;
+  if (!VecSave(v, f, compact)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
     sprintf(PBMathErr->_msg, "_VecFloatSave NOK");
     PBErrCatch(PBMathErr);
   }
-  if (!VecSave(&v2, f)) {
+  if (!VecSave(&v2, f, compact)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
     sprintf(PBMathErr->_msg, "_VecFloatSave NOK");
     PBErrCatch(PBMathErr);
   }
-  if (!VecSave(&v3, f)) {
+  if (!VecSave(&v3, f, compact)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
     sprintf(PBMathErr->_msg, "_VecFloatSave NOK");
     PBErrCatch(PBMathErr);
@@ -1211,7 +1212,6 @@ void UnitTestVecFloatLoadSave() {
   VecFree(&w);
   int ret = system("cat ./UnitTestVecFloatLoadSave.txt");
   printf("_VecFloatLoadSave OK\n");
-  ret = system("rm ./UnitTestVecFloatLoadSave.txt");
   ret = ret;
 }
 
@@ -2177,7 +2177,8 @@ void UnitTestMatFloatLoadSave() {
       "Can't open ./UnitTestMatFloatLoadSave.txt for writing");
     PBErrCatch(PBMathErr);
   }
-  if (!MatSave(mat, f)) {
+  bool compact = false;
+  if (!MatSave(mat, f, compact)) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
     sprintf(PBMathErr->_msg, "_MatFloatSave NOK");
     PBErrCatch(PBMathErr);
@@ -2213,7 +2214,6 @@ void UnitTestMatFloatLoadSave() {
   MatFree(&mat);
   MatFree(&clone);
   int ret = system("cat ./UnitTestMatFloatLoadSave.txt");
-  ret = system("rm ./UnitTestMatFloatLoadSave.txt");
   ret = ret;
   printf("UnitTestMatFloatLoadSave OK\n");
 }

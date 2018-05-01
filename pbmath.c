@@ -50,6 +50,74 @@ VecShort* _VecShortClone(VecShort* that) {
   return clone;
 }
 
+// Function which return the JSON encoding of 'that' 
+JSONNode* _VecShortEncodeAsJSON(VecShort* that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Create the JSON structure
+  JSONNode* json = JSONCreate();
+  // Declare a buffer to convert value into string
+  char val[100];
+  // Encode the dimension
+  sprintf(val, "%d", VecGetDim(that));
+  JSONAddProp(json, "_dim", val);
+  // Encode the values
+  JSONArrayVal setVal = JSONArrayValCreateStatic();
+  for (int i = 0; i < VecGetDim(that); ++i) {
+    sprintf(val, "%d", VecGet(that, i));
+    JSONArrayValAdd(&setVal, val);
+  }
+  JSONAddProp(json, "_val", &setVal);
+  // Free memory
+  JSONArrayValFlush(&setVal);
+  // Return the created JSON 
+  return json;
+}
+
+// Function which decode from JSON encoding 'json' to 'that'
+bool _VecShortDecodeAsJSON(VecShort** that, JSONNode* json) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (json == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'json' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // If 'that' is already allocated
+  if (*that != NULL)
+    // Free memory
+    _VecShortFree(that);
+  // Get the dimension from the JSON
+  JSONNode* prop = JSONProperty(json, "_dim");
+  if (prop == NULL) {
+    return false;
+  }
+  int dim = atoi(JSONLabel(JSONValue(prop, 0)));
+  // Allocate memory
+  *that = VecShortCreate(dim);
+  // Get the values
+  prop = JSONProperty(json, "_val");
+  if (prop == NULL) {
+    return false;
+  }
+  for (int i = 0; i < dim; ++i) {
+    int val = atoi(JSONLabel(JSONValue(prop, i)));
+    VecSet(*that, i, val);
+  }
+  // Return the success code
+  return true;
+}
+
 // Load the VecShort from the stream
 // If the VecShort is already allocated, it is freed before loading
 // Return true in case of success, else false
@@ -66,35 +134,27 @@ bool _VecShortLoad(VecShort** that, FILE* stream) {
     PBErrCatch(PBMathErr);
   }
 #endif
-  // If 'that' is already allocated
-  if (*that != NULL)
-    // Free memory
-    _VecShortFree(that);
-  // Read the number of dimension
-  int dim;
-  int ret = fscanf(stream, "%d", &dim);
-  // If we coudln't fscanf
-  if (ret == EOF)
+  // Declare a json to load the encoded data
+  JSONNode* json = JSONCreate();
+  // Load the whole encoded data
+  if (!JSONLoad(json, stream)) {
     return false;
-  // Check the dimension
-  if (dim <= 0)
-    return false;
-  // Allocate memory
-  *that = VecShortCreate(dim);
-  // Read the values
-  for (int i = 0; i < dim; ++i) {
-    ret = fscanf(stream, "%hi", (*that)->_val + i);
-    // If we coudln't fscanf
-    if (ret == EOF)
-      return false;
   }
-  // Return success code
+  // Decode the data from the JSON
+  if (!VecDecodeAsJSON(that, json)) {
+    return false;
+  }
+  // Free the memory used by the JSON
+  JSONFree(&json);
+  // Return the success code
   return true;
 }
 
 // Save the VecShort to the stream
+// If 'compact' equals true it saves in compact form, else it saves in 
+// readable form
 // Return true in case of success, else false
-bool _VecShortSave(VecShort* that, FILE* stream) {
+bool _VecShortSave(VecShort* that, FILE* stream, bool compact) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -107,22 +167,14 @@ bool _VecShortSave(VecShort* that, FILE* stream) {
     PBErrCatch(PBMathErr);
   }
 #endif
-  // Save the dimension
-  int ret = fprintf(stream, "%d ", that->_dim);
-  // If we coudln't fprintf
-  if (ret < 0)
+  // Get the JSON encoding
+  JSONNode* json = VecEncodeAsJSON(that);
+  // Save the JSON
+  if (!JSONSave(json, stream, compact)) {
     return false;
-  // Save the values
-  for (int i = 0; i < that->_dim; ++i) {
-    ret = fprintf(stream, "%hi ", that->_val[i]);
-    // If we coudln't fprintf
-    if (ret < 0)
-      return false;
   }
-  fprintf(stream, "\n");
-  // If we coudln't fprintf
-  if (ret < 0)
-    return false;
+  // Free memory
+  JSONFree(&json);
   // Return success code
   return true;
 }
@@ -362,6 +414,74 @@ VecFloat* _VecFloatClone(VecFloat* that) {
   return clone;
 }
 
+// Function which return the JSON encoding of 'that' 
+JSONNode* _VecFloatEncodeAsJSON(VecFloat* that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Create the JSON structure
+  JSONNode* json = JSONCreate();
+  // Declare a buffer to convert value into string
+  char val[100];
+  // Encode the dimension
+  sprintf(val, "%d", VecGetDim(that));
+  JSONAddProp(json, "_dim", val);
+  // Encode the values
+  JSONArrayVal setVal = JSONArrayValCreateStatic();
+  for (int i = 0; i < VecGetDim(that); ++i) {
+    sprintf(val, "%f", VecGet(that, i));
+    JSONArrayValAdd(&setVal, val);
+  }
+  JSONAddProp(json, "_val", &setVal);
+  // Free memory
+  JSONArrayValFlush(&setVal);
+  // Return the created JSON 
+  return json;
+}
+
+// Function which decode from JSON encoding 'json' to 'that'
+bool _VecFloatDecodeAsJSON(VecFloat** that, JSONNode* json) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (json == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'json' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // If 'that' is already allocated
+  if (*that != NULL)
+    // Free memory
+    _VecFloatFree(that);
+  // Get the dimension from the JSON
+  JSONNode* prop = JSONProperty(json, "_dim");
+  if (prop == NULL) {
+    return false;
+  }
+  int dim = atoi(JSONLabel(JSONValue(prop, 0)));
+  // Allocate memory
+  *that = VecFloatCreate(dim);
+  // Get the values
+  prop = JSONProperty(json, "_val");
+  if (prop == NULL) {
+    return false;
+  }
+  for (int i = 0; i < dim; ++i) {
+    float val = atof(JSONLabel(JSONValue(prop, i)));
+    VecSet(*that, i, val);
+  }
+  // Return the success code
+  return true;
+}
+
 // Load the VecFloat from the stream
 // If the VecFloat is already allocated, it is freed before loading
 bool _VecFloatLoad(VecFloat** that, FILE* stream) {
@@ -377,36 +497,27 @@ bool _VecFloatLoad(VecFloat** that, FILE* stream) {
     PBErrCatch(PBMathErr);
   }
 #endif
-  // If 'that' is already allocated
-  if (*that != NULL) {
-    // Free memory
-    _VecFloatFree(that);
-  }
-  // Read the number of dimension
-  int dim;
-  int ret = fscanf(stream, "%d", &dim);
-  // If we coudln't fscanf
-  if (ret == EOF)
+  // Declare a json to load the encoded data
+  JSONNode* json = JSONCreate();
+  // Load the whole encoded data
+  if (!JSONLoad(json, stream)) {
     return false;
-  // Check the dimension
-  if (dim <= 0)
-    return false;
-  // Allocate memory
-  *that = VecFloatCreate(dim);
-  // Read the values
-  for (int i = 0; i < dim; ++i) {
-    ret = fscanf(stream, "%f", (*that)->_val + i);
-    // If we coudln't fscanf
-    if (ret == EOF)
-      return false;
   }
-  // Return success code
+  // Decode the data from the JSON
+  if (!VecDecodeAsJSON(that, json)) {
+    return false;
+  }
+  // Free the memory used by the JSON
+  JSONFree(&json);
+  // Return the success code
   return true;
 }
 
 // Save the VecFloat to the stream
+// If 'compact' equals true it saves in compact form, else it saves in 
+// readable form
 // Return true in case of success, else false
-bool _VecFloatSave(VecFloat* that, FILE* stream) {
+bool _VecFloatSave(VecFloat* that, FILE* stream, bool compact) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -419,22 +530,14 @@ bool _VecFloatSave(VecFloat* that, FILE* stream) {
     PBErrCatch(PBMathErr);
   }
 #endif
-  // Save the dimension
-  int ret = fprintf(stream, "%d ", that->_dim);
-  // If we coudln't fprintf
-  if (ret < 0)
+  // Get the JSON encoding
+  JSONNode* json = VecEncodeAsJSON(that);
+  // Save the JSON
+  if (!JSONSave(json, stream, compact)) {
     return false;
-  // Save the values
-  for (int i = 0; i < that->_dim; ++i) {
-    ret = fprintf(stream, "%f ", that->_val[i]);
-    // If we coudln't fprintf
-    if (ret < 0)
-      return false;
   }
-  fprintf(stream, "\n");
-  // If we coudln't fprintf
-  if (ret < 0)
-    return false;
+  // Free memory
+  JSONFree(&json);
   // Return success code
   return true;
 }
@@ -1021,6 +1124,85 @@ MatFloat* _MatFloatClone(MatFloat* that) {
   return clone;
 }
 
+// Function which return the JSON encoding of 'that' 
+JSONNode* _MatFloatEncodeAsJSON(MatFloat* that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Create the JSON structure
+  JSONNode* json = JSONCreate();
+  // Declare a buffer to convert value into string
+  char val[100];
+  // Encode the dimensions
+  sprintf(val, "%d", VecGet(&(that->_dim), 0));
+  JSONAddProp(json, "_nbRow", val);
+  sprintf(val, "%d", VecGet(&(that->_dim), 1));
+  JSONAddProp(json, "_nbCol", val);
+  // Encode the values
+  JSONArrayVal setVal = JSONArrayValCreateStatic();
+  VecShort2D index = VecShortCreateStatic2D();
+  do {
+    sprintf(val, "%f", MatGet(that, &index));
+    JSONArrayValAdd(&setVal, val);
+  } while (VecStep(&index, &(that->_dim)));
+  JSONAddProp(json, "_val", &setVal);
+  // Free memory
+  JSONArrayValFlush(&setVal);
+  // Return the created JSON 
+  return json;
+}
+
+// Function which decode from JSON encoding 'json' to 'that'
+bool _MatFloatDecodeAsJSON(MatFloat** that, JSONNode* json) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (json == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'json' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // If 'that' is already allocated
+  if (*that != NULL)
+    // Free memory
+    _MatFloatFree(that);
+  // Get the dimensions from the JSON
+  JSONNode* prop = JSONProperty(json, "_nbRow");
+  if (prop == NULL) {
+    return false;
+  }
+  VecShort2D dim = VecShortCreateStatic2D();
+  VecSet(&dim, 0, atoi(JSONLabel(JSONValue(prop, 0))));
+  prop = JSONProperty(json, "_nbCol");
+  if (prop == NULL) {
+    return false;
+  }
+  VecSet(&dim, 1, atoi(JSONLabel(JSONValue(prop, 0))));
+  // Allocate memory
+  *that = MatFloatCreate(&dim);
+  // Get the values
+  prop = JSONProperty(json, "_val");
+  if (prop == NULL) {
+    return false;
+  }
+  VecShort2D index = VecShortCreateStatic2D();
+  int i = 0;
+  do {
+    MatSet(*that, &index, atof(JSONLabel(JSONValue(prop, i))));
+    ++i;
+  } while (VecStep(&index, &dim));
+  // Return the success code
+  return true;
+}
+
 // Load the MatFloat from the stream
 // If the MatFloat is already allocated, it is freed before loading
 // Return true upon success, else false
@@ -1037,37 +1219,27 @@ bool _MatFloatLoad(MatFloat** that, FILE* stream) {
     PBErrCatch(PBMathErr);
   }
 #endif
-  // If 'that' is already allocated
-  if (*that != NULL)
-    // Free memory
-    _MatFloatFree(that);
-  // Read the number of dimension
-  VecShort2D dim = VecShortCreateStatic2D();
-  int ret = fscanf(stream, "%hi %hi", dim._val , dim._val + 1);
-  // If we coudln't fscanf
-  if (ret == EOF)
+  // Declare a json to load the encoded data
+  JSONNode* json = JSONCreate();
+  // Load the whole encoded data
+  if (!JSONLoad(json, stream)) {
     return false;
-  if (VecGet(&dim, 0) <= 0 || VecGet(&dim, 1) <= 0)
+  }
+  // Decode the data from the JSON
+  if (!MatDecodeAsJSON(that, json)) {
     return false;
-  // Allocate memory
-  *that = MatFloatCreate(&dim);
-  // Read the values
-  VecShort2D index = VecShortCreateStatic2D();
-  do {
-    float v;
-    ret = fscanf(stream, "%f", &v);
-    // If we coudln't fscanf
-    if (ret == EOF)
-      return false;
-    MatSet(*that, &index, v);
-  } while (VecPStep(&index, &dim));
-  // Return success code
+  }
+  // Free the memory used by the JSON
+  JSONFree(&json);
+  // Return the success code
   return true;
 }
 
 // Save the MatFloat to the stream
+// If 'compact' equals true it saves in compact form, else it saves in 
+// readable form
 // Return true upon success, else false
-bool _MatFloatSave(MatFloat* that, FILE* stream) {
+bool _MatFloatSave(MatFloat* that, FILE* stream, bool compact) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1080,25 +1252,14 @@ bool _MatFloatSave(MatFloat* that, FILE* stream) {
     PBErrCatch(PBMathErr);
   }
 #endif
-  // Save the dimension
-  int ret = fprintf(stream, "%hi %hi\n", 
-    VecGet(&(that->_dim), 0), VecGet(&(that->_dim), 1));
-  if (ret < 0)
+  // Get the JSON encoding
+  JSONNode* json = MatEncodeAsJSON(that);
+  // Save the JSON
+  if (!JSONSave(json, stream, compact)) {
     return false;
-  // Save the values
-  VecShort2D index = VecShortCreateStatic2D();
-  do {
-    ret = fprintf(stream, "%f ", MatGet(that, &index));
-    // If we coudln't fprintf
-    if (ret < 0)
-      return false;
-    if (VecGet(&index, 0) == VecGet(&(that->_dim), 0) - 1) {
-      ret = fprintf(stream, "\n");
-      // If we coudln't fprintf
-      if (ret < 0)
-        return false;
-    }
-  } while (VecPStep(&index, &(that->_dim)));
+  }
+  // Free memory
+  JSONFree(&json);
   // Return success code
   return true;
 }
@@ -1269,12 +1430,10 @@ VecFloat* _MatFloatGetProdVecFloat(MatFloat* that, VecFloat* v) {
   VecFloat* ret = VecFloatCreate(VecGet(&(that->_dim), 1));
   // If we could allocate memory
   if (ret != NULL)
-    for (VecSet(&i, 0, 0); VecGet(&i, 0) < VecGet(&(that->_dim), 0);
-      VecSet(&i, 0, VecGet(&i, 0) + 1))
-      for (VecSet(&i, 1, 0); VecGet(&i, 1) < VecGet(&(that->_dim), 1);
-        VecSet(&i, 1, VecGet(&i, 1) + 1))
-        VecSet(ret, VecGet(&i, 1), VecGet(ret, 
-          VecGet(&i, 1)) + VecGet(v, VecGet(&i, 0)) * MatGet(that, &i));
+    for (VecSet(&i, 0, 0); VecGet(&i, 0) < VecGet(&(that->_dim), 0); VecSetAdd(&i, 0, 1))
+      for (VecSet(&i, 1, 0); VecGet(&i, 1) < VecGet(&(that->_dim), 1); VecSetAdd(&i, 1, 1))
+        VecSetAdd(ret, VecGet(&i, 1), 
+          VecGet(v, VecGet(&i, 0)) * MatGet(that, &i));
   // Return the result
   return ret;
 }
@@ -1309,15 +1468,13 @@ MatFloat* _MatFloatGetProdMatFloat(MatFloat* that, MatFloat* tho) {
   VecSet(&i, 0, VecGet(&(tho->_dim), 0));
   VecSet(&i, 1, VecGet(&(that->_dim), 1));
   MatFloat* ret = MatFloatCreate(&i);
-  for (VecSet(&i, 0, 0); VecGet(&i, 0) < VecGet(&(tho->_dim), 0);
-    VecSet(&i, 0, VecGet(&i, 0) + 1))
-    for (VecSet(&i, 1, 0); VecGet(&i, 1) < VecGet(&(that->_dim), 1);
-      VecSet(&i, 1, VecGet(&i, 1) + 1))
+  for (VecSet(&i, 0, 0); VecGet(&i, 0) < VecGet(&(tho->_dim), 0); VecSetAdd(&i, 0, 1))
+    for (VecSet(&i, 1, 0); VecGet(&i, 1) < VecGet(&(that->_dim), 1); VecSetAdd(&i, 1, 1))
       for (VecSet(&j, 0, 0), VecSet(&j, 1, VecGet(&i, 1)),
         VecSet(&k, 0, VecGet(&i, 0)), VecSet(&k, 1, 0); 
         VecGet(&j, 0) < VecGet(&(that->_dim), 0);
-        VecSet(&j, 0, VecGet(&j, 0) + 1), 
-        VecSet(&k, 1, VecGet(&k, 1) + 1)) {
+        VecSetAdd(&j, 0, 1), 
+        VecSetAdd(&k, 1, 1)) {
         MatSet(ret, &i, MatGet(ret, &i) + 
           MatGet(that, &j) * MatGet(tho, &k));
       }

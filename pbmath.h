@@ -11,6 +11,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "pberr.h"
+#include "pbjson.h"
 
 // ================= Define ==================
 
@@ -40,12 +41,22 @@
   VecShort*: _VecShortClone, \
   default: PBErrInvalidPolymorphism)(Vec)
 
+#define VecEncodeAsJSON(Vec) _Generic(Vec, \
+  VecFloat*: _VecFloatEncodeAsJSON, \
+  VecShort*: _VecShortEncodeAsJSON, \
+  default: PBErrInvalidPolymorphism)(Vec)
+
+#define VecDecodeAsJSON(VecRef, Json) _Generic(VecRef, \
+  VecFloat**: _VecFloatDecodeAsJSON, \
+  VecShort**: _VecShortDecodeAsJSON, \
+  default: PBErrInvalidPolymorphism)(VecRef, Json)
+
 #define VecLoad(VecRef, Stream) _Generic(VecRef, \
   VecFloat**: _VecFloatLoad, \
   VecShort**: _VecShortLoad, \
   default: PBErrInvalidPolymorphism)(VecRef, Stream)
 
-#define VecSave(Vec, Stream) _Generic(Vec, \
+#define VecSave(Vec, Stream, Compact) _Generic(Vec, \
   VecFloat*: _VecFloatSave, \
   VecFloat2D*: _VecFloatSave, \
   VecFloat3D*: _VecFloatSave, \
@@ -61,7 +72,7 @@
       VecShort3D*: (VecShort*)(Vec), \
       VecShort4D*: (VecShort*)(Vec), \
       default: Vec),  \
-    Stream)
+    Stream, Compact)
 
 #define VecFree(VecRef) _Generic(VecRef, \
   VecFloat**: _VecFloatFree, \
@@ -621,13 +632,21 @@
   MatFloat*: _MatFloatClone, \
   default: PBErrInvalidPolymorphism)(Mat)
 
+#define MatEncodeAsJSON(Mat) _Generic(Mat, \
+  MatFloat*: _MatFloatEncodeAsJSON, \
+  default: PBErrInvalidPolymorphism)(Mat)
+
+#define MatDecodeAsJSON(MatRef, Json) _Generic(MatRef, \
+  MatFloat**: _MatFloatDecodeAsJSON, \
+  default: PBErrInvalidPolymorphism)(MatRef, Json)
+
 #define MatLoad(MatRef, Stream) _Generic(MatRef, \
   MatFloat**: _MatFloatLoad, \
   default: PBErrInvalidPolymorphism)(MatRef, Stream)
 
-#define MatSave(Mat, Stream) _Generic(Mat, \
+#define MatSave(Mat, Stream, Compact) _Generic(Mat, \
   MatFloat*: _MatFloatSave, \
-  default: PBErrInvalidPolymorphism)(Mat, Stream)
+  default: PBErrInvalidPolymorphism)(Mat, Stream, Compact)
 
 #define MatFree(MatRef) _Generic(MatRef, \
   MatFloat**: _MatFloatFree, \
@@ -768,14 +787,22 @@ VecShort4D VecShortCreateStatic4D();
 // Return NULL if we couldn't clone the VecShort
 VecShort* _VecShortClone(VecShort* that);
 
+// Function which return the JSON encoding of 'that' 
+JSONNode* _VecShortEncodeAsJSON(VecShort* that);
+
+// Function which decode from JSON encoding 'json' to 'that'
+bool _VecShortDecodeAsJSON(VecShort** that, JSONNode* json);
+
 // Load the VecShort from the stream
 // If the VecShort is already allocated, it is freed before loading
 // Return true in case of success, else false
 bool _VecShortLoad(VecShort** that, FILE* stream);
 
 // Save the VecShort to the stream
+// If 'compact' equals true it saves in compact form, else it saves in 
+// readable form
 // Return true in case of success, else false
-bool _VecShortSave(VecShort* that, FILE* stream);
+bool _VecShortSave(VecShort* that, FILE* stream, bool compact);
 
 // Free the memory used by a VecShort
 // Do nothing if arguments are invalid
@@ -1088,14 +1115,22 @@ VecFloat3D VecFloatCreateStatic3D();
 // Clone the VecFloat
 VecFloat* _VecFloatClone(VecFloat* that);
 
+// Function which return the JSON encoding of 'that' 
+JSONNode* _VecFloatEncodeAsJSON(VecFloat* that);
+
+// Function which decode from JSON encoding 'json' to 'that'
+bool _VecFloatDecodeAsJSON(VecFloat** that, JSONNode* json);
+
 // Load the VecFloat from the stream
 // If the VecFloat is already allocated, it is freed before loading
 // Return true in case of success, else false
 bool _VecFloatLoad(VecFloat** that, FILE* stream);
 
 // Save the VecFloat to the stream
+// If 'compact' equals true it saves in compact form, else it saves in 
+// readable form
 // Return true in case of success, else false
-bool _VecFloatSave(VecFloat* that, FILE* stream);
+bool _VecFloatSave(VecFloat* that, FILE* stream, bool compact);
 
 // Free the memory used by a VecFloat
 // Do nothing if arguments are invalid
@@ -1550,14 +1585,22 @@ inline
 #endif 
 void _MatFloatCopy(MatFloat* that, MatFloat* w);
 
+// Function which return the JSON encoding of 'that' 
+JSONNode* _MatFloatEncodeAsJSON(MatFloat* that);
+
+// Function which decode from JSON encoding 'json' to 'that'
+bool _MatFloatDecodeAsJSON(MatFloat** that, JSONNode* json);
+
 // Load the MatFloat from the stream
 // If the MatFloat is already allocated, it is freed before loading
 // Return true upon success, else false
 bool _MatFloatLoad(MatFloat** that, FILE* stream);
 
 // Save the MatFloat to the stream
+// If 'compact' equals true it saves in compact form, else it saves in 
+// readable form
 // Return true upon success, else false
-bool _MatFloatSave(MatFloat* that, FILE* stream);
+bool _MatFloatSave(MatFloat* that, FILE* stream, bool compact);
 
 // Free the memory used by a MatFloat
 // Do nothing if arguments are invalid
