@@ -29,7 +29,7 @@ VecShort4D VecShortCreateStatic4D() {
 #if BUILDMODE != 0
 inline
 #endif 
-short _VecShortGet(VecShort* that, int i) {
+short _VecShortGet(const VecShort* const that, const int i) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -48,7 +48,7 @@ short _VecShortGet(VecShort* that, int i) {
 #if BUILDMODE != 0
 inline
 #endif 
-short _VecShortGet2D(VecShort2D* that, int i) {
+short _VecShortGet2D(const VecShort2D* const that, const int i) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -66,7 +66,7 @@ short _VecShortGet2D(VecShort2D* that, int i) {
 #if BUILDMODE != 0
 inline
 #endif 
-short _VecShortGet3D(VecShort3D* that, int i) {
+short _VecShortGet3D(const VecShort3D* const that, const int i) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -84,7 +84,7 @@ short _VecShortGet3D(VecShort3D* that, int i) {
 #if BUILDMODE != 0
 inline
 #endif 
-short _VecShortGet4D(VecShort4D* that, int i) {
+short _VecShortGet4D(const VecShort4D* const that, const int i) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -104,7 +104,7 @@ short _VecShortGet4D(VecShort4D* that, int i) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortSet(VecShort* that, int i, short v) {
+void _VecShortSet(VecShort* const that, const int i, const short v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -123,7 +123,7 @@ void _VecShortSet(VecShort* that, int i, short v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortSet2D(VecShort2D* that, int i, short v) {
+void _VecShortSet2D(VecShort2D* const that, const int i, const short v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -141,7 +141,7 @@ void _VecShortSet2D(VecShort2D* that, int i, short v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortSet3D(VecShort3D* that, int i, short v) {
+void _VecShortSet3D(VecShort3D* const that, const int i, const short v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -159,7 +159,7 @@ void _VecShortSet3D(VecShort3D* that, int i, short v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortSet4D(VecShort4D* that, int i, short v) {
+void _VecShortSet4D(VecShort4D* const that, const int i, const short v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -179,7 +179,7 @@ void _VecShortSet4D(VecShort4D* that, int i, short v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortSetAdd(VecShort* that, int i, short v) {
+void _VecShortSetAdd(VecShort* const that, const int i, const short v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -198,7 +198,7 @@ void _VecShortSetAdd(VecShort* that, int i, short v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortSetAdd2D(VecShort2D* that, int i, short v) {
+void _VecShortSetAdd2D(VecShort2D* const that, const int i, const short v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -216,7 +216,7 @@ void _VecShortSetAdd2D(VecShort2D* that, int i, short v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortSetAdd3D(VecShort3D* that, int i, short v) {
+void _VecShortSetAdd3D(VecShort3D* const that, const int i, const short v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -234,7 +234,7 @@ void _VecShortSetAdd3D(VecShort3D* that, int i, short v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortSetAdd4D(VecShort4D* that, int i, short v) {
+void _VecShortSetAdd4D(VecShort4D* const that, const int i, const short v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -254,7 +254,7 @@ void _VecShortSetAdd4D(VecShort4D* that, int i, short v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortSetNull(VecShort* that) {
+void _VecShortSetNull(VecShort* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -271,7 +271,7 @@ void _VecShortSetNull(VecShort* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-int _VecShortGetDim(VecShort* that) {
+int _VecShortGetDim(const VecShort* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -285,7 +285,7 @@ int _VecShortGetDim(VecShort* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-short _VecShortHamiltonDist(VecShort* that, VecShort* tho) {
+short _VecShortHamiltonDist(const VecShort* const that, const VecShort* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -314,7 +314,7 @@ short _VecShortHamiltonDist(VecShort* that, VecShort* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-short _VecShortHamiltonDist2D(VecShort2D* that, VecShort2D* tho) {
+short _VecShortHamiltonDist2D(const VecShort2D* const that, const VecShort2D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -334,7 +334,7 @@ short _VecShortHamiltonDist2D(VecShort2D* that, VecShort2D* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-short _VecShortHamiltonDist3D(VecShort3D* that, VecShort3D* tho) {
+short _VecShortHamiltonDist3D(const VecShort3D* const that, const VecShort3D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -355,7 +355,7 @@ short _VecShortHamiltonDist3D(VecShort3D* that, VecShort3D* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-short _VecShortHamiltonDist4D(VecShort4D* that, VecShort4D* tho) {
+short _VecShortHamiltonDist4D(const VecShort4D* const that, const VecShort4D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -379,7 +379,8 @@ short _VecShortHamiltonDist4D(VecShort4D* that, VecShort4D* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-bool _VecShortIsEqual(VecShort* that, VecShort* tho) {
+bool _VecShortIsEqual(const VecShort* const that, 
+  const VecShort* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -406,7 +407,7 @@ bool _VecShortIsEqual(VecShort* that, VecShort* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortCopy(VecShort* that, VecShort* tho) {
+void _VecShortCopy(VecShort* const that, const VecShort* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -433,7 +434,8 @@ void _VecShortCopy(VecShort* that, VecShort* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-short _VecShortDotProd(VecShort* that, VecShort* tho) {
+short _VecShortDotProd(const VecShort* const that, 
+  const VecShort* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -464,7 +466,8 @@ short _VecShortDotProd(VecShort* that, VecShort* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-short _VecShortDotProd2D(VecShort2D* that, VecShort2D* tho) {
+short _VecShortDotProd2D(const VecShort2D* const that, 
+  const VecShort2D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -483,7 +486,8 @@ short _VecShortDotProd2D(VecShort2D* that, VecShort2D* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-short _VecShortDotProd3D(VecShort3D* that, VecShort3D* tho) {
+short _VecShortDotProd3D(const VecShort3D* const that, 
+  const VecShort3D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -503,7 +507,8 @@ short _VecShortDotProd3D(VecShort3D* that, VecShort3D* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-short _VecShortDotProd4D(VecShort4D* that, VecShort4D* tho) {
+short _VecShortDotProd4D(const VecShort4D* const that, 
+  const VecShort4D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -542,7 +547,7 @@ VecFloat3D VecFloatCreateStatic3D() {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatGet(VecFloat* that, int i) {
+float _VecFloatGet(const VecFloat* const that, const int i) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -562,7 +567,7 @@ float _VecFloatGet(VecFloat* that, int i) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatGet2D(VecFloat2D* that, int i) {
+float _VecFloatGet2D(const VecFloat2D* const that, const int i) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -581,7 +586,7 @@ float _VecFloatGet2D(VecFloat2D* that, int i) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatGet3D(VecFloat3D* that, int i) {
+float _VecFloatGet3D(const VecFloat3D* const that, const int i) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -602,7 +607,7 @@ float _VecFloatGet3D(VecFloat3D* that, int i) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatSet(VecFloat* that, int i, float v) {
+void _VecFloatSet(VecFloat* const that, const int i, const float v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -622,7 +627,7 @@ void _VecFloatSet(VecFloat* that, int i, float v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatSet2D(VecFloat2D* that, int i, float v) {
+void _VecFloatSet2D(VecFloat2D* const that, const int i, const float v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -641,7 +646,7 @@ void _VecFloatSet2D(VecFloat2D* that, int i, float v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatSet3D(VecFloat3D* that, int i, float v) {
+void _VecFloatSet3D(VecFloat3D* const that, const int i, const float v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -662,7 +667,7 @@ void _VecFloatSet3D(VecFloat3D* that, int i, float v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatSetAdd(VecFloat* that, int i, float v) {
+void _VecFloatSetAdd(VecFloat* const that, const int i, const float v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -682,7 +687,8 @@ void _VecFloatSetAdd(VecFloat* that, int i, float v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatSetAdd2D(VecFloat2D* that, int i, float v) {
+void _VecFloatSetAdd2D(VecFloat2D* const that, const int i, 
+  const float v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -701,7 +707,8 @@ void _VecFloatSetAdd2D(VecFloat2D* that, int i, float v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatSetAdd3D(VecFloat3D* that, int i, float v) {
+void _VecFloatSetAdd3D(VecFloat3D* const that, const int i, 
+  const float v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -722,7 +729,7 @@ void _VecFloatSetAdd3D(VecFloat3D* that, int i, float v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatSetNull(VecFloat* that) {
+void _VecFloatSetNull(VecFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -737,7 +744,7 @@ void _VecFloatSetNull(VecFloat* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatSetNull2D(VecFloat2D* that) {
+void _VecFloatSetNull2D(VecFloat2D* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -752,7 +759,7 @@ void _VecFloatSetNull2D(VecFloat2D* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatSetNull3D(VecFloat3D* that) {
+void _VecFloatSetNull3D(VecFloat3D* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -770,7 +777,7 @@ void _VecFloatSetNull3D(VecFloat3D* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-int _VecFloatGetDim(VecFloat* that) {
+int _VecFloatGetDim(const VecFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -785,7 +792,7 @@ int _VecFloatGetDim(VecFloat* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatCopy(VecFloat* that, VecFloat* tho) {
+void _VecFloatCopy(VecFloat* const that, const VecFloat* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -812,7 +819,7 @@ void _VecFloatCopy(VecFloat* that, VecFloat* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatNorm(VecFloat* that) {
+float _VecFloatNorm(const VecFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -832,7 +839,7 @@ float _VecFloatNorm(VecFloat* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatNorm2D(VecFloat2D* that) {
+float _VecFloatNorm2D(const VecFloat2D* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -846,7 +853,7 @@ float _VecFloatNorm2D(VecFloat2D* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatNorm3D(VecFloat3D* that) {
+float _VecFloatNorm3D(const VecFloat3D* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -863,7 +870,7 @@ float _VecFloatNorm3D(VecFloat3D* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatNormalise(VecFloat* that) {
+void _VecFloatNormalise(VecFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -880,7 +887,7 @@ void _VecFloatNormalise(VecFloat* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatNormalise2D(VecFloat2D* that) {
+void _VecFloatNormalise2D(VecFloat2D* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -896,7 +903,7 @@ void _VecFloatNormalise2D(VecFloat2D* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatNormalise3D(VecFloat3D* that) {
+void _VecFloatNormalise3D(VecFloat3D* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -915,7 +922,8 @@ void _VecFloatNormalise3D(VecFloat3D* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatDist(VecFloat* that, VecFloat* tho) {
+float _VecFloatDist(const VecFloat* const that, 
+  const VecFloat* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -945,7 +953,8 @@ float _VecFloatDist(VecFloat* that, VecFloat* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatDist2D(VecFloat2D* that, VecFloat2D* tho) {
+float _VecFloatDist2D(const VecFloat2D* const that, 
+  const VecFloat2D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -965,7 +974,8 @@ float _VecFloatDist2D(VecFloat2D* that, VecFloat2D* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatDist3D(VecFloat3D* that, VecFloat3D* tho) {
+float _VecFloatDist3D(const VecFloat3D* const that, 
+  const VecFloat3D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -988,7 +998,8 @@ float _VecFloatDist3D(VecFloat3D* that, VecFloat3D* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatHamiltonDist(VecFloat* that, VecFloat* tho) {
+float _VecFloatHamiltonDist(const VecFloat* const that, 
+  const VecFloat* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1017,7 +1028,8 @@ float _VecFloatHamiltonDist(VecFloat* that, VecFloat* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatHamiltonDist2D(VecFloat2D* that, VecFloat2D* tho) {
+float _VecFloatHamiltonDist2D(const VecFloat2D* const that, 
+  const VecFloat2D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1037,7 +1049,8 @@ float _VecFloatHamiltonDist2D(VecFloat2D* that, VecFloat2D* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatHamiltonDist3D(VecFloat3D* that, VecFloat3D* tho) {
+float _VecFloatHamiltonDist3D(const VecFloat3D* const that, 
+  const VecFloat3D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1060,7 +1073,8 @@ float _VecFloatHamiltonDist3D(VecFloat3D* that, VecFloat3D* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatPixelDist(VecFloat* that, VecFloat* tho) {
+float _VecFloatPixelDist(const VecFloat* const that, 
+  const VecFloat* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1089,7 +1103,8 @@ float _VecFloatPixelDist(VecFloat* that, VecFloat* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatPixelDist2D(VecFloat2D* that, VecFloat2D* tho) {
+float _VecFloatPixelDist2D(const VecFloat2D* const that, 
+  const VecFloat2D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1109,7 +1124,8 @@ float _VecFloatPixelDist2D(VecFloat2D* that, VecFloat2D* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatPixelDist3D(VecFloat3D* that, VecFloat3D* tho) {
+float _VecFloatPixelDist3D(const VecFloat3D* const that, 
+  const VecFloat3D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1132,7 +1148,8 @@ float _VecFloatPixelDist3D(VecFloat3D* that, VecFloat3D* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-bool _VecFloatIsEqual(VecFloat* that, VecFloat* tho) {
+bool _VecFloatIsEqual(const VecFloat* const that, 
+  const VecFloat* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1165,7 +1182,8 @@ bool _VecFloatIsEqual(VecFloat* that, VecFloat* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatOp(VecFloat* that, float a, VecFloat* tho, float b) {
+void _VecFloatOp(VecFloat* const that, const float a, 
+  const VecFloat* const tho, const float b) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1191,7 +1209,8 @@ void _VecFloatOp(VecFloat* that, float a, VecFloat* tho, float b) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatOp2D(VecFloat2D* that, float a, VecFloat2D* tho, float b) {
+void _VecFloatOp2D(VecFloat2D* const that, const float a, 
+  const VecFloat2D* const tho, const float b) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1210,7 +1229,8 @@ void _VecFloatOp2D(VecFloat2D* that, float a, VecFloat2D* tho, float b) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatOp3D(VecFloat3D* that, float a, VecFloat3D* tho, float b) {
+void _VecFloatOp3D(VecFloat3D* const that, const float a, 
+  const VecFloat3D* const tho, const float b) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1232,8 +1252,8 @@ void _VecFloatOp3D(VecFloat3D* that, float a, VecFloat3D* tho, float b) {
 #if BUILDMODE != 0
 inline
 #endif 
-VecFloat* _VecFloatGetOp(VecFloat* that, float a, 
-  VecFloat* tho, float b) {
+VecFloat* _VecFloatGetOp(const VecFloat* const that, const float a, 
+  const VecFloat* const tho, const float b) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1261,8 +1281,8 @@ VecFloat* _VecFloatGetOp(VecFloat* that, float a,
 #if BUILDMODE != 0
 inline
 #endif 
-VecFloat2D _VecFloatGetOp2D(VecFloat2D* that, float a, 
-  VecFloat2D* tho, float b) {
+VecFloat2D _VecFloatGetOp2D(const VecFloat2D* const that, const float a, 
+  const VecFloat2D* const tho, const float b) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1283,8 +1303,8 @@ VecFloat2D _VecFloatGetOp2D(VecFloat2D* that, float a,
 #if BUILDMODE != 0
 inline
 #endif 
-VecFloat3D _VecFloatGetOp3D(VecFloat3D* that, float a, 
-  VecFloat3D* tho, float b) {
+VecFloat3D _VecFloatGetOp3D(const VecFloat3D* const that, const float a, 
+  const VecFloat3D* const tho, const float b) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1310,7 +1330,8 @@ VecFloat3D _VecFloatGetOp3D(VecFloat3D* that, float a,
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecFloatHadamardProd(VecFloat* that, VecFloat* tho) {
+void _VecFloatHadamardProd(VecFloat* const that, 
+  const VecFloat* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1335,7 +1356,8 @@ void _VecFloatHadamardProd(VecFloat* that, VecFloat* tho) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecFloatHadamardProd2D(VecFloat2D* that, VecFloat2D* tho) {
+void _VecFloatHadamardProd2D(VecFloat2D* const that, 
+  const VecFloat2D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1354,7 +1376,8 @@ void _VecFloatHadamardProd2D(VecFloat2D* that, VecFloat2D* tho) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecFloatHadamardProd3D(VecFloat3D* that, VecFloat3D* tho) {
+void _VecFloatHadamardProd3D(VecFloat3D* const that, 
+  const VecFloat3D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1378,7 +1401,8 @@ void _VecFloatHadamardProd3D(VecFloat3D* that, VecFloat3D* tho) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecFloat* _VecFloatGetHadamardProd(VecFloat* that, VecFloat* tho) {
+VecFloat* _VecFloatGetHadamardProd(const VecFloat* const that, 
+  const VecFloat* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1405,8 +1429,8 @@ VecFloat* _VecFloatGetHadamardProd(VecFloat* that, VecFloat* tho) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecFloat2D _VecFloatGetHadamardProd2D(VecFloat2D* that, 
-  VecFloat2D* tho) {
+VecFloat2D _VecFloatGetHadamardProd2D(const VecFloat2D* const that, 
+  const VecFloat2D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1427,8 +1451,8 @@ VecFloat2D _VecFloatGetHadamardProd2D(VecFloat2D* that,
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecFloat3D _VecFloatGetHadamardProd3D(VecFloat3D* that, 
-  VecFloat3D* tho) {
+VecFloat3D _VecFloatGetHadamardProd3D(const VecFloat3D* const that, 
+  const VecFloat3D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1452,7 +1476,7 @@ VecFloat3D _VecFloatGetHadamardProd3D(VecFloat3D* that,
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatScale(VecFloat* that, float a) {
+void _VecFloatScale(VecFloat* const that, const float a) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1466,7 +1490,7 @@ void _VecFloatScale(VecFloat* that, float a) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatScale2D(VecFloat2D* that, float a) {
+void _VecFloatScale2D(VecFloat2D* const that, const float a) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1480,7 +1504,7 @@ void _VecFloatScale2D(VecFloat2D* that, float a) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatScale3D(VecFloat3D* that, float a) {
+void _VecFloatScale3D(VecFloat3D* const that, const float a) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1497,7 +1521,7 @@ void _VecFloatScale3D(VecFloat3D* that, float a) {
 #if BUILDMODE != 0
 inline
 #endif 
-VecFloat* _VecFloatGetScale(VecFloat* that, float a) {
+VecFloat* _VecFloatGetScale(const VecFloat* const that, const float a) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1513,7 +1537,8 @@ VecFloat* _VecFloatGetScale(VecFloat* that, float a) {
 #if BUILDMODE != 0
 inline
 #endif 
-VecFloat2D _VecFloatGetScale2D(VecFloat2D* that, float a) {
+VecFloat2D _VecFloatGetScale2D(const VecFloat2D* const that, 
+  const float a) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1529,7 +1554,8 @@ VecFloat2D _VecFloatGetScale2D(VecFloat2D* that, float a) {
 #if BUILDMODE != 0
 inline
 #endif 
-VecFloat3D _VecFloatGetScale3D(VecFloat3D* that, float a) {
+VecFloat3D _VecFloatGetScale3D(const VecFloat3D* const that, 
+  const float a) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1548,7 +1574,7 @@ VecFloat3D _VecFloatGetScale3D(VecFloat3D* that, float a) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatRot2D(VecFloat2D* that, float theta) {
+void _VecFloatRot2D(VecFloat2D* const that, const float theta) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1569,7 +1595,7 @@ void _VecFloatRot2D(VecFloat2D* that, float theta) {
 #if BUILDMODE != 0
 inline
 #endif 
-VecFloat2D _VecFloatGetRot2D(VecFloat2D* that, float theta) {
+VecFloat2D _VecFloatGetRot2D(const VecFloat2D* const that, const float theta) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1601,7 +1627,8 @@ VecFloat2D _VecFloatGetRot2D(VecFloat2D* that, float theta) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatDotProd(VecFloat* that, VecFloat* tho) {
+float _VecFloatDotProd(const VecFloat* const that, 
+  const VecFloat* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1631,7 +1658,8 @@ float _VecFloatDotProd(VecFloat* that, VecFloat* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatDotProd2D(VecFloat2D* that, VecFloat2D* tho) {
+float _VecFloatDotProd2D(const VecFloat2D* const that, 
+  const VecFloat2D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1649,7 +1677,8 @@ float _VecFloatDotProd2D(VecFloat2D* that, VecFloat2D* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatDotProd3D(VecFloat3D* that, VecFloat3D* tho) {
+float _VecFloatDotProd3D(const VecFloat3D* const that, 
+  const VecFloat3D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1670,7 +1699,7 @@ float _VecFloatDotProd3D(VecFloat3D* that, VecFloat3D* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-VecShort* VecFloatToShort(VecFloat* that) {
+VecShort* VecFloatToShort(const VecFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1688,7 +1717,7 @@ VecShort* VecFloatToShort(VecFloat* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-VecShort2D VecFloatToShort2D(VecFloat2D* that) {
+VecShort2D VecFloatToShort2D(const VecFloat2D* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1706,7 +1735,7 @@ VecShort2D VecFloatToShort2D(VecFloat2D* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-VecShort3D VecFloatToShort3D(VecFloat3D* that) {
+VecShort3D VecFloatToShort3D(const VecFloat3D* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1727,7 +1756,7 @@ VecShort3D VecFloatToShort3D(VecFloat3D* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-VecFloat* VecShortToFloat(VecShort* that) {
+VecFloat* VecShortToFloat(const VecShort* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1745,7 +1774,7 @@ VecFloat* VecShortToFloat(VecShort* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-VecFloat2D VecShortToFloat2D(VecShort2D* that) {
+VecFloat2D VecShortToFloat2D(const VecShort2D* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1763,7 +1792,7 @@ VecFloat2D VecShortToFloat2D(VecShort2D* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-VecFloat3D VecShortToFloat3D(VecShort3D* that) {
+VecFloat3D VecShortToFloat3D(const VecShort3D* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1784,7 +1813,7 @@ VecFloat3D VecShortToFloat3D(VecShort3D* that) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-float _VecFloatGetMaxVal(VecFloat* that) {
+float _VecFloatGetMaxVal(const VecFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1805,7 +1834,7 @@ float _VecFloatGetMaxVal(VecFloat* that) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-float _VecFloatGetMinVal(VecFloat* that) {
+float _VecFloatGetMinVal(const VecFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1827,7 +1856,7 @@ float _VecFloatGetMinVal(VecFloat* that) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-float _VecFloatGetMaxValAbs(VecFloat* that) {
+float _VecFloatGetMaxValAbs(const VecFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1849,7 +1878,7 @@ float _VecFloatGetMaxValAbs(VecFloat* that) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-float _VecFloatGetMinValAbs(VecFloat* that) {
+float _VecFloatGetMinValAbs(const VecFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1871,7 +1900,7 @@ float _VecFloatGetMinValAbs(VecFloat* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _MatFloatSetIdentity(MatFloat* that) {
+void _MatFloatSetIdentity(MatFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1900,7 +1929,7 @@ void _MatFloatSetIdentity(MatFloat* that) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-MatFloat* _MatFloatGetAdd(MatFloat* that, MatFloat* tho) {
+MatFloat* _MatFloatGetAdd(MatFloat* const that, MatFloat* tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1935,7 +1964,7 @@ MatFloat* _MatFloatGetAdd(MatFloat* that, MatFloat* tho) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _MatFloatAdd(MatFloat* that, MatFloat* tho) {
+void _MatFloatAdd(MatFloat* const that, MatFloat* tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1965,7 +1994,7 @@ void _MatFloatAdd(MatFloat* that, MatFloat* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _MatFloatCopy(MatFloat* that, MatFloat* tho) {
+void _MatFloatCopy(MatFloat* const that, const MatFloat* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1996,7 +2025,7 @@ void _MatFloatCopy(MatFloat* that, MatFloat* tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _MatFloatGet(MatFloat* that, VecShort2D* index) {
+float _MatFloatGet(MatFloat* const that, VecShort2D* index) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2030,7 +2059,7 @@ float _MatFloatGet(MatFloat* that, VecShort2D* index) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _MatFloatSet(MatFloat* that, VecShort2D* index, float v) {
+void _MatFloatSet(MatFloat* const that, VecShort2D* index, float v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2063,7 +2092,7 @@ void _MatFloatSet(MatFloat* that, VecShort2D* index, float v) {
 #if BUILDMODE != 0
 inline
 #endif 
-VecShort2D* _MatFloatDim(MatFloat* that) {
+VecShort2D* _MatFloatDim(MatFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2079,7 +2108,7 @@ VecShort2D* _MatFloatDim(MatFloat* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-VecShort2D _MatFloatGetDim(MatFloat* that) {
+VecShort2D _MatFloatGetDim(MatFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2095,7 +2124,7 @@ VecShort2D _MatFloatGetDim(MatFloat* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-float GaussGet(Gauss *that, float x) {
+float GaussGet(const Gauss* const that, const float x) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2117,7 +2146,7 @@ float GaussGet(Gauss *that, float x) {
 #if BUILDMODE != 0
 inline
 #endif 
-float GaussRnd(Gauss *that) {
+float GaussRnd(Gauss* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2146,7 +2175,7 @@ float GaussRnd(Gauss *that) {
 #if BUILDMODE != 0
 inline
 #endif 
-float SmoothStep(float x) {
+float SmoothStep(const float x) {
   if (x > 0.0)
     if (x < 1.0)
       return x * x * (3.0 - 2.0 * x);
@@ -2162,7 +2191,7 @@ float SmoothStep(float x) {
 #if BUILDMODE != 0
 inline
 #endif 
-float SmootherStep(float x) {
+float SmootherStep(const float x) {
   if (x > 0.0)
     if (x < 1.0)
     return x * x * x * (x * (x * 6.0 - 15.0) + 10.0);
@@ -2178,7 +2207,7 @@ float SmootherStep(float x) {
 #if BUILDMODE != 0
 inline
 #endif 
-VecFloat* SysLinEqSolve(SysLinEq* that) {
+VecFloat* SysLinEqSolve(const SysLinEq* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2200,7 +2229,7 @@ VecFloat* SysLinEqSolve(SysLinEq* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-void SysLinEqSetM(SysLinEq* that, MatFloat* m) {
+void SysLinEqSetM(SysLinEq* const that, const MatFloat* const m) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2240,7 +2269,7 @@ void SysLinEqSetM(SysLinEq* that, MatFloat* m) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _SLESetV(SysLinEq* that, VecFloat* v) {
+void _SLESetV(SysLinEq* const that, const VecFloat* const v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2270,16 +2299,18 @@ void _SLESetV(SysLinEq* that, VecFloat* v) {
 #if BUILDMODE != 0
 inline
 #endif 
-int powi(int base, int exp) {
+int powi(const int base, const int exp) {
   // Declare a variable to memorize the result and init to 1
   int res = 1;
   // Loop on exponent
-  while (exp) {
+  int e = exp;
+  int b = base;
+  while (e) {
     // Do some magic trick
-    if (exp & 1)
-      res *= base;
-    exp /= 2;
-    base *= base;
+    if (e & 1)
+      res *= b;
+    e /= 2;
+    b *= b;
   }
   // Return the result
   return res;
@@ -2289,7 +2320,8 @@ int powi(int base, int exp) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortOp(VecShort* that, short a, VecShort* tho, short b) {
+void _VecShortOp(VecShort* const that, const short a, 
+  const VecShort* const tho, const short b) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2315,7 +2347,8 @@ void _VecShortOp(VecShort* that, short a, VecShort* tho, short b) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortOp2D(VecShort2D* that, short a, VecShort2D* tho, short b) {
+void _VecShortOp2D(VecShort2D* const that, const short a, 
+  const VecShort2D* const tho, const short b) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2334,7 +2367,8 @@ void _VecShortOp2D(VecShort2D* that, short a, VecShort2D* tho, short b) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortOp3D(VecShort3D* that, short a, VecShort3D* tho, short b) {
+void _VecShortOp3D(VecShort3D* const that, const short a, 
+  const VecShort3D* const tho, const short b) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2354,7 +2388,8 @@ void _VecShortOp3D(VecShort3D* that, short a, VecShort3D* tho, short b) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortOp4D(VecShort4D* that, short a, VecShort4D* tho, short b) {
+void _VecShortOp4D(VecShort4D* const that, const short a, 
+  const VecShort4D* const tho, const short b) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2377,8 +2412,8 @@ void _VecShortOp4D(VecShort4D* that, short a, VecShort4D* tho, short b) {
 #if BUILDMODE != 0
 inline
 #endif 
-VecShort* _VecShortGetOp(VecShort* that, short a, 
-  VecShort* tho, short b) {
+VecShort* _VecShortGetOp(const VecShort* const that, const short a, 
+  const VecShort* const tho, const short b) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2406,8 +2441,8 @@ VecShort* _VecShortGetOp(VecShort* that, short a,
 #if BUILDMODE != 0
 inline
 #endif 
-VecShort2D _VecShortGetOp2D(VecShort2D* that, short a, 
-  VecShort2D* tho, short b) {
+VecShort2D _VecShortGetOp2D(const VecShort2D* const that, const short a, 
+  const VecShort2D* const tho, const short b) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2428,8 +2463,8 @@ VecShort2D _VecShortGetOp2D(VecShort2D* that, short a,
 #if BUILDMODE != 0
 inline
 #endif 
-VecShort3D _VecShortGetOp3D(VecShort3D* that, short a, 
-  VecShort3D* tho, short b) {
+VecShort3D _VecShortGetOp3D(const VecShort3D* const that, const short a, 
+  const VecShort3D* const tho, const short b) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2451,8 +2486,8 @@ VecShort3D _VecShortGetOp3D(VecShort3D* that, short a,
 #if BUILDMODE != 0
 inline
 #endif 
-VecShort4D _VecShortGetOp4D(VecShort4D* that, short a, 
-  VecShort4D* tho, short b) {
+VecShort4D _VecShortGetOp4D(const VecShort4D* const that, const short a, 
+  const VecShort4D* const tho, const short b) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2479,7 +2514,8 @@ VecShort4D _VecShortGetOp4D(VecShort4D* that, short a,
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecShortHadamardProd(VecShort* that, VecShort* tho) {
+void _VecShortHadamardProd(VecShort* const that, 
+  const VecShort* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2504,7 +2540,8 @@ void _VecShortHadamardProd(VecShort* that, VecShort* tho) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecShortHadamardProd2D(VecShort2D* that, VecShort2D* tho) {
+void _VecShortHadamardProd2D(VecShort2D* const that, 
+  const VecShort2D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2523,7 +2560,8 @@ void _VecShortHadamardProd2D(VecShort2D* that, VecShort2D* tho) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecShortHadamardProd3D(VecShort3D* that, VecShort3D* tho) {
+void _VecShortHadamardProd3D(VecShort3D* const that, 
+  const VecShort3D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2543,7 +2581,8 @@ void _VecShortHadamardProd3D(VecShort3D* that, VecShort3D* tho) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecShortHadamardProd4D(VecShort4D* that, VecShort4D* tho) {
+void _VecShortHadamardProd4D(VecShort4D* const that, 
+  const VecShort4D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2568,7 +2607,8 @@ void _VecShortHadamardProd4D(VecShort4D* that, VecShort4D* tho) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecShort* _VecShortGetHadamardProd(VecShort* that, VecShort* tho) {
+VecShort* _VecShortGetHadamardProd(const VecShort* const that, 
+  const VecShort* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2595,8 +2635,8 @@ VecShort* _VecShortGetHadamardProd(VecShort* that, VecShort* tho) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecShort2D _VecShortGetHadamardProd2D(VecShort2D* that, 
-  VecShort2D* tho) {
+VecShort2D _VecShortGetHadamardProd2D(const VecShort2D* const that, 
+  const VecShort2D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2617,8 +2657,8 @@ VecShort2D _VecShortGetHadamardProd2D(VecShort2D* that,
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecShort3D _VecShortGetHadamardProd3D(VecShort3D* that, 
-  VecShort3D* tho) {
+VecShort3D _VecShortGetHadamardProd3D(const VecShort3D* const that, 
+  const VecShort3D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2640,8 +2680,8 @@ VecShort3D _VecShortGetHadamardProd3D(VecShort3D* that,
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecShort4D _VecShortGetHadamardProd4D(VecShort4D* that, 
-  VecShort4D* tho) {
+VecShort4D _VecShortGetHadamardProd4D(const VecShort4D* const that, 
+  const VecShort4D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2666,7 +2706,7 @@ VecShort4D _VecShortGetHadamardProd4D(VecShort4D* that,
 #if BUILDMODE != 0 
 inline 
 #endif 
-short _VecShortGetMaxVal(VecShort* that) {
+short _VecShortGetMaxVal(const VecShort* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2687,7 +2727,7 @@ short _VecShortGetMaxVal(VecShort* that) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-short _VecShortGetMinVal(VecShort* that) {
+short _VecShortGetMinVal(const VecShort* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2709,7 +2749,7 @@ short _VecShortGetMinVal(VecShort* that) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-short _VecShortGetMaxValAbs(VecShort* that) {
+short _VecShortGetMaxValAbs(const VecShort* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2726,11 +2766,12 @@ short _VecShortGetMaxValAbs(VecShort* that) {
   return max;
 }
 
-// Get the min value (in absolute value) in components of the vector 'that'
+// Get the min value (in absolute value) in components of the 
+// vector 'that'
 #if BUILDMODE != 0 
 inline 
 #endif 
-short _VecShortGetMinValAbs(VecShort* that) {
+short _VecShortGetMinValAbs(const VecShort* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2754,7 +2795,8 @@ short _VecShortGetMinValAbs(VecShort* that) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatRotAxis(VecFloat3D* that, VecFloat3D* axis, float theta) {
+void _VecFloatRotAxis(VecFloat3D* const that, 
+  const VecFloat3D* const axis, const float theta) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2792,7 +2834,7 @@ void _VecFloatRotAxis(VecFloat3D* that, VecFloat3D* axis, float theta) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatRotX(VecFloat3D* that, float theta) {
+void _VecFloatRotX(VecFloat3D* const that, const float theta) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2814,7 +2856,7 @@ void _VecFloatRotX(VecFloat3D* that, float theta) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatRotY(VecFloat3D* that, float theta) {
+void _VecFloatRotY(VecFloat3D* const that, const float theta) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2836,7 +2878,7 @@ void _VecFloatRotY(VecFloat3D* that, float theta) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatRotZ(VecFloat3D* that, float theta) {
+void _VecFloatRotZ(VecFloat3D* const that, const float theta) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;

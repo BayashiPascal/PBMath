@@ -13,7 +13,7 @@
 
 // Create a new Vec of dimension 'dim'
 // Values are initalized to 0.0
-VecShort* VecShortCreate(int dim) {
+VecShort* VecShortCreate(const int dim) {
 #if BUILDMODE == 0
   if (dim <= 0) {
     PBMathErr->_type = PBErrTypeInvalidArg;
@@ -34,7 +34,7 @@ VecShort* VecShortCreate(int dim) {
 
 // Clone the VecShort
 // Return NULL if we couldn't clone the VecShort
-VecShort* _VecShortClone(VecShort* that) {
+VecShort* _VecShortClone(const VecShort* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -51,7 +51,7 @@ VecShort* _VecShortClone(VecShort* that) {
 }
 
 // Function which return the JSON encoding of 'that' 
-JSONNode* _VecShortEncodeAsJSON(VecShort* that) {
+JSONNode* _VecShortEncodeAsJSON(const VecShort* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -80,7 +80,7 @@ JSONNode* _VecShortEncodeAsJSON(VecShort* that) {
 }
 
 // Function which decode from JSON encoding 'json' to 'that'
-bool _VecShortDecodeAsJSON(VecShort** that, JSONNode* json) {
+bool _VecShortDecodeAsJSON(VecShort** that, const JSONNode* const json) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -124,7 +124,7 @@ bool _VecShortDecodeAsJSON(VecShort** that, JSONNode* json) {
 // Load the VecShort from the stream
 // If the VecShort is already allocated, it is freed before loading
 // Return true in case of success, else false
-bool _VecShortLoad(VecShort** that, FILE* stream) {
+bool _VecShortLoad(VecShort** that, FILE* const stream) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -157,7 +157,8 @@ bool _VecShortLoad(VecShort** that, FILE* stream) {
 // If 'compact' equals true it saves in compact form, else it saves in 
 // readable form
 // Return true in case of success, else false
-bool _VecShortSave(VecShort* that, FILE* stream, bool compact) {
+bool _VecShortSave(const VecShort* const that, 
+  FILE* const stream, const bool compact) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -194,7 +195,8 @@ void _VecShortFree(VecShort** that) {
 }
 
 // Print the VecShort on 'stream' with 'prec' digit precision
-void _VecShortPrint(VecShort* that, FILE* stream) {
+void _VecShortPrint(const VecShort* const that, 
+  FILE* const stream) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -224,7 +226,7 @@ void _VecShortPrint(VecShort* that, FILE* stream) {
 // Return false if all values of 'that' have reached their upper limit 
 // (in which case 'that''s values are all set back to 0)
 // Return true else
-bool _VecShortStep(VecShort* that, VecShort* bound) {
+bool _VecShortStep(VecShort* const that, const VecShort* const bound) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -272,7 +274,7 @@ bool _VecShortStep(VecShort* that, VecShort* bound) {
 // Return false if all values of 'that' have reached their upper limit 
 // (in which case 'that''s values are all set back to 0)
 // Return true else
-bool _VecShortPStep(VecShort* that, VecShort* bound) {
+bool _VecShortPStep(VecShort* const that, const VecShort* const bound) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -323,7 +325,8 @@ bool _VecShortPStep(VecShort* that, VecShort* bound) {
 // Return false if all values of 'that' have reached their upper limit 
 // (in which case 'that''s values are all set back to from)
 // Return true else
-bool _VecShortShiftStep(VecShort* that, VecShort* from, VecShort* to) {
+bool _VecShortShiftStep(VecShort* const that, 
+  const VecShort* const from, const VecShort* const to) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -381,7 +384,7 @@ bool _VecShortShiftStep(VecShort* that, VecShort* from, VecShort* to) {
 
 // Create a new Vec of dimension 'dim'
 // Values are initalized to 0.0
-VecFloat* VecFloatCreate(int dim) {
+VecFloat* VecFloatCreate(const int dim) {
 #if BUILDMODE == 0
   if (dim <= 0) {
     PBMathErr->_type = PBErrTypeInvalidArg;
@@ -401,7 +404,7 @@ VecFloat* VecFloatCreate(int dim) {
 }
 
 // Clone the VecFloat
-VecFloat* _VecFloatClone(VecFloat* that) {
+VecFloat* _VecFloatClone(const VecFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -418,7 +421,7 @@ VecFloat* _VecFloatClone(VecFloat* that) {
 }
 
 // Function which return the JSON encoding of 'that' 
-JSONNode* _VecFloatEncodeAsJSON(VecFloat* that) {
+JSONNode* _VecFloatEncodeAsJSON(const VecFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -447,7 +450,7 @@ JSONNode* _VecFloatEncodeAsJSON(VecFloat* that) {
 }
 
 // Function which decode from JSON encoding 'json' to 'that'
-bool _VecFloatDecodeAsJSON(VecFloat** that, JSONNode* json) {
+bool _VecFloatDecodeAsJSON(VecFloat** that, const JSONNode* const json) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -490,7 +493,7 @@ bool _VecFloatDecodeAsJSON(VecFloat** that, JSONNode* json) {
 
 // Load the VecFloat from the stream
 // If the VecFloat is already allocated, it is freed before loading
-bool _VecFloatLoad(VecFloat** that, FILE* stream) {
+bool _VecFloatLoad(VecFloat** that, FILE* const stream) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -523,7 +526,8 @@ bool _VecFloatLoad(VecFloat** that, FILE* stream) {
 // If 'compact' equals true it saves in compact form, else it saves in 
 // readable form
 // Return true in case of success, else false
-bool _VecFloatSave(VecFloat* that, FILE* stream, bool compact) {
+bool _VecFloatSave(const VecFloat* const that, 
+  FILE* const stream, const bool compact) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -561,7 +565,8 @@ void _VecFloatFree(VecFloat** that) {
 
 // Print the VecFloat on 'stream' with 'prec' digit precision
 // Do nothing if arguments are invalid
-void VecFloatPrint(VecFloat* that, FILE* stream, unsigned int prec) {
+void VecFloatPrint(const VecFloat* const that, FILE* const stream, 
+  const unsigned int prec) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -590,7 +595,8 @@ void VecFloatPrint(VecFloat* that, FILE* stream, unsigned int prec) {
 // Return the angle of the rotation making 'that' colinear to 'tho'
 // 'that' and 'tho' must be normalised
 // Return a value in [-PI,PI]
-float _VecFloatAngleTo2D(VecFloat2D* that, VecFloat2D* tho) {
+float _VecFloatAngleTo2D(const VecFloat2D* const that, 
+  const VecFloat2D* const tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -652,8 +658,8 @@ float _VecFloatAngleTo2D(VecFloat2D* that, VecFloat2D* tho) {
 // radians around 'axis'
 // 'axis' must be normalized
 // https://en.wikipedia.org/wiki/Rotation_matrix
-VecFloat3D _VecFloatGetRotAxis(VecFloat3D* that, VecFloat3D* axis, 
-  float theta) {
+VecFloat3D _VecFloatGetRotAxis(const VecFloat3D* const that, 
+  const VecFloat3D* const axis, const float theta) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -735,7 +741,8 @@ VecFloat3D _VecFloatGetRotAxis(VecFloat3D* that, VecFloat3D* axis,
 
 // Return a VecFloat3D equal to 'that' rotated right-hand by 'theta' 
 // radians around X
-VecFloat3D _VecFloatGetRotX(VecFloat3D* that, float theta) {
+VecFloat3D _VecFloatGetRotX(const VecFloat3D* const that, 
+  const float theta) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -795,7 +802,8 @@ VecFloat3D _VecFloatGetRotX(VecFloat3D* that, float theta) {
 
 // Return a VecFloat3D equal to 'that' rotated right-hand by 'theta' 
 // radians around Y
-VecFloat3D _VecFloatGetRotY(VecFloat3D* that, float theta) {
+VecFloat3D _VecFloatGetRotY(const VecFloat3D* const that, 
+  const float theta) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -855,7 +863,8 @@ VecFloat3D _VecFloatGetRotY(VecFloat3D* that, float theta) {
 
 // Return a VecFloat3D equal to 'that' rotated right-hand by 'theta' 
 // radians around Z
-VecFloat3D _VecFloatGetRotZ(VecFloat3D* that, float theta) {
+VecFloat3D _VecFloatGetRotZ(const VecFloat3D* const that, 
+  const float theta) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -920,8 +929,8 @@ VecFloat3D _VecFloatGetRotZ(VecFloat3D* that, float theta) {
 // Return false after all values of 'that' have reached their upper 
 // limit (in which case 'that''s values are all set back to 0.)
 // Return true else
-bool _VecFloatStepDelta(VecFloat* that, VecFloat* bound, 
-  VecFloat* delta) {
+bool _VecFloatStepDelta(VecFloat* const that, 
+  const VecFloat* const bound, const VecFloat* const delta) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -985,8 +994,9 @@ bool _VecFloatStepDelta(VecFloat* that, VecFloat* bound,
 // Return false after all values of 'that' have reached their upper 
 // limit (in which case 'that''s values are all set back to from)
 // Return true else
-bool _VecFloatShiftStepDelta(VecFloat* that, VecFloat* from, 
-  VecFloat* to, VecFloat* delta) {
+bool _VecFloatShiftStepDelta(VecFloat* const that, 
+  const VecFloat* const from, const VecFloat* const to, 
+  const VecFloat* const delta) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1053,7 +1063,7 @@ bool _VecFloatShiftStepDelta(VecFloat* that, VecFloat* from,
 // dimension changed to 'dim'
 // if it is extended, the values of new components are 0.0
 // If it is shrinked, values are discarded from the end of the vector
-VecFloat* _VecFloatGetNewDim(VecFloat* that, int dim) {
+VecFloat* _VecFloatGetNewDim(const VecFloat* const that, const int dim) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1090,7 +1100,7 @@ VecFloat* _VecFloatGetNewDim(VecFloat* that, int dim) {
 
 // Create a new MatFloat of dimension 'dim' (nbcol, nbline)
 // Values are initalized to 0.0
-MatFloat* MatFloatCreate(VecShort2D* dim) {
+MatFloat* MatFloatCreate(const VecShort2D* const dim) {
 #if BUILDMODE == 0
   if (dim == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1112,7 +1122,7 @@ MatFloat* MatFloatCreate(VecShort2D* dim) {
 }
 
 // Clone the MatFloat
-MatFloat* _MatFloatClone(MatFloat* that) {
+MatFloat* _MatFloatClone(const MatFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1131,7 +1141,7 @@ MatFloat* _MatFloatClone(MatFloat* that) {
 }
 
 // Function which return the JSON encoding of 'that' 
-JSONNode* _MatFloatEncodeAsJSON(MatFloat* that) {
+JSONNode* _MatFloatEncodeAsJSON(MatFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1248,7 +1258,7 @@ bool _MatFloatLoad(MatFloat** that, FILE* stream) {
 // If 'compact' equals true it saves in compact form, else it saves in 
 // readable form
 // Return true upon success, else false
-bool _MatFloatSave(MatFloat* that, FILE* stream, bool compact) {
+bool _MatFloatSave(MatFloat* const that, FILE* stream, bool compact) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1286,7 +1296,7 @@ void _MatFloatFree(MatFloat** that) {
 
 // Print the MatFloat on 'stream' with 'prec' digit precision
 // Do nothing if arguments are invalid
-void MatFloatPrintln(MatFloat* that, FILE* stream, unsigned int prec) {
+void MatFloatPrintln(MatFloat* const that, FILE* stream, unsigned int prec) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1321,7 +1331,7 @@ void MatFloatPrintln(MatFloat* that, FILE* stream, unsigned int prec) {
 
 // Return the inverse matrix of 'that'
 // The matrix must be a square matrix
-MatFloat* _MatFloatInv(MatFloat* that) {
+MatFloat* _MatFloatInv(MatFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1413,7 +1423,7 @@ MatFloat* _MatFloatInv(MatFloat* that) {
 
 // Return the product of matrix 'that' and vector 'v'
 // Number of colum of 'that' must equal dimension of 'v'
-VecFloat* _MatFloatGetProdVecFloat(MatFloat* that, VecFloat* v) {
+VecFloat* _MatFloatGetProdVecFloat(MatFloat* const that, VecFloat* v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1449,7 +1459,7 @@ VecFloat* _MatFloatGetProdVecFloat(MatFloat* that, VecFloat* v) {
 
 // Return the product of matrix 'that' by matrix 'tho'
 // Number of columns of 'that' must equal number of line of 'tho'
-MatFloat* _MatFloatGetProdMatFloat(MatFloat* that, MatFloat* tho) {
+MatFloat* _MatFloatGetProdMatFloat(MatFloat* const that, MatFloat* tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1492,7 +1502,7 @@ MatFloat* _MatFloatGetProdMatFloat(MatFloat* that, MatFloat* tho) {
 }
 
 // Return true if 'that' is equal to 'tho', false else
-bool _MatFloatIsEqual(MatFloat* that, MatFloat* tho) {
+bool _MatFloatIsEqual(MatFloat* const that, MatFloat* tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1523,7 +1533,7 @@ bool _MatFloatIsEqual(MatFloat* that, MatFloat* tho) {
 
 // Create a new Gauss of mean 'mean' and sigma 'sigma'
 // Return NULL if we couldn't create the Gauss
-Gauss* GaussCreate(float mean, float sigma) {
+Gauss* GaussCreate(const float mean, const float sigma) {
   // Allocate memory
   Gauss *that = PBErrMalloc(PBMathErr, sizeof(Gauss));
   // Set properties
@@ -1532,7 +1542,7 @@ Gauss* GaussCreate(float mean, float sigma) {
   // Return the new Gauss
   return that;
 }
-Gauss GaussCreateStatic(float mean, float sigma) {
+Gauss GaussCreateStatic(const float mean, const float sigma) {
   // Allocate memory
   Gauss that = {._mean = mean, ._sigma = sigma};
   // Return the new Gauss
@@ -1541,7 +1551,7 @@ Gauss GaussCreateStatic(float mean, float sigma) {
 
 // Free the memory used by a Gauss
 // Do nothing if arguments are invalid
-void GaussFree(Gauss **that) {
+void GaussFree(Gauss** that) {
   // Check argument
   if (that == NULL || *that == NULL)
     return;
@@ -1559,7 +1569,7 @@ void GaussFree(Gauss **that) {
 // If 'v' is null the vector null is used instead
 // The matrix 'm' must be a square matrix
 // Return NULL if we couldn't create the SysLinEq
-SysLinEq* _SLECreate(MatFloat* m, VecFloat* v) {
+SysLinEq* _SLECreate(const MatFloat* const m, const VecFloat* const v) {
 #if BUILDMODE == 0
   if (m == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1630,7 +1640,7 @@ void SysLinEqFree(SysLinEq** that) {
 
 // Clone the SysLinEq 'that'
 // Return NULL if we couldn't clone the SysLinEq
-SysLinEq* SysLinEqClone(SysLinEq* that) {
+SysLinEq* SysLinEqClone(const SysLinEq* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
