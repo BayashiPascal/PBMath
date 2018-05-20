@@ -973,7 +973,8 @@ inline void _MatFloatPrintlnDef(MatFloat* const that, FILE* stream) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-float _MatFloatGet(MatFloat* const that, VecShort2D* index);
+float _MatFloatGet(const MatFloat* const that, 
+  VecShort2D* index);
 
 // Set the value at index (col, line) of the MatFloat to 'v'
 // Index starts at 0, index in matrix = line * nbCol + col

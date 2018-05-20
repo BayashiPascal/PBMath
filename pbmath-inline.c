@@ -2025,7 +2025,8 @@ void _MatFloatCopy(MatFloat* const that, const MatFloat* const tho) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _MatFloatGet(MatFloat* const that, VecShort2D* index) {
+float _MatFloatGet(const MatFloat* const that, 
+  VecShort2D* index) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
