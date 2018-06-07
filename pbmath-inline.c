@@ -2093,7 +2093,7 @@ void _MatFloatSet(MatFloat* const that, VecShort2D* index, float v) {
 #if BUILDMODE != 0
 inline
 #endif 
-VecShort2D* _MatFloatDim(MatFloat* const that) {
+const VecShort2D* _MatFloatDim(MatFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;

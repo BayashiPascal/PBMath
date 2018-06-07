@@ -1112,8 +1112,8 @@ MatFloat* MatFloatCreate(const VecShort2D* const dim) {
   int d = VecGet(dim, 0) * VecGet(dim, 1);
   MatFloat* that = PBErrMalloc(PBMathErr, sizeof(MatFloat) + 
     sizeof(float) * d);
-  // Set the dimension
-  that->_dim = *dim;
+  // Set the dimensions
+  *(VecShort2D*)&(that->_dim) = *dim;
   // Set the default values
   for (int i = d; i--;)
     that->_val[i] = 0.0;

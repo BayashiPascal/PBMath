@@ -913,7 +913,7 @@ bool _VecFloatShiftStepDelta(VecFloat* const that,
 // Vector of float values
 typedef struct MatFloat {
   // Dimension
-  VecShort2D _dim;
+  const VecShort2D _dim;
   // Values (memorized by lines)
   float _val[0];
 } MatFloat;
@@ -987,7 +987,7 @@ void _MatFloatSet(MatFloat* const that, VecShort2D* index, float v);
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecShort2D* _MatFloatDim(MatFloat* const that);
+const VecShort2D* _MatFloatDim(MatFloat* const that);
 
 // Return a VecShort2D containing the dimension of the MatFloat
 #if BUILDMODE != 0 
@@ -1030,7 +1030,7 @@ bool _MatFloatIsEqual(MatFloat* const that, MatFloat* tho);
 
 // ================= Data structure ===================
 
-// Vector of float values
+// Should be vector of float values
 typedef struct Gauss {
   // Mean
   float _mean;
