@@ -991,6 +991,11 @@ void UnitTestVecShortGetMinMax() {
     sprintf(PBMathErr->_msg, "VecGetMaxVal NOK");
     PBErrCatch(PBMathErr);
   }
+  if (VecGetIMaxVal(&v) != 1) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecGetIMaxVal NOK");
+    PBErrCatch(PBMathErr);
+  }
   VecSet(&v, 0, 2); VecSet(&v, 1, 1); VecSet(&v, 2, 3);
   val = VecGetMinVal(&v);
   if (val != 1) {
@@ -1918,6 +1923,11 @@ void UnitTestVecFloatGetMinMax() {
   if (ISEQUALF(val, 2.0) == false) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
     sprintf(PBMathErr->_msg, "VecGetMaxVal NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (VecGetIMaxVal(&v) != 1) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecGetIMaxVal NOK");
     PBErrCatch(PBMathErr);
   }
   val = VecGetMinVal(&v);

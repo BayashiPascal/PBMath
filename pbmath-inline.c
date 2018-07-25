@@ -1830,6 +1830,33 @@ float _VecFloatGetMaxVal(const VecFloat* const that) {
   return max;
 }
 
+// Get the index of the max value in components of the vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+int _VecFloatGetIMaxVal(const VecFloat* const that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable to memorize the result
+  int iMax = 0;
+  // Declare a variable to memorize the max value
+  float max = VecGet(that, iMax);
+  // Search for the maximum value
+  for (int i = VecGetDim(that); i-- && i != 0;) {
+    if(max < VecGet(that, i)) {
+      max = VecGet(that, i);
+      iMax = i;
+    }
+  }
+  // Return the result
+  return iMax;
+}
+
 // Get the min value in components of the vector 'that'
 #if BUILDMODE != 0 
 inline 
@@ -2722,6 +2749,33 @@ short _VecShortGetMaxVal(const VecShort* const that) {
     max = MAX(max, VecGet(that, i));
   // Return the result
   return max;
+}
+
+// Get the index of the max value in components of the vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+int _VecShortGetIMaxVal(const VecShort* const that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable to memorize the result
+  int iMax = 0;
+  // Declare a variable to memorize the max value
+  short max = VecGet(that, iMax);
+  // Search for the maximum value
+  for (int i = VecGetDim(that); i-- && i != 0;) {
+    if (max < VecGet(that, i)) {
+      max = VecGet(that, i);
+      iMax = i;
+    }
+  }
+  // Return the result
+  return iMax;
 }
 
 // Get the min value in components of the vector 'that'

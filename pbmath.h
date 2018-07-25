@@ -391,6 +391,12 @@ inline
 #endif 
 short _VecShortGetMinValAbs(const VecShort* const that);
 
+// Get the index of the max value in components of the vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+int _VecShortGetIMaxVal(const VecShort* const that);
+
 // -------------- VecFloat
 
 // ================= Data structure ===================
@@ -905,6 +911,12 @@ bool _VecFloatStepDelta(VecFloat* const that,
 bool _VecFloatShiftStepDelta(VecFloat* const that, 
   const VecFloat* const from, const VecFloat* const to, 
   const VecFloat* const delta);
+
+// Get the index of the max value in components of the vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+int _VecFloatGetIMaxVal(const VecFloat* const that);
 
 // -------------- MatFloat
 
@@ -2182,6 +2194,34 @@ inline float fsquare(const float a) {
   VecFloat3D*: _VecFloatShiftStepDelta, \
   default: PBErrInvalidPolymorphism)((VecFloat*)(Vec), \
     (VecFloat*)(VecFrom), (VecFloat*)(VecTo), (VecFloat*)(Delta))
+
+#define VecGetIMaxVal(Vec) _Generic(Vec, \
+  VecFloat*: _VecFloatGetIMaxVal, \
+  const VecFloat*: _VecFloatGetIMaxVal, \
+  VecFloat2D*: _VecFloatGetIMaxVal, \
+  const VecFloat2D*: _VecFloatGetIMaxVal, \
+  VecFloat3D*: _VecFloatGetIMaxVal, \
+  const VecFloat3D*: _VecFloatGetIMaxVal, \
+  VecShort*: _VecShortGetIMaxVal, \
+  const VecShort*: _VecShortGetIMaxVal, \
+  VecShort2D*: _VecShortGetIMaxVal, \
+  const VecShort2D*: _VecShortGetIMaxVal, \
+  VecShort3D*: _VecShortGetIMaxVal, \
+  const VecShort3D*: _VecShortGetIMaxVal, \
+  VecShort4D*: _VecShortGetIMaxVal, \
+  const VecShort4D*: _VecShortGetIMaxVal, \
+  default: PBErrInvalidPolymorphism) (_Generic(Vec, \
+    VecFloat2D*: (const VecFloat*)(Vec), \
+    const VecFloat2D*: (const VecFloat*)(Vec), \
+    VecFloat3D*: (const VecFloat*)(Vec), \
+    const VecFloat3D*: (const VecFloat*)(Vec), \
+    VecShort2D*: (const VecShort*)(Vec), \
+    const VecShort2D*: (const VecShort*)(Vec), \
+    VecShort3D*: (const VecShort*)(Vec), \
+    const VecShort3D*: (const VecShort*)(Vec), \
+    VecShort4D*: (const VecShort*)(Vec), \
+    const VecShort4D*: (const VecShort*)(Vec), \
+    default: Vec))
 
 #define MatClone(Mat) _Generic(Mat, \
   MatFloat*: _MatFloatClone, \
