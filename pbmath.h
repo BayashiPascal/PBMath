@@ -268,6 +268,26 @@ bool _VecShortPStep(VecShort* const that, const VecShort* const bound);
 bool _VecShortShiftStep(VecShort* const that, 
   const VecShort* const from, const VecShort* const to);
 
+// Step the values of the vector incrementally by delta from 0
+// in the following order (for example) : 
+// (0,0,0)->(0,0,1)->(0,0,2)->(0,1,0)->(0,1,1)->...
+// The upper limit for each value is given by 'bound' (val[i] <= dim[i])
+// Return false after all values of 'that' have reached their upper 
+// limit (in which case 'that''s values are all set back to 0)
+// Return true else
+bool _VecShortStepDelta(VecShort* const that, 
+  const VecShort* const bound, const VecShort* const delta);
+
+// Step the values of the vector incrementally by delta from 0
+// in the following order (for example) : 
+// (0,0,0)->(1,0,0)->(2,0,0)->(0,1,0)->(1,1,0)->...
+// The upper limit for each value is given by 'bound' (val[i] <= dim[i])
+// Return false after all values of 'that' have reached their upper 
+// limit (in which case 'that''s values are all set back to 0)
+// Return true else
+bool _VecShortPStepDelta(VecShort* const that, 
+  const VecShort* const bound, const VecShort* const delta);
+
 // Calculate (that * a + tho * b) and store the result in 'that'
 // 'tho' can be null, in which case it is consider to be the null vector
 // If 'tho' is not null it must be of same dimension as 'that'
@@ -2069,6 +2089,14 @@ inline float fsquare(const float a) {
   default: PBErrInvalidPolymorphism)((VecShort*)(Vec), \
     (const VecShort*)(VecFrom), (const VecShort*)(VecTo))
 
+#define VecPStepDelta(Vec, VecBound, VecDelta) _Generic(Vec, \
+  VecShort*: _VecShortPStepDelta, \
+  VecShort2D*: _VecShortPStepDelta, \
+  VecShort3D*: _VecShortPStepDelta, \
+  VecShort4D*: _VecShortPStepDelta, \
+  default: PBErrInvalidPolymorphism)((VecShort*)(Vec), \
+    (const VecShort*)(VecBound), (const VecShort*)(VecDelta))
+
 #define VecGetMaxVal(Vec) _Generic(Vec, \
   VecFloat*: _VecFloatGetMaxVal, \
   const VecFloat*: _VecFloatGetMaxVal, \
@@ -2185,8 +2213,32 @@ inline float fsquare(const float a) {
   VecFloat*: _VecFloatStepDelta, \
   VecFloat2D*: _VecFloatStepDelta, \
   VecFloat3D*: _VecFloatStepDelta, \
-  default: PBErrInvalidPolymorphism)((VecFloat*)(Vec), \
-    (VecFloat*)(VecBound), (VecFloat*)(Delta))
+  VecShort*: _VecShortStepDelta, \
+  VecShort2D*: _VecShortStepDelta, \
+  VecShort3D*: _VecShortStepDelta, \
+  VecShort4D*: _VecShortStepDelta, \
+  default: PBErrInvalidPolymorphism)(_Generic(Vec, \
+    VecFloat*: Vec, \
+    VecFloat2D*: (VecFloat*)(Vec), \
+    VecFloat3D*: (VecFloat*)(Vec), \
+    VecShort*: Vec, \
+    VecShort2D*: (VecShort*)(Vec), \
+    VecShort3D*: (VecShort*)(Vec), \
+    VecShort4D*: (VecShort*)(Vec)), _Generic(Vec, \
+    VecFloat*: VecBound, \
+    VecFloat2D*: (VecFloat*)(VecBound), \
+    VecFloat3D*: (VecFloat*)(VecBound), \
+    VecShort*: VecBound, \
+    VecShort2D*: (VecShort*)(VecBound), \
+    VecShort3D*: (VecShort*)(VecBound), \
+    VecShort4D*: (VecShort*)(VecBound)), _Generic(Vec, \
+    VecFloat*: Delta, \
+    VecFloat2D*: (VecFloat*)(Delta), \
+    VecFloat3D*: (VecFloat*)(Delta), \
+    VecShort*: Delta, \
+    VecShort2D*: (VecShort*)(Delta), \
+    VecShort3D*: (VecShort*)(Delta), \
+    VecShort4D*: (VecShort*)(Delta)))  
 
 #define VecShiftStepDelta(Vec, VecFrom, VecTo, Delta) _Generic(Vec, \
   VecFloat*: _VecFloatShiftStepDelta, \

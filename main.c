@@ -477,6 +477,37 @@ void UnitTestVecShortStep() {
   } while (VecPStep(&v4, &bv4));
   VecFree(&v);
   VecFree(&bv);
+  VecShort2D w = VecShortCreateStatic2D();
+  VecShort2D wDelta = VecShortCreateStatic2D();
+  VecShort2D wBound = VecShortCreateStatic2D();
+  VecSet(&wDelta, 0, 2);
+  VecSet(&wDelta, 1, 3);
+  VecSet(&wBound, 0, 4);
+  VecSet(&wBound, 1, 6);
+  int checkDelta[8] = {0, 0, 0, 3, 2, 0, 2, 3};
+  iCheck = 0;
+  do {
+    if (VecGet(&w, 0) != checkDelta[iCheck * 2] ||
+      VecGet(&w, 1) != checkDelta[iCheck * 2 + 1]) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecShortStepDelta NOK");
+      PBErrCatch(PBMathErr);
+    }
+    ++iCheck;
+  } while (VecStepDelta(&w, &wBound, &wDelta));
+  int checkDeltaB[8] = {0, 0, 2, 0, 0, 3, 2, 3};
+  VecSetNull(&w);
+  iCheck = 0;
+  do {
+    if (VecGet(&w, 0) != checkDeltaB[iCheck * 2] ||
+      VecGet(&w, 1) != checkDeltaB[iCheck * 2 + 1]) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecShortStepDelta NOK");
+      PBErrCatch(PBMathErr);
+    }
+    ++iCheck;
+  } while (VecPStepDelta(&w, &wBound, &wDelta));
+
   printf("UnitTestVecShortStep OK\n");
 }
 

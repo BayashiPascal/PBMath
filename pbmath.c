@@ -378,6 +378,126 @@ bool _VecShortShiftStep(VecShort* const that,
   return ret;
 }
 
+// Step the values of the vector incrementally by delta from 0
+// in the following order (for example) : 
+// (0,0,0)->(0,0,1)->(0,0,2)->(0,1,0)->(0,1,1)->...
+// The upper limit for each value is given by 'bound' (val[i] <= dim[i])
+// Return false after all values of 'that' have reached their upper 
+// limit (in which case 'that''s values are all set back to 0)
+// Return true else
+bool _VecShortStepDelta(VecShort* const that, 
+  const VecShort* const bound, const VecShort* const delta) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (bound == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'bound' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (delta == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'delta' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != bound->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+      that->_dim, bound->_dim);
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != delta->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+      that->_dim, delta->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable for the returned flag
+  bool ret = true;
+  // Declare a variable to memorise the dimension currently increasing
+  int iDim = that->_dim - 1;
+  // Declare a flag for the loop condition 
+  bool flag = true;
+  // Increment
+  do {
+    that->_val[iDim] += delta->_val[iDim];
+    if (that->_val[iDim] >= bound->_val[iDim]) {
+      that->_val[iDim] = 0;
+      --iDim;
+    } else {
+      flag = false;
+    }
+  } while (iDim >= 0 && flag == true);
+  if (iDim == -1)
+    ret = false;
+  // Return the flag
+  return ret;
+}
+
+// Step the values of the vector incrementally by delta from 0
+// in the following order (for example) : 
+// (0,0,0)->(1,0,0)->(2,0,0)->(0,1,0)->(1,1,0)->...
+// The upper limit for each value is given by 'bound' (val[i] <= dim[i])
+// Return false after all values of 'that' have reached their upper 
+// limit (in which case 'that''s values are all set back to 0)
+// Return true else
+bool _VecShortPStepDelta(VecShort* const that, 
+  const VecShort* const bound, const VecShort* const delta) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (bound == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'bound' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (delta == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'delta' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != bound->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+      that->_dim, bound->_dim);
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != delta->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+      that->_dim, delta->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable for the returned flag
+  bool ret = true;
+  // Declare a variable to memorise the dimension currently increasing
+  int iDim = 0;
+  // Declare a flag for the loop condition 
+  bool flag = true;
+  // Increment
+  do {
+    that->_val[iDim] += delta->_val[iDim];
+    if (that->_val[iDim] >= bound->_val[iDim]) {
+      that->_val[iDim] = 0;
+      ++iDim;
+    } else {
+      flag = false;
+    }
+  } while (iDim < that->_dim && flag == true);
+  if (iDim == that->_dim)
+    ret = false;
+  // Return the flag
+  return ret;
+}
+
 // -------------- VecFloat
 
 // ================ Functions implementation ====================
