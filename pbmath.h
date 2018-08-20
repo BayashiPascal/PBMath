@@ -34,6 +34,389 @@
 #define INT(a) ((int)(round(a)))
 #define rnd() (float)(rand())/(float)(RAND_MAX)
 
+// -------------- VecLong
+
+// ================= Data structure ===================
+
+// Vector of long values
+typedef struct VecLong {
+  // Dimension
+  int _dim;
+  // Values
+  long _val[0];
+} VecLong;
+
+typedef struct VecLong2D {
+  // Dimension
+  int _dim;
+  // Values
+  long _val[2];
+} VecLong2D;
+
+typedef struct VecLong3D {
+  // Dimension
+  int _dim;
+  // Values
+  long _val[3];
+} VecLong3D;
+
+typedef struct VecLong4D {
+  // Dimension
+  int _dim;
+  // Values
+  long _val[4];
+} VecLong4D;
+
+// ================ Functions declaration ====================
+
+// Create a new VecLong of dimension 'dim'
+// Values are initalized to 0.0
+VecLong* VecLongCreate(const int dim);
+
+// Static constructors for VecLong
+#if BUILDMODE != 0
+inline
+#endif 
+VecLong2D VecLongCreateStatic2D();
+#if BUILDMODE != 0
+inline
+#endif 
+VecLong3D VecLongCreateStatic3D();
+#if BUILDMODE != 0
+inline
+#endif 
+VecLong4D VecLongCreateStatic4D();
+
+// Clone the VecLong
+// Return NULL if we couldn't clone the VecLong
+VecLong* _VecLongClone(const VecLong* const that);
+
+// Function which return the JSON encoding of 'that' 
+JSONNode* _VecLongEncodeAsJSON(const VecLong* const that);
+
+// Function which decode from JSON encoding 'json' to 'that'
+bool _VecLongDecodeAsJSON(VecLong** that, const JSONNode* const json);
+
+// Load the VecLong from the stream
+// If the VecLong is already allocated, it is freed before loading
+// Return true in case of success, else false
+bool _VecLongLoad(VecLong** that, FILE* const stream);
+
+// Save the VecLong to the stream
+// If 'compact' equals true it saves in compact form, else it saves in 
+// readable form
+// Return true in case of success, else false
+bool _VecLongSave(const VecLong* const that, 
+  FILE* const stream, const bool compact);
+
+// Free the memory used by a VecLong
+// Do nothing if arguments are invalid
+void _VecLongFree(VecLong** that);
+
+// Print the VecLong on 'stream'
+void _VecLongPrint(const VecLong* const that, 
+  FILE* const stream);
+
+// Return the i-th value of the VecLong
+#if BUILDMODE != 0 
+inline 
+#endif 
+long _VecLongGet(const VecLong* const that, const int i);
+#if BUILDMODE != 0 
+inline 
+#endif 
+long _VecLongGet2D(const VecLong2D* const that, const int i);
+#if BUILDMODE != 0 
+inline 
+#endif 
+long _VecLongGet3D(const VecLong3D* const that, const int i);
+#if BUILDMODE != 0 
+inline 
+#endif 
+long _VecLongGet4D(const VecLong4D* const that, const int i);
+
+// Set the i-th value of the VecLong to v
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecLongSet(VecLong* const that, const int i, const long v);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecLongSet2D(VecLong2D* const that, const int i, const long v);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecLongSet3D(VecLong3D* const that, const int i, const long v);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecLongSet4D(VecLong4D* const that, const int i, const long v);
+
+// Set the i-th value of the VecLong to v plus its current value
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecLongSetAdd(VecLong* const that, const int i, const long v);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecLongSetAdd2D(VecLong2D* const that, const int i, const long v);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecLongSetAdd3D(VecLong3D* const that, const int i, const long v);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecLongSetAdd4D(VecLong4D* const that, const int i, const long v);
+
+// Return the dimension of the VecLong
+// Return 0 if arguments are invalid
+#if BUILDMODE != 0 
+inline 
+#endif 
+int _VecLongGetDim(const VecLong* const that);
+
+// Return the Hamiltonian distance between the VecLong 'that' and 'tho'
+#if BUILDMODE != 0 
+inline 
+#endif 
+long _VecLongHamiltonDist(const VecLong* const that, const VecLong* const tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+long _VecLongHamiltonDist2D(const VecLong2D* const that, const VecLong2D* const tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+long _VecLongHamiltonDist3D(const VecLong3D* const that, const VecLong3D* const tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+long _VecLongHamiltonDist4D(const VecLong4D* const that, const VecLong4D* const tho);
+
+// Return true if the VecLong 'that' is equal to 'tho', else false
+#if BUILDMODE != 0 
+inline 
+#endif 
+bool _VecLongIsEqual(const VecLong* const that, 
+  const VecLong* const tho);
+
+// Copy the values of 'w' in 'that' (must have same dimensions)
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecLongCopy(VecLong* const that, const VecLong* const w);
+
+// Return the dot product of 'that' and 'tho'
+#if BUILDMODE != 0 
+inline 
+#endif 
+long _VecLongDotProd(const VecLong* const that, 
+  const VecLong* const tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+long _VecLongDotProd2D(const VecLong2D* const that, 
+  const VecLong2D* const tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+long _VecLongDotProd3D(const VecLong3D* const that, 
+  const VecLong3D* const tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+long _VecLongDotProd4D(const VecLong4D* const that, 
+  const VecLong4D* const tho);
+
+// Set all values of the vector 'that' to 0
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecLongSetNull(VecLong* const that);
+
+// Step the values of the vector incrementally by 1 from 0
+// in the following order (for example) : 
+// (0,0,0)->(0,0,1)->(0,0,2)->(0,1,0)->(0,1,1)->...
+// The upper limit for each value is given by 'bound' (val[i] < dim[i])
+// Return false if all values of 'that' have reached their upper limit 
+// (in which case 'that''s values are all set back to 0)
+// Return true else
+bool _VecLongStep(VecLong* const that, const VecLong* const bound);
+
+// Step the values of the vector incrementally by 1 from 0
+// in the following order (for example) : 
+// (0,0,0)->(1,0,0)->(2,0,0)->(0,1,0)->(1,1,0)->...
+// The upper limit for each value is given by 'bound' (val[i] < dim[i])
+// Return false if all values of 'that' have reached their upper limit 
+// (in which case 'that''s values are all set back to 0)
+// Return true else
+bool _VecLongPStep(VecLong* const that, const VecLong* const bound);
+
+// Step the values of the vector incrementally by 1
+// in the following order (for example) : 
+// (0,0,0)->(0,0,1)->(0,0,2)->(0,1,0)->(0,1,1)->...
+// The lower limit for each value is given by 'from' (val[i] >= from[i])
+// The upper limit for each value is given by 'to' (val[i] < to[i])
+// 'that' must be initialised to 'from' before the first call of this
+// function
+// Return false if all values of 'that' have reached their upper limit 
+// (in which case 'that''s values are all set back to from)
+// Return true else
+bool _VecLongShiftStep(VecLong* const that, 
+  const VecLong* const from, const VecLong* const to);
+
+// Step the values of the vector incrementally by delta from 0
+// in the following order (for example) : 
+// (0,0,0)->(0,0,1)->(0,0,2)->(0,1,0)->(0,1,1)->...
+// The upper limit for each value is given by 'bound' (val[i] <= dim[i])
+// Return false after all values of 'that' have reached their upper 
+// limit (in which case 'that''s values are all set back to 0)
+// Return true else
+bool _VecLongStepDelta(VecLong* const that, 
+  const VecLong* const bound, const VecLong* const delta);
+
+// Step the values of the vector incrementally by delta from 0
+// in the following order (for example) : 
+// (0,0,0)->(1,0,0)->(2,0,0)->(0,1,0)->(1,1,0)->...
+// The upper limit for each value is given by 'bound' (val[i] <= dim[i])
+// Return false after all values of 'that' have reached their upper 
+// limit (in which case 'that''s values are all set back to 0)
+// Return true else
+bool _VecLongPStepDelta(VecLong* const that, 
+  const VecLong* const bound, const VecLong* const delta);
+
+// Calculate (that * a + tho * b) and store the result in 'that'
+// 'tho' can be null, in which case it is consider to be the null vector
+// If 'tho' is not null it must be of same dimension as 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecLongOp(VecLong* const that, const long a, 
+  const VecLong* const tho, const long b);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecLongOp2D(VecLong2D* const that, const long a, 
+  const VecLong2D* const tho, const long b);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecLongOp3D(VecLong3D* const that, const long a, 
+  const VecLong3D* const tho, const long b);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecLongOp4D(VecLong4D* const that, const long a, 
+  const VecLong4D* const tho, const long b);
+
+// Return a VecLong equal to (that * a + tho * b)
+// Return NULL if arguments are invalid
+// 'tho' can be null, in which case it is consider to be the null vector
+// If 'tho' is not null it must be of same dimension as 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecLong* _VecLongGetOp(const VecLong* const that, const long a, 
+  const VecLong* const tho, const long b);
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecLong2D _VecLongGetOp2D(const VecLong2D* const that, const long a, 
+  const VecLong2D* const tho, const long b);
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecLong3D _VecLongGetOp3D(const VecLong3D* const that, const long a, 
+  const VecLong3D* const tho, const long b);
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecLong4D _VecLongGetOp4D(const VecLong4D* const that, const long a, 
+  const VecLong4D* const tho, const long b);
+
+// Calculate the Hadamard product of that by tho and store the 
+// result in 'that'
+// 'tho' and 'that' must be of same dimension
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecLongHadamardProd(VecLong* const that, 
+  const VecLong* const tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecLongHadamardProd2D(VecLong2D* const that, 
+  const VecLong2D* const tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecLongHadamardProd3D(VecLong3D* const that, 
+  const VecLong3D* const tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _VecLongHadamardProd4D(VecLong4D* const that, 
+  const VecLong4D* const tho);
+
+// Return a VecLong equal to the hadamard product of 'that' and 'tho'
+// Return NULL if arguments are invalid
+// 'tho' and 'that' must be of same dimension
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecLong* _VecLongGetHadamardProd(const VecLong* const that, 
+  const VecLong* const tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecLong2D _VecLongGetHadamardProd2D(const VecLong2D* const that, 
+  const VecLong2D* const tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecLong3D _VecLongGetHadamardProd3D(const VecLong3D* const that, 
+  const VecLong3D* const tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecLong4D _VecLongGetHadamardProd4D(const VecLong4D* const that, 
+  const VecLong4D* const tho);
+
+// Get the max value in components of the vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+long _VecLongGetMaxVal(const VecLong* const that);
+
+// Get the min value in components of the vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+long _VecLongGetMinVal(const VecLong* const that);
+
+// Get the max value (in absolute value) in components of the 
+// vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+long _VecLongGetMaxValAbs(const VecLong* const that);
+
+// Get the min value (in absolute value) in components of the 
+// vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+long _VecLongGetMinValAbs(const VecLong* const that);
+
+// Get the index of the max value in components of the vector 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+int _VecLongGetIMaxVal(const VecLong* const that);
+
 // -------------- VecShort
 
 // ================= Data structure ===================
@@ -1216,25 +1599,31 @@ inline float fsquare(const float a) {
 #define VecClone(Vec) _Generic(Vec, \
   VecFloat*: _VecFloatClone, \
   VecShort*: _VecShortClone, \
+  VecLong*: _VecLongClone, \
   const VecFloat*: _VecFloatClone, \
   const VecShort*: _VecShortClone, \
+  const VecLong*: _VecLongClone, \
   default: PBErrInvalidPolymorphism)(Vec)
 
 #define VecEncodeAsJSON(Vec) _Generic(Vec, \
   VecFloat*: _VecFloatEncodeAsJSON, \
   VecShort*: _VecShortEncodeAsJSON, \
+  VecLong*: _VecLongEncodeAsJSON, \
   const VecFloat*: _VecFloatEncodeAsJSON, \
   const VecShort*: _VecShortEncodeAsJSON, \
+  const VecLong*: _VecLongEncodeAsJSON, \
   default: PBErrInvalidPolymorphism)(Vec)
 
 #define VecDecodeAsJSON(VecRef, Json) _Generic(VecRef, \
   VecFloat**: _VecFloatDecodeAsJSON, \
   VecShort**: _VecShortDecodeAsJSON, \
+  VecLong**: _VecLongDecodeAsJSON, \
   default: PBErrInvalidPolymorphism)(VecRef, Json)
 
 #define VecLoad(VecRef, Stream) _Generic(VecRef, \
   VecFloat**: _VecFloatLoad, \
   VecShort**: _VecShortLoad, \
+  VecLong**: _VecLongLoad, \
   default: PBErrInvalidPolymorphism)(VecRef, Stream)
 
 #define VecSave(Vec, Stream, Compact) _Generic(Vec, \
@@ -1245,6 +1634,10 @@ inline float fsquare(const float a) {
   VecShort2D*: _VecShortSave, \
   VecShort3D*: _VecShortSave, \
   VecShort4D*: _VecShortSave, \
+  VecLong*: _VecLongSave, \
+  VecLong2D*: _VecLongSave, \
+  VecLong3D*: _VecLongSave, \
+  VecLong4D*: _VecLongSave, \
   const VecFloat*: _VecFloatSave, \
   const VecFloat2D*: _VecFloatSave, \
   const VecFloat3D*: _VecFloatSave, \
@@ -1252,6 +1645,10 @@ inline float fsquare(const float a) {
   const VecShort2D*: _VecShortSave, \
   const VecShort3D*: _VecShortSave, \
   const VecShort4D*: _VecShortSave, \
+  const VecLong*: _VecLongSave, \
+  const VecLong2D*: _VecLongSave, \
+  const VecLong3D*: _VecLongSave, \
+  const VecLong4D*: _VecLongSave, \
   default: PBErrInvalidPolymorphism)( \
     _Generic(Vec,  \
       VecFloat2D*: (const VecFloat*)(Vec), \
@@ -1259,17 +1656,24 @@ inline float fsquare(const float a) {
       VecShort2D*: (const VecShort*)(Vec), \
       VecShort3D*: (const VecShort*)(Vec), \
       VecShort4D*: (const VecShort*)(Vec), \
+      VecLong2D*: (const VecLong*)(Vec), \
+      VecLong3D*: (const VecLong*)(Vec), \
+      VecLong4D*: (const VecLong*)(Vec), \
       const VecFloat2D*: (const VecFloat*)(Vec), \
       const VecFloat3D*: (const VecFloat*)(Vec), \
       const VecShort2D*: (const VecShort*)(Vec), \
       const VecShort3D*: (const VecShort*)(Vec), \
       const VecShort4D*: (const VecShort*)(Vec), \
+      const VecLong2D*: (const VecLong*)(Vec), \
+      const VecLong3D*: (const VecLong*)(Vec), \
+      const VecLong4D*: (const VecLong*)(Vec), \
       default: Vec),  \
     Stream, Compact)
 
 #define VecFree(VecRef) _Generic(VecRef, \
   VecFloat**: _VecFloatFree, \
   VecShort**: _VecShortFree, \
+  VecLong**: _VecLongFree, \
   default: PBErrInvalidPolymorphism)(VecRef)
 
 #define VecPrint(Vec, Stream) _Generic(Vec, \
@@ -1280,6 +1684,10 @@ inline float fsquare(const float a) {
   VecShort2D*: _VecShortPrint, \
   VecShort3D*: _VecShortPrint, \
   VecShort4D*: _VecShortPrint, \
+  VecLong*: _VecLongPrint, \
+  VecLong2D*: _VecLongPrint, \
+  VecLong3D*: _VecLongPrint, \
+  VecLong4D*: _VecLongPrint, \
   const VecFloat*: _VecFloatPrintDef, \
   const VecFloat2D*: _VecFloatPrintDef, \
   const VecFloat3D*: _VecFloatPrintDef, \
@@ -1287,6 +1695,10 @@ inline float fsquare(const float a) {
   const VecShort2D*: _VecShortPrint, \
   const VecShort3D*: _VecShortPrint, \
   const VecShort4D*: _VecShortPrint, \
+  const VecLong*: _VecLongPrint, \
+  const VecLong2D*: _VecLongPrint, \
+  const VecLong3D*: _VecLongPrint, \
+  const VecLong4D*: _VecLongPrint, \
   default: PBErrInvalidPolymorphism)( \
     _Generic(Vec,  \
       VecFloat2D*: (const VecFloat*)(Vec), \
@@ -1294,11 +1706,17 @@ inline float fsquare(const float a) {
       VecShort2D*: (const VecShort*)(Vec), \
       VecShort3D*: (const VecShort*)(Vec), \
       VecShort4D*: (const VecShort*)(Vec), \
+      VecLong2D*: (const VecLong*)(Vec), \
+      VecLong3D*: (const VecLong*)(Vec), \
+      VecLong4D*: (const VecLong*)(Vec), \
       const VecFloat2D*: (const VecFloat*)(Vec), \
       const VecFloat3D*: (const VecFloat*)(Vec), \
       const VecShort2D*: (const VecShort*)(Vec), \
       const VecShort3D*: (const VecShort*)(Vec), \
       const VecShort4D*: (const VecShort*)(Vec), \
+      const VecLong2D*: (const VecLong*)(Vec), \
+      const VecLong3D*: (const VecLong*)(Vec), \
+      const VecLong4D*: (const VecLong*)(Vec), \
       default: Vec),  \
     Stream)
 
@@ -1310,6 +1728,10 @@ inline float fsquare(const float a) {
   VecShort2D*: _VecShortGet2D, \
   VecShort3D*: _VecShortGet3D, \
   VecShort4D*: _VecShortGet4D, \
+  VecLong*: _VecLongGet, \
+  VecLong2D*: _VecLongGet2D, \
+  VecLong3D*: _VecLongGet3D, \
+  VecLong4D*: _VecLongGet4D, \
   const VecFloat*: _VecFloatGet, \
   const VecFloat2D*: _VecFloatGet2D, \
   const VecFloat3D*: _VecFloatGet3D, \
@@ -1317,6 +1739,10 @@ inline float fsquare(const float a) {
   const VecShort2D*: _VecShortGet2D, \
   const VecShort3D*: _VecShortGet3D, \
   const VecShort4D*: _VecShortGet4D, \
+  const VecLong*: _VecLongGet, \
+  const VecLong2D*: _VecLongGet2D, \
+  const VecLong3D*: _VecLongGet3D, \
+  const VecLong4D*: _VecLongGet4D, \
   default: PBErrInvalidPolymorphism)(Vec, Index)
 
 #define VecSet(Vec, Index, Val) _Generic(Vec, \
@@ -1327,6 +1753,10 @@ inline float fsquare(const float a) {
   VecShort2D*: _VecShortSet2D, \
   VecShort3D*: _VecShortSet3D, \
   VecShort4D*: _VecShortSet4D, \
+  VecLong*: _VecLongSet, \
+  VecLong2D*: _VecLongSet2D, \
+  VecLong3D*: _VecLongSet3D, \
+  VecLong4D*: _VecLongSet4D, \
   default: PBErrInvalidPolymorphism)(Vec, Index, Val)
 
 #define VecSetAdd(Vec, Index, Val) _Generic(Vec, \
@@ -1337,6 +1767,10 @@ inline float fsquare(const float a) {
   VecShort2D*: _VecShortSetAdd2D, \
   VecShort3D*: _VecShortSetAdd3D, \
   VecShort4D*: _VecShortSetAdd4D, \
+  VecLong*: _VecLongSetAdd, \
+  VecLong2D*: _VecLongSetAdd2D, \
+  VecLong3D*: _VecLongSetAdd3D, \
+  VecLong4D*: _VecLongSetAdd4D, \
   default: PBErrInvalidPolymorphism)(Vec, Index, Val)
 
 #define VecSetNull(Vec) _Generic(Vec, \
@@ -1347,6 +1781,10 @@ inline float fsquare(const float a) {
   VecShort2D*: _VecShortSetNull, \
   VecShort3D*: _VecShortSetNull, \
   VecShort4D*: _VecShortSetNull, \
+  VecLong*: _VecLongSetNull, \
+  VecLong2D*: _VecLongSetNull, \
+  VecLong3D*: _VecLongSetNull, \
+  VecLong4D*: _VecLongSetNull, \
   default: PBErrInvalidPolymorphism)( \
     _Generic(Vec,  \
       VecFloat2D*: (VecFloat*)(Vec), \
@@ -1354,6 +1792,9 @@ inline float fsquare(const float a) {
       VecShort2D*: (VecShort*)(Vec), \
       VecShort3D*: (VecShort*)(Vec), \
       VecShort4D*: (VecShort*)(Vec), \
+      VecLong2D*: (VecLong*)(Vec), \
+      VecLong3D*: (VecLong*)(Vec), \
+      VecLong4D*: (VecLong*)(Vec), \
       default: Vec))
 
 #define VecCopy(VecDest, VecSrc) _Generic(VecDest, \
@@ -1405,6 +1846,34 @@ inline float fsquare(const float a) {
     const VecShort*: _VecShortCopy, \
     const VecShort4D*: _VecShortCopy, \
     default: PBErrInvalidPolymorphism), \
+  VecLong*: _Generic(VecSrc, \
+    VecLong*: _VecLongCopy, \
+    VecLong2D*: _VecLongCopy, \
+    VecLong3D*: _VecLongCopy, \
+    VecLong4D*: _VecLongCopy, \
+    const VecLong*: _VecLongCopy, \
+    const VecLong2D*: _VecLongCopy, \
+    const VecLong3D*: _VecLongCopy, \
+    const VecLong4D*: _VecLongCopy, \
+    default: PBErrInvalidPolymorphism), \
+  VecLong2D*: _Generic(VecSrc, \
+    VecLong*: _VecLongCopy, \
+    VecLong2D*: _VecLongCopy, \
+    const VecLong*: _VecLongCopy, \
+    const VecLong2D*: _VecLongCopy, \
+    default: PBErrInvalidPolymorphism), \
+  VecLong3D*: _Generic(VecSrc, \
+    VecLong*: _VecLongCopy, \
+    VecLong3D*: _VecLongCopy, \
+    const VecLong*: _VecLongCopy, \
+    const VecLong3D*: _VecLongCopy, \
+    default: PBErrInvalidPolymorphism), \
+  VecLong4D*: _Generic(VecSrc, \
+    VecLong*: _VecLongCopy, \
+    VecLong4D*: _VecLongCopy, \
+    const VecLong*: _VecLongCopy, \
+    const VecLong4D*: _VecLongCopy, \
+    default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)( \
     _Generic(VecDest,  \
       VecFloat2D*: (VecFloat*)(VecDest), \
@@ -1412,6 +1881,9 @@ inline float fsquare(const float a) {
       VecShort2D*: (VecShort*)(VecDest), \
       VecShort3D*: (VecShort*)(VecDest), \
       VecShort4D*: (VecShort*)(VecDest), \
+      VecLong2D*: (VecLong*)(VecDest), \
+      VecLong3D*: (VecLong*)(VecDest), \
+      VecLong4D*: (VecLong*)(VecDest), \
       default: VecDest),  \
     _Generic(VecSrc,  \
       VecFloat2D*: (const VecFloat*)(VecSrc), \
@@ -1419,11 +1891,17 @@ inline float fsquare(const float a) {
       VecShort2D*: (const VecShort*)(VecSrc), \
       VecShort3D*: (const VecShort*)(VecSrc), \
       VecShort4D*: (const VecShort*)(VecSrc), \
+      VecLong2D*: (const VecLong*)(VecSrc), \
+      VecLong3D*: (const VecLong*)(VecSrc), \
+      VecLong4D*: (const VecLong*)(VecSrc), \
       const VecFloat2D*: (const VecFloat*)(VecSrc), \
       const VecFloat3D*: (const VecFloat*)(VecSrc), \
       const VecShort2D*: (const VecShort*)(VecSrc), \
       const VecShort3D*: (const VecShort*)(VecSrc), \
       const VecShort4D*: (const VecShort*)(VecSrc), \
+      const VecLong2D*: (const VecLong*)(VecSrc), \
+      const VecLong3D*: (const VecLong*)(VecSrc), \
+      const VecLong4D*: (const VecLong*)(VecSrc), \
       default: VecSrc))
 
 #define VecGetDim(Vec) _Generic(Vec, \
@@ -1434,6 +1912,10 @@ inline float fsquare(const float a) {
   VecShort2D*: _VecShortGetDim, \
   VecShort3D*: _VecShortGetDim, \
   VecShort4D*: _VecShortGetDim, \
+  VecLong*: _VecLongGetDim, \
+  VecLong2D*: _VecLongGetDim, \
+  VecLong3D*: _VecLongGetDim, \
+  VecLong4D*: _VecLongGetDim, \
   const VecFloat*: _VecFloatGetDim, \
   const VecFloat2D*: _VecFloatGetDim, \
   const VecFloat3D*: _VecFloatGetDim, \
@@ -1441,6 +1923,10 @@ inline float fsquare(const float a) {
   const VecShort2D*: _VecShortGetDim, \
   const VecShort3D*: _VecShortGetDim, \
   const VecShort4D*: _VecShortGetDim, \
+  const VecLong*: _VecLongGetDim, \
+  const VecLong2D*: _VecLongGetDim, \
+  const VecLong3D*: _VecLongGetDim, \
+  const VecLong4D*: _VecLongGetDim, \
   default: PBErrInvalidPolymorphism)( \
     _Generic(Vec, \
       VecFloat*: (const VecFloat*)(Vec), \
@@ -1450,13 +1936,18 @@ inline float fsquare(const float a) {
       VecShort2D*: (const VecShort*)(Vec), \
       VecShort3D*: (const VecShort*)(Vec), \
       VecShort4D*: (const VecShort*)(Vec), \
-      const VecFloat*: Vec, \
+      VecLong*: (const VecLong*)(Vec), \
+      VecLong2D*: (const VecLong*)(Vec), \
+      VecLong3D*: (const VecLong*)(Vec), \
+      VecLong4D*: (const VecLong*)(Vec), \
       const VecFloat2D*: (const VecFloat*)(Vec), \
       const VecFloat3D*: (const VecFloat*)(Vec), \
-      const VecShort*: Vec, \
       const VecShort2D*: (const VecShort*)(Vec), \
       const VecShort3D*: (const VecShort*)(Vec), \
       const VecShort4D*: (const VecShort*)(Vec), \
+      const VecLong2D*: (const VecLong*)(Vec), \
+      const VecLong3D*: (const VecLong*)(Vec), \
+      const VecLong4D*: (const VecLong*)(Vec), \
       default: Vec))
 
 #define VecGetNewDim(Vec, Dim) _Generic(Vec, \
@@ -1512,6 +2003,22 @@ inline float fsquare(const float a) {
     VecShort4D*: _VecShortHamiltonDist4D,\
     const VecShort4D*: _VecShortHamiltonDist4D,\
     default: PBErrInvalidPolymorphism), \
+  VecLong*: _Generic(VecB, \
+    VecLong*: _VecLongHamiltonDist,\
+    const VecLong*: _VecLongHamiltonDist,\
+    default: PBErrInvalidPolymorphism), \
+  VecLong2D*: _Generic(VecB, \
+    VecLong2D*: _VecLongHamiltonDist2D,\
+    const VecLong2D*: _VecLongHamiltonDist2D,\
+    default: PBErrInvalidPolymorphism), \
+  VecLong3D*: _Generic(VecB, \
+    VecLong3D*: _VecLongHamiltonDist3D,\
+    const VecLong3D*: _VecLongHamiltonDist3D,\
+    default: PBErrInvalidPolymorphism), \
+  VecLong4D*: _Generic(VecB, \
+    VecLong4D*: _VecLongHamiltonDist4D,\
+    const VecLong4D*: _VecLongHamiltonDist4D,\
+    default: PBErrInvalidPolymorphism), \
   const VecFloat*: _Generic(VecB, \
     VecFloat*: _VecFloatDist, \
     const VecFloat*: _VecFloatDist, \
@@ -1539,6 +2046,22 @@ inline float fsquare(const float a) {
   const VecShort4D*: _Generic(VecB, \
     VecShort4D*: _VecShortHamiltonDist4D,\
     const VecShort4D*: _VecShortHamiltonDist4D,\
+    default: PBErrInvalidPolymorphism), \
+  const VecLong*: _Generic(VecB, \
+    VecLong*: _VecLongHamiltonDist,\
+    const VecLong*: _VecLongHamiltonDist,\
+    default: PBErrInvalidPolymorphism), \
+  const VecLong2D*: _Generic(VecB, \
+    VecLong2D*: _VecLongHamiltonDist2D,\
+    const VecLong2D*: _VecLongHamiltonDist2D,\
+    default: PBErrInvalidPolymorphism), \
+  const VecLong3D*: _Generic(VecB, \
+    VecLong3D*: _VecLongHamiltonDist3D,\
+    const VecLong3D*: _VecLongHamiltonDist3D,\
+    default: PBErrInvalidPolymorphism), \
+  const VecLong4D*: _Generic(VecB, \
+    VecLong4D*: _VecLongHamiltonDist4D,\
+    const VecLong4D*: _VecLongHamiltonDist4D,\
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(VecA, VecB)
 
@@ -1571,6 +2094,22 @@ inline float fsquare(const float a) {
     VecShort4D*: _VecShortHamiltonDist4D,\
     const VecShort4D*: _VecShortHamiltonDist4D,\
     default: PBErrInvalidPolymorphism), \
+  VecLong*: _Generic(VecB, \
+    VecLong*: _VecLongHamiltonDist,\
+    const VecLong*: _VecLongHamiltonDist,\
+    default: PBErrInvalidPolymorphism), \
+  VecLong2D*: _Generic(VecB, \
+    VecLong2D*: _VecLongHamiltonDist2D,\
+    const VecLong2D*: _VecLongHamiltonDist2D,\
+    default: PBErrInvalidPolymorphism), \
+  VecLong3D*: _Generic(VecB, \
+    VecLong3D*: _VecLongHamiltonDist3D,\
+    const VecLong3D*: _VecLongHamiltonDist3D,\
+    default: PBErrInvalidPolymorphism), \
+  VecLong4D*: _Generic(VecB, \
+    VecLong4D*: _VecLongHamiltonDist4D,\
+    const VecLong4D*: _VecLongHamiltonDist4D,\
+    default: PBErrInvalidPolymorphism), \
   const VecFloat*: _Generic(VecB, \
     VecFloat*: _VecFloatHamiltonDist, \
     const VecFloat*: _VecFloatHamiltonDist, \
@@ -1598,6 +2137,22 @@ inline float fsquare(const float a) {
   const VecShort4D*: _Generic(VecB, \
     VecShort4D*: _VecShortHamiltonDist4D,\
     const VecShort4D*: _VecShortHamiltonDist4D,\
+    default: PBErrInvalidPolymorphism), \
+  const VecLong*: _Generic(VecB, \
+    VecLong*: _VecLongHamiltonDist,\
+    const VecLong*: _VecLongHamiltonDist,\
+    default: PBErrInvalidPolymorphism), \
+  const VecLong2D*: _Generic(VecB, \
+    VecLong2D*: _VecLongHamiltonDist2D,\
+    const VecLong2D*: _VecLongHamiltonDist2D,\
+    default: PBErrInvalidPolymorphism), \
+  const VecLong3D*: _Generic(VecB, \
+    VecLong3D*: _VecLongHamiltonDist3D,\
+    const VecLong3D*: _VecLongHamiltonDist3D,\
+    default: PBErrInvalidPolymorphism), \
+  const VecLong4D*: _Generic(VecB, \
+    VecLong4D*: _VecLongHamiltonDist4D,\
+    const VecLong4D*: _VecLongHamiltonDist4D,\
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(VecA, VecB)
 
@@ -1630,6 +2185,22 @@ inline float fsquare(const float a) {
     VecShort4D*: _VecShortHamiltonDist4D,\
     const VecShort4D*: _VecShortHamiltonDist4D,\
     default: PBErrInvalidPolymorphism), \
+  VecLong*: _Generic(VecB, \
+    VecLong*: _VecLongHamiltonDist,\
+    const VecLong*: _VecLongHamiltonDist,\
+    default: PBErrInvalidPolymorphism), \
+  VecLong2D*: _Generic(VecB, \
+    VecLong2D*: _VecLongHamiltonDist2D,\
+    const VecLong2D*: _VecLongHamiltonDist2D,\
+    default: PBErrInvalidPolymorphism), \
+  VecLong3D*: _Generic(VecB, \
+    VecLong3D*: _VecLongHamiltonDist3D,\
+    const VecLong3D*: _VecLongHamiltonDist3D,\
+    default: PBErrInvalidPolymorphism), \
+  VecLong4D*: _Generic(VecB, \
+    VecLong4D*: _VecLongHamiltonDist4D,\
+    const VecLong4D*: _VecLongHamiltonDist4D,\
+    default: PBErrInvalidPolymorphism), \
   const VecFloat*: _Generic(VecB, \
     VecFloat*: _VecFloatPixelDist, \
     const VecFloat*: _VecFloatPixelDist, \
@@ -1657,6 +2228,22 @@ inline float fsquare(const float a) {
   const VecShort4D*: _Generic(VecB, \
     VecShort4D*: _VecShortHamiltonDist4D,\
     const VecShort4D*: _VecShortHamiltonDist4D,\
+    default: PBErrInvalidPolymorphism), \
+  const VecLong*: _Generic(VecB, \
+    VecLong*: _VecLongHamiltonDist,\
+    const VecLong*: _VecLongHamiltonDist,\
+    default: PBErrInvalidPolymorphism), \
+  const VecLong2D*: _Generic(VecB, \
+    VecLong2D*: _VecLongHamiltonDist2D,\
+    const VecLong2D*: _VecLongHamiltonDist2D,\
+    default: PBErrInvalidPolymorphism), \
+  const VecLong3D*: _Generic(VecB, \
+    VecLong3D*: _VecLongHamiltonDist3D,\
+    const VecLong3D*: _VecLongHamiltonDist3D,\
+    default: PBErrInvalidPolymorphism), \
+  const VecLong4D*: _Generic(VecB, \
+    VecLong4D*: _VecLongHamiltonDist4D,\
+    const VecLong4D*: _VecLongHamiltonDist4D,\
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(VecA, VecB)
 
@@ -1709,6 +2296,34 @@ inline float fsquare(const float a) {
     const VecShort*: _VecShortIsEqual,\
     const VecShort4D*: _VecShortIsEqual,\
     default: PBErrInvalidPolymorphism), \
+  VecLong*: _Generic(VecB, \
+    VecLong*: _VecLongIsEqual,\
+    VecLong2D*: _VecLongIsEqual,\
+    VecLong3D*: _VecLongIsEqual,\
+    VecLong4D*: _VecLongIsEqual,\
+    const VecLong*: _VecLongIsEqual,\
+    const VecLong2D*: _VecLongIsEqual,\
+    const VecLong3D*: _VecLongIsEqual,\
+    const VecLong4D*: _VecLongIsEqual,\
+    default: PBErrInvalidPolymorphism), \
+  VecLong2D*: _Generic(VecB, \
+    VecLong*: _VecLongIsEqual,\
+    VecLong2D*: _VecLongIsEqual,\
+    const VecLong*: _VecLongIsEqual,\
+    const VecLong2D*: _VecLongIsEqual,\
+    default: PBErrInvalidPolymorphism), \
+  VecLong3D*: _Generic(VecB, \
+    VecLong*: _VecLongIsEqual,\
+    VecLong3D*: _VecLongIsEqual,\
+    const VecLong*: _VecLongIsEqual,\
+    const VecLong3D*: _VecLongIsEqual,\
+    default: PBErrInvalidPolymorphism), \
+  VecLong4D*: _Generic(VecB, \
+    VecLong*: _VecLongIsEqual,\
+    VecLong4D*: _VecLongIsEqual,\
+    const VecLong*: _VecLongIsEqual,\
+    const VecLong4D*: _VecLongIsEqual,\
+    default: PBErrInvalidPolymorphism), \
   const VecFloat*: _Generic(VecB, \
     VecFloat*: _VecFloatIsEqual, \
     VecFloat2D*: _VecFloatIsEqual, \
@@ -1757,6 +2372,34 @@ inline float fsquare(const float a) {
     const VecShort*: _VecShortIsEqual,\
     const VecShort4D*: _VecShortIsEqual,\
     default: PBErrInvalidPolymorphism), \
+  const VecLong*: _Generic(VecB, \
+    VecLong*: _VecLongIsEqual,\
+    VecLong2D*: _VecLongIsEqual,\
+    VecLong3D*: _VecLongIsEqual,\
+    VecLong4D*: _VecLongIsEqual,\
+    const VecLong*: _VecLongIsEqual,\
+    const VecLong2D*: _VecLongIsEqual,\
+    const VecLong3D*: _VecLongIsEqual,\
+    const VecLong4D*: _VecLongIsEqual,\
+    default: PBErrInvalidPolymorphism), \
+  const VecLong2D*: _Generic(VecB, \
+    VecLong*: _VecLongIsEqual,\
+    VecLong2D*: _VecLongIsEqual,\
+    const VecLong*: _VecLongIsEqual,\
+    const VecLong2D*: _VecLongIsEqual,\
+    default: PBErrInvalidPolymorphism), \
+  const VecLong3D*: _Generic(VecB, \
+    VecLong*: _VecLongIsEqual,\
+    VecLong3D*: _VecLongIsEqual,\
+    const VecLong*: _VecLongIsEqual,\
+    const VecLong3D*: _VecLongIsEqual,\
+    default: PBErrInvalidPolymorphism), \
+  const VecLong4D*: _Generic(VecB, \
+    VecLong*: _VecLongIsEqual,\
+    VecLong4D*: _VecLongIsEqual,\
+    const VecLong*: _VecLongIsEqual,\
+    const VecLong4D*: _VecLongIsEqual,\
+    default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)( \
     _Generic(VecA,  \
       VecFloat2D*: (const VecFloat*)(VecA), \
@@ -1764,11 +2407,17 @@ inline float fsquare(const float a) {
       VecShort2D*: (const VecShort*)(VecA), \
       VecShort3D*: (const VecShort*)(VecA), \
       VecShort4D*: (const VecShort*)(VecA), \
+      VecLong2D*: (const VecLong*)(VecA), \
+      VecLong3D*: (const VecLong*)(VecA), \
+      VecLong4D*: (const VecLong*)(VecA), \
       const VecFloat2D*: (const VecFloat*)(VecA), \
       const VecFloat3D*: (const VecFloat*)(VecA), \
       const VecShort2D*: (const VecShort*)(VecA), \
       const VecShort3D*: (const VecShort*)(VecA), \
       const VecShort4D*: (const VecShort*)(VecA), \
+      const VecLong2D*: (const VecLong*)(VecA), \
+      const VecLong3D*: (const VecLong*)(VecA), \
+      const VecLong4D*: (const VecLong*)(VecA), \
       default: VecA),  \
     _Generic(VecB,  \
       VecFloat2D*: (const VecFloat*)(VecB), \
@@ -1776,11 +2425,17 @@ inline float fsquare(const float a) {
       VecShort2D*: (const VecShort*)(VecB), \
       VecShort3D*: (const VecShort*)(VecB), \
       VecShort4D*: (const VecShort*)(VecB), \
+      VecLong2D*: (const VecLong*)(VecB), \
+      VecLong3D*: (const VecLong*)(VecB), \
+      VecLong4D*: (const VecLong*)(VecB), \
       const VecFloat2D*: (const VecFloat*)(VecB), \
       const VecFloat3D*: (const VecFloat*)(VecB), \
       const VecShort2D*: (const VecShort*)(VecB), \
       const VecShort3D*: (const VecShort*)(VecB), \
       const VecShort4D*: (const VecShort*)(VecB), \
+      const VecLong2D*: (const VecLong*)(VecB), \
+      const VecLong3D*: (const VecLong*)(VecB), \
+      const VecLong4D*: (const VecLong*)(VecB), \
       default: VecB))
 
 #define VecOp(VecA, CoeffA, VecB, CoeffB) _Generic(VecA, \
@@ -1811,6 +2466,22 @@ inline float fsquare(const float a) {
   VecShort4D*: _Generic(VecB, \
     VecShort4D*: _VecShortOp4D, \
     const VecShort4D*: _VecShortOp4D, \
+    default: PBErrInvalidPolymorphism), \
+  VecLong*: _Generic(VecB, \
+    VecLong*: _VecLongOp, \
+    const VecLong*: _VecLongOp, \
+    default: PBErrInvalidPolymorphism), \
+  VecLong2D*: _Generic(VecB, \
+    VecLong2D*: _VecLongOp2D, \
+    const VecLong2D*: _VecLongOp2D, \
+    default: PBErrInvalidPolymorphism), \
+  VecLong3D*: _Generic(VecB, \
+    VecLong3D*: _VecLongOp3D, \
+    const VecLong3D*: _VecLongOp3D, \
+    default: PBErrInvalidPolymorphism), \
+  VecLong4D*: _Generic(VecB, \
+    VecLong4D*: _VecLongOp4D, \
+    const VecLong4D*: _VecLongOp4D, \
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(VecA, CoeffA, VecB, CoeffB)
 
@@ -1843,6 +2514,22 @@ inline float fsquare(const float a) {
     VecShort4D*: _VecShortGetOp4D, \
     const VecShort4D*: _VecShortGetOp4D, \
     default: PBErrInvalidPolymorphism), \
+  VecLong*: _Generic(VecB, \
+    VecLong*: _VecLongGetOp, \
+    const VecLong*: _VecLongGetOp, \
+    default: PBErrInvalidPolymorphism), \
+  VecLong2D*: _Generic(VecB, \
+    VecLong2D*: _VecLongGetOp2D, \
+    const VecLong2D*: _VecLongGetOp2D, \
+    default: PBErrInvalidPolymorphism), \
+  VecLong3D*: _Generic(VecB, \
+    VecLong3D*: _VecLongGetOp3D, \
+    const VecLong3D*: _VecLongGetOp3D, \
+    default: PBErrInvalidPolymorphism), \
+  VecLong4D*: _Generic(VecB, \
+    VecLong4D*: _VecLongGetOp4D, \
+    const VecLong4D*: _VecLongGetOp4D, \
+    default: PBErrInvalidPolymorphism), \
   const VecFloat*: _Generic(VecB, \
     VecFloat*: _VecFloatGetOp, \
     const VecFloat*: _VecFloatGetOp, \
@@ -1870,6 +2557,22 @@ inline float fsquare(const float a) {
   const VecShort4D*: _Generic(VecB, \
     VecShort4D*: _VecShortGetOp4D, \
     const VecShort4D*: _VecShortGetOp4D, \
+    default: PBErrInvalidPolymorphism), \
+  const VecLong*: _Generic(VecB, \
+    VecLong*: _VecLongGetOp, \
+    const VecLong*: _VecLongGetOp, \
+    default: PBErrInvalidPolymorphism), \
+  const VecLong2D*: _Generic(VecB, \
+    VecLong2D*: _VecLongGetOp2D, \
+    const VecLong2D*: _VecLongGetOp2D, \
+    default: PBErrInvalidPolymorphism), \
+  const VecLong3D*: _Generic(VecB, \
+    VecLong3D*: _VecLongGetOp3D, \
+    const VecLong3D*: _VecLongGetOp3D, \
+    default: PBErrInvalidPolymorphism), \
+  const VecLong4D*: _Generic(VecB, \
+    VecLong4D*: _VecLongGetOp4D, \
+    const VecLong4D*: _VecLongGetOp4D, \
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(VecA, CoeffA, VecB, CoeffB)
 
@@ -1902,6 +2605,22 @@ inline float fsquare(const float a) {
     VecShort4D*: _VecShortHadamardProd4D, \
     const VecShort4D*: _VecShortHadamardProd4D, \
     default: PBErrInvalidPolymorphism), \
+  VecLong*: _Generic(VecB, \
+    VecLong*: _VecLongHadamardProd, \
+    const VecLong*: _VecLongHadamardProd, \
+    default: PBErrInvalidPolymorphism), \
+  VecLong2D*: _Generic(VecB, \
+    VecLong2D*: _VecLongHadamardProd2D, \
+    const VecLong2D*: _VecLongHadamardProd2D, \
+    default: PBErrInvalidPolymorphism), \
+  VecLong3D*: _Generic(VecB, \
+    VecLong3D*: _VecLongHadamardProd3D, \
+    const VecLong3D*: _VecLongHadamardProd3D, \
+    default: PBErrInvalidPolymorphism), \
+  VecLong4D*: _Generic(VecB, \
+    VecLong4D*: _VecLongHadamardProd4D, \
+    const VecLong4D*: _VecLongHadamardProd4D, \
+    default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(VecA, VecB)
 
 #define VecGetHadamardProd(VecA, VecB) _Generic(VecA, \
@@ -1933,6 +2652,22 @@ inline float fsquare(const float a) {
     VecShort4D*: _VecShortGetHadamardProd4D, \
     const VecShort4D*: _VecShortGetHadamardProd4D, \
     default: PBErrInvalidPolymorphism), \
+  VecLong*: _Generic(VecB, \
+    VecLong*: _VecLongGetHadamardProd, \
+    const VecLong*: _VecLongGetHadamardProd, \
+    default: PBErrInvalidPolymorphism), \
+  VecLong2D*: _Generic(VecB, \
+    VecLong2D*: _VecLongGetHadamardProd2D, \
+    const VecLong2D*: _VecLongGetHadamardProd2D, \
+    default: PBErrInvalidPolymorphism), \
+  VecLong3D*: _Generic(VecB, \
+    VecLong3D*: _VecLongGetHadamardProd3D, \
+    const VecLong3D*: _VecLongGetHadamardProd3D, \
+    default: PBErrInvalidPolymorphism), \
+  VecLong4D*: _Generic(VecB, \
+    VecLong4D*: _VecLongGetHadamardProd4D, \
+    const VecLong4D*: _VecLongGetHadamardProd4D, \
+    default: PBErrInvalidPolymorphism), \
   const VecFloat*: _Generic(VecB, \
     VecFloat*: _VecFloatGetHadamardProd, \
     const VecFloat*: _VecFloatGetHadamardProd, \
@@ -1960,6 +2695,22 @@ inline float fsquare(const float a) {
   const VecShort4D*: _Generic(VecB, \
     VecShort4D*: _VecShortGetHadamardProd4D, \
     const VecShort4D*: _VecShortGetHadamardProd4D, \
+    default: PBErrInvalidPolymorphism), \
+  const VecLong*: _Generic(VecB, \
+    VecLong*: _VecLongGetHadamardProd, \
+    const VecLong*: _VecLongGetHadamardProd, \
+    default: PBErrInvalidPolymorphism), \
+  const VecLong2D*: _Generic(VecB, \
+    VecLong2D*: _VecLongGetHadamardProd2D, \
+    const VecLong2D*: _VecLongGetHadamardProd2D, \
+    default: PBErrInvalidPolymorphism), \
+  const VecLong3D*: _Generic(VecB, \
+    VecLong3D*: _VecLongGetHadamardProd3D, \
+    const VecLong3D*: _VecLongGetHadamardProd3D, \
+    default: PBErrInvalidPolymorphism), \
+  const VecLong4D*: _Generic(VecB, \
+    VecLong4D*: _VecLongGetHadamardProd4D, \
+    const VecLong4D*: _VecLongGetHadamardProd4D, \
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(VecA, VecB)
 
@@ -2049,6 +2800,14 @@ inline float fsquare(const float a) {
   const VecShort3D*: _VecShortDotProd3D,\
   VecShort4D*: _VecShortDotProd4D,\
   const VecShort4D*: _VecShortDotProd4D,\
+  VecLong*: _VecLongDotProd,\
+  const VecLong*: _VecLongDotProd,\
+  VecLong2D*: _VecLongDotProd2D,\
+  const VecLong2D*: _VecLongDotProd2D,\
+  VecLong3D*: _VecLongDotProd3D,\
+  const VecLong3D*: _VecLongDotProd3D,\
+  VecLong4D*: _VecLongDotProd4D,\
+  const VecLong4D*: _VecLongDotProd4D,\
   VecFloat*: _VecFloatDotProd, \
   const VecFloat*: _VecFloatDotProd, \
   VecFloat2D*: _VecFloatDotProd2D, \
@@ -2070,32 +2829,172 @@ inline float fsquare(const float a) {
   VecShort2D*: _VecShortStep, \
   VecShort3D*: _VecShortStep, \
   VecShort4D*: _VecShortStep, \
-  default: PBErrInvalidPolymorphism)((VecShort*)(Vec), \
-    (const VecShort*)(VecBound))
+  VecLong*: _VecLongStep, \
+  VecLong2D*: _VecLongStep, \
+  VecLong3D*: _VecLongStep, \
+  VecLong4D*: _VecLongStep, \
+  default: PBErrInvalidPolymorphism)(_Generic(Vec, \
+    VecShort*: (VecShort*)(Vec), \
+    VecShort2D*: (VecShort*)(Vec), \
+    VecShort3D*: (VecShort*)(Vec), \
+    VecShort4D*: (VecShort*)(Vec), \
+    VecLong*: (VecLong*)(Vec), \
+    VecLong2D*: (VecLong*)(Vec), \
+    VecLong3D*: (VecLong*)(Vec), \
+    VecLong4D*: (VecLong*)(Vec)), _Generic(VecBound, \
+    VecShort*: (const VecShort*)(VecBound), \
+    VecShort2D*: (const VecShort*)(VecBound), \
+    VecShort3D*: (const VecShort*)(VecBound), \
+    VecShort4D*: (const VecShort*)(VecBound), \
+    const VecShort*: (const VecShort*)(VecBound), \
+    const VecShort2D*: (const VecShort*)(VecBound), \
+    const VecShort3D*: (const VecShort*)(VecBound), \
+    const VecShort4D*: (const VecShort*)(VecBound), \
+    VecLong*: (const VecLong*)(VecBound), \
+    VecLong2D*: (const VecLong*)(VecBound), \
+    VecLong3D*: (const VecLong*)(VecBound), \
+    VecLong4D*: (const VecLong*)(VecBound), \
+    const VecLong*: (const VecLong*)(VecBound), \
+    const VecLong2D*: (const VecLong*)(VecBound), \
+    const VecLong3D*: (const VecLong*)(VecBound), \
+    const VecLong4D*: (const VecLong*)(VecBound)))
 
 #define VecPStep(Vec, VecBound) _Generic(Vec, \
   VecShort*: _VecShortPStep, \
   VecShort2D*: _VecShortPStep, \
   VecShort3D*: _VecShortPStep, \
   VecShort4D*: _VecShortPStep, \
-  default: PBErrInvalidPolymorphism)((VecShort*)(Vec), \
-    (const VecShort*)(VecBound))
+  VecLong*: _VecLongPStep, \
+  VecLong2D*: _VecLongPStep, \
+  VecLong3D*: _VecLongPStep, \
+  VecLong4D*: _VecLongPStep, \
+  default: PBErrInvalidPolymorphism)(_Generic(Vec, \
+    VecShort*: (VecShort*)(Vec), \
+    VecShort2D*: (VecShort*)(Vec), \
+    VecShort3D*: (VecShort*)(Vec), \
+    VecShort4D*: (VecShort*)(Vec), \
+    VecLong*: (VecLong*)(Vec), \
+    VecLong2D*: (VecLong*)(Vec), \
+    VecLong3D*: (VecLong*)(Vec), \
+    VecLong4D*: (VecLong*)(Vec)), _Generic(VecBound, \
+    VecShort*: (const VecShort*)(VecBound), \
+    VecShort2D*: (const VecShort*)(VecBound), \
+    VecShort3D*: (const VecShort*)(VecBound), \
+    VecShort4D*: (const VecShort*)(VecBound), \
+    const VecShort*: (const VecShort*)(VecBound), \
+    const VecShort2D*: (const VecShort*)(VecBound), \
+    const VecShort3D*: (const VecShort*)(VecBound), \
+    const VecShort4D*: (const VecShort*)(VecBound), \
+    VecLong*: (const VecLong*)(VecBound), \
+    VecLong2D*: (const VecLong*)(VecBound), \
+    VecLong3D*: (const VecLong*)(VecBound), \
+    VecLong4D*: (const VecLong*)(VecBound), \
+    const VecLong*: (const VecLong*)(VecBound), \
+    const VecLong2D*: (const VecLong*)(VecBound), \
+    const VecLong3D*: (const VecLong*)(VecBound), \
+    const VecLong4D*: (const VecLong*)(VecBound)))
 
 #define VecShiftStep(Vec, VecFrom, VecTo) _Generic(Vec, \
   VecShort*: _VecShortShiftStep, \
   VecShort2D*: _VecShortShiftStep, \
   VecShort3D*: _VecShortShiftStep, \
   VecShort4D*: _VecShortShiftStep, \
-  default: PBErrInvalidPolymorphism)((VecShort*)(Vec), \
-    (const VecShort*)(VecFrom), (const VecShort*)(VecTo))
+  VecLong*: _VecLongShiftStep, \
+  VecLong2D*: _VecLongShiftStep, \
+  VecLong3D*: _VecLongShiftStep, \
+  VecLong4D*: _VecLongShiftStep, \
+  default: PBErrInvalidPolymorphism)(_Generic(Vec, \
+    VecShort*: (VecShort*)(Vec), \
+    VecShort2D*: (VecShort*)(Vec), \
+    VecShort3D*: (VecShort*)(Vec), \
+    VecShort4D*: (VecShort*)(Vec), \
+    VecLong*: (VecLong*)(Vec), \
+    VecLong2D*: (VecLong*)(Vec), \
+    VecLong3D*: (VecLong*)(Vec), \
+    VecLong4D*: (VecLong*)(Vec)), _Generic(VecFrom, \
+    VecShort*: (const VecShort*)(VecFrom), \
+    VecShort2D*: (const VecShort*)(VecFrom), \
+    VecShort3D*: (const VecShort*)(VecFrom), \
+    VecShort4D*: (const VecShort*)(VecFrom), \
+    const VecShort*: (const VecShort*)(VecFrom), \
+    const VecShort2D*: (const VecShort*)(VecFrom), \
+    const VecShort3D*: (const VecShort*)(VecFrom), \
+    const VecShort4D*: (const VecShort*)(VecFrom), \
+    VecLong*: (const VecLong*)(VecFrom), \
+    VecLong2D*: (const VecLong*)(VecFrom), \
+    VecLong3D*: (const VecLong*)(VecFrom), \
+    VecLong4D*: (const VecLong*)(VecFrom), \
+    const VecLong*: (const VecLong*)(VecFrom), \
+    const VecLong2D*: (const VecLong*)(VecFrom), \
+    const VecLong3D*: (const VecLong*)(VecFrom), \
+    const VecLong4D*: (const VecLong*)(VecFrom)), _Generic(VecTo, \
+    VecShort*: (const VecShort*)(VecTo), \
+    VecShort2D*: (const VecShort*)(VecTo), \
+    VecShort3D*: (const VecShort*)(VecTo), \
+    VecShort4D*: (const VecShort*)(VecTo), \
+    const VecShort*: (const VecShort*)(VecTo), \
+    const VecShort2D*: (const VecShort*)(VecTo), \
+    const VecShort3D*: (const VecShort*)(VecTo), \
+    const VecShort4D*: (const VecShort*)(VecTo), \
+    VecLong*: (const VecLong*)(VecTo), \
+    VecLong2D*: (const VecLong*)(VecTo), \
+    VecLong3D*: (const VecLong*)(VecTo), \
+    VecLong4D*: (const VecLong*)(VecTo), \
+    const VecLong*: (const VecLong*)(VecTo), \
+    const VecLong2D*: (const VecLong*)(VecTo), \
+    const VecLong3D*: (const VecLong*)(VecTo), \
+    const VecLong4D*: (const VecLong*)(VecTo)))
 
 #define VecPStepDelta(Vec, VecBound, VecDelta) _Generic(Vec, \
   VecShort*: _VecShortPStepDelta, \
   VecShort2D*: _VecShortPStepDelta, \
   VecShort3D*: _VecShortPStepDelta, \
   VecShort4D*: _VecShortPStepDelta, \
-  default: PBErrInvalidPolymorphism)((VecShort*)(Vec), \
-    (const VecShort*)(VecBound), (const VecShort*)(VecDelta))
+  VecLong*: _VecLongPStepDelta, \
+  VecLong2D*: _VecLongPStepDelta, \
+  VecLong3D*: _VecLongPStepDelta, \
+  VecLong4D*: _VecLongPStepDelta, \
+  default: PBErrInvalidPolymorphism)(_Generic(Vec, \
+    VecShort*: (VecShort*)(Vec), \
+    VecShort2D*: (VecShort*)(Vec), \
+    VecShort3D*: (VecShort*)(Vec), \
+    VecShort4D*: (VecShort*)(Vec), \
+    VecLong*: (VecLong*)(Vec), \
+    VecLong2D*: (VecLong*)(Vec), \
+    VecLong3D*: (VecLong*)(Vec), \
+    VecLong4D*: (VecLong*)(Vec)), _Generic(VecBound, \
+    VecShort*: (const VecShort*)(VecBound), \
+    VecShort2D*: (const VecShort*)(VecBound), \
+    VecShort3D*: (const VecShort*)(VecBound), \
+    VecShort4D*: (const VecShort*)(VecBound), \
+    const VecShort*: (const VecShort*)(VecBound), \
+    const VecShort2D*: (const VecShort*)(VecBound), \
+    const VecShort3D*: (const VecShort*)(VecBound), \
+    const VecShort4D*: (const VecShort*)(VecBound), \
+    VecLong*: (const VecLong*)(VecBound), \
+    VecLong2D*: (const VecLong*)(VecBound), \
+    VecLong3D*: (const VecLong*)(VecBound), \
+    VecLong4D*: (const VecLong*)(VecBound), \
+    const VecLong*: (const VecLong*)(VecBound), \
+    const VecLong2D*: (const VecLong*)(VecBound), \
+    const VecLong3D*: (const VecLong*)(VecBound), \
+    const VecLong4D*: (const VecLong*)(VecBound)), _Generic(VecDelta, \
+    VecShort*: (const VecShort*)(VecDelta), \
+    VecShort2D*: (const VecShort*)(VecDelta), \
+    VecShort3D*: (const VecShort*)(VecDelta), \
+    VecShort4D*: (const VecShort*)(VecDelta), \
+    const VecShort*: (const VecShort*)(VecDelta), \
+    const VecShort2D*: (const VecShort*)(VecDelta), \
+    const VecShort3D*: (const VecShort*)(VecDelta), \
+    const VecShort4D*: (const VecShort*)(VecDelta), \
+    VecLong*: (const VecLong*)(VecDelta), \
+    VecLong2D*: (const VecLong*)(VecDelta), \
+    VecLong3D*: (const VecLong*)(VecDelta), \
+    VecLong4D*: (const VecLong*)(VecDelta), \
+    const VecLong*: (const VecLong*)(VecDelta), \
+    const VecLong2D*: (const VecLong*)(VecDelta), \
+    const VecLong3D*: (const VecLong*)(VecDelta), \
+    const VecLong4D*: (const VecLong*)(VecDelta)))
 
 #define VecGetMaxVal(Vec) _Generic(Vec, \
   VecFloat*: _VecFloatGetMaxVal, \
@@ -2112,6 +3011,14 @@ inline float fsquare(const float a) {
   const VecShort3D*: _VecShortGetMaxVal, \
   VecShort4D*: _VecShortGetMaxVal, \
   const VecShort4D*: _VecShortGetMaxVal, \
+  VecLong*: _VecLongGetMaxVal, \
+  const VecLong*: _VecLongGetMaxVal, \
+  VecLong2D*: _VecLongGetMaxVal, \
+  const VecLong2D*: _VecLongGetMaxVal, \
+  VecLong3D*: _VecLongGetMaxVal, \
+  const VecLong3D*: _VecLongGetMaxVal, \
+  VecLong4D*: _VecLongGetMaxVal, \
+  const VecLong4D*: _VecLongGetMaxVal, \
   default: PBErrInvalidPolymorphism) (_Generic(Vec, \
     VecFloat2D*: (const VecFloat*)(Vec), \
     const VecFloat2D*: (const VecFloat*)(Vec), \
@@ -2123,6 +3030,12 @@ inline float fsquare(const float a) {
     const VecShort3D*: (const VecShort*)(Vec), \
     VecShort4D*: (const VecShort*)(Vec), \
     const VecShort4D*: (const VecShort*)(Vec), \
+    VecLong2D*: (const VecLong*)(Vec), \
+    const VecLong2D*: (const VecLong*)(Vec), \
+    VecLong3D*: (const VecLong*)(Vec), \
+    const VecLong3D*: (const VecLong*)(Vec), \
+    VecLong4D*: (const VecLong*)(Vec), \
+    const VecLong4D*: (const VecLong*)(Vec), \
     default: Vec))
 
 #define VecGetMinVal(Vec) _Generic(Vec, \
@@ -2140,6 +3053,14 @@ inline float fsquare(const float a) {
   const VecShort3D*: _VecShortGetMinVal, \
   VecShort4D*: _VecShortGetMinVal, \
   const VecShort4D*: _VecShortGetMinVal, \
+  VecLong*: _VecLongGetMinVal, \
+  const VecLong*: _VecLongGetMinVal, \
+  VecLong2D*: _VecLongGetMinVal, \
+  const VecLong2D*: _VecLongGetMinVal, \
+  VecLong3D*: _VecLongGetMinVal, \
+  const VecLong3D*: _VecLongGetMinVal, \
+  VecLong4D*: _VecLongGetMinVal, \
+  const VecLong4D*: _VecLongGetMinVal, \
   default: PBErrInvalidPolymorphism) (_Generic(Vec, \
     VecFloat2D*: (const VecFloat*)(Vec), \
     const VecFloat2D*: (const VecFloat*)(Vec), \
@@ -2151,6 +3072,12 @@ inline float fsquare(const float a) {
     const VecShort3D*: (const VecShort*)(Vec), \
     VecShort4D*: (const VecShort*)(Vec), \
     const VecShort4D*: (const VecShort*)(Vec), \
+    VecLong2D*: (const VecLong*)(Vec), \
+    const VecLong2D*: (const VecLong*)(Vec), \
+    VecLong3D*: (const VecLong*)(Vec), \
+    const VecLong3D*: (const VecLong*)(Vec), \
+    VecLong4D*: (const VecLong*)(Vec), \
+    const VecLong4D*: (const VecLong*)(Vec), \
     default: Vec))
 
 #define VecGetMaxValAbs(Vec) _Generic(Vec, \
@@ -2168,6 +3095,14 @@ inline float fsquare(const float a) {
   const VecShort3D*: _VecShortGetMaxValAbs, \
   VecShort4D*: _VecShortGetMaxValAbs, \
   const VecShort4D*: _VecShortGetMaxValAbs, \
+  VecLong*: _VecLongGetMaxValAbs, \
+  const VecLong*: _VecLongGetMaxValAbs, \
+  VecLong2D*: _VecLongGetMaxValAbs, \
+  const VecLong2D*: _VecLongGetMaxValAbs, \
+  VecLong3D*: _VecLongGetMaxValAbs, \
+  const VecLong3D*: _VecLongGetMaxValAbs, \
+  VecLong4D*: _VecLongGetMaxValAbs, \
+  const VecLong4D*: _VecLongGetMaxValAbs, \
   default: PBErrInvalidPolymorphism) (_Generic(Vec, \
     VecFloat2D*: (const VecFloat*)(Vec), \
     const VecFloat2D*: (const VecFloat*)(Vec), \
@@ -2179,6 +3114,12 @@ inline float fsquare(const float a) {
     const VecShort3D*: (const VecShort*)(Vec), \
     VecShort4D*: (const VecShort*)(Vec), \
     const VecShort4D*: (const VecShort*)(Vec), \
+    VecLong2D*: (const VecLong*)(Vec), \
+    const VecLong2D*: (const VecLong*)(Vec), \
+    VecLong3D*: (const VecLong*)(Vec), \
+    const VecLong3D*: (const VecLong*)(Vec), \
+    VecLong4D*: (const VecLong*)(Vec), \
+    const VecLong4D*: (const VecLong*)(Vec), \
     default: Vec))
 
 #define VecGetMinValAbs(Vec) _Generic(Vec, \
@@ -2196,6 +3137,14 @@ inline float fsquare(const float a) {
   const VecShort3D*: _VecShortGetMinValAbs, \
   VecShort4D*: _VecShortGetMinValAbs, \
   const VecShort4D*: _VecShortGetMinValAbs, \
+  VecLong*: _VecLongGetMinValAbs, \
+  const VecLong*: _VecLongGetMinValAbs, \
+  VecLong2D*: _VecLongGetMinValAbs, \
+  const VecLong2D*: _VecLongGetMinValAbs, \
+  VecLong3D*: _VecLongGetMinValAbs, \
+  const VecLong3D*: _VecLongGetMinValAbs, \
+  VecLong4D*: _VecLongGetMinValAbs, \
+  const VecLong4D*: _VecLongGetMinValAbs, \
   default: PBErrInvalidPolymorphism) (_Generic(Vec, \
     VecFloat2D*: (const VecFloat*)(Vec), \
     const VecFloat2D*: (const VecFloat*)(Vec), \
@@ -2207,6 +3156,12 @@ inline float fsquare(const float a) {
     const VecShort3D*: (const VecShort*)(Vec), \
     VecShort4D*: (const VecShort*)(Vec), \
     const VecShort4D*: (const VecShort*)(Vec), \
+    VecLong2D*: (const VecLong*)(Vec), \
+    const VecLong2D*: (const VecLong*)(Vec), \
+    VecLong3D*: (const VecLong*)(Vec), \
+    const VecLong3D*: (const VecLong*)(Vec), \
+    VecLong4D*: (const VecLong*)(Vec), \
+    const VecLong4D*: (const VecLong*)(Vec), \
     default: Vec))
 
 #define VecStepDelta(Vec, VecBound, Delta) _Generic(Vec, \
@@ -2217,6 +3172,10 @@ inline float fsquare(const float a) {
   VecShort2D*: _VecShortStepDelta, \
   VecShort3D*: _VecShortStepDelta, \
   VecShort4D*: _VecShortStepDelta, \
+  VecLong*: _VecLongStepDelta, \
+  VecLong2D*: _VecLongStepDelta, \
+  VecLong3D*: _VecLongStepDelta, \
+  VecLong4D*: _VecLongStepDelta, \
   default: PBErrInvalidPolymorphism)(_Generic(Vec, \
     VecFloat*: Vec, \
     VecFloat2D*: (VecFloat*)(Vec), \
@@ -2224,21 +3183,33 @@ inline float fsquare(const float a) {
     VecShort*: Vec, \
     VecShort2D*: (VecShort*)(Vec), \
     VecShort3D*: (VecShort*)(Vec), \
-    VecShort4D*: (VecShort*)(Vec)), _Generic(Vec, \
+    VecShort4D*: (VecShort*)(Vec), \
+    VecLong*: Vec, \
+    VecLong2D*: (VecLong*)(Vec), \
+    VecLong3D*: (VecLong*)(Vec), \
+    VecLong4D*: (VecLong*)(Vec)), _Generic(Vec, \
     VecFloat*: VecBound, \
     VecFloat2D*: (VecFloat*)(VecBound), \
     VecFloat3D*: (VecFloat*)(VecBound), \
     VecShort*: VecBound, \
     VecShort2D*: (VecShort*)(VecBound), \
     VecShort3D*: (VecShort*)(VecBound), \
-    VecShort4D*: (VecShort*)(VecBound)), _Generic(Vec, \
+    VecShort4D*: (VecShort*)(VecBound), \
+    VecLong*: VecBound, \
+    VecLong2D*: (VecLong*)(VecBound), \
+    VecLong3D*: (VecLong*)(VecBound), \
+    VecLong4D*: (VecLong*)(VecBound)), _Generic(Vec, \
     VecFloat*: Delta, \
     VecFloat2D*: (VecFloat*)(Delta), \
     VecFloat3D*: (VecFloat*)(Delta), \
     VecShort*: Delta, \
     VecShort2D*: (VecShort*)(Delta), \
     VecShort3D*: (VecShort*)(Delta), \
-    VecShort4D*: (VecShort*)(Delta)))  
+    VecShort4D*: (VecShort*)(Delta), \
+    VecLong*: Delta, \
+    VecLong2D*: (VecLong*)(Delta), \
+    VecLong3D*: (VecLong*)(Delta), \
+    VecLong4D*: (VecLong*)(Delta)))  
 
 #define VecShiftStepDelta(Vec, VecFrom, VecTo, Delta) _Generic(Vec, \
   VecFloat*: _VecFloatShiftStepDelta, \
@@ -2262,6 +3233,14 @@ inline float fsquare(const float a) {
   const VecShort3D*: _VecShortGetIMaxVal, \
   VecShort4D*: _VecShortGetIMaxVal, \
   const VecShort4D*: _VecShortGetIMaxVal, \
+  VecLong*: _VecLongGetIMaxVal, \
+  const VecLong*: _VecLongGetIMaxVal, \
+  VecLong2D*: _VecLongGetIMaxVal, \
+  const VecLong2D*: _VecLongGetIMaxVal, \
+  VecLong3D*: _VecLongGetIMaxVal, \
+  const VecLong3D*: _VecLongGetIMaxVal, \
+  VecLong4D*: _VecLongGetIMaxVal, \
+  const VecLong4D*: _VecLongGetIMaxVal, \
   default: PBErrInvalidPolymorphism) (_Generic(Vec, \
     VecFloat2D*: (const VecFloat*)(Vec), \
     const VecFloat2D*: (const VecFloat*)(Vec), \
@@ -2273,6 +3252,12 @@ inline float fsquare(const float a) {
     const VecShort3D*: (const VecShort*)(Vec), \
     VecShort4D*: (const VecShort*)(Vec), \
     const VecShort4D*: (const VecShort*)(Vec), \
+    VecLong2D*: (const VecLong*)(Vec), \
+    const VecLong2D*: (const VecLong*)(Vec), \
+    VecLong3D*: (const VecLong*)(Vec), \
+    const VecLong3D*: (const VecLong*)(Vec), \
+    VecLong4D*: (const VecLong*)(Vec), \
+    const VecLong4D*: (const VecLong*)(Vec), \
     default: Vec))
 
 #define MatClone(Mat) _Generic(Mat, \

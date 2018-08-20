@@ -1144,6 +1144,1014 @@ void UnitTestVecShort() {
   printf("UnitTestVecShort OK\n");
 }
 
+void UnitTestVecLongCreateFree() {
+  VecLong* v = VecLongCreate(5);
+  VecLong2D v2 = VecLongCreateStatic2D();
+  VecLong3D v3 = VecLongCreateStatic3D();
+  VecLong4D v4 = VecLongCreateStatic4D();
+  VecPrint(v, stdout);printf("\n");
+  VecPrint(&v2, stdout);printf("\n");
+  VecPrint(&v3, stdout);printf("\n");
+  VecPrint(&v4, stdout);printf("\n");
+  VecFree(&v);
+  if (v != NULL) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecLong is not null after VecFree");
+    PBErrCatch(PBMathErr);
+  }
+  printf("VecLongCreateFree OK\n");
+}
+
+void UnitTestVecLongClone() {
+  VecLong* v = VecLongCreate(5);
+  for (int i = 5; i--;) VecSet(v, i, i + 1);
+  VecLong* w = VecClone(v);
+  if (memcmp(v, w, sizeof(VecLong) + sizeof(long) * 5) != 0) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongClone NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecFree(&v);
+  VecFree(&w);
+  printf("_VecLongClone OK\n");
+}
+
+void UnitTestVecLongLoadSave() {
+  VecLong* v = VecLongCreate(5);
+  VecLong2D v2 = VecLongCreateStatic2D();
+  VecLong3D v3 = VecLongCreateStatic3D();
+  VecLong4D v4 = VecLongCreateStatic4D();
+  for (int i = 5; i--;) VecSet(v, i, i + 1);
+  for (int i = 2; i--;) VecSet(&v2, i, i + 1);
+  for (int i = 3; i--;) VecSet(&v3, i, i + 1);
+  for (int i = 4; i--;) VecSet(&v4, i, i + 1);
+  FILE* f = fopen("./UnitTestVecLongLoadSave.txt", "w");
+  if (f == NULL) {
+    PBMathErr->_type = PBErrTypeOther;
+    sprintf(PBMathErr->_msg, 
+      "Can't open ./UnitTestVecLongLoadSave.txt for writing");
+    PBErrCatch(PBMathErr);
+  }
+  bool compact = false;
+  if (!VecSave(v, f, compact)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongSave NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (!VecSave(&v2, f, compact)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongSave NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (!VecSave(&v3, f, compact)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongSave NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (!VecSave(&v4, f, compact)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongSave NOK");
+    PBErrCatch(PBMathErr);
+  }
+  fclose(f);
+  VecLong* w = VecLongCreate(2);
+  f = fopen("./UnitTestVecLongLoadSave.txt", "r");
+  if (f == NULL) {
+    PBMathErr->_type = PBErrTypeOther;
+    sprintf(PBMathErr->_msg, 
+      "Can't open ./UnitTestVecLongLoadSave.txt for reading");
+    PBErrCatch(PBMathErr);
+  }
+  if (!VecLoad(&w, f)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongLoad NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (memcmp(v, w, sizeof(VecLong) + sizeof(long) * 5) != 0) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongLoadSave NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (!VecLoad(&w, f)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongLoad NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (memcmp(&v2, w, sizeof(VecLong) + sizeof(long) * 2) != 0) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongLoadSave NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (!VecLoad(&w, f)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongLoad NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (memcmp(&v3, w, sizeof(VecLong) + sizeof(long) * 3) != 0) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongLoadSave NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (!VecLoad(&w, f)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongLoad NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (memcmp(&v4, w, sizeof(VecLong) + sizeof(long) * 4) != 0) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongLoadSave NOK");
+    PBErrCatch(PBMathErr);
+  }
+  fclose(f);
+  VecFree(&v);
+  VecFree(&w);
+  int ret = system("cat ./UnitTestVecLongLoadSave.txt");
+  printf("_VecLongLoadSave OK\n");
+  ret = ret;
+}
+
+void UnitTestVecLongGetSetDim() {
+  VecLong* v = VecLongCreate(5);
+  VecLong2D v2 = VecLongCreateStatic2D();
+  VecLong3D v3 = VecLongCreateStatic3D();
+  VecLong4D v4 = VecLongCreateStatic4D();
+  if (VecGetDim(v) != 5) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongGetDim NOK");
+    PBErrCatch(PBMathErr);
+  }
+  for (int i = 5; i--;) VecSet(v, i, i + 1);
+  for (int i = 2; i--;) VecSet(&v2, i, i + 1);
+  for (int i = 3; i--;) VecSet(&v3, i, i + 1);
+  for (int i = 4; i--;) VecSet(&v4, i, i + 1);
+  for (int i = 5; i--;)
+    if (v->_val[i] != i + 1) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongSet NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 2; i--;)
+    if (v2._val[i] != i + 1) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongSet NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 3; i--;)
+    if (v3._val[i] != i + 1) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongSet NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 4; i--;)
+    if (v4._val[i] != i + 1) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongSet NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 5; i--;)
+    if (VecGet(v, i) != i + 1) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongGet NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 2; i--;)
+    if (VecGet(&v2, i) != i + 1) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongGet NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 3; i--;)
+    if (VecGet(&v3, i) != i + 1) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongGet NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 4; i--;)
+    if (VecGet(&v4, i) != i + 1) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongGet NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 5; i--;) VecSetAdd(v, i, i + 1);
+  for (int i = 2; i--;) VecSetAdd(&v2, i, i + 1);
+  for (int i = 3; i--;) VecSetAdd(&v3, i, i + 1);
+  for (int i = 4; i--;) VecSetAdd(&v4, i, i + 1);
+  for (int i = 5; i--;)
+    if (VecGet(v, i) != 2 * (i + 1)) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongSetAdd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 2; i--;)
+    if (VecGet(&v2, i) != 2 * (i + 1)) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongSetAdd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 3; i--;)
+    if (VecGet(&v3, i) != 2 * (i + 1)) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongSetAdd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 4; i--;)
+    if (VecGet(&v4, i) != 2 * (i + 1)) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongSetAdd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  VecSetNull(v);
+  VecSetNull(&v2);
+  VecSetNull(&v3);
+  VecSetNull(&v4);
+  for (int i = 5; i--;)
+    if (VecGet(v, i) != 0) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongGet NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 2; i--;)
+    if (VecGet(&v2, i) != 0) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongGet NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 3; i--;)
+    if (VecGet(&v3, i) != 0) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongGet NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 4; i--;)
+    if (VecGet(&v4, i) != 0) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongGet NOK");
+      PBErrCatch(PBMathErr);
+    }
+  VecFree(&v);
+  printf("_VecLongGetSetDim OK\n");
+}
+
+void UnitTestVecLongStep() {
+  VecLong* v = VecLongCreate(5);
+  VecLong2D v2 = VecLongCreateStatic2D();
+  VecLong3D v3 = VecLongCreateStatic3D();
+  VecLong4D v4 = VecLongCreateStatic4D();
+  VecLong* bv = VecLongCreate(5);
+  VecLong2D bv2 = VecLongCreateStatic2D();
+  VecLong3D bv3 = VecLongCreateStatic3D();
+  VecLong4D bv4 = VecLongCreateStatic4D();
+  long b[5] = {2, 3, 4, 5, 6};
+  for (int i = 5; i--;) VecSet(bv, i, b[i]);
+  for (int i = 2; i--;) VecSet(&bv2, i, b[i]);
+  for (int i = 3; i--;) VecSet(&bv3, i, b[i]);
+  for (int i = 4; i--;) VecSet(&bv4, i, b[i]);
+  int acheck[2 * 3 * 4 * 5 * 6];
+  for (int i = 0; i < 2 * 3 * 4 * 5 * 6; ++i)
+    acheck[i] = i;
+  int iCheck = 0;
+  do {
+    int a = VecGet(v, 0);
+    for (int i = 1; i < VecGetDim(v); ++i)
+      a = a * b[i] + VecGet(v, i);
+    if (a != acheck[iCheck]) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongStep NOK");
+      PBErrCatch(PBMathErr);
+    }
+    ++iCheck;
+  } while (VecStep(v, bv));
+  iCheck = 0;
+  do {
+    int a = VecGet(&v2, 0);
+    for (int i = 1; i < 2; ++i)
+      a = a * b[i] + VecGet(&v2, i);
+    if (a != acheck[iCheck]) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongStep NOK");
+      PBErrCatch(PBMathErr);
+    }
+    ++iCheck;
+  } while (VecStep(&v2, &bv2));
+  iCheck = 0;
+  do {
+    int a = VecGet(&v3, 0);
+    for (int i = 1; i < 3; ++i)
+      a = a * b[i] + VecGet(&v3, i);
+    if (a != acheck[iCheck]) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongStep NOK");
+      PBErrCatch(PBMathErr);
+    }
+    ++iCheck;
+  } while (VecStep(&v3, &bv3));
+  iCheck = 0;
+  do {
+    int a = VecGet(&v4, 0);
+    for (int i = 1; i < 4; ++i)
+      a = a * b[i] + VecGet(&v4, i);
+    if (a != acheck[iCheck]) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongStep NOK");
+      PBErrCatch(PBMathErr);
+    }
+    ++iCheck;
+  } while (VecStep(&v4, &bv4));
+  iCheck = 0;
+  do {
+    int a = VecGet(v, VecGetDim(v) - 1);
+    for (int i = VecGetDim(v) - 2; i >= 0; --i)
+      a = a * b[i] + VecGet(v, i);
+    if (a != acheck[iCheck]) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongPStep NOK");
+      PBErrCatch(PBMathErr);
+    }
+    ++iCheck;
+  } while (VecPStep(v, bv));
+  iCheck = 0;
+  do {
+    int a = VecGet(&v2, 1);
+    a = a * b[0] + VecGet(&v2, 0);
+    if (a != acheck[iCheck]) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongPStep NOK");
+      PBErrCatch(PBMathErr);
+    }
+    ++iCheck;
+  } while (VecPStep(&v2, &bv2));
+  iCheck = 0;
+  do {
+    int a = VecGet(&v3, 2);
+    for (int i = 1; i >= 0; --i)
+      a = a * b[i] + VecGet(&v3, i);
+    if (a != acheck[iCheck]) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongPStep NOK");
+      PBErrCatch(PBMathErr);
+    }
+    ++iCheck;
+  } while (VecPStep(&v3, &bv3));
+  iCheck = 0;
+  do {
+    int a = VecGet(&v4, 3);
+    for (int i = 2; i >= 0; --i)
+      a = a * b[i] + VecGet(&v4, i);
+    if (a != acheck[iCheck]) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongPStep NOK");
+      PBErrCatch(PBMathErr);
+    }
+    ++iCheck;
+  } while (VecPStep(&v4, &bv4));
+  VecFree(&v);
+  VecFree(&bv);
+  VecLong2D w = VecLongCreateStatic2D();
+  VecLong2D wDelta = VecLongCreateStatic2D();
+  VecLong2D wBound = VecLongCreateStatic2D();
+  VecSet(&wDelta, 0, 2);
+  VecSet(&wDelta, 1, 3);
+  VecSet(&wBound, 0, 4);
+  VecSet(&wBound, 1, 6);
+  int checkDelta[8] = {0, 0, 0, 3, 2, 0, 2, 3};
+  iCheck = 0;
+  do {
+    if (VecGet(&w, 0) != checkDelta[iCheck * 2] ||
+      VecGet(&w, 1) != checkDelta[iCheck * 2 + 1]) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongStepDelta NOK");
+      PBErrCatch(PBMathErr);
+    }
+    ++iCheck;
+  } while (VecStepDelta(&w, &wBound, &wDelta));
+  int checkDeltaB[8] = {0, 0, 2, 0, 0, 3, 2, 3};
+  VecSetNull(&w);
+  iCheck = 0;
+  do {
+    if (VecGet(&w, 0) != checkDeltaB[iCheck * 2] ||
+      VecGet(&w, 1) != checkDeltaB[iCheck * 2 + 1]) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongStepDelta NOK");
+      PBErrCatch(PBMathErr);
+    }
+    ++iCheck;
+  } while (VecPStepDelta(&w, &wBound, &wDelta));
+
+  printf("UnitTestVecLongStep OK\n");
+}
+
+void UnitTestVecLongHamiltonDist() {
+  VecLong* v = VecLongCreate(5);
+  VecLong2D v2 = VecLongCreateStatic2D();
+  VecLong3D v3 = VecLongCreateStatic3D();
+  VecLong4D v4 = VecLongCreateStatic4D();
+  VecLong* w = VecLongCreate(5);
+  VecLong2D w2 = VecLongCreateStatic2D();
+  VecLong3D w3 = VecLongCreateStatic3D();
+  VecLong4D w4 = VecLongCreateStatic4D();
+  long b[5] = {-2, -1, 0, 1, 2};
+  for (int i = 5; i--;) VecSet(v, i, b[i]);
+  for (int i = 2; i--;) VecSet(&v2, i, b[i]);
+  for (int i = 3; i--;) VecSet(&v3, i, b[i]);
+  for (int i = 4; i--;) VecSet(&v4, i, b[i]);
+  for (int i = 5; i--;) VecSet(w, i, b[4 - i] + 1);
+  for (int i = 2; i--;) VecSet(&w2, i, b[1 - i] + 1);
+  for (int i = 3; i--;) VecSet(&w3, i, b[2 - i] + 1);
+  for (int i = 4; i--;) VecSet(&w4, i, b[3 - i] + 1);
+  long dist = VecHamiltonDist(v, w);
+  if (dist != 13) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongHamiltonDist NOK");
+    PBErrCatch(PBMathErr);
+  }
+  dist = VecHamiltonDist(&v2, &w2);
+  if (dist != 2) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongHamiltonDist NOK");
+    PBErrCatch(PBMathErr);
+  }
+  dist = VecHamiltonDist(&v3, &w3);
+  if (dist != 5) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongHamiltonDist NOK");
+    PBErrCatch(PBMathErr);
+  }
+  dist = VecHamiltonDist(&v4, &w4);
+  if (dist != 8) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongHamiltonDist NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecFree(&v);
+  VecFree(&w);
+  printf("UnitTestVecLongHamiltonDist OK\n");
+}
+
+void UnitTestVecLongIsEqual() {
+  VecLong* v = VecLongCreate(5);
+  VecLong2D v2 = VecLongCreateStatic2D();
+  VecLong3D v3 = VecLongCreateStatic3D();
+  VecLong4D v4 = VecLongCreateStatic4D();
+  for (int i = 5; i--;) VecSet(v, i, i + 1);
+  for (int i = 2; i--;) VecSet(&v2, i, i + 1);
+  for (int i = 3; i--;) VecSet(&v3, i, i + 1);
+  for (int i = 4; i--;) VecSet(&v4, i, i + 1);
+  VecLong* w = VecLongCreate(5);
+  VecLong2D w2 = VecLongCreateStatic2D();
+  VecLong3D w3 = VecLongCreateStatic3D();
+  VecLong4D w4 = VecLongCreateStatic4D();
+  if (VecIsEqual(v, w)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongIsEqual NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (VecIsEqual(&v2, &w2)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongIsEqual NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (VecIsEqual(&v3, &w3)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongIsEqual NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (VecIsEqual(&v4, &w4)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongIsEqual NOK");
+    PBErrCatch(PBMathErr);
+  }
+  for (int i = 5; i--;) VecSet(w, i, i + 1);
+  for (int i = 2; i--;) VecSet(&w2, i, i + 1);
+  for (int i = 3; i--;) VecSet(&w3, i, i + 1);
+  for (int i = 4; i--;) VecSet(&w4, i, i + 1);
+  if (!VecIsEqual(v, w)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongIsEqual NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (!VecIsEqual(&v2, &w2)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongIsEqual NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (!VecIsEqual(&v3, &w3)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongIsEqual NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (!VecIsEqual(&v4, &w4)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongIsEqual NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecFree(&v);
+  VecFree(&w);
+  printf("UnitTestVecLongIsEqual OK\n");
+}
+
+void UnitTestVecLongCopy() {
+  VecLong* v = VecLongCreate(5);
+  VecLong2D v2 = VecLongCreateStatic2D();
+  VecLong3D v3 = VecLongCreateStatic3D();
+  VecLong4D v4 = VecLongCreateStatic4D();
+  for (int i = 5; i--;) VecSet(v, i, i + 1);
+  for (int i = 2; i--;) VecSet(&v2, i, i + 1);
+  for (int i = 3; i--;) VecSet(&v3, i, i + 1);
+  for (int i = 4; i--;) VecSet(&v4, i, i + 1);
+  VecLong* w = VecLongCreate(5);
+  VecLong2D w2 = VecLongCreateStatic2D();
+  VecLong3D w3 = VecLongCreateStatic3D();
+  VecLong4D w4 = VecLongCreateStatic4D();
+  VecCopy(w, v);
+  VecCopy(&w2, &v2);
+  VecCopy(&w3, &v3);
+  VecCopy(&w4, &v4);
+  if (!VecIsEqual(v, w)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongCopy NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (!VecIsEqual(&v2, &w2)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongCopy NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (!VecIsEqual(&v3, &w3)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongCopy NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (!VecIsEqual(&v4, &w4)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongCopy NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecFree(&v);
+  VecFree(&w);
+  printf("UnitTestVecLongCopy OK\n");
+}
+
+void UnitTestVecLongDotProd() {
+  VecLong* v = VecLongCreate(5);
+  VecLong2D v2 = VecLongCreateStatic2D();
+  VecLong3D v3 = VecLongCreateStatic3D();
+  VecLong4D v4 = VecLongCreateStatic4D();
+  VecLong* w = VecLongCreate(5);
+  VecLong2D w2 = VecLongCreateStatic2D();
+  VecLong3D w3 = VecLongCreateStatic3D();
+  VecLong4D w4 = VecLongCreateStatic4D();
+  long b[5] = {-2, -1, 0, 1, 2};
+  for (int i = 5; i--;) VecSet(v, i, b[i]);
+  for (int i = 2; i--;) VecSet(&v2, i, b[i]);
+  for (int i = 3; i--;) VecSet(&v3, i, b[i]);
+  for (int i = 4; i--;) VecSet(&v4, i, b[i]);
+  for (int i = 5; i--;) VecSet(w, i, b[4 - i] + 1);
+  for (int i = 2; i--;) VecSet(&w2, i, b[1 - i] + 1);
+  for (int i = 3; i--;) VecSet(&w3, i, b[2 - i] + 1);
+  for (int i = 4; i--;) VecSet(&w4, i, b[3 - i] + 1);
+  long prod = VecDotProd(v, w);
+  if (prod != -10) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongDotProd NOK");
+    PBErrCatch(PBMathErr);
+  }
+  prod = VecDotProd(&v2, &w2);
+  if (prod != 1) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongDotProd NOK");
+    PBErrCatch(PBMathErr);
+  }
+  prod = VecDotProd(&v3, &w3);
+  if (prod != -2) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongDotProd NOK");
+    PBErrCatch(PBMathErr);
+  }
+  prod = VecDotProd(&v4, &w4);
+  if (prod != -6) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongDotProd NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecFree(&v);
+  VecFree(&w);
+  printf("UnitTestVecLongDotProd OK\n");
+}
+
+void UnitTestSpeedVecLong() {
+  VecLong* v = VecLongCreate(5);
+  VecLong2D v2 = VecLongCreateStatic2D();
+  VecLong3D v3 = VecLongCreateStatic3D();
+  VecLong4D v4 = VecLongCreateStatic4D();
+  int nbTest = 100000;
+
+  srandom(RANDOMSEED);
+  int i = nbTest;
+  clock_t clockBefore = clock();
+  for (; i--;) {
+    int j = INT(rnd() * ((float)(VecGetDim(v) - 1) - PBMATH_EPSILON));
+    long val = 1;
+    VecSet(v, j, val);
+    long valb = VecGet(v, j);
+    valb = valb;
+  }
+  clock_t clockAfter = clock();
+  double timeV = ((double)(clockAfter - clockBefore)) / 
+    CLOCKS_PER_SEC * 1000.0;
+  srandom(RANDOMSEED);
+  i = nbTest;
+  clockBefore = clock();
+  long* array = malloc(sizeof(long) * 5);
+  for (; i--;) {
+    int j = INT(rnd() * ((float)(VecGetDim(v) - 1) - PBMATH_EPSILON));
+    long val = 1;
+    array[j] = val;
+    long valb = array[j];
+    valb = valb;
+  }
+  clockAfter = clock();
+  double timeRef = ((double)(clockAfter - clockBefore)) / 
+    CLOCKS_PER_SEC * 1000.0;
+  printf("VecLong: %fms, array: %fms\n", 
+    timeV / (float)nbTest, timeRef / (float)nbTest);
+  if (timeV / (float)nbTest > 2.0 * timeRef / (float)nbTest) {
+#if BUILDMODE == 0 
+    PBMathErr->_fatal = false;
+#endif
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "UnitTestSpeedVecLong NOK");
+    PBErrCatch(PBMathErr);
+  }
+
+  srandom(RANDOMSEED);
+  i = nbTest;
+  clockBefore = clock();
+  for (; i--;) {
+    int j = INT(rnd() * (1.0 - PBMATH_EPSILON));
+    long val = 1;
+    VecSet(&v2, j, val);
+    long valb = VecGet(&v2, j);
+    valb = valb;
+  }
+  clockAfter = clock();
+  timeV = ((double)(clockAfter - clockBefore)) / 
+    CLOCKS_PER_SEC * 1000.0;
+  srandom(RANDOMSEED);
+  i = nbTest;
+  clockBefore = clock();
+  long array2[2];
+  for (; i--;) {
+    int j = INT(rnd() * (1.0 - PBMATH_EPSILON));
+    long val = 1;
+    array2[j] = val;
+    long valb = array2[j];
+    valb = valb;
+  }
+  clockAfter = clock();
+  timeRef = ((double)(clockAfter - clockBefore)) / 
+    CLOCKS_PER_SEC * 1000.0;
+  printf("VecLong2D: %fms, array: %fms\n", 
+    timeV / (float)nbTest, timeRef / (float)nbTest);
+  if (timeV / (float)nbTest > 2.0 * timeRef / (float)nbTest) {
+#if BUILDMODE == 0 
+    PBMathErr->_fatal = false;
+#endif
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "UnitTestSpeedVecLong NOK");
+    PBErrCatch(PBMathErr);
+  }
+
+  srandom(RANDOMSEED);
+  i = nbTest;
+  clockBefore = clock();
+  for (; i--;) {
+    int j = INT(rnd() * (2.0 - PBMATH_EPSILON));
+    long val = 1;
+    VecSet(&v3, j, val);
+    long valb = VecGet(&v3, j);
+    valb = valb;
+  }
+  clockAfter = clock();
+  timeV = ((double)(clockAfter - clockBefore)) / 
+    CLOCKS_PER_SEC * 1000.0;
+  srandom(RANDOMSEED);
+  i = nbTest;
+  clockBefore = clock();
+  long array3[3];
+  for (; i--;) {
+    int j = INT(rnd() * (2.0 - PBMATH_EPSILON));
+    long val = 1;
+    array3[j] = val;
+    long valb = array3[j];
+    valb = valb;
+  }
+  clockAfter = clock();
+  timeRef = ((double)(clockAfter - clockBefore)) / 
+    CLOCKS_PER_SEC * 1000.0;
+  printf("VecLong3D: %fms, array: %fms\n", 
+    timeV / (float)nbTest, timeRef / (float)nbTest);
+  if (timeV / (float)nbTest > 2.0 * timeRef / (float)nbTest) {
+#if BUILDMODE == 0 
+    PBMathErr->_fatal = false;
+#endif
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "UnitTestSpeedVecLong NOK");
+    PBErrCatch(PBMathErr);
+  }
+
+  srandom(RANDOMSEED);
+  i = nbTest;
+  clockBefore = clock();
+  for (; i--;) {
+    int j = INT(rnd() * (3.0 - PBMATH_EPSILON));
+    long val = 1;
+    VecSet(&v4, j, val);
+    long valb = VecGet(&v4, j);
+    valb = valb;
+  }
+  clockAfter = clock();
+  timeV = ((double)(clockAfter - clockBefore)) / 
+    CLOCKS_PER_SEC * 1000.0;
+  srandom(RANDOMSEED);
+  i = nbTest;
+  clockBefore = clock();
+  long array4[4];
+  for (; i--;) {
+    int j = INT(rnd() * (3.0 - PBMATH_EPSILON));
+    long val = 1;
+    array4[j] = val;
+    long valb = array4[j];
+    valb = valb;
+  }
+  clockAfter = clock();
+  timeRef = ((double)(clockAfter - clockBefore)) / 
+    CLOCKS_PER_SEC * 1000.0;
+  printf("VecLong4D: %fms, array: %fms\n", 
+    timeV / (float)nbTest, timeRef / (float)nbTest);
+  if (timeV / (float)nbTest > 2.0 * timeRef / (float)nbTest) {
+#if BUILDMODE == 0 
+    PBMathErr->_fatal = false;
+#endif
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "UnitTestSpeedVecLong NOK");
+    PBErrCatch(PBMathErr);
+  }
+
+  VecFree(&v);
+  free(array);
+  printf("UnitTestSpeedVecLong OK\n");
+}
+
+void UnitTestVecLongOp() {
+  VecLong* v = VecLongCreate(5);
+  VecLong2D v2 = VecLongCreateStatic2D();
+  VecLong3D v3 = VecLongCreateStatic3D();
+  VecLong4D v4 = VecLongCreateStatic4D();
+  VecLong* w = VecLongCreate(5);
+  VecLong2D w2 = VecLongCreateStatic2D();
+  VecLong3D w3 = VecLongCreateStatic3D();
+  VecLong4D w4 = VecLongCreateStatic4D();
+  for (int i = 5; i--;) VecSet(v, i, i + 1);
+  for (int i = 2; i--;) VecSet(&v2, i, i + 1);
+  for (int i = 3; i--;) VecSet(&v3, i, i + 1);
+  long a[2] = {-1, 2};
+  long b[5] = {-2, -1, 0, 1, 2};
+  for (int i = 5; i--;) VecSet(v, i, b[i]);
+  for (int i = 2; i--;) VecSet(&v2, i, b[i]);
+  for (int i = 3; i--;) VecSet(&v3, i, b[i]);
+  for (int i = 4; i--;) VecSet(&v4, i, b[i]);
+  for (int i = 5; i--;) VecSet(w, i, b[4 - i] + 1);
+  for (int i = 2; i--;) VecSet(&w2, i, b[1 - i] + 1);
+  for (int i = 3; i--;) VecSet(&w3, i, b[2 - i] + 1);
+  for (int i = 4; i--;) VecSet(&w4, i, b[3 - i] + 1);
+  VecLong* u = VecGetOp(v, a[0], w, a[1]);
+  VecLong2D u2 = VecGetOp(&v2, a[0], &w2, a[1]);
+  VecLong3D u3 = VecGetOp(&v3, a[0], &w3, a[1]);
+  VecLong4D u4 = VecGetOp(&v4, a[0], &w4, a[1]);
+  long checku[5] = {8,5,2,-1,-4};
+  long checku2[2] = {2,-1};
+  long checku3[3] = {4,1,-2};
+  long checku4[4] = {6,3,0,-3};
+  for (int i = 5; i--;)
+    if (!ISEQUALF(VecGet(u, i), checku[i])) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongGetOp NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 2; i--;)
+    if (!ISEQUALF(VecGet(&u2, i), checku2[i])) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongGetOp NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 3; i--;)
+    if (!ISEQUALF(VecGet(&u3, i), checku3[i])) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongGetOp NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 4; i--;)
+    if (!ISEQUALF(VecGet(&u4, i), checku4[i])) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongGetOp NOK");
+      PBErrCatch(PBMathErr);
+    }
+  VecOp(v, a[0], w, a[1]);
+  VecOp(&v2, a[0], &w2, a[1]);
+  VecOp(&v3, a[0], &w3, a[1]);
+  VecOp(&v4, a[0], &w4, a[1]);
+  if (!VecIsEqual(v, u)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongOp NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (!VecIsEqual(&v2, &u2)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongOp NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (!VecIsEqual(&v3, &u3)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongOp NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (!VecIsEqual(&v4, &u4)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_VecLongOp NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecFree(&v);
+  VecFree(&w);
+  VecFree(&u);
+  printf("UnitTestVecLongOp OK\n");
+}
+
+void UnitTestVecLongShiftStep() {
+  VecLong3D v = VecLongCreateStatic3D();
+  VecLong3D from = VecLongCreateStatic3D();
+  VecLong3D to = VecLongCreateStatic3D();
+  VecSet(&from, 0, 0);
+  VecSet(&from, 1, 1);
+  VecSet(&from, 2, 2);
+  VecSet(&to, 0, 3);
+  VecSet(&to, 1, 4);
+  VecSet(&to, 2, 5);
+  VecCopy(&v, &from);
+  long check[81] = {
+    0, 1, 2, 0, 1, 3, 0, 1, 4,
+    0, 2, 2, 0, 2, 3, 0, 2, 4,
+    0, 3, 2, 0, 3, 3, 0, 3, 4,
+    1, 1, 2, 1, 1, 3, 1, 1, 4,
+    1, 2, 2, 1, 2, 3, 1, 2, 4,
+    1, 3, 2, 1, 3, 3, 1, 3, 4,
+    2, 1, 2, 2, 1, 3, 2, 1, 4,
+    2, 2, 2, 2, 2, 3, 2, 2, 4,
+    2, 3, 2, 2, 3, 3, 2, 3, 4
+    };
+  int iCheck = 0;
+  do {
+    for (int i = 0; i < 3; ++i) {
+      if (ISEQUALF(check[iCheck], VecGet(&v, i)) == false) {
+        PBMathErr->_type = PBErrTypeUnitTestFailed;
+        sprintf(PBMathErr->_msg, "VecShiftStep NOK");
+        PBErrCatch(PBMathErr);
+      }
+      ++iCheck;
+    }
+  } while(VecShiftStep(&v, &from, &to));
+  printf("UnitTestVecLongShiftStep OK\n");
+}
+
+void UnitTestVecLongGetMinMax() {
+  VecLong3D v = VecLongCreateStatic3D();
+  VecSet(&v, 0, 2); VecSet(&v, 1, 4); VecSet(&v, 2, 3);
+  long val = VecGetMaxVal(&v);
+  if (val != 4) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecGetMaxVal NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (VecGetIMaxVal(&v) != 1) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecGetIMaxVal NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecSet(&v, 0, 2); VecSet(&v, 1, 1); VecSet(&v, 2, 3);
+  val = VecGetMinVal(&v);
+  if (val != 1) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecGetMinVal NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecSet(&v, 0, 2); VecSet(&v, 1, -4); VecSet(&v, 2, 3);
+  val = VecGetMaxValAbs(&v);
+  if (val != -4) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecGetMaxValAbs NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecSet(&v, 0, -2); VecSet(&v, 1, 1); VecSet(&v, 2, 3);
+  val = VecGetMinValAbs(&v);
+  if (val != 1) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecGetMinValAbs NOK");
+    PBErrCatch(PBMathErr);
+  }
+  printf("UnitTestVecLongGetMinMax OK\n");
+}
+
+void UnitTestVecLongHadamardProd() {
+  VecLong* u = VecLongCreate(3);
+  for (int i = 3; i--;)
+    VecSet(u, i, i + 2);
+  VecLong* uprod = VecGetHadamardProd(u, u);
+  VecHadamardProd(u, u);
+  long checku[3] = {4, 9, 16};
+  for (int i = 3; i--;)
+    if (ISEQUALF(VecGet(uprod, i), checku[i]) == false) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "VecGetHadamardProd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  if (VecIsEqual(uprod, u) == false) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecHadamardProd NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecFree(&uprod);
+  VecFree(&u);
+  VecLong2D v = VecLongCreateStatic2D();
+  for (int i = 2; i--;)
+    VecSet(&v, i, i + 2);
+  VecLong2D vprod = VecGetHadamardProd(&v, &v);
+  VecHadamardProd(&v, &v);
+  long checkv[2] = {4, 9};
+  for (int i = 2; i--;)
+    if (ISEQUALF(VecGet(&vprod, i), checkv[i]) == false) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "VecGetHadamardProd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  if (VecIsEqual(&vprod, &v) == false) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecHadamardProd NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecLong3D w = VecLongCreateStatic3D();
+  for (int i = 3; i--;)
+    VecSet(&w, i, i + 2);
+  VecLong3D wprod = VecGetHadamardProd(&w, &w);
+  VecHadamardProd(&w, &w);
+  long checkw[3] = {4, 9, 16};
+  for (int i = 3; i--;)
+    if (ISEQUALF(VecGet(&wprod, i), checkw[i]) == false) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "VecGetHadamardProd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  if (VecIsEqual(&wprod, &w) == false) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecHadamardProd NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecLong4D x = VecLongCreateStatic4D();
+  for (int i = 4; i--;)
+    VecSet(&x, i, i + 2);
+  VecLong4D xprod = VecGetHadamardProd(&x, &x);
+  VecHadamardProd(&x, &x);
+  long checkx[4] = {4, 9, 16, 25};
+  for (int i = 4; i--;)
+    if (ISEQUALF(VecGet(&xprod, i), checkx[i]) == false) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "VecGetHadamardProd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  if (VecIsEqual(&xprod, &x) == false) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecHadamardProd NOK");
+    PBErrCatch(PBMathErr);
+  }
+  printf("UnitTestVecLongHadamardProd OK\n");
+}
+
+void UnitTestVecLong() {
+  UnitTestVecLongCreateFree();
+  UnitTestVecLongClone();
+  UnitTestVecLongLoadSave();
+  UnitTestVecLongGetSetDim();
+  UnitTestVecLongStep();
+  UnitTestVecLongHamiltonDist();
+  UnitTestVecLongIsEqual();
+  UnitTestVecLongDotProd();
+  UnitTestVecLongCopy();
+  UnitTestSpeedVecLong();
+  UnitTestVecLongOp();
+  UnitTestVecLongShiftStep();
+  UnitTestVecLongGetMinMax();
+  UnitTestVecLongHadamardProd();
+  printf("UnitTestVecLong OK\n");
+}
+
 void UnitTestVecFloatCreateFree() {
   VecFloat* v = VecFloatCreate(5);
   VecFloat2D v2 = VecFloatCreateStatic2D();
@@ -2604,6 +3612,7 @@ void UnitTestBasicFunctions() {
 
 void UnitTestAll() {
   UnitTestVecShort();
+  UnitTestVecLong();
   UnitTestVecFloat();
   UnitTestMatFloat();
   UnitTestSysLinEq();

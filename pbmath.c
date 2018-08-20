@@ -498,6 +498,497 @@ bool _VecShortPStepDelta(VecShort* const that,
   return ret;
 }
 
+// -------------- VecLong
+
+// ================ Functions implementation ====================
+
+// Create a new Vec of dimension 'dim'
+// Values are initalized to 0.0
+VecLong* VecLongCreate(const int dim) {
+#if BUILDMODE == 0
+  if (dim <= 0) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "invalid 'dim' (%d)", dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Allocate memory
+  VecLong* that = PBErrMalloc(PBMathErr, 
+    sizeof(VecLong) + sizeof(long) * dim);
+  // Set the default values
+  that->_dim = dim;
+  for (int i = dim; i--;)
+    that->_val[i] = 0;
+  // Return the new VecLong
+  return that;
+}
+
+// Clone the VecLong
+// Return NULL if we couldn't clone the VecLong
+VecLong* _VecLongClone(const VecLong* const that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Create a clone
+  VecLong* clone = VecLongCreate(that->_dim);
+  // Copy the values
+  memcpy(clone, that, sizeof(VecLong) + sizeof(long) * that->_dim);
+  // Return the clone
+  return clone;
+}
+
+// Function which return the JSON encoding of 'that' 
+JSONNode* _VecLongEncodeAsJSON(const VecLong* const that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Create the JSON structure
+  JSONNode* json = JSONCreate();
+  // Declare a buffer to convert value into string
+  char val[100];
+  // Encode the dimension
+  sprintf(val, "%d", VecGetDim(that));
+  JSONAddProp(json, "_dim", val);
+  // Encode the values
+  JSONArrayVal setVal = JSONArrayValCreateStatic();
+  for (int i = 0; i < VecGetDim(that); ++i) {
+    sprintf(val, "%li", VecGet(that, i));
+    JSONArrayValAdd(&setVal, val);
+  }
+  JSONAddProp(json, "_val", &setVal);
+  // Free memory
+  JSONArrayValFlush(&setVal);
+  // Return the created JSON 
+  return json;
+}
+
+// Function which decode from JSON encoding 'json' to 'that'
+bool _VecLongDecodeAsJSON(VecLong** that, const JSONNode* const json) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (json == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'json' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // If 'that' is already allocated
+  if (*that != NULL)
+    // Free memory
+    _VecLongFree(that);
+  // Get the dimension from the JSON
+  JSONNode* prop = JSONProperty(json, "_dim");
+  if (prop == NULL) {
+    return false;
+  }
+  int dim = atoi(JSONLabel(JSONValue(prop, 0)));
+  // If data are invalid
+  if (dim < 1)
+    return false;
+  // Allocate memory
+  *that = VecLongCreate(dim);
+  // Get the values
+  prop = JSONProperty(json, "_val");
+  if (prop == NULL) {
+    return false;
+  }
+  for (int i = 0; i < dim; ++i) {
+    long val = atol(JSONLabel(JSONValue(prop, i)));
+    VecSet(*that, i, val);
+  }
+  // Return the success code
+  return true;
+}
+
+// Load the VecLong from the stream
+// If the VecLong is already allocated, it is freed before loading
+// Return true in case of success, else false
+bool _VecLongLoad(VecLong** that, FILE* const stream) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (stream == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'stream' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a json to load the encoded data
+  JSONNode* json = JSONCreate();
+  // Load the whole encoded data
+  if (!JSONLoad(json, stream)) {
+    return false;
+  }
+  // Decode the data from the JSON
+  if (!VecDecodeAsJSON(that, json)) {
+    return false;
+  }
+  // Free the memory used by the JSON
+  JSONFree(&json);
+  // Return the success code
+  return true;
+}
+
+// Save the VecLong to the stream
+// If 'compact' equals true it saves in compact form, else it saves in 
+// readable form
+// Return true in case of success, else false
+bool _VecLongSave(const VecLong* const that, 
+  FILE* const stream, const bool compact) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (stream == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'stream' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Get the JSON encoding
+  JSONNode* json = VecEncodeAsJSON(that);
+  // Save the JSON
+  if (!JSONSave(json, stream, compact)) {
+    return false;
+  }
+  // Free memory
+  JSONFree(&json);
+  // Return success code
+  return true;
+}
+
+// Free the memory used by a VecLong
+// Do nothing if arguments are invalid
+void _VecLongFree(VecLong** that) {
+  // Check argument
+  if (that == NULL || *that == NULL)
+    return;
+  // Free memory
+  free(*that);
+  *that = NULL;
+}
+
+// Print the VecLong on 'stream' with 'prec' digit precision
+void _VecLongPrint(const VecLong* const that, 
+  FILE* const stream) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (stream == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'stream' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Print the values
+  fprintf(stream, "<");
+  for (int i = 0; i < that->_dim; ++i) {
+    fprintf(stream, "%li", that->_val[i]);
+    if (i < that->_dim - 1)
+      fprintf(stream, ",");
+  }
+  fprintf(stream, ">");
+}
+
+// Step the values of the vector incrementally by 1 from 0
+// in the following order (for example) : 
+// (0,0,0)->(0,0,1)->(0,0,2)->(0,1,0)->(0,1,1)->...
+// The upper limit for each value is given by 'bound' (val[i] < dim[i])
+// Return false if all values of 'that' have reached their upper limit 
+// (in which case 'that''s values are all set back to 0)
+// Return true else
+bool _VecLongStep(VecLong* const that, const VecLong* const bound) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (bound == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'bound' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != bound->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+      that->_dim, bound->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable for the returned flag
+  bool ret = true;
+  // Declare a variable to memorise the dimension currently increasing
+  int iDim = that->_dim - 1;
+  // Declare a flag for the loop condition 
+  bool flag = true;
+  // Increment
+  do {
+    ++(that->_val[iDim]);
+    if (that->_val[iDim] >= bound->_val[iDim]) {
+      that->_val[iDim] = 0;
+      --iDim;
+    } else {
+      flag = false;
+    }
+  } while (iDim >= 0 && flag == true);
+  if (iDim == -1)
+    ret = false;
+  // Return the flag
+  return ret;
+}
+
+// Step the values of the vector incrementally by 1 from 0
+// in the following order (for example) : 
+// (0,0,0)->(1,0,0)->(2,0,0)->(0,1,0)->(1,1,0)->...
+// The upper limit for each value is given by 'bound' (val[i] < dim[i])
+// Return false if all values of 'that' have reached their upper limit 
+// (in which case 'that''s values are all set back to 0)
+// Return true else
+bool _VecLongPStep(VecLong* const that, const VecLong* const bound) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (bound == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'bound' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != bound->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+      that->_dim, bound->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable for the returned flag
+  bool ret = true;
+  // Declare a variable to memorise the dimension currently increasing
+  int iDim = 0;
+  // Declare a flag for the loop condition 
+  bool flag = true;
+  // Increment
+  do {
+    ++(that->_val[iDim]);
+    if (that->_val[iDim] >= bound->_val[iDim]) {
+      that->_val[iDim] = 0;
+      ++iDim;
+    } else {
+      flag = false;
+    }
+  } while (iDim < that->_dim && flag == true);
+  if (iDim == that->_dim)
+    ret = false;
+  // Return the flag
+  return ret;
+}
+
+// Step the values of the vector incrementally by 1
+// in the following order (for example) : 
+// (0,0,0)->(0,0,1)->(0,0,2)->(0,1,0)->(0,1,1)->...
+// The lower limit for each value is given by 'from' (val[i] >= from[i])
+// The upper limit for each value is given by 'to' (val[i] < to[i])
+// 'that' must be initialised to 'from' before the first call of this
+// function
+// Return false if all values of 'that' have reached their upper limit 
+// (in which case 'that''s values are all set back to from)
+// Return true else
+bool _VecLongShiftStep(VecLong* const that, 
+  const VecLong* const from, const VecLong* const to) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (from == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'from' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != from->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'from' dimensions don't match (%d==%d)", 
+      that->_dim, from->_dim);
+    PBErrCatch(PBMathErr);
+  }
+  if (to == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'to' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != to->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'to' dimensions don't match (%d==%d)", 
+      that->_dim, to->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable for the returned flag
+  bool ret = true;
+  // Declare a variable to memorise the dimension currently increasing
+  int iDim = that->_dim - 1;
+  // Declare a flag for the loop condition 
+  bool flag = true;
+  // Increment
+  do {
+    ++(that->_val[iDim]);
+    if (that->_val[iDim] >= to->_val[iDim]) {
+      that->_val[iDim] = from->_val[iDim];
+      --iDim;
+    } else {
+      flag = false;
+    }
+  } while (iDim >= 0 && flag == true);
+  if (iDim == -1)
+    ret = false;
+  // Return the flag
+  return ret;
+}
+
+// Step the values of the vector incrementally by delta from 0
+// in the following order (for example) : 
+// (0,0,0)->(0,0,1)->(0,0,2)->(0,1,0)->(0,1,1)->...
+// The upper limit for each value is given by 'bound' (val[i] <= dim[i])
+// Return false after all values of 'that' have reached their upper 
+// limit (in which case 'that''s values are all set back to 0)
+// Return true else
+bool _VecLongStepDelta(VecLong* const that, 
+  const VecLong* const bound, const VecLong* const delta) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (bound == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'bound' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (delta == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'delta' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != bound->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+      that->_dim, bound->_dim);
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != delta->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+      that->_dim, delta->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable for the returned flag
+  bool ret = true;
+  // Declare a variable to memorise the dimension currently increasing
+  int iDim = that->_dim - 1;
+  // Declare a flag for the loop condition 
+  bool flag = true;
+  // Increment
+  do {
+    that->_val[iDim] += delta->_val[iDim];
+    if (that->_val[iDim] >= bound->_val[iDim]) {
+      that->_val[iDim] = 0;
+      --iDim;
+    } else {
+      flag = false;
+    }
+  } while (iDim >= 0 && flag == true);
+  if (iDim == -1)
+    ret = false;
+  // Return the flag
+  return ret;
+}
+
+// Step the values of the vector incrementally by delta from 0
+// in the following order (for example) : 
+// (0,0,0)->(1,0,0)->(2,0,0)->(0,1,0)->(1,1,0)->...
+// The upper limit for each value is given by 'bound' (val[i] <= dim[i])
+// Return false after all values of 'that' have reached their upper 
+// limit (in which case 'that''s values are all set back to 0)
+// Return true else
+bool _VecLongPStepDelta(VecLong* const that, 
+  const VecLong* const bound, const VecLong* const delta) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (bound == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'bound' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (delta == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'delta' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != bound->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+      that->_dim, bound->_dim);
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != delta->_dim) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+      that->_dim, delta->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable for the returned flag
+  bool ret = true;
+  // Declare a variable to memorise the dimension currently increasing
+  int iDim = 0;
+  // Declare a flag for the loop condition 
+  bool flag = true;
+  // Increment
+  do {
+    that->_val[iDim] += delta->_val[iDim];
+    if (that->_val[iDim] >= bound->_val[iDim]) {
+      that->_val[iDim] = 0;
+      ++iDim;
+    } else {
+      flag = false;
+    }
+  } while (iDim < that->_dim && flag == true);
+  if (iDim == that->_dim)
+    ret = false;
+  // Return the flag
+  return ret;
+}
+
 // -------------- VecFloat
 
 // ================ Functions implementation ====================
