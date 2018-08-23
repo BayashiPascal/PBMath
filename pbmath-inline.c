@@ -31,7 +31,7 @@ VecShort4D VecShortCreateStatic4D() {
 #if BUILDMODE != 0
 inline
 #endif 
-short _VecShortGet(const VecShort* const that, const int i) {
+short _VecShortGet(const VecShort* const that, const long i) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -40,7 +40,7 @@ short _VecShortGet(const VecShort* const that, const int i) {
   }
   if (i < 0 || i >= that->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<%d)", i, 
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<%ld)", i, 
       that->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -50,7 +50,7 @@ short _VecShortGet(const VecShort* const that, const int i) {
 #if BUILDMODE != 0
 inline
 #endif 
-short _VecShortGet2D(const VecShort2D* const that, const int i) {
+short _VecShortGet2D(const VecShort2D* const that, const long i) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -59,7 +59,7 @@ short _VecShortGet2D(const VecShort2D* const that, const int i) {
   }
   if (i < 0 || i >= 2) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<2)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<2)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -68,7 +68,7 @@ short _VecShortGet2D(const VecShort2D* const that, const int i) {
 #if BUILDMODE != 0
 inline
 #endif 
-short _VecShortGet3D(const VecShort3D* const that, const int i) {
+short _VecShortGet3D(const VecShort3D* const that, const long i) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -77,7 +77,7 @@ short _VecShortGet3D(const VecShort3D* const that, const int i) {
   }
   if (i < 0 || i >= 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<3)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<3)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -86,7 +86,7 @@ short _VecShortGet3D(const VecShort3D* const that, const int i) {
 #if BUILDMODE != 0
 inline
 #endif 
-short _VecShortGet4D(const VecShort4D* const that, const int i) {
+short _VecShortGet4D(const VecShort4D* const that, const long i) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -95,7 +95,7 @@ short _VecShortGet4D(const VecShort4D* const that, const int i) {
   }
   if (i < 0 || i >= 4) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<4)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<4)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -106,7 +106,7 @@ short _VecShortGet4D(const VecShort4D* const that, const int i) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortSet(VecShort* const that, const int i, const short v) {
+void _VecShortSet(VecShort* const that, const long i, const short v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -115,17 +115,17 @@ void _VecShortSet(VecShort* const that, const int i, const short v) {
   }
   if (i < 0 || i >= that->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<%d)", i, 
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<%ld)", i, 
       that->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
-  ((short*)(((void*)that) + sizeof(int)))[i] = v;
+  ((short*)(((void*)that) + sizeof(long)))[i] = v;
 }
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortSet2D(VecShort2D* const that, const int i, const short v) {
+void _VecShortSet2D(VecShort2D* const that, const long i, const short v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -134,7 +134,7 @@ void _VecShortSet2D(VecShort2D* const that, const int i, const short v) {
   }
   if (i < 0 || i >= 2) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<2)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<2)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -143,7 +143,7 @@ void _VecShortSet2D(VecShort2D* const that, const int i, const short v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortSet3D(VecShort3D* const that, const int i, const short v) {
+void _VecShortSet3D(VecShort3D* const that, const long i, const short v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -152,7 +152,7 @@ void _VecShortSet3D(VecShort3D* const that, const int i, const short v) {
   }
   if (i < 0 || i >= 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<3)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<3)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -161,7 +161,7 @@ void _VecShortSet3D(VecShort3D* const that, const int i, const short v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortSet4D(VecShort4D* const that, const int i, const short v) {
+void _VecShortSet4D(VecShort4D* const that, const long i, const short v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -170,7 +170,7 @@ void _VecShortSet4D(VecShort4D* const that, const int i, const short v) {
   }
   if (i < 0 || i >= 4) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<4)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<4)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -181,7 +181,7 @@ void _VecShortSet4D(VecShort4D* const that, const int i, const short v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortSetAdd(VecShort* const that, const int i, const short v) {
+void _VecShortSetAdd(VecShort* const that, const long i, const short v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -190,17 +190,17 @@ void _VecShortSetAdd(VecShort* const that, const int i, const short v) {
   }
   if (i < 0 || i >= that->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<%d)", i, 
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<%ld)", i, 
       that->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
-  ((short*)(((void*)that) + sizeof(int)))[i] += v;
+  ((short*)(((void*)that) + sizeof(long)))[i] += v;
 }
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortSetAdd2D(VecShort2D* const that, const int i, const short v) {
+void _VecShortSetAdd2D(VecShort2D* const that, const long i, const short v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -209,7 +209,7 @@ void _VecShortSetAdd2D(VecShort2D* const that, const int i, const short v) {
   }
   if (i < 0 || i >= 2) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<2)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<2)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -218,7 +218,7 @@ void _VecShortSetAdd2D(VecShort2D* const that, const int i, const short v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortSetAdd3D(VecShort3D* const that, const int i, const short v) {
+void _VecShortSetAdd3D(VecShort3D* const that, const long i, const short v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -227,7 +227,7 @@ void _VecShortSetAdd3D(VecShort3D* const that, const int i, const short v) {
   }
   if (i < 0 || i >= 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<3)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<3)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -236,7 +236,7 @@ void _VecShortSetAdd3D(VecShort3D* const that, const int i, const short v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecShortSetAdd4D(VecShort4D* const that, const int i, const short v) {
+void _VecShortSetAdd4D(VecShort4D* const that, const long i, const short v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -245,7 +245,7 @@ void _VecShortSetAdd4D(VecShort4D* const that, const int i, const short v) {
   }
   if (i < 0 || i >= 4) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<4)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<4)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -265,7 +265,7 @@ void _VecShortSetNull(VecShort* const that) {
   }
 #endif
   // Set values
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     that->_val[iDim] = 0;
 }
 
@@ -273,7 +273,7 @@ void _VecShortSetNull(VecShort* const that) {
 #if BUILDMODE != 0
 inline
 #endif 
-int _VecShortGetDim(const VecShort* const that) {
+long _VecShortGetDim(const VecShort* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -301,14 +301,14 @@ short _VecShortHamiltonDist(const VecShort* const that, const VecShort* const th
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
   // Declare a variable to calculate the distance
   short ret = 0;
-  for (int iDim = VecGetDim(that); iDim--;)
+  for (long iDim = VecGetDim(that); iDim--;)
     ret += abs(VecGet(that, iDim) - VecGet(tho, iDim));
   // Return the distance
   return ret;
@@ -396,7 +396,7 @@ bool _VecShortIsEqual(const VecShort* const that,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -423,7 +423,7 @@ void _VecShortCopy(VecShort* const that, const VecShort* const tho) {
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -451,7 +451,7 @@ short _VecShortDotProd(const VecShort* const that,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -459,7 +459,7 @@ short _VecShortDotProd(const VecShort* const that,
   // Declare a variable ot memorise the result
   short res = 0;
   // For each component
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     // Calculate the product
     res += VecGet(that, iDim) * VecGet(tho, iDim);
   // Return the result
@@ -548,12 +548,12 @@ void _VecShortOp(VecShort* const that, const short a,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     VecSet(that, iDim, 
       a * VecGet(that, iDim) + b * VecGet(tho, iDim));
 }
@@ -640,13 +640,13 @@ VecShort* _VecShortGetOp(const VecShort* const that, const short a,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
   VecShort* res = VecShortCreate(that->_dim);
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     VecSet(res, iDim, 
       a * VecGet(that, iDim) + b * VecGet(tho, iDim));
   return res;
@@ -742,12 +742,12 @@ void _VecShortHadamardProd(VecShort* const that,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     VecSet(that, iDim, VecGet(that, iDim) * VecGet(tho, iDim));
 }
 #if BUILDMODE != 0 
@@ -835,13 +835,13 @@ VecShort* _VecShortGetHadamardProd(const VecShort* const that,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
   VecShort* res = VecShortCreate(that->_dim);
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     VecSet(res, iDim, VecGet(that, iDim) * VecGet(tho, iDim));
   return res;
 }
@@ -930,7 +930,7 @@ short _VecShortGetMaxVal(const VecShort* const that) {
   // Declare a variable to memorize the result
   short max = VecGet(that, 0);
   // Search for the maximum value
-  for (int i = VecGetDim(that); i-- && i != 0;)
+  for (long i = VecGetDim(that); i-- && i != 0;)
     max = MAX(max, VecGet(that, i));
   // Return the result
   return max;
@@ -940,7 +940,7 @@ short _VecShortGetMaxVal(const VecShort* const that) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-int _VecShortGetIMaxVal(const VecShort* const that) {
+long _VecShortGetIMaxVal(const VecShort* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -949,11 +949,11 @@ int _VecShortGetIMaxVal(const VecShort* const that) {
   }
 #endif
   // Declare a variable to memorize the result
-  int iMax = 0;
+  long iMax = 0;
   // Declare a variable to memorize the max value
   short max = VecGet(that, iMax);
   // Search for the maximum value
-  for (int i = VecGetDim(that); i-- && i != 0;) {
+  for (long i = VecGetDim(that); i-- && i != 0;) {
     if (max < VecGet(that, i)) {
       max = VecGet(that, i);
       iMax = i;
@@ -978,7 +978,7 @@ short _VecShortGetMinVal(const VecShort* const that) {
   // Declare a variable to memorize the result
   short min = VecGet(that, 0);
   // Search for the minimum value
-  for (int i = VecGetDim(that); i-- && i != 0;)
+  for (long i = VecGetDim(that); i-- && i != 0;)
     min = MIN(min, VecGet(that, i));
   // Return the result
   return min;
@@ -1000,7 +1000,7 @@ short _VecShortGetMaxValAbs(const VecShort* const that) {
   // Declare a variable to memorize the result
   short max = abs(VecGet(that, 0));
   // Search for the maximum value
-  for (int i = VecGetDim(that); i-- && i != 0;)
+  for (long i = VecGetDim(that); i-- && i != 0;)
     max = (abs(max) > abs(VecGet(that, i)) ? max : VecGet(that, i));
   // Return the result
   return max;
@@ -1022,7 +1022,7 @@ short _VecShortGetMinValAbs(const VecShort* const that) {
   // Declare a variable to memorize the result
   short min = abs(VecGet(that, 0));
   // Search for the minimum value
-  for (int i = VecGetDim(that); i-- && i != 0;)
+  for (long i = VecGetDim(that); i-- && i != 0;)
     min = (abs(min) < abs(VecGet(that, i)) ? min : VecGet(that, i));
   // Return the result
   return min;
@@ -1057,7 +1057,7 @@ VecLong4D VecLongCreateStatic4D() {
 #if BUILDMODE != 0
 inline
 #endif 
-long _VecLongGet(const VecLong* const that, const int i) {
+long _VecLongGet(const VecLong* const that, const long i) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1066,7 +1066,7 @@ long _VecLongGet(const VecLong* const that, const int i) {
   }
   if (i < 0 || i >= that->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<%d)", i, 
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<%ld)", i, 
       that->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -1076,7 +1076,7 @@ long _VecLongGet(const VecLong* const that, const int i) {
 #if BUILDMODE != 0
 inline
 #endif 
-long _VecLongGet2D(const VecLong2D* const that, const int i) {
+long _VecLongGet2D(const VecLong2D* const that, const long i) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1085,7 +1085,7 @@ long _VecLongGet2D(const VecLong2D* const that, const int i) {
   }
   if (i < 0 || i >= 2) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<2)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<2)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -1094,7 +1094,7 @@ long _VecLongGet2D(const VecLong2D* const that, const int i) {
 #if BUILDMODE != 0
 inline
 #endif 
-long _VecLongGet3D(const VecLong3D* const that, const int i) {
+long _VecLongGet3D(const VecLong3D* const that, const long i) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1103,7 +1103,7 @@ long _VecLongGet3D(const VecLong3D* const that, const int i) {
   }
   if (i < 0 || i >= 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<3)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<3)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -1112,7 +1112,7 @@ long _VecLongGet3D(const VecLong3D* const that, const int i) {
 #if BUILDMODE != 0
 inline
 #endif 
-long _VecLongGet4D(const VecLong4D* const that, const int i) {
+long _VecLongGet4D(const VecLong4D* const that, const long i) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1121,7 +1121,7 @@ long _VecLongGet4D(const VecLong4D* const that, const int i) {
   }
   if (i < 0 || i >= 4) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<4)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<4)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -1132,7 +1132,7 @@ long _VecLongGet4D(const VecLong4D* const that, const int i) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecLongSet(VecLong* const that, const int i, const long v) {
+void _VecLongSet(VecLong* const that, const long i, const long v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1141,17 +1141,17 @@ void _VecLongSet(VecLong* const that, const int i, const long v) {
   }
   if (i < 0 || i >= that->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<%d)", i, 
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<%ld)", i, 
       that->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
-  ((long*)(((void*)that) + sizeof(int)))[i] = v;
+  ((long*)(((void*)that) + sizeof(long)))[i] = v;
 }
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecLongSet2D(VecLong2D* const that, const int i, const long v) {
+void _VecLongSet2D(VecLong2D* const that, const long i, const long v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1160,7 +1160,7 @@ void _VecLongSet2D(VecLong2D* const that, const int i, const long v) {
   }
   if (i < 0 || i >= 2) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<2)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<2)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -1169,7 +1169,7 @@ void _VecLongSet2D(VecLong2D* const that, const int i, const long v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecLongSet3D(VecLong3D* const that, const int i, const long v) {
+void _VecLongSet3D(VecLong3D* const that, const long i, const long v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1178,7 +1178,7 @@ void _VecLongSet3D(VecLong3D* const that, const int i, const long v) {
   }
   if (i < 0 || i >= 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<3)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<3)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -1187,7 +1187,7 @@ void _VecLongSet3D(VecLong3D* const that, const int i, const long v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecLongSet4D(VecLong4D* const that, const int i, const long v) {
+void _VecLongSet4D(VecLong4D* const that, const long i, const long v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1196,7 +1196,7 @@ void _VecLongSet4D(VecLong4D* const that, const int i, const long v) {
   }
   if (i < 0 || i >= 4) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<4)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<4)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -1207,7 +1207,7 @@ void _VecLongSet4D(VecLong4D* const that, const int i, const long v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecLongSetAdd(VecLong* const that, const int i, const long v) {
+void _VecLongSetAdd(VecLong* const that, const long i, const long v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1216,17 +1216,17 @@ void _VecLongSetAdd(VecLong* const that, const int i, const long v) {
   }
   if (i < 0 || i >= that->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<%d)", i, 
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<%ld)", i, 
       that->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
-  ((long*)(((void*)that) + sizeof(int)))[i] += v;
+  ((long*)(((void*)that) + sizeof(long)))[i] += v;
 }
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecLongSetAdd2D(VecLong2D* const that, const int i, const long v) {
+void _VecLongSetAdd2D(VecLong2D* const that, const long i, const long v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1235,7 +1235,7 @@ void _VecLongSetAdd2D(VecLong2D* const that, const int i, const long v) {
   }
   if (i < 0 || i >= 2) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<2)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<2)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -1244,7 +1244,7 @@ void _VecLongSetAdd2D(VecLong2D* const that, const int i, const long v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecLongSetAdd3D(VecLong3D* const that, const int i, const long v) {
+void _VecLongSetAdd3D(VecLong3D* const that, const long i, const long v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1253,7 +1253,7 @@ void _VecLongSetAdd3D(VecLong3D* const that, const int i, const long v) {
   }
   if (i < 0 || i >= 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<3)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<3)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -1262,7 +1262,7 @@ void _VecLongSetAdd3D(VecLong3D* const that, const int i, const long v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecLongSetAdd4D(VecLong4D* const that, const int i, const long v) {
+void _VecLongSetAdd4D(VecLong4D* const that, const long i, const long v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1271,7 +1271,7 @@ void _VecLongSetAdd4D(VecLong4D* const that, const int i, const long v) {
   }
   if (i < 0 || i >= 4) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<4)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<4)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -1291,7 +1291,7 @@ void _VecLongSetNull(VecLong* const that) {
   }
 #endif
   // Set values
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     that->_val[iDim] = 0;
 }
 
@@ -1299,7 +1299,7 @@ void _VecLongSetNull(VecLong* const that) {
 #if BUILDMODE != 0
 inline
 #endif 
-int _VecLongGetDim(const VecLong* const that) {
+long _VecLongGetDim(const VecLong* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1327,14 +1327,14 @@ long _VecLongHamiltonDist(const VecLong* const that, const VecLong* const tho) {
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
   // Declare a variable to calculate the distance
   long ret = 0;
-  for (int iDim = VecGetDim(that); iDim--;)
+  for (long iDim = VecGetDim(that); iDim--;)
     ret += abs(VecGet(that, iDim) - VecGet(tho, iDim));
   // Return the distance
   return ret;
@@ -1422,7 +1422,7 @@ bool _VecLongIsEqual(const VecLong* const that,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -1449,7 +1449,7 @@ void _VecLongCopy(VecLong* const that, const VecLong* const tho) {
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -1477,7 +1477,7 @@ long _VecLongDotProd(const VecLong* const that,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -1485,7 +1485,7 @@ long _VecLongDotProd(const VecLong* const that,
   // Declare a variable ot memorise the result
   long res = 0;
   // For each component
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     // Calculate the product
     res += VecGet(that, iDim) * VecGet(tho, iDim);
   // Return the result
@@ -1574,12 +1574,12 @@ void _VecLongOp(VecLong* const that, const long a,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     VecSet(that, iDim, 
       a * VecGet(that, iDim) + b * VecGet(tho, iDim));
 }
@@ -1666,13 +1666,13 @@ VecLong* _VecLongGetOp(const VecLong* const that, const long a,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
   VecLong* res = VecLongCreate(that->_dim);
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     VecSet(res, iDim, 
       a * VecGet(that, iDim) + b * VecGet(tho, iDim));
   return res;
@@ -1768,12 +1768,12 @@ void _VecLongHadamardProd(VecLong* const that,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     VecSet(that, iDim, VecGet(that, iDim) * VecGet(tho, iDim));
 }
 #if BUILDMODE != 0 
@@ -1861,13 +1861,13 @@ VecLong* _VecLongGetHadamardProd(const VecLong* const that,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
   VecLong* res = VecLongCreate(that->_dim);
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     VecSet(res, iDim, VecGet(that, iDim) * VecGet(tho, iDim));
   return res;
 }
@@ -1956,7 +1956,7 @@ long _VecLongGetMaxVal(const VecLong* const that) {
   // Declare a variable to memorize the result
   long max = VecGet(that, 0);
   // Search for the maximum value
-  for (int i = VecGetDim(that); i-- && i != 0;)
+  for (long i = VecGetDim(that); i-- && i != 0;)
     max = MAX(max, VecGet(that, i));
   // Return the result
   return max;
@@ -1966,7 +1966,7 @@ long _VecLongGetMaxVal(const VecLong* const that) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-int _VecLongGetIMaxVal(const VecLong* const that) {
+long _VecLongGetIMaxVal(const VecLong* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1975,11 +1975,11 @@ int _VecLongGetIMaxVal(const VecLong* const that) {
   }
 #endif
   // Declare a variable to memorize the result
-  int iMax = 0;
+  long iMax = 0;
   // Declare a variable to memorize the max value
   long max = VecGet(that, iMax);
   // Search for the maximum value
-  for (int i = VecGetDim(that); i-- && i != 0;) {
+  for (long i = VecGetDim(that); i-- && i != 0;) {
     if (max < VecGet(that, i)) {
       max = VecGet(that, i);
       iMax = i;
@@ -2004,7 +2004,7 @@ long _VecLongGetMinVal(const VecLong* const that) {
   // Declare a variable to memorize the result
   long min = VecGet(that, 0);
   // Search for the minimum value
-  for (int i = VecGetDim(that); i-- && i != 0;)
+  for (long i = VecGetDim(that); i-- && i != 0;)
     min = MIN(min, VecGet(that, i));
   // Return the result
   return min;
@@ -2026,7 +2026,7 @@ long _VecLongGetMaxValAbs(const VecLong* const that) {
   // Declare a variable to memorize the result
   long max = abs(VecGet(that, 0));
   // Search for the maximum value
-  for (int i = VecGetDim(that); i-- && i != 0;)
+  for (long i = VecGetDim(that); i-- && i != 0;)
     max = (abs(max) > abs(VecGet(that, i)) ? max : VecGet(that, i));
   // Return the result
   return max;
@@ -2048,7 +2048,7 @@ long _VecLongGetMinValAbs(const VecLong* const that) {
   // Declare a variable to memorize the result
   long min = abs(VecGet(that, 0));
   // Search for the minimum value
-  for (int i = VecGetDim(that); i-- && i != 0;)
+  for (long i = VecGetDim(that); i-- && i != 0;)
     min = (abs(min) < abs(VecGet(that, i)) ? min : VecGet(that, i));
   // Return the result
   return min;
@@ -2076,7 +2076,7 @@ VecFloat3D VecFloatCreateStatic3D() {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatGet(const VecFloat* const that, const int i) {
+float _VecFloatGet(const VecFloat* const that, const long i) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2086,7 +2086,7 @@ float _VecFloatGet(const VecFloat* const that, const int i) {
   if (i < 0 || i >= that->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, 
-      "'i' is invalid (0<=%d<%d)", i, that->_dim);
+      "'i' is invalid (0<=%ld<%ld)", i, that->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -2096,7 +2096,7 @@ float _VecFloatGet(const VecFloat* const that, const int i) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatGet2D(const VecFloat2D* const that, const int i) {
+float _VecFloatGet2D(const VecFloat2D* const that, const long i) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2105,7 +2105,7 @@ float _VecFloatGet2D(const VecFloat2D* const that, const int i) {
   }
   if (i < 0 || i >= 2) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<2)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<2)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -2115,7 +2115,7 @@ float _VecFloatGet2D(const VecFloat2D* const that, const int i) {
 #if BUILDMODE != 0
 inline
 #endif 
-float _VecFloatGet3D(const VecFloat3D* const that, const int i) {
+float _VecFloatGet3D(const VecFloat3D* const that, const long i) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2124,7 +2124,7 @@ float _VecFloatGet3D(const VecFloat3D* const that, const int i) {
   }
   if (i < 0 || i >= 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<3)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<3)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -2136,7 +2136,7 @@ float _VecFloatGet3D(const VecFloat3D* const that, const int i) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatSet(VecFloat* const that, const int i, const float v) {
+void _VecFloatSet(VecFloat* const that, const long i, const float v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2146,7 +2146,7 @@ void _VecFloatSet(VecFloat* const that, const int i, const float v) {
   if (i < 0 || i >= that->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, 
-      "'i' is invalid (0<=%d<%d)", i, that->_dim);
+      "'i' is invalid (0<=%ld<%ld)", i, that->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -2156,7 +2156,7 @@ void _VecFloatSet(VecFloat* const that, const int i, const float v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatSet2D(VecFloat2D* const that, const int i, const float v) {
+void _VecFloatSet2D(VecFloat2D* const that, const long i, const float v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2165,7 +2165,7 @@ void _VecFloatSet2D(VecFloat2D* const that, const int i, const float v) {
   }
   if (i < 0 || i >= 2) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<2)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<2)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -2175,7 +2175,7 @@ void _VecFloatSet2D(VecFloat2D* const that, const int i, const float v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatSet3D(VecFloat3D* const that, const int i, const float v) {
+void _VecFloatSet3D(VecFloat3D* const that, const long i, const float v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2184,7 +2184,7 @@ void _VecFloatSet3D(VecFloat3D* const that, const int i, const float v) {
   }
   if (i < 0 || i >= 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<3)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<3)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -2196,7 +2196,7 @@ void _VecFloatSet3D(VecFloat3D* const that, const int i, const float v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatSetAdd(VecFloat* const that, const int i, const float v) {
+void _VecFloatSetAdd(VecFloat* const that, const long i, const float v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2206,7 +2206,7 @@ void _VecFloatSetAdd(VecFloat* const that, const int i, const float v) {
   if (i < 0 || i >= that->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, 
-      "'i' is invalid (0<=%d<%d)", i, that->_dim);
+      "'i' is invalid (0<=%ld<%ld)", i, that->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -2216,7 +2216,7 @@ void _VecFloatSetAdd(VecFloat* const that, const int i, const float v) {
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatSetAdd2D(VecFloat2D* const that, const int i, 
+void _VecFloatSetAdd2D(VecFloat2D* const that, const long i, 
   const float v) {
 #if BUILDMODE == 0
   if (that == NULL) {
@@ -2226,7 +2226,7 @@ void _VecFloatSetAdd2D(VecFloat2D* const that, const int i,
   }
   if (i < 0 || i >= 2) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<2)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<2)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -2236,7 +2236,7 @@ void _VecFloatSetAdd2D(VecFloat2D* const that, const int i,
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatSetAdd3D(VecFloat3D* const that, const int i, 
+void _VecFloatSetAdd3D(VecFloat3D* const that, const long i, 
   const float v) {
 #if BUILDMODE == 0
   if (that == NULL) {
@@ -2246,7 +2246,7 @@ void _VecFloatSetAdd3D(VecFloat3D* const that, const int i,
   }
   if (i < 0 || i >= 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%d<3)", i);
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<3)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -2267,7 +2267,7 @@ void _VecFloatSetNull(VecFloat* const that) {
   }
 #endif
   // Set values
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     that->_val[iDim] = 0.0;
 }
 #if BUILDMODE != 0
@@ -2306,7 +2306,7 @@ void _VecFloatSetNull3D(VecFloat3D* const that) {
 #if BUILDMODE != 0
 inline
 #endif 
-int _VecFloatGetDim(const VecFloat* const that) {
+long _VecFloatGetDim(const VecFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2335,7 +2335,7 @@ void _VecFloatCopy(VecFloat* const that, const VecFloat* const tho) {
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -2359,7 +2359,7 @@ float _VecFloatNorm(const VecFloat* const that) {
   // Declare a variable to calculate the norm
   float ret = 0.0;
   // Calculate the norm
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     ret += fsquare(VecGet(that, iDim));
   ret = sqrt(ret);
   // Return the result
@@ -2409,7 +2409,7 @@ void _VecFloatNormalise(VecFloat* const that) {
 #endif
   // Normalise
   float norm = VecNorm(that);
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     VecSet(that, iDim, VecGet(that, iDim) / norm);
 }
 
@@ -2466,14 +2466,14 @@ float _VecFloatDist(const VecFloat* const that,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
   // Declare a variable to calculate the distance
   float ret = 0.0;
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     ret += fsquare(VecGet(that, iDim) - VecGet(tho, iDim));
   ret = sqrt(ret);
   // Return the distance
@@ -2542,14 +2542,14 @@ float _VecFloatHamiltonDist(const VecFloat* const that,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
   // Declare a variable to calculate the distance
   float ret = 0.0;
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     ret += fabs(VecGet(that, iDim) - VecGet(tho, iDim));
   // Return the distance
   return ret;
@@ -2617,14 +2617,14 @@ float _VecFloatPixelDist(const VecFloat* const that,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
   // Declare a variable to calculate the distance
   float ret = 0.0;
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     ret += fabs(floor(VecGet(that, iDim)) - floor(VecGet(tho, iDim)));
   // Return the distance
   return ret;
@@ -2692,13 +2692,13 @@ bool _VecFloatIsEqual(const VecFloat* const that,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
   // For each component
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     // If the values of this components are different
     if (!ISEQUALF(VecGet(that, iDim), VecGet(tho, iDim)))
       // Return false
@@ -2726,12 +2726,12 @@ void _VecFloatOp(VecFloat* const that, const float a,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     VecSet(that, iDim, 
       a * VecGet(that, iDim) + b * VecGet(tho, iDim));
 }
@@ -2796,13 +2796,13 @@ VecFloat* _VecFloatGetOp(const VecFloat* const that, const float a,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
   VecFloat* res = VecFloatCreate(that->_dim);
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     VecSet(res, iDim, 
       a * VecGet(that, iDim) + b * VecGet(tho, iDim));
   return res;
@@ -2874,12 +2874,12 @@ void _VecFloatHadamardProd(VecFloat* const that,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     VecSet(that, iDim, VecGet(that, iDim) * VecGet(tho, iDim));
 }
 #if BUILDMODE != 0 
@@ -2945,13 +2945,13 @@ VecFloat* _VecFloatGetHadamardProd(const VecFloat* const that,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
 #endif
   VecFloat* res = VecFloatCreate(that->_dim);
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     VecSet(res, iDim, VecGet(that, iDim) * VecGet(tho, iDim));
   return res;
 }
@@ -3013,7 +3013,7 @@ void _VecFloatScale(VecFloat* const that, const float a) {
     PBErrCatch(PBMathErr);
   }
 #endif
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     VecSet(that, iDim, a * VecGet(that, iDim));
 }
 #if BUILDMODE != 0
@@ -3059,7 +3059,7 @@ VecFloat* _VecFloatGetScale(const VecFloat* const that, const float a) {
   }
 #endif
   VecFloat* res = VecFloatCreate(that->_dim);
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     VecSet(res, iDim, a * VecGet(that, iDim));
   return res;
 }
@@ -3112,7 +3112,7 @@ void _VecFloatRot2D(VecFloat2D* const that, const float theta) {
   }
   if (VecGetDim(that) != 2) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=2)",
+    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%ld==2)",
       VecGetDim(that));
     PBErrCatch(PBMathErr);
   }
@@ -3133,7 +3133,7 @@ VecFloat2D _VecFloatGetRot2D(const VecFloat2D* const that, const float theta) {
   }
   if (VecGetDim(that) != 2) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=2)",
+    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%ld==2)",
       VecGetDim(that));
     PBErrCatch(PBMathErr);
   }
@@ -3171,7 +3171,7 @@ float _VecFloatDotProd(const VecFloat* const that,
   }
   if (that->_dim != tho->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, tho->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -3179,7 +3179,7 @@ float _VecFloatDotProd(const VecFloat* const that,
   // Declare a variable to memorize the result
   float res = 0.0;
   // Calculate
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     res += that->_val[iDim] * tho->_val[iDim];
   // Return the result
   return res;
@@ -3238,7 +3238,7 @@ VecShort* VecFloatToShort(const VecFloat* const that) {
 #endif
   // Create the result
   VecShort* res = VecShortCreate(that->_dim);
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     VecSet(res, iDim, SHORT(VecGet(that, iDim)));
   // Return the result
   return res;
@@ -3295,7 +3295,7 @@ VecFloat* VecShortToFloat(const VecShort* const that) {
 #endif
   // Create the result
   VecFloat* res = VecFloatCreate(that->_dim);
-  for (int iDim = that->_dim; iDim--;)
+  for (long iDim = that->_dim; iDim--;)
     VecSet(res, iDim, (float)VecGet(that, iDim));
   // Return the result
   return res;
@@ -3353,7 +3353,7 @@ float _VecFloatGetMaxVal(const VecFloat* const that) {
   // Declare a variable to memorize the result
   float max = VecGet(that, 0);
   // Search for the maximum value
-  for (int i = VecGetDim(that); i-- && i != 0;)
+  for (long i = VecGetDim(that); i-- && i != 0;)
     max = MAX(max, VecGet(that, i));
   // Return the result
   return max;
@@ -3363,7 +3363,7 @@ float _VecFloatGetMaxVal(const VecFloat* const that) {
 #if BUILDMODE != 0 
 inline 
 #endif 
-int _VecFloatGetIMaxVal(const VecFloat* const that) {
+long _VecFloatGetIMaxVal(const VecFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -3372,11 +3372,11 @@ int _VecFloatGetIMaxVal(const VecFloat* const that) {
   }
 #endif
   // Declare a variable to memorize the result
-  int iMax = 0;
+  long iMax = 0;
   // Declare a variable to memorize the max value
   float max = VecGet(that, iMax);
   // Search for the maximum value
-  for (int i = VecGetDim(that); i-- && i != 0;) {
+  for (long i = VecGetDim(that); i-- && i != 0;) {
     if(max < VecGet(that, i)) {
       max = VecGet(that, i);
       iMax = i;
@@ -3401,7 +3401,7 @@ float _VecFloatGetMinVal(const VecFloat* const that) {
   // Declare a variable to memorize the result
   float min = VecGet(that, 0);
   // Search for the minimum value
-  for (int i = VecGetDim(that); i-- && i != 0;)
+  for (long i = VecGetDim(that); i-- && i != 0;)
     min = MIN(min, VecGet(that, i));
   // Return the result
   return min;
@@ -3423,7 +3423,7 @@ float _VecFloatGetMaxValAbs(const VecFloat* const that) {
   // Declare a variable to memorize the result
   float max = fabs(VecGet(that, 0));
   // Search for the maximum value
-  for (int i = VecGetDim(that); i-- && i != 0;)
+  for (long i = VecGetDim(that); i-- && i != 0;)
     max = (fabs(max) > fabs(VecGet(that, i)) ? max : VecGet(that, i));
   // Return the result
   return max;
@@ -3445,7 +3445,7 @@ float _VecFloatGetMinValAbs(const VecFloat* const that) {
   // Declare a variable to memorize the result
   float min = fabs(VecGet(that, 0));
   // Search for the minimum value
-  for (int i = VecGetDim(that); i-- && i != 0;)
+  for (long i = VecGetDim(that); i-- && i != 0;)
     min = (fabs(min) < fabs(VecGet(that, i)) ? min : VecGet(that, i));
   // Return the result
   return min;
@@ -3840,7 +3840,7 @@ void _SLESetV(SysLinEq* const that, const VecFloat* const v) {
   }
   if (VecGetDim(v) != VecGetDim(that->_V)) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'v' has invalid dimension (%d==%d)",
+    sprintf(PBMathErr->_msg, "'v' has invalid dimension (%ld==%ld)",
       VecGetDim(v), VecGetDim(that->_V));
     PBErrCatch(PBMathErr);
   }
@@ -3895,13 +3895,13 @@ void _VecFloatRotAxis(VecFloat3D* const that,
   }
   if (VecGetDim(that) != 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=3)",
+    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%ld==3)",
       VecGetDim(that));
     PBErrCatch(PBMathErr);
   }
   if (VecGetDim(axis) != 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'axis' 's dimension is invalid (%d=3)",
+    sprintf(PBMathErr->_msg, "'axis' 's dimension is invalid (%ld==3)",
       VecGetDim(axis));
     PBErrCatch(PBMathErr);
   }
@@ -3928,7 +3928,7 @@ void _VecFloatRotX(VecFloat3D* const that, const float theta) {
   }
   if (VecGetDim(that) != 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=3)",
+    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%ld==3)",
       VecGetDim(that));
     PBErrCatch(PBMathErr);
   }
@@ -3950,7 +3950,7 @@ void _VecFloatRotY(VecFloat3D* const that, const float theta) {
   }
   if (VecGetDim(that) != 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=3)",
+    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%ld==3)",
       VecGetDim(that));
     PBErrCatch(PBMathErr);
   }
@@ -3972,7 +3972,7 @@ void _VecFloatRotZ(VecFloat3D* const that, const float theta) {
   }
   if (VecGetDim(that) != 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=3)",
+    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%ld==3)",
       VecGetDim(that));
     PBErrCatch(PBMathErr);
   }

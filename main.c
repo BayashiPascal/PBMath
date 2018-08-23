@@ -152,10 +152,10 @@ void UnitTestVecShortLoadSave() {
   VecShort2D v2 = VecShortCreateStatic2D();
   VecShort3D v3 = VecShortCreateStatic3D();
   VecShort4D v4 = VecShortCreateStatic4D();
-  for (int i = 5; i--;) VecSet(v, i, i + 1);
-  for (int i = 2; i--;) VecSet(&v2, i, i + 1);
-  for (int i = 3; i--;) VecSet(&v3, i, i + 1);
-  for (int i = 4; i--;) VecSet(&v4, i, i + 1);
+  for (long i = 5; i--;) VecSet(v, i, i + 1);
+  for (long i = 2; i--;) VecSet(&v2, i, i + 1);
+  for (long i = 3; i--;) VecSet(&v3, i, i + 1);
+  for (long i = 4; i--;) VecSet(&v4, i, i + 1);
   FILE* f = fopen("./UnitTestVecShortLoadSave.txt", "w");
   if (f == NULL) {
     PBMathErr->_type = PBErrTypeOther;
@@ -303,6 +303,7 @@ void UnitTestVecShortGetSetDim() {
       sprintf(PBMathErr->_msg, "_VecShortGet NOK");
       PBErrCatch(PBMathErr);
     }
+VecPrint(v,stdout);printf("\n");
   for (int i = 5; i--;) VecSetAdd(v, i, i + 1);
   for (int i = 2; i--;) VecSetAdd(&v2, i, i + 1);
   for (int i = 3; i--;) VecSetAdd(&v3, i, i + 1);
@@ -310,25 +311,25 @@ void UnitTestVecShortGetSetDim() {
   for (int i = 5; i--;)
     if (VecGet(v, i) != 2 * (i + 1)) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "_VecShortSetAdd NOK");
+      sprintf(PBMathErr->_msg, "_VecShortSetAdd NOK1");
       PBErrCatch(PBMathErr);
     }
   for (int i = 2; i--;)
     if (VecGet(&v2, i) != 2 * (i + 1)) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "_VecShortSetAdd NOK");
+      sprintf(PBMathErr->_msg, "_VecShortSetAdd NOK2");
       PBErrCatch(PBMathErr);
     }
   for (int i = 3; i--;)
     if (VecGet(&v3, i) != 2 * (i + 1)) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "_VecShortSetAdd NOK");
+      sprintf(PBMathErr->_msg, "_VecShortSetAdd NOK3");
       PBErrCatch(PBMathErr);
     }
   for (int i = 4; i--;)
     if (VecGet(&v4, i) != 2 * (i + 1)) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "_VecShortSetAdd NOK");
+      sprintf(PBMathErr->_msg, "_VecShortSetAdd NOK4");
       PBErrCatch(PBMathErr);
     }
   VecSetNull(v);

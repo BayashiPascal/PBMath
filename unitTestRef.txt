@@ -54,16 +54,17 @@
 VecShortCreateFree OK
 _VecShortClone OK
 _VecShortLoadSave OK
+<1,2,3,4,5>
 _VecShortGetSetDim OK
 UnitTestVecShortStep OK
 UnitTestVecShortHamiltonDist OK
 UnitTestVecShortIsEqual OK
 UnitTestVecShortDotProd OK
 UnitTestVecShortCopy OK
-VecShort: 0.000061ms, array: 0.000036ms
-VecShort2D: 0.000015ms, array: 0.000015ms
-VecShort3D: 0.000015ms, array: 0.000015ms
-VecShort4D: 0.000015ms, array: 0.000014ms
+VecShort: 0.000060ms, array: 0.000030ms
+VecShort2D: 0.000013ms, array: 0.000013ms
+VecShort3D: 0.000012ms, array: 0.000013ms
+VecShort4D: 0.000012ms, array: 0.000013ms
 UnitTestSpeedVecShort OK
 <1.000,2.000,3.000,4.000,5.000>
 <1.000,2.000>
@@ -87,10 +88,10 @@ UnitTestVecLongHamiltonDist OK
 UnitTestVecLongIsEqual OK
 UnitTestVecLongDotProd OK
 UnitTestVecLongCopy OK
-VecLong: 0.000030ms, array: 0.000029ms
+VecLong: 0.000029ms, array: 0.000029ms
 VecLong2D: 0.000013ms, array: 0.000013ms
-VecLong3D: 0.000012ms, array: 0.000013ms
-VecLong4D: 0.000012ms, array: 0.000013ms
+VecLong3D: 0.000013ms, array: 0.000013ms
+VecLong4D: 0.000013ms, array: 0.000013ms
 UnitTestSpeedVecLong OK
 UnitTestVecLongOp OK
 UnitTestVecLongShiftStep OK
@@ -120,9 +121,9 @@ UnitTestVecFloatGetMinMax OK
 UnitTestVecFloatRotAxis OK
 UnitTestVecFloatGetNewDim OK
 UnitTestVecFloatHadamardProd OK
-VecFloat: 0.000029ms, array: 0.000028ms
-VecFloat2D: 0.000014ms, array: 0.000013ms
-VecFloat3D: 0.000012ms, array: 0.000013ms
+VecFloat: 0.000029ms, array: 0.000029ms
+VecFloat2D: 0.000013ms, array: 0.000013ms
+VecFloat3D: 0.000014ms, array: 0.000012ms
 UnitTestSpeedVecFloat OK
 UnitTestVecFloat OK
 UnitTestMatFloatCreateFree OK
@@ -142,7 +143,7 @@ UnitTestConv OK
 powi OK
 average error: 0.000000 < 0.000010, max error: 0.000000 < 0.000100
 fastpow OK
-fastpow: 0.000024ms, pow: 0.000075ms
+fastpow: 0.000025ms, pow: 0.000076ms
 speed fastpow OK
 fsquare OK
 UnitTestConv OK

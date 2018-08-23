@@ -13,11 +13,11 @@
 
 // Create a new Vec of dimension 'dim'
 // Values are initalized to 0.0
-VecShort* VecShortCreate(const int dim) {
+VecShort* VecShortCreate(const long dim) {
 #if BUILDMODE == 0
   if (dim <= 0) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "invalid 'dim' (%d)", dim);
+    sprintf(PBMathErr->_msg, "invalid 'dim' (%ld)", dim);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -26,7 +26,7 @@ VecShort* VecShortCreate(const int dim) {
     sizeof(VecShort) + sizeof(short) * dim);
   // Set the default values
   that->_dim = dim;
-  for (int i = dim; i--;)
+  for (long i = dim; i--;)
     that->_val[i] = 0;
   // Return the new VecShort
   return that;
@@ -64,11 +64,11 @@ JSONNode* _VecShortEncodeAsJSON(const VecShort* const that) {
   // Declare a buffer to convert value into string
   char val[100];
   // Encode the dimension
-  sprintf(val, "%d", VecGetDim(that));
+  sprintf(val, "%ld", VecGetDim(that));
   JSONAddProp(json, "_dim", val);
   // Encode the values
   JSONArrayVal setVal = JSONArrayValCreateStatic();
-  for (int i = 0; i < VecGetDim(that); ++i) {
+  for (long i = 0; i < VecGetDim(that); ++i) {
     sprintf(val, "%d", VecGet(that, i));
     JSONArrayValAdd(&setVal, val);
   }
@@ -102,7 +102,7 @@ bool _VecShortDecodeAsJSON(VecShort** that, const JSONNode* const json) {
   if (prop == NULL) {
     return false;
   }
-  int dim = atoi(JSONLabel(JSONValue(prop, 0)));
+  long dim = atol(JSONLabel(JSONValue(prop, 0)));
   // If data are invalid
   if (dim < 1)
     return false;
@@ -113,8 +113,8 @@ bool _VecShortDecodeAsJSON(VecShort** that, const JSONNode* const json) {
   if (prop == NULL) {
     return false;
   }
-  for (int i = 0; i < dim; ++i) {
-    int val = atoi(JSONLabel(JSONValue(prop, i)));
+  for (long i = 0; i < dim; ++i) {
+    long val = atol(JSONLabel(JSONValue(prop, i)));
     VecSet(*that, i, val);
   }
   // Return the success code
@@ -211,7 +211,7 @@ void _VecShortPrint(const VecShort* const that,
 #endif
   // Print the values
   fprintf(stream, "<");
-  for (int i = 0; i < that->_dim; ++i) {
+  for (long i = 0; i < that->_dim; ++i) {
     fprintf(stream, "%hi", that->_val[i]);
     if (i < that->_dim - 1)
       fprintf(stream, ",");
@@ -240,7 +240,7 @@ bool _VecShortStep(VecShort* const that, const VecShort* const bound) {
   }
   if (that->_dim != bound->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, bound->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -248,7 +248,7 @@ bool _VecShortStep(VecShort* const that, const VecShort* const bound) {
   // Declare a variable for the returned flag
   bool ret = true;
   // Declare a variable to memorise the dimension currently increasing
-  int iDim = that->_dim - 1;
+  long iDim = that->_dim - 1;
   // Declare a flag for the loop condition 
   bool flag = true;
   // Increment
@@ -288,7 +288,7 @@ bool _VecShortPStep(VecShort* const that, const VecShort* const bound) {
   }
   if (that->_dim != bound->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, bound->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -296,7 +296,7 @@ bool _VecShortPStep(VecShort* const that, const VecShort* const bound) {
   // Declare a variable for the returned flag
   bool ret = true;
   // Declare a variable to memorise the dimension currently increasing
-  int iDim = 0;
+  long iDim = 0;
   // Declare a flag for the loop condition 
   bool flag = true;
   // Increment
@@ -340,7 +340,7 @@ bool _VecShortShiftStep(VecShort* const that,
   }
   if (that->_dim != from->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'from' dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "'from' dimensions don't match (%ld==%ld)", 
       that->_dim, from->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -351,7 +351,7 @@ bool _VecShortShiftStep(VecShort* const that,
   }
   if (that->_dim != to->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'to' dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "'to' dimensions don't match (%ld==%ld)", 
       that->_dim, to->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -359,7 +359,7 @@ bool _VecShortShiftStep(VecShort* const that,
   // Declare a variable for the returned flag
   bool ret = true;
   // Declare a variable to memorise the dimension currently increasing
-  int iDim = that->_dim - 1;
+  long iDim = that->_dim - 1;
   // Declare a flag for the loop condition 
   bool flag = true;
   // Increment
@@ -405,13 +405,13 @@ bool _VecShortStepDelta(VecShort* const that,
   }
   if (that->_dim != bound->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, bound->_dim);
     PBErrCatch(PBMathErr);
   }
   if (that->_dim != delta->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, delta->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -419,7 +419,7 @@ bool _VecShortStepDelta(VecShort* const that,
   // Declare a variable for the returned flag
   bool ret = true;
   // Declare a variable to memorise the dimension currently increasing
-  int iDim = that->_dim - 1;
+  long iDim = that->_dim - 1;
   // Declare a flag for the loop condition 
   bool flag = true;
   // Increment
@@ -465,13 +465,13 @@ bool _VecShortPStepDelta(VecShort* const that,
   }
   if (that->_dim != bound->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, bound->_dim);
     PBErrCatch(PBMathErr);
   }
   if (that->_dim != delta->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, delta->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -479,7 +479,7 @@ bool _VecShortPStepDelta(VecShort* const that,
   // Declare a variable for the returned flag
   bool ret = true;
   // Declare a variable to memorise the dimension currently increasing
-  int iDim = 0;
+  long iDim = 0;
   // Declare a flag for the loop condition 
   bool flag = true;
   // Increment
@@ -504,11 +504,11 @@ bool _VecShortPStepDelta(VecShort* const that,
 
 // Create a new Vec of dimension 'dim'
 // Values are initalized to 0.0
-VecLong* VecLongCreate(const int dim) {
+VecLong* VecLongCreate(const long dim) {
 #if BUILDMODE == 0
   if (dim <= 0) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "invalid 'dim' (%d)", dim);
+    sprintf(PBMathErr->_msg, "invalid 'dim' (%ld)", dim);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -517,7 +517,7 @@ VecLong* VecLongCreate(const int dim) {
     sizeof(VecLong) + sizeof(long) * dim);
   // Set the default values
   that->_dim = dim;
-  for (int i = dim; i--;)
+  for (long i = dim; i--;)
     that->_val[i] = 0;
   // Return the new VecLong
   return that;
@@ -555,12 +555,12 @@ JSONNode* _VecLongEncodeAsJSON(const VecLong* const that) {
   // Declare a buffer to convert value into string
   char val[100];
   // Encode the dimension
-  sprintf(val, "%d", VecGetDim(that));
+  sprintf(val, "%ld", VecGetDim(that));
   JSONAddProp(json, "_dim", val);
   // Encode the values
   JSONArrayVal setVal = JSONArrayValCreateStatic();
-  for (int i = 0; i < VecGetDim(that); ++i) {
-    sprintf(val, "%li", VecGet(that, i));
+  for (long i = 0; i < VecGetDim(that); ++i) {
+    sprintf(val, "%ld", VecGet(that, i));
     JSONArrayValAdd(&setVal, val);
   }
   JSONAddProp(json, "_val", &setVal);
@@ -593,7 +593,7 @@ bool _VecLongDecodeAsJSON(VecLong** that, const JSONNode* const json) {
   if (prop == NULL) {
     return false;
   }
-  int dim = atoi(JSONLabel(JSONValue(prop, 0)));
+  long dim = atol(JSONLabel(JSONValue(prop, 0)));
   // If data are invalid
   if (dim < 1)
     return false;
@@ -604,7 +604,7 @@ bool _VecLongDecodeAsJSON(VecLong** that, const JSONNode* const json) {
   if (prop == NULL) {
     return false;
   }
-  for (int i = 0; i < dim; ++i) {
+  for (long i = 0; i < dim; ++i) {
     long val = atol(JSONLabel(JSONValue(prop, i)));
     VecSet(*that, i, val);
   }
@@ -702,8 +702,8 @@ void _VecLongPrint(const VecLong* const that,
 #endif
   // Print the values
   fprintf(stream, "<");
-  for (int i = 0; i < that->_dim; ++i) {
-    fprintf(stream, "%li", that->_val[i]);
+  for (long i = 0; i < that->_dim; ++i) {
+    fprintf(stream, "%ld", that->_val[i]);
     if (i < that->_dim - 1)
       fprintf(stream, ",");
   }
@@ -731,7 +731,7 @@ bool _VecLongStep(VecLong* const that, const VecLong* const bound) {
   }
   if (that->_dim != bound->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, bound->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -739,7 +739,7 @@ bool _VecLongStep(VecLong* const that, const VecLong* const bound) {
   // Declare a variable for the returned flag
   bool ret = true;
   // Declare a variable to memorise the dimension currently increasing
-  int iDim = that->_dim - 1;
+  long iDim = that->_dim - 1;
   // Declare a flag for the loop condition 
   bool flag = true;
   // Increment
@@ -779,7 +779,7 @@ bool _VecLongPStep(VecLong* const that, const VecLong* const bound) {
   }
   if (that->_dim != bound->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, bound->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -787,7 +787,7 @@ bool _VecLongPStep(VecLong* const that, const VecLong* const bound) {
   // Declare a variable for the returned flag
   bool ret = true;
   // Declare a variable to memorise the dimension currently increasing
-  int iDim = 0;
+  long iDim = 0;
   // Declare a flag for the loop condition 
   bool flag = true;
   // Increment
@@ -831,7 +831,7 @@ bool _VecLongShiftStep(VecLong* const that,
   }
   if (that->_dim != from->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'from' dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "'from' dimensions don't match (%ld==%ld)", 
       that->_dim, from->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -842,7 +842,7 @@ bool _VecLongShiftStep(VecLong* const that,
   }
   if (that->_dim != to->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'to' dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "'to' dimensions don't match (%ld==%ld)", 
       that->_dim, to->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -850,7 +850,7 @@ bool _VecLongShiftStep(VecLong* const that,
   // Declare a variable for the returned flag
   bool ret = true;
   // Declare a variable to memorise the dimension currently increasing
-  int iDim = that->_dim - 1;
+  long iDim = that->_dim - 1;
   // Declare a flag for the loop condition 
   bool flag = true;
   // Increment
@@ -896,13 +896,13 @@ bool _VecLongStepDelta(VecLong* const that,
   }
   if (that->_dim != bound->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, bound->_dim);
     PBErrCatch(PBMathErr);
   }
   if (that->_dim != delta->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, delta->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -910,7 +910,7 @@ bool _VecLongStepDelta(VecLong* const that,
   // Declare a variable for the returned flag
   bool ret = true;
   // Declare a variable to memorise the dimension currently increasing
-  int iDim = that->_dim - 1;
+  long iDim = that->_dim - 1;
   // Declare a flag for the loop condition 
   bool flag = true;
   // Increment
@@ -956,13 +956,13 @@ bool _VecLongPStepDelta(VecLong* const that,
   }
   if (that->_dim != bound->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, bound->_dim);
     PBErrCatch(PBMathErr);
   }
   if (that->_dim != delta->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "dimensions don't match (%ld==%ld)", 
       that->_dim, delta->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -970,7 +970,7 @@ bool _VecLongPStepDelta(VecLong* const that,
   // Declare a variable for the returned flag
   bool ret = true;
   // Declare a variable to memorise the dimension currently increasing
-  int iDim = 0;
+  long iDim = 0;
   // Declare a flag for the loop condition 
   bool flag = true;
   // Increment
@@ -995,11 +995,11 @@ bool _VecLongPStepDelta(VecLong* const that,
 
 // Create a new Vec of dimension 'dim'
 // Values are initalized to 0.0
-VecFloat* VecFloatCreate(const int dim) {
+VecFloat* VecFloatCreate(const long dim) {
 #if BUILDMODE == 0
   if (dim <= 0) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "invalid 'dim' (%d)", dim);
+    sprintf(PBMathErr->_msg, "invalid 'dim' (%ld)", dim);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -1008,7 +1008,7 @@ VecFloat* VecFloatCreate(const int dim) {
     sizeof(VecFloat) + sizeof(float) * dim);
   // Set the default values
   that->_dim = dim;
-  for (int i = dim; i--;)
+  for (long i = dim; i--;)
     that->_val[i] = 0.0;
   // Return the new VecFloat
   return that;
@@ -1045,11 +1045,11 @@ JSONNode* _VecFloatEncodeAsJSON(const VecFloat* const that) {
   // Declare a buffer to convert value into string
   char val[100];
   // Encode the dimension
-  sprintf(val, "%d", VecGetDim(that));
+  sprintf(val, "%ld", VecGetDim(that));
   JSONAddProp(json, "_dim", val);
   // Encode the values
   JSONArrayVal setVal = JSONArrayValCreateStatic();
-  for (int i = 0; i < VecGetDim(that); ++i) {
+  for (long i = 0; i < VecGetDim(that); ++i) {
     sprintf(val, "%f", VecGet(that, i));
     JSONArrayValAdd(&setVal, val);
   }
@@ -1083,7 +1083,7 @@ bool _VecFloatDecodeAsJSON(VecFloat** that, const JSONNode* const json) {
   if (prop == NULL) {
     return false;
   }
-  int dim = atoi(JSONLabel(JSONValue(prop, 0)));
+  long dim = atol(JSONLabel(JSONValue(prop, 0)));
   // If data are invalid
   if (dim < 1)
     return false;
@@ -1094,7 +1094,7 @@ bool _VecFloatDecodeAsJSON(VecFloat** that, const JSONNode* const json) {
   if (prop == NULL) {
     return false;
   }
-  for (int i = 0; i < dim; ++i) {
+  for (long i = 0; i < dim; ++i) {
     float val = atof(JSONLabel(JSONValue(prop, i)));
     VecSet(*that, i, val);
   }
@@ -1195,7 +1195,7 @@ void VecFloatPrint(const VecFloat* const that, FILE* const stream,
   sprintf(format, "%%.%df", prec);
   // Print the values
   fprintf(stream, "<");
-  for (int i = 0; i < that->_dim; ++i) {
+  for (long i = 0; i < that->_dim; ++i) {
     fprintf(stream, format, that->_val[i]);
     if (i < that->_dim - 1)
       fprintf(stream, ",");
@@ -1284,13 +1284,13 @@ VecFloat3D _VecFloatGetRotAxis(const VecFloat3D* const that,
   }
   if (VecGetDim(that) != 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=3)",
+    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%ld=3)",
       VecGetDim(that));
     PBErrCatch(PBMathErr);
   }
   if (VecGetDim(axis) != 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'axis' 's dimension is invalid (%d=3)",
+    sprintf(PBMathErr->_msg, "'axis' 's dimension is invalid (%ld=3)",
       VecGetDim(axis));
     PBErrCatch(PBMathErr);
   }
@@ -1362,7 +1362,7 @@ VecFloat3D _VecFloatGetRotX(const VecFloat3D* const that,
   }
   if (VecGetDim(that) != 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=3)",
+    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%ld=3)",
       VecGetDim(that));
     PBErrCatch(PBMathErr);
   }
@@ -1423,7 +1423,7 @@ VecFloat3D _VecFloatGetRotY(const VecFloat3D* const that,
   }
   if (VecGetDim(that) != 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=3)",
+    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%ld=3)",
       VecGetDim(that));
     PBErrCatch(PBMathErr);
   }
@@ -1484,7 +1484,7 @@ VecFloat3D _VecFloatGetRotZ(const VecFloat3D* const that,
   }
   if (VecGetDim(that) != 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%d=3)",
+    sprintf(PBMathErr->_msg, "'that' 's dimension is invalid (%ld=3)",
       VecGetDim(that));
     PBErrCatch(PBMathErr);
   }
@@ -1561,14 +1561,14 @@ bool _VecFloatStepDelta(VecFloat* const that,
   if (that->_dim != bound->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, 
-      "'bound' 's dimensions don't match (%d==%d)", 
+      "'bound' 's dimensions don't match (%ld==%ld)", 
       that->_dim, bound->_dim);
     PBErrCatch(PBMathErr);
   }
   if (that->_dim != delta->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, 
-      "'delta' 's dimensions don't match (%d==%d)", 
+      "'delta' 's dimensions don't match (%ld==%ld)", 
       that->_dim, delta->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -1576,7 +1576,7 @@ bool _VecFloatStepDelta(VecFloat* const that,
   // Declare a variable for the returned flag
   bool ret = true;
   // Declare a variable to memorise the dimension currently increasing
-  int iDim = that->_dim - 1;
+  long iDim = that->_dim - 1;
   // Declare a flag for the loop condition 
   bool flag = true;
   // Increment
@@ -1621,7 +1621,7 @@ bool _VecFloatShiftStepDelta(VecFloat* const that,
   }
   if (that->_dim != from->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'from' dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "'from' dimensions don't match (%ld==%ld)", 
       that->_dim, from->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -1632,7 +1632,7 @@ bool _VecFloatShiftStepDelta(VecFloat* const that,
   }
   if (that->_dim != to->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'to' dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "'to' dimensions don't match (%ld==%ld)", 
       that->_dim, to->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -1643,7 +1643,7 @@ bool _VecFloatShiftStepDelta(VecFloat* const that,
   }
   if (that->_dim != delta->_dim) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'delta' dimensions don't match (%d==%d)", 
+    sprintf(PBMathErr->_msg, "'delta' dimensions don't match (%ld==%ld)", 
       that->_dim, delta->_dim);
     PBErrCatch(PBMathErr);
   }
@@ -1651,7 +1651,7 @@ bool _VecFloatShiftStepDelta(VecFloat* const that,
   // Declare a variable for the returned flag
   bool ret = true;
   // Declare a variable to memorise the dimension currently increasing
-  int iDim = that->_dim - 1;
+  long iDim = that->_dim - 1;
   // Declare a flag for the loop condition 
   bool flag = true;
   // Increment
@@ -1674,7 +1674,7 @@ bool _VecFloatShiftStepDelta(VecFloat* const that,
 // dimension changed to 'dim'
 // if it is extended, the values of new components are 0.0
 // If it is shrinked, values are discarded from the end of the vector
-VecFloat* _VecFloatGetNewDim(const VecFloat* const that, const int dim) {
+VecFloat* _VecFloatGetNewDim(const VecFloat* const that, const long dim) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1683,7 +1683,7 @@ VecFloat* _VecFloatGetNewDim(const VecFloat* const that, const int dim) {
   }
   if (dim <= 0) {
     PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, "'dim' is invalid match (%d>0)", dim);
+    sprintf(PBMathErr->_msg, "'dim' is invalid match (%ld>0)", dim);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -1696,7 +1696,7 @@ VecFloat* _VecFloatGetNewDim(const VecFloat* const that, const int dim) {
     // Declare the returned vector
     VecFloat* ret = VecFloatCreate(dim);
     // Copy the components
-    for (int iAxis = MIN(VecGetDim(that), dim); iAxis--;)
+    for (long iAxis = MIN(VecGetDim(that), dim); iAxis--;)
       VecSet(ret, iAxis, VecGet(that, iAxis));
     // Return the new vector
     return ret;
@@ -2049,7 +2049,7 @@ VecFloat* _MatFloatGetProdVecFloat(MatFloat* const that, VecFloat* v) {
   if (VecGet(&(that->_dim), 0) != VecGetDim(v)) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, 
-      "the matrix and vector have incompatible dimensions (%d==%d)",
+      "the matrix and vector have incompatible dimensions (%d==%ld)",
       VecGet(&(that->_dim), 0), VecGetDim(v));
     PBErrCatch(PBMathErr);
   }
@@ -2197,7 +2197,7 @@ SysLinEq* _SLECreate(const MatFloat* const m, const VecFloat* const v) {
     if (VecGet(&(m->_dim), 0) != VecGetDim(v)) {
       PBMathErr->_type = PBErrTypeInvalidArg;
       sprintf(PBMathErr->_msg, 
-        "the matrix and vector have incompatible dimensions (%d==%d)",
+        "the matrix and vector have incompatible dimensions (%d==%ld)",
         VecGet(&(m->_dim), 0), VecGetDim(v));
       PBErrCatch(PBMathErr);
     }

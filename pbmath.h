@@ -41,28 +41,28 @@
 // Vector of long values
 typedef struct VecLong {
   // Dimension
-  int _dim;
+  long _dim;
   // Values
   long _val[0];
 } VecLong;
 
 typedef struct VecLong2D {
   // Dimension
-  int _dim;
+  long _dim;
   // Values
   long _val[2];
 } VecLong2D;
 
 typedef struct VecLong3D {
   // Dimension
-  int _dim;
+  long _dim;
   // Values
   long _val[3];
 } VecLong3D;
 
 typedef struct VecLong4D {
   // Dimension
-  int _dim;
+  long _dim;
   // Values
   long _val[4];
 } VecLong4D;
@@ -71,7 +71,7 @@ typedef struct VecLong4D {
 
 // Create a new VecLong of dimension 'dim'
 // Values are initalized to 0.0
-VecLong* VecLongCreate(const int dim);
+VecLong* VecLongCreate(const long dim);
 
 // Static constructors for VecLong
 #if BUILDMODE != 0
@@ -121,62 +121,62 @@ void _VecLongPrint(const VecLong* const that,
 #if BUILDMODE != 0 
 inline 
 #endif 
-long _VecLongGet(const VecLong* const that, const int i);
+long _VecLongGet(const VecLong* const that, const long i);
 #if BUILDMODE != 0 
 inline 
 #endif 
-long _VecLongGet2D(const VecLong2D* const that, const int i);
+long _VecLongGet2D(const VecLong2D* const that, const long i);
 #if BUILDMODE != 0 
 inline 
 #endif 
-long _VecLongGet3D(const VecLong3D* const that, const int i);
+long _VecLongGet3D(const VecLong3D* const that, const long i);
 #if BUILDMODE != 0 
 inline 
 #endif 
-long _VecLongGet4D(const VecLong4D* const that, const int i);
+long _VecLongGet4D(const VecLong4D* const that, const long i);
 
 // Set the i-th value of the VecLong to v
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecLongSet(VecLong* const that, const int i, const long v);
+void _VecLongSet(VecLong* const that, const long i, const long v);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecLongSet2D(VecLong2D* const that, const int i, const long v);
+void _VecLongSet2D(VecLong2D* const that, const long i, const long v);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecLongSet3D(VecLong3D* const that, const int i, const long v);
+void _VecLongSet3D(VecLong3D* const that, const long i, const long v);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecLongSet4D(VecLong4D* const that, const int i, const long v);
+void _VecLongSet4D(VecLong4D* const that, const long i, const long v);
 
 // Set the i-th value of the VecLong to v plus its current value
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecLongSetAdd(VecLong* const that, const int i, const long v);
+void _VecLongSetAdd(VecLong* const that, const long i, const long v);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecLongSetAdd2D(VecLong2D* const that, const int i, const long v);
+void _VecLongSetAdd2D(VecLong2D* const that, const long i, const long v);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecLongSetAdd3D(VecLong3D* const that, const int i, const long v);
+void _VecLongSetAdd3D(VecLong3D* const that, const long i, const long v);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecLongSetAdd4D(VecLong4D* const that, const int i, const long v);
+void _VecLongSetAdd4D(VecLong4D* const that, const long i, const long v);
 
 // Return the dimension of the VecLong
 // Return 0 if arguments are invalid
 #if BUILDMODE != 0 
 inline 
 #endif 
-int _VecLongGetDim(const VecLong* const that);
+long _VecLongGetDim(const VecLong* const that);
 
 // Return the Hamiltonian distance between the VecLong 'that' and 'tho'
 #if BUILDMODE != 0 
@@ -415,7 +415,7 @@ long _VecLongGetMinValAbs(const VecLong* const that);
 #if BUILDMODE != 0 
 inline 
 #endif 
-int _VecLongGetIMaxVal(const VecLong* const that);
+long _VecLongGetIMaxVal(const VecLong* const that);
 
 // -------------- VecShort
 
@@ -424,28 +424,28 @@ int _VecLongGetIMaxVal(const VecLong* const that);
 // Vector of short values
 typedef struct VecShort {
   // Dimension
-  int _dim;
+  long _dim;
   // Values
   short _val[0];
 } VecShort;
 
 typedef struct VecShort2D {
   // Dimension
-  int _dim;
+  long _dim;
   // Values
   short _val[2];
 } VecShort2D;
 
 typedef struct VecShort3D {
   // Dimension
-  int _dim;
+  long _dim;
   // Values
   short _val[3];
 } VecShort3D;
 
 typedef struct VecShort4D {
   // Dimension
-  int _dim;
+  long _dim;
   // Values
   short _val[4];
 } VecShort4D;
@@ -454,7 +454,7 @@ typedef struct VecShort4D {
 
 // Create a new VecShort of dimension 'dim'
 // Values are initalized to 0.0
-VecShort* VecShortCreate(const int dim);
+VecShort* VecShortCreate(const long dim);
 
 // Static constructors for VecShort
 #if BUILDMODE != 0
@@ -504,62 +504,62 @@ void _VecShortPrint(const VecShort* const that,
 #if BUILDMODE != 0 
 inline 
 #endif 
-short _VecShortGet(const VecShort* const that, const int i);
+short _VecShortGet(const VecShort* const that, const long i);
 #if BUILDMODE != 0 
 inline 
 #endif 
-short _VecShortGet2D(const VecShort2D* const that, const int i);
+short _VecShortGet2D(const VecShort2D* const that, const long i);
 #if BUILDMODE != 0 
 inline 
 #endif 
-short _VecShortGet3D(const VecShort3D* const that, const int i);
+short _VecShortGet3D(const VecShort3D* const that, const long i);
 #if BUILDMODE != 0 
 inline 
 #endif 
-short _VecShortGet4D(const VecShort4D* const that, const int i);
+short _VecShortGet4D(const VecShort4D* const that, const long i);
 
 // Set the i-th value of the VecShort to v
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecShortSet(VecShort* const that, const int i, const short v);
+void _VecShortSet(VecShort* const that, const long i, const short v);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecShortSet2D(VecShort2D* const that, const int i, const short v);
+void _VecShortSet2D(VecShort2D* const that, const long i, const short v);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecShortSet3D(VecShort3D* const that, const int i, const short v);
+void _VecShortSet3D(VecShort3D* const that, const long i, const short v);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecShortSet4D(VecShort4D* const that, const int i, const short v);
+void _VecShortSet4D(VecShort4D* const that, const long i, const short v);
 
 // Set the i-th value of the VecShort to v plus its current value
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecShortSetAdd(VecShort* const that, const int i, const short v);
+void _VecShortSetAdd(VecShort* const that, const long i, const short v);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecShortSetAdd2D(VecShort2D* const that, const int i, const short v);
+void _VecShortSetAdd2D(VecShort2D* const that, const long i, const short v);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecShortSetAdd3D(VecShort3D* const that, const int i, const short v);
+void _VecShortSetAdd3D(VecShort3D* const that, const long i, const short v);
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecShortSetAdd4D(VecShort4D* const that, const int i, const short v);
+void _VecShortSetAdd4D(VecShort4D* const that, const long i, const short v);
 
 // Return the dimension of the VecShort
 // Return 0 if arguments are invalid
 #if BUILDMODE != 0 
 inline 
 #endif 
-int _VecShortGetDim(const VecShort* const that);
+long _VecShortGetDim(const VecShort* const that);
 
 // Return the Hamiltonian distance between the VecShort 'that' and 'tho'
 #if BUILDMODE != 0 
@@ -798,7 +798,7 @@ short _VecShortGetMinValAbs(const VecShort* const that);
 #if BUILDMODE != 0 
 inline 
 #endif 
-int _VecShortGetIMaxVal(const VecShort* const that);
+long _VecShortGetIMaxVal(const VecShort* const that);
 
 // -------------- VecFloat
 
@@ -807,21 +807,21 @@ int _VecShortGetIMaxVal(const VecShort* const that);
 // Vector of float values
 typedef struct VecFloat {
   // Dimension
-  int _dim;
+  long _dim;
   // Values
   float _val[0];
 } VecFloat;
 
 typedef struct VecFloat2D {
   // Dimension
-  int _dim;
+  long _dim;
   // Values
   float _val[2];
 } VecFloat2D;
 
 typedef struct VecFloat3D {
   // Dimension
-  int _dim;
+  long _dim;
   // Values
   float _val[3];
 } VecFloat3D;
@@ -830,7 +830,7 @@ typedef struct VecFloat3D {
 
 // Create a new VecFloat of dimension 'dim'
 // Values are initalized to 0.0
-VecFloat* VecFloatCreate(const int dim);
+VecFloat* VecFloatCreate(const long dim);
 
 // Static constructors for VecFloat
 #if BUILDMODE != 0 
@@ -880,44 +880,44 @@ inline void _VecFloatPrintDef(const VecFloat* const that,
 #if BUILDMODE != 0 
 inline 
 #endif 
-float _VecFloatGet(const VecFloat* const that, const int i);
+float _VecFloatGet(const VecFloat* const that, const long i);
 #if BUILDMODE != 0 
 inline 
 #endif 
-float _VecFloatGet2D(const VecFloat2D* const that, const int i);
+float _VecFloatGet2D(const VecFloat2D* const that, const long i);
 #if BUILDMODE != 0 
 inline 
 #endif 
-float _VecFloatGet3D(const VecFloat3D* const that, const int i);
+float _VecFloatGet3D(const VecFloat3D* const that, const long i);
 
 // Set the 'i'-th value of the VecFloat to 'v'
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecFloatSet(VecFloat* const that, const int i, const float v);
+void _VecFloatSet(VecFloat* const that, const long i, const float v);
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatSet2D(VecFloat2D* const that, const int i, const float v);
+void _VecFloatSet2D(VecFloat2D* const that, const long i, const float v);
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatSet3D(VecFloat3D* const that, const int i, const float v);
+void _VecFloatSet3D(VecFloat3D* const that, const long i, const float v);
 
 // Set the 'i'-th value of the VecFloat to 'v' plus its current value
 #if BUILDMODE != 0 
 inline 
 #endif 
-void _VecFloatSetAdd(VecFloat* const that, const int i, const float v);
+void _VecFloatSetAdd(VecFloat* const that, const long i, const float v);
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatSetAdd2D(VecFloat2D* const that, const int i, 
+void _VecFloatSetAdd2D(VecFloat2D* const that, const long i, 
   const float v);
 #if BUILDMODE != 0
 inline
 #endif 
-void _VecFloatSetAdd3D(VecFloat3D* const that, const int i, 
+void _VecFloatSetAdd3D(VecFloat3D* const that, const long i, 
   const float v);
 
 // Set all values of the vector 'that' to 0
@@ -939,13 +939,13 @@ void _VecFloatSetNull3D(VecFloat3D* const that);
 #if BUILDMODE != 0 
 inline 
 #endif 
-int _VecFloatGetDim(const VecFloat* const that);
+long _VecFloatGetDim(const VecFloat* const that);
 
 // Return a new VecFloat as a copy of the VecFloat 'that' with 
 // dimension changed to 'dim'
 // if it is extended, the values of new components are 0.0
 // If it is shrinked, values are discarded from the end of the vector
-VecFloat* _VecFloatGetNewDim(const VecFloat* const that, const int dim); 
+VecFloat* _VecFloatGetNewDim(const VecFloat* const that, const long dim); 
 
 // Copy the values of 'w' in 'that' (must have same dimensions)
 // Do nothing if arguments are invalid
@@ -1319,7 +1319,7 @@ bool _VecFloatShiftStepDelta(VecFloat* const that,
 #if BUILDMODE != 0 
 inline 
 #endif 
-int _VecFloatGetIMaxVal(const VecFloat* const that);
+long _VecFloatGetIMaxVal(const VecFloat* const that);
 
 // -------------- MatFloat
 
