@@ -3338,6 +3338,63 @@ VecFloat3D VecShortToFloat3D(const VecShort3D* const that) {
   return res;
 }
 
+// Return the conversion of VecLong 'that' to a VecFloat
+#if BUILDMODE != 0
+inline
+#endif 
+VecFloat* VecLongToFloat(const VecLong* const that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Create the result
+  VecFloat* res = VecFloatCreate(that->_dim);
+  for (long iDim = that->_dim; iDim--;)
+    VecSet(res, iDim, (float)VecGet(that, iDim));
+  // Return the result
+  return res;
+}
+#if BUILDMODE != 0
+inline
+#endif 
+VecFloat2D VecLongToFloat2D(const VecLong2D* const that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Create the result
+  VecFloat2D res = VecFloatCreateStatic2D();
+  VecSet(&res, 0, (float)VecGet(that, 0));
+  VecSet(&res, 1, (float)VecGet(that, 1));
+  // Return the result
+  return res;
+}
+#if BUILDMODE != 0
+inline
+#endif 
+VecFloat3D VecLongToFloat3D(const VecLong3D* const that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Create the result
+  VecFloat3D res = VecFloatCreateStatic3D();
+  VecSet(&res, 0, (float)VecGet(that, 0));
+  VecSet(&res, 1, (float)VecGet(that, 1));
+  VecSet(&res, 2, (float)VecGet(that, 2));
+  // Return the result
+  return res;
+}
+
 // Get the max value in components of the vector 'that'
 #if BUILDMODE != 0 
 inline 

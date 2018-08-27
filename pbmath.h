@@ -1265,6 +1265,20 @@ inline
 #endif 
 VecFloat3D VecShortToFloat3D(const VecShort3D* const that);
 
+// Return the conversion of VecLong 'that' to a VecFloat
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecFloat* VecLongToFloat(const VecLong* const that);
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecFloat2D VecLongToFloat2D(const VecLong2D* const that);
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecFloat3D VecLongToFloat3D(const VecLong3D* const that);
+
 // Get the max value in components of the vector 'that'
 #if BUILDMODE != 0 
 inline 

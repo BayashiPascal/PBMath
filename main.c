@@ -894,6 +894,26 @@ void UnitTestVecShortToFloat() {
   printf("UnitTestVecShortToFloat OK\n");
 }
 
+void UnitTestVecLongToFloat() {
+  VecLong* v = VecLongCreate(5);
+  VecLong2D v2 = VecLongCreateStatic2D();
+  VecLong3D v3 = VecLongCreateStatic3D();
+  VecLong4D v4 = VecLongCreateStatic4D();
+  for (int i = 5; i--;) VecSet(v, i, i + 1);
+  for (int i = 2; i--;) VecSet(&v2, i, i + 1);
+  for (int i = 3; i--;) VecSet(&v3, i, i + 1);
+  for (int i = 4; i--;) VecSet(&v4, i, i + 1);
+  VecFloat* w = VecLongToFloat(v);
+  VecFloat2D w2 = VecLongToFloat2D(&v2);
+  VecFloat3D w3 = VecLongToFloat3D(&v3);
+  VecPrint(w, stdout); printf("\n");
+  VecPrint(&w2, stdout); printf("\n");
+  VecPrint(&w3, stdout); printf("\n");
+  VecFree(&v);
+  VecFree(&w);
+  printf("UnitTestVecLongToFloat OK\n");
+}
+
 void UnitTestVecShortOp() {
   VecShort* v = VecShortCreate(5);
   VecShort2D v2 = VecShortCreateStatic2D();
@@ -1138,6 +1158,7 @@ void UnitTestVecShort() {
   UnitTestVecShortCopy();
   UnitTestSpeedVecShort();
   UnitTestVecShortToFloat();
+  UnitTestVecLongToFloat();
   UnitTestVecShortOp();
   UnitTestVecShortShiftStep();
   UnitTestVecShortGetMinMax();
