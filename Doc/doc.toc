@@ -6,10 +6,10 @@
 \contentsline {subsection}{\numberline {1.2}Matrix}{4}
 \contentsline {subsubsection}{\numberline {1.2.1}Inverse matrix}{4}
 \contentsline {section}{\numberline {2}Interface}{5}
-\contentsline {section}{\numberline {3}Code}{5}
-\contentsline {subsection}{\numberline {3.1}pbmath.c}{5}
-\contentsline {subsection}{\numberline {3.2}pbmath-inline.c}{5}
-\contentsline {section}{\numberline {4}Makefile}{5}
-\contentsline {section}{\numberline {5}Unit tests}{5}
-\contentsline {section}{\numberline {6}Unit tests output}{5}
-\contentsline {section}{\numberline {7}Examples}{5}
+\contentsline {section}{\numberline {3}Code}{60}
+\contentsline {subsection}{\numberline {3.1}pbmath.c}{60}
+\contentsline {subsection}{\numberline {3.2}pbmath-inline.c}{97}
+\contentsline {section}{\numberline {4}Makefile}{162}
+\contentsline {section}{\numberline {5}Unit tests}{163}
+\contentsline {section}{\numberline {6}Unit tests output}{222}
+\contentsline {section}{\numberline {7}Examples}{224}
