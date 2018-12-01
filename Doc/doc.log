@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.18)  4 NOV 2018 21:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.18)  1 DEC 2018 12:20
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -604,9 +604,9 @@ File: /home/bayashi/GitHub/PBMath/pbmath-inline.c  (verbatim)
 [120] [121] [122] [123] [124] [125] [126] [127] [128] [129] [130] [131]
 [132] [133] [134] [135] [136] [137] [138] [139] [140] [141] [142] [143]
 [144] [145] [146] [147] [148] [149] [150] [151] [152] [153] [154] [155]
-[156] [157] [158] [159] [160] [161]
+[156] [157] [158] [159] [160] [161] [162]
 File: /home/bayashi/GitHub/PBMath/Makefile  (verbatim)
-
+ [163]
 Overfull \hbox (812.76727pt too wide) in paragraph at lines 207--207
 []\OT1/cmtt/m/n/8 if [ ! -d ../PBMake ]; then wget https://github.com/BayashiPa
 scal/PBMake/archive/master.zip; unzip master.zip; rm -f master.zip; sed -i 's@R
@@ -628,14 +628,14 @@ Overfull \hbox (188.0083pt too wide) in paragraph at lines 207--207
  []
 
 File: /home/bayashi/GitHub/PBMath/main.c  (verbatim)
-[162] [163] [164] [165] [166] [167] [168] [169] [170] [171] [172] [173]
-[174] [175] [176] [177] [178] [179] [180] [181] [182] [183] [184] [185]
-[186] [187] [188] [189] [190] [191] [192] [193] [194] [195] [196] [197]
-[198] [199] [200] [201] [202] [203] [204] [205] [206] [207] [208] [209]
-[210] [211] [212] [213] [214] [215] [216] [217] [218] [219] [220]
+[164] [165] [166] [167] [168] [169] [170] [171] [172] [173] [174] [175]
+[176] [177] [178] [179] [180] [181] [182] [183] [184] [185] [186] [187]
+[188] [189] [190] [191] [192] [193] [194] [195] [196] [197] [198] [199]
+[200] [201] [202] [203] [204] [205] [206] [207] [208] [209] [210] [211]
+[212] [213] [214] [215] [216] [217] [218] [219] [220] [221] [222]
 File: /home/bayashi/GitHub/PBMath/unitTestRef.txt  (verbatim)
- [221]
-[222] [223]
+ [223]
+[224] [225]
 Underfull \hbox (badness 10000) in paragraph at lines 229--232
 
  []
@@ -647,7 +647,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 236--239
  []
 
 File: /home/bayashi/GitHub/PBMath/UnitTestVecLongLoadSave.txt  (verbatim)
-[224]
+[226]
 Underfull \hbox (badness 10000) in paragraph at lines 243--246
 
  []
@@ -664,7 +664,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 257--258
 
  []
 
-<./smoother.png, id=727, 457.71pt x 256.96pt>
+<./smoother.png, id=733, 457.71pt x 256.96pt>
 File: ./smoother.png Graphic file (type png)
  <use ./smoother.png>
 Package pdftex.def Info: ./smoother.png used on input line 260.
@@ -674,23 +674,23 @@ Underfull \hbox (badness 10000) in paragraph at lines 264--265
 
  []
 
-<./gauss.png, id=728, 375.4025pt x 254.9525pt>
+<./gauss.png, id=734, 375.4025pt x 254.9525pt>
 File: ./gauss.png Graphic file (type png)
  <use ./gauss.png>
 Package pdftex.def Info: ./gauss.png used on input line 267.
 (pdftex.def)             Requested size: 170.71652pt x 115.94131pt.
- [225 <./smoother.png (PNG copy)>]
+ [227 <./smoother.png (PNG copy)>]
 Underfull \hbox (badness 10000) in paragraph at lines 271--272
 
  []
 
-<./gaussrnd.png, id=732, 395.4775pt x 348.30125pt>
+<./gaussrnd.png, id=738, 395.4775pt x 348.30125pt>
 File: ./gaussrnd.png Graphic file (type png)
  <use ./gaussrnd.png>
 Package pdftex.def Info: ./gaussrnd.png used on input line 274.
 (pdftex.def)             Requested size: 170.71652pt x 150.35123pt.
 )
-[226 <./gauss.png (PNG copy)> <./gaussrnd.png (PNG copy)>] (./doc.aux) ) 
+[228 <./gauss.png (PNG copy)> <./gaussrnd.png (PNG copy)>] (./doc.aux) ) 
 Here is how much of TeX's memory you used:
  13297 strings out of 494314
  255934 string characters out of 6163111
@@ -714,9 +714,9 @@ sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
 
 pdfTeX warning: pdflatex: no GlyphToUnicode entry has been inserted yet!
-Output written on doc.pdf (226 pages, 484929 bytes).
+Output written on doc.pdf (228 pages, 487910 bytes).
 PDF statistics:
- 786 PDF objects out of 1000 (max. 8388607)
+ 792 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  28 words of extra memory for PDF output out of 10000 (max. 10000000)
 

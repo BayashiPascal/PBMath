@@ -2722,6 +2722,38 @@ void UnitTestVecFloatDotProd() {
   printf("UnitTestVecFloatDotProd OK\n");
 }
 
+void UnitTestVecFloatCrossProd() {
+  VecFloat* v = VecFloatCreate(3);
+  VecFloat3D v3 = VecFloatCreateStatic3D();
+  VecFloat* w = VecFloatCreate(3);
+  VecFloat3D w3 = VecFloatCreateStatic3D();
+  float a[3] = {3.0, -3.0, 1.0};
+  float b[3] = {4.0, 9.0, 2.0};
+  float c[3] = {-15.0, -2.0, 39.0};
+  for (int i = 3; i--;) VecSet(v, i, a[i]);
+  for (int i = 3; i--;) VecSet(&v3, i, a[i]);
+  for (int i = 3; i--;) VecSet(w, i, b[i]);
+  for (int i = 3; i--;) VecSet(&w3, i, b[i]);
+  VecFloat* prod = VecCrossProd(v, w);
+  for (int i = 3; i--;)
+    if (!ISEQUALF(VecGet(prod, i), c[i])) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecFloatCrossProd NOK");
+      PBErrCatch(PBMathErr);
+    }
+  VecFloat3D prod3 = VecCrossProd(&v3, &w3);
+  for (int i = 3; i--;)
+    if (!ISEQUALF(VecGet(&prod3, i), c[i])) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecFloatCrossProd3D NOK");
+      PBErrCatch(PBMathErr);
+    }
+  VecFree(&v);
+  VecFree(&w);
+  VecFree(&prod);
+  printf("UnitTestVecFloatCrossProd OK\n");
+}
+
 void UnitTestVecFloatRotAngleTo() {
   VecFloat* v = VecFloatCreate(2);
   VecFloat2D v2 = VecFloatCreateStatic2D();
@@ -3110,6 +3142,7 @@ void UnitTestVecFloat() {
   UnitTestVecFloatScale();
   UnitTestVecFloatOp();
   UnitTestVecFloatDotProd();
+  UnitTestVecFloatCrossProd();
   UnitTestVecFloatRotAngleTo();
   UnitTestVecFloatToShort();
   UnitTestVecFloatGetMinMax();

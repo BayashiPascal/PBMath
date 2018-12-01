@@ -1231,6 +1231,18 @@ inline
 float _VecFloatDotProd3D(const VecFloat3D* const that, 
   const VecFloat3D* const tho);
 
+// Return the cross product of 'that' and 'tho'
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecFloat* _VecFloatGetCrossProd(const VecFloat* const that, 
+  const VecFloat* const tho);
+#if BUILDMODE != 0 
+inline 
+#endif 
+VecFloat3D _VecFloatGetCrossProd3D(const VecFloat3D* const that, 
+  const VecFloat3D* const tho);
+
 // Return the angle of the rotation making 'that' colinear to 'tho'
 // 'that' and 'tho' must be normalised
 // Return a value in [-PI,PI]
@@ -2828,6 +2840,13 @@ inline float fsquare(const float a) {
   const VecFloat2D*: _VecFloatDotProd2D, \
   VecFloat3D*: _VecFloatDotProd3D, \
   const VecFloat3D*: _VecFloatDotProd3D, \
+  default: PBErrInvalidPolymorphism) (VecA, VecB) \
+
+#define VecCrossProd(VecA, VecB) _Generic(VecA, \
+  VecFloat*: _VecFloatGetCrossProd, \
+  const VecFloat*: _VecFloatGetCrossProd, \
+  VecFloat3D*: _VecFloatGetCrossProd3D, \
+  const VecFloat3D*: _VecFloatGetCrossProd3D, \
   default: PBErrInvalidPolymorphism) (VecA, VecB) \
 
 #define VecAngleTo(VecFrom, VecTo) _Generic(VecFrom, \

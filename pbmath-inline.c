@@ -3224,6 +3224,78 @@ float _VecFloatDotProd3D(const VecFloat3D* const that,
     that->_val[2] * tho->_val[2];
 }
 
+// Return the cross product of 'that' and 'tho'
+#if BUILDMODE != 0
+inline
+#endif 
+VecFloat* _VecFloatGetCrossProd(const VecFloat* const that, 
+  const VecFloat* const tho) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (that->_dim != tho->_dim || tho->_dim != 3) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "invalid dimensions (%ld==%ld==3)", 
+      that->_dim, tho->_dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable to memorize the result
+  VecFloat* res = VecFloatCreate(3);
+  // Calculate
+  VecSet(res, 0,
+    VecGet(that, 1) * VecGet(tho, 2) - 
+    VecGet(that, 2) * VecGet(tho, 1));
+  VecSet(res, 1, -1.0 *
+    (VecGet(that, 0) * VecGet(tho, 2) - 
+    VecGet(that, 2) * VecGet(tho, 0)));
+  VecSet(res, 2, 
+    VecGet(that, 0) * VecGet(tho, 1) - 
+    VecGet(that, 1) * VecGet(tho, 0));
+  // Return the result
+  return res;
+}
+#if BUILDMODE != 0
+inline
+#endif 
+VecFloat3D _VecFloatGetCrossProd3D(const VecFloat3D* const that, 
+  const VecFloat3D* const tho) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable to memorize the result
+  VecFloat3D res = VecFloatCreateStatic3D();
+  // Calculate
+  VecSet(&res, 0,
+    VecGet(that, 1) * VecGet(tho, 2) - 
+    VecGet(that, 2) * VecGet(tho, 1));
+  VecSet(&res, 1, -1.0 *
+    (VecGet(that, 0) * VecGet(tho, 2) - 
+    VecGet(that, 2) * VecGet(tho, 0)));
+  VecSet(&res, 2, 
+    VecGet(that, 0) * VecGet(tho, 1) - 
+    VecGet(that, 1) * VecGet(tho, 0));
+  // Return the result
+  return res;
+}
+
 // Return the conversion of VecFloat 'that' to a VecShort using round()
 #if BUILDMODE != 0
 inline
