@@ -1335,7 +1335,7 @@ long _VecLongHamiltonDist(const VecLong* const that, const VecLong* const tho) {
   // Declare a variable to calculate the distance
   long ret = 0;
   for (long iDim = VecGetDim(that); iDim--;)
-    ret += abs(VecGet(that, iDim) - VecGet(tho, iDim));
+    ret += labs(VecGet(that, iDim) - VecGet(tho, iDim));
   // Return the distance
   return ret;
 }
@@ -1356,8 +1356,8 @@ long _VecLongHamiltonDist2D(const VecLong2D* const that, const VecLong2D* const 
   }
 #endif
   // Return the distance
-  return abs(VecGet(that, 0) - VecGet(tho, 0)) + 
-    abs(VecGet(that, 1) - VecGet(tho, 1));
+  return labs(VecGet(that, 0) - VecGet(tho, 0)) + 
+    labs(VecGet(that, 1) - VecGet(tho, 1));
 }
 #if BUILDMODE != 0
 inline
@@ -1376,9 +1376,9 @@ long _VecLongHamiltonDist3D(const VecLong3D* const that, const VecLong3D* const 
   }
 #endif
   // Return the distance
-  return abs(VecGet(that, 0) - VecGet(tho, 0)) + 
-    abs(VecGet(that, 1) - VecGet(tho, 1)) +
-    abs(VecGet(that, 2) - VecGet(tho, 2));
+  return labs(VecGet(that, 0) - VecGet(tho, 0)) + 
+    labs(VecGet(that, 1) - VecGet(tho, 1)) +
+    labs(VecGet(that, 2) - VecGet(tho, 2));
 }
 #if BUILDMODE != 0
 inline
@@ -1397,10 +1397,10 @@ long _VecLongHamiltonDist4D(const VecLong4D* const that, const VecLong4D* const 
   }
 #endif
   // Return the distance
-  return abs(VecGet(that, 0) - VecGet(tho, 0)) + 
-    abs(VecGet(that, 1) - VecGet(tho, 1)) +
-    abs(VecGet(that, 2) - VecGet(tho, 2)) +
-    abs(VecGet(that, 3) - VecGet(tho, 3));
+  return labs(VecGet(that, 0) - VecGet(tho, 0)) + 
+    labs(VecGet(that, 1) - VecGet(tho, 1)) +
+    labs(VecGet(that, 2) - VecGet(tho, 2)) +
+    labs(VecGet(that, 3) - VecGet(tho, 3));
 }
 
 // Return true if the VecLong 'that' is equal to 'tho', else false
@@ -2024,10 +2024,10 @@ long _VecLongGetMaxValAbs(const VecLong* const that) {
   }
 #endif
   // Declare a variable to memorize the result
-  long max = abs(VecGet(that, 0));
+  long max = labs(VecGet(that, 0));
   // Search for the maximum value
   for (long i = VecGetDim(that); i-- && i != 0;)
-    max = (abs(max) > abs(VecGet(that, i)) ? max : VecGet(that, i));
+    max = (labs(max) > labs(VecGet(that, i)) ? max : VecGet(that, i));
   // Return the result
   return max;
 }
@@ -2046,10 +2046,10 @@ long _VecLongGetMinValAbs(const VecLong* const that) {
   }
 #endif
   // Declare a variable to memorize the result
-  long min = abs(VecGet(that, 0));
+  long min = labs(VecGet(that, 0));
   // Search for the minimum value
   for (long i = VecGetDim(that); i-- && i != 0;)
-    min = (abs(min) < abs(VecGet(that, i)) ? min : VecGet(that, i));
+    min = (labs(min) < labs(VecGet(that, i)) ? min : VecGet(that, i));
   // Return the result
   return min;
 }
