@@ -2270,6 +2270,30 @@ SysLinEq* SysLinEqClone(const SysLinEq* const that) {
   return ret;
 }
 
+// Compute the 'iElem'-th element of the 'base'-ary version of the 
+// Thue-Morse sequence
+// 'iElem' >= 0
+// 'base' >= 2
+long ThueMorseSeqGetNthElem(long iElem, long base) {
+#if BUILDMODE == 0
+  if (iElem < 0) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'iElem' is invalid (%ld>=0)", iElem);
+    PBErrCatch(PBMathErr);
+  }
+  if (base < 2) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'base' is invalid (%ld>=2)", base);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  if (base > iElem) {
+    return iElem;
+  } else {
+    ldiv_t d = ldiv(iElem, base);
+    return (ThueMorseSeqGetNthElem(d.quot, base) + d.rem) % base;
+  }
+}
 
 
 

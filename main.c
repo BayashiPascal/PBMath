@@ -3655,6 +3655,43 @@ void UnitTestConv() {
   printf("UnitTestConv OK\n");
 }
 
+void UnitTestThueMorseSeq() {
+  long seq_2[16] = {0,1,1,0,1,0,0,1,1,0,0,1,0,1,1,0};
+  long seq_3[27] = {0,1,2,1,2,0,2,0,1,1,2,0,2,0,1,0,
+    1,2,2,0,1,0,1,2,1,2,0};
+  long seq_4[64] = {0,1,2,3,1,2,3,0,2,3,0,1,3,0,1,2,
+    1,2,3,0,2,3,0,1,3,0,1,2,0,1,2,3,2,3,0,1,3,0,1,2,
+    0,1,2,3,1,2,3,0,3,0,1,2,0,1,2,3,1,2,3,0,2,3,0,1};
+  for (long iElem = 0; iElem < 16; ++iElem) {
+    long thuemorse = ThueMorseSeqGetNthElem(iElem, 2);
+    if (thuemorse != seq_2[iElem]) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "ThueMorseSeqGetNthElem NOK (%ld,2)",
+        iElem);
+      PBErrCatch(PBMathErr);
+    }
+  }
+  for (long iElem = 0; iElem < 27; ++iElem) {
+    long thuemorse = ThueMorseSeqGetNthElem(iElem, 3);
+    if (thuemorse != seq_3[iElem]) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "ThueMorseSeqGetNthElem NOK (%ld,3)",
+        iElem);
+      PBErrCatch(PBMathErr);
+    }
+  }
+  for (long iElem = 0; iElem < 64; ++iElem) {
+    long thuemorse = ThueMorseSeqGetNthElem(iElem, 4);
+    if (thuemorse != seq_4[iElem]) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "ThueMorseSeqGetNthElem NOK (%ld,4)",
+        iElem);
+      PBErrCatch(PBMathErr);
+    }
+  }
+  printf("UnitTestThueMorseSeq OK\n");
+}
+
 void UnitTestBasicFunctions() {
   UnitTestConv();
   UnitTestPowi();
@@ -3662,6 +3699,7 @@ void UnitTestBasicFunctions() {
   UnitTestSpeedFastPow();
   UnitTestFSquare();
   UnitTestConv();
+  UnitTestThueMorseSeq();
   printf("UnitTestBasicFunctions OK\n");
 }
 

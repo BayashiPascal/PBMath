@@ -1620,6 +1620,12 @@ inline float fsquare(const float a) {
   return a * a;
 }
 
+// Compute the 'iElem'-th element of the 'base'-ary version of the 
+// Thue-Morse sequence
+// 'iElem' >= 0
+// 'base' >= 2
+long ThueMorseSeqGetNthElem(long iElem, long base);
+
 // ================= Polymorphism ==================
 
 #define VecClone(Vec) _Generic(Vec, \

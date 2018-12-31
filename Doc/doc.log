@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.18)  30 DEC 2018 22:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.18)  31 DEC 2018 14:23
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -604,9 +604,9 @@ File: /home/bayashi/GitHub/PBMath/pbmath-inline.c  (verbatim)
 [120] [121] [122] [123] [124] [125] [126] [127] [128] [129] [130] [131]
 [132] [133] [134] [135] [136] [137] [138] [139] [140] [141] [142] [143]
 [144] [145] [146] [147] [148] [149] [150] [151] [152] [153] [154] [155]
-[156] [157] [158] [159] [160] [161] [162]
+[156] [157] [158] [159] [160] [161] [162] [163]
 File: /home/bayashi/GitHub/PBMath/Makefile  (verbatim)
- [163]
+
 Overfull \hbox (787.2669pt too wide) in paragraph at lines 207--207
 []\OT1/cmtt/m/n/8 if [ ! -d ../PBMake ]; then wget https://github.com/BayashiPa
 scal/PBMake/archive/master.zip; unzip master.zip; rm -f master.zip; sed -i '' '
@@ -632,22 +632,22 @@ File: /home/bayashi/GitHub/PBMath/main.c  (verbatim)
 [176] [177] [178] [179] [180] [181] [182] [183] [184] [185] [186] [187]
 [188] [189] [190] [191] [192] [193] [194] [195] [196] [197] [198] [199]
 [200] [201] [202] [203] [204] [205] [206] [207] [208] [209] [210] [211]
-[212] [213] [214] [215] [216] [217] [218] [219] [220] [221] [222]
+[212] [213] [214] [215] [216] [217] [218] [219] [220] [221] [222] [223]
+[224]
 File: /home/bayashi/GitHub/PBMath/unitTestRef.txt  (verbatim)
- [223]
-[224] [225]
+ [225] [226]
 Underfull \hbox (badness 10000) in paragraph at lines 229--232
 
  []
 
 File: /home/bayashi/GitHub/PBMath/UnitTestVecShortLoadSave.txt  (verbatim)
-
+[227]
 Underfull \hbox (badness 10000) in paragraph at lines 236--239
 
  []
 
 File: /home/bayashi/GitHub/PBMath/UnitTestVecLongLoadSave.txt  (verbatim)
-[226]
+
 Underfull \hbox (badness 10000) in paragraph at lines 243--246
 
  []
@@ -664,59 +664,60 @@ Underfull \hbox (badness 10000) in paragraph at lines 257--258
 
  []
 
-<./smoother.png, id=733, 457.71pt x 256.96pt>
+<./smoother.png, id=736, 457.71pt x 256.96pt>
 File: ./smoother.png Graphic file (type png)
  <use ./smoother.png>
 Package pdftex.def Info: ./smoother.png used on input line 260.
 (pdftex.def)             Requested size: 170.71652pt x 95.83827pt.
-
+ [228]
 Underfull \hbox (badness 10000) in paragraph at lines 264--265
 
  []
 
-<./gauss.png, id=734, 375.4025pt x 254.9525pt>
+<./gauss.png, id=740, 375.4025pt x 254.9525pt>
 File: ./gauss.png Graphic file (type png)
  <use ./gauss.png>
 Package pdftex.def Info: ./gauss.png used on input line 267.
 (pdftex.def)             Requested size: 170.71652pt x 115.94131pt.
- [227 <./smoother.png (PNG copy)>]
+
 Underfull \hbox (badness 10000) in paragraph at lines 271--272
 
  []
 
-<./gaussrnd.png, id=738, 395.4775pt x 348.30125pt>
+<./gaussrnd.png, id=741, 395.4775pt x 348.30125pt>
 File: ./gaussrnd.png Graphic file (type png)
  <use ./gaussrnd.png>
 Package pdftex.def Info: ./gaussrnd.png used on input line 274.
 (pdftex.def)             Requested size: 170.71652pt x 150.35123pt.
 )
-[228 <./gauss.png (PNG copy)> <./gaussrnd.png (PNG copy)>] (./doc.aux) ) 
+[229 <./smoother.png (PNG copy)> <./gauss.png (PNG copy)> <./gaussrnd.png (PNG 
+copy)>] (./doc.aux) ) 
 Here is how much of TeX's memory you used:
  13297 strings out of 494314
  255934 string characters out of 6163111
- 292773 words of memory out of 5000000
+ 293773 words of memory out of 5000000
  16380 multiletter control sequences out of 15000+600000
  12740 words of font info for 50 fonts, out of 8000000 for 9000
  372 hyphenation exceptions out of 8191
  55i,18n,54p,405b,312s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/s
-hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf
--dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.
-pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+ex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmtt12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmtt8.pfb>
 
 pdfTeX warning: pdflatex: no GlyphToUnicode entry has been inserted yet!
-Output written on doc.pdf (228 pages, 487924 bytes).
+Output written on doc.pdf (229 pages, 488868 bytes).
 PDF statistics:
- 792 PDF objects out of 1000 (max. 8388607)
+ 796 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  28 words of extra memory for PDF output out of 10000 (max. 10000000)
 
