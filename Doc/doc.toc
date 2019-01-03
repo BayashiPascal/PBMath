@@ -9,7 +9,7 @@
 \contentsline {section}{\numberline {3}Code}{60}
 \contentsline {subsection}{\numberline {3.1}pbmath.c}{60}
 \contentsline {subsection}{\numberline {3.2}pbmath-inline.c}{98}
-\contentsline {section}{\numberline {4}Makefile}{164}
+\contentsline {section}{\numberline {4}Makefile}{165}
 \contentsline {section}{\numberline {5}Unit tests}{165}
 \contentsline {section}{\numberline {6}Unit tests output}{225}
-\contentsline {section}{\numberline {7}Examples}{227}
+\contentsline {section}{\numberline {7}Examples}{228}

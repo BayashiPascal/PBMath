@@ -1347,6 +1347,12 @@ inline
 #endif 
 long _VecFloatGetIMaxVal(const VecFloat* const that);
 
+// Return a set of two vectors containing the bounds of the vectors in 
+// the GSet 'that'
+// The set must have at least one element
+// The returned set is ordered as follow: (boundMin, boundMax)
+GSetVecFloat _GSetVecFloatGetBounds(const GSetVecFloat* const that);
+
 // -------------- MatFloat
 
 // ================= Data structure ===================
