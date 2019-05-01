@@ -3778,7 +3778,7 @@ void _MatFloatSet(MatFloat* const that, VecShort2D* index, float v) {
 #if BUILDMODE != 0
 inline
 #endif 
-const VecShort2D* _MatFloatDim(MatFloat* const that) {
+const VecShort2D* _MatFloatDim(const MatFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -3794,7 +3794,7 @@ const VecShort2D* _MatFloatDim(MatFloat* const that) {
 #if BUILDMODE != 0
 inline
 #endif 
-VecShort2D _MatFloatGetDim(MatFloat* const that) {
+VecShort2D _MatFloatGetDim(const MatFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -3804,6 +3804,39 @@ VecShort2D _MatFloatGetDim(MatFloat* const that) {
 #endif
   // Return the dimension
   return that->_dim;
+}
+
+// Return the number of rows of the MatFloat 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+short _MatFloatGetNbRow(const MatFloat* const that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Return the nb of rows
+  return VecGet(&(that->_dim), 1);
+}
+
+// Return the number of columns of the MatFloat 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+short _MatFloatGetNbCol(const MatFloat* const that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Return the nb of cols
+  return VecGet(&(that->_dim), 0);
+  
 }
 
 // Return the value of the Gauss 'that' at 'x'
@@ -3939,7 +3972,7 @@ void SysLinEqSetM(SysLinEq* const that, const MatFloat* const m) {
   MatCopy(that->_M, m);
   // Update the inverse matrix
   MatFree(&(that->_Minv));
-  that->_Minv = MatInv(that->_M);
+  that->_Minv = MatGetInv(that->_M);
 #if BUILDMODE == 0
   if (that->_Minv == NULL) {
     PBMathErr->_type = PBErrTypeOther;

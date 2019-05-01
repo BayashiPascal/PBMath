@@ -1359,11 +1359,17 @@ GSetVecFloat _GSetVecFloatGetBounds(const GSetVecFloat* const that);
 
 // Vector of float values
 typedef struct MatFloat {
-  // Dimension
+  // Dimension (nbCol, nbLine)
   const VecShort2D _dim;
   // Values (memorized by lines)
   float _val[0];
 } MatFloat;
+
+// Simple pod to hold the result of a QR decomposition
+typedef struct QRDecomp {
+  MatFloat* _Q;
+  MatFloat* _R;
+} QRDecomp;
 
 // ================ Functions declaration ====================
 
@@ -1434,17 +1440,29 @@ void _MatFloatSet(MatFloat* const that, VecShort2D* index, float v);
 #if BUILDMODE != 0 
 inline 
 #endif 
-const VecShort2D* _MatFloatDim(MatFloat* const that);
+const VecShort2D* _MatFloatDim(const MatFloat* const that);
 
 // Return a VecShort2D containing the dimension of the MatFloat
 #if BUILDMODE != 0 
 inline 
 #endif 
-VecShort2D _MatFloatGetDim(MatFloat* const that);
+VecShort2D _MatFloatGetDim(const MatFloat* const that);
+
+// Return the number of rows of the MatFloat 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+short _MatFloatGetNbRow(const MatFloat* const that);
+
+// Return the number of columns of the MatFloat 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+short _MatFloatGetNbCol(const MatFloat* const that);
 
 // Return the inverse matrix of 'that'
 // The matrix must be a square matrix
-MatFloat* _MatFloatInv(MatFloat* const that);
+MatFloat* _MatFloatGetInv(MatFloat* const that);
 
 // Return the product of matrix 'that' and vector 'v'
 // Number of columns of 'that' must equal dimension of 'v'
@@ -1470,6 +1488,21 @@ void _MatFloatAdd(MatFloat* const that, MatFloat* tho);
 
 // Return true if 'that' is equal to 'tho', false else
 bool _MatFloatIsEqual(MatFloat* const that, MatFloat* tho);
+
+// Calculate the Eigen values of the MatFloat 'that'
+// Return the values as a VecFloat, with values sorted from biggest to 
+// smallest (in absolute value)
+// 'that' must be a 2D square matrix
+VecFloat* _MatFloatGetEigenValues(const MatFloat* const that);
+
+// Calculate the QR decomposition of the MatFloat 'that' using the 
+// Householder algorithm
+// Return NULL if the MatFloat couldn't be decomposed
+// http://www.seas.ucla.edu/~vandenbe/133A/lectures/qr.pdf
+QRDecomp _MatFloatGetQR(const MatFloat* const that);
+
+// Calculate the transposed of the MatFloat 'that'
+MatFloat* _MatFloatGetTranspose(const MatFloat* const that);
 
 // -------------- Gauss
 
@@ -3363,9 +3396,34 @@ long ThueMorseSeqGetNthElem(long iElem, long base);
   const MatFloat*: _MatFloatGetDim, \
   default: PBErrInvalidPolymorphism)(Mat)
 
-#define MatInv(Mat) _Generic(Mat, \
-  MatFloat*: _MatFloatInv, \
-  const MatFloat*: _MatFloatInv, \
+#define MatGetEigenValues(Mat) _Generic(Mat, \
+  MatFloat*: _MatFloatGetEigenValues, \
+  const MatFloat*: _MatFloatGetEigenValues, \
+  default: PBErrInvalidPolymorphism)(Mat)
+
+#define MatGetQR(Mat) _Generic(Mat, \
+  MatFloat*: _MatFloatGetQR, \
+  const MatFloat*: _MatFloatGetQR, \
+  default: PBErrInvalidPolymorphism)(Mat)
+
+#define MatGetInv(Mat) _Generic(Mat, \
+  MatFloat*: _MatFloatGetInv, \
+  const MatFloat*: _MatFloatGetInv, \
+  default: PBErrInvalidPolymorphism)(Mat)
+
+#define MatGetTranspose(Mat) _Generic(Mat, \
+  MatFloat*: _MatFloatGetTranspose, \
+  const MatFloat*: _MatFloatGetTranspose, \
+  default: PBErrInvalidPolymorphism)(Mat)
+
+#define MatGetNbRow(Mat) _Generic(Mat, \
+  MatFloat*: _MatFloatGetNbRow, \
+  const MatFloat*: _MatFloatGetNbRow, \
+  default: PBErrInvalidPolymorphism)(Mat)
+
+#define MatGetNbCol(Mat) _Generic(Mat, \
+  MatFloat*: _MatFloatGetNbCol, \
+  const MatFloat*: _MatFloatGetNbCol, \
   default: PBErrInvalidPolymorphism)(Mat)
 
 #define MatGetProdMat(MatA, MatB) _Generic(MatA, \

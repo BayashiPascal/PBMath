@@ -3189,6 +3189,16 @@ void UnitTestMatFloatGetSetDim() {
     sprintf(PBMathErr->_msg, "UnitTestMatFloatGetSetDim NOK");
     PBErrCatch(PBMathErr);
   }
+  if (MatGetNbRow(mat) != 3) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "MatGetNbRow NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (MatGetNbCol(mat) != 2) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "MatGetNbCol NOK");
+    PBErrCatch(PBMathErr);
+  }
   VecShort2D i = VecShortCreateStatic2D();
   float v = 1.0;
   do {
@@ -3322,6 +3332,36 @@ void UnitTestMatFloatLoadSave() {
   printf("UnitTestMatFloatLoadSave OK\n");
 }
 
+void UnitTestMatFloatTranspose() {
+  VecShort2D dim = VecShortCreateStatic2D();
+  VecSet(&dim, 0, 2);
+  VecSet(&dim, 1, 3);
+  MatFloat* mat = MatFloatCreate(&dim);
+  VecShort2D i = VecShortCreateStatic2D();
+  float v[6] = {3.0, 2.0, 1.0, 2.0, -2.0, 1.0};
+  int j = 0;
+  do {
+    MatSet(mat, &i, v[j]);
+    ++j;
+  } while(VecStep(&i, &dim));
+  MatFloat* trans = MatGetTranspose(mat);
+  float w[6] = {3.0, 2.0, 2.0, -2.0, 1.0, 1.0};
+  VecSet(&dim, 0, 3);
+  VecSet(&dim, 1, 2);
+  VecSetNull(&i);
+  j = 0;
+  do {
+    if (!ISEQUALF(MatGet(trans, &i), w[j])) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "UnitTestMatFloatTranspose NOK");
+      PBErrCatch(PBMathErr);
+    }
+    ++j;
+  } while(VecStep(&i, &dim));
+  MatFree(&mat);
+  MatFree(&trans);
+}
+
 void UnitTestMatFloatInv() {
   VecShort2D dim = VecShortCreateStatic2D();
   VecSet(&dim, 0, 3);
@@ -3334,7 +3374,7 @@ void UnitTestMatFloatInv() {
     MatSet(mat, &i, v[j]);
     ++j;
   } while(VecStep(&i, &dim));
-  MatFloat* inv = MatInv(mat);
+  MatFloat* inv = MatGetInv(mat);
   float w[9] = {0.2, -0.2, 0.2, 0.2, 0.3, -0.3, 0.0, 1.0, 0.0};
   VecSetNull(&i);
   j = 0;
@@ -3358,7 +3398,7 @@ void UnitTestMatFloatInv() {
     MatSet(mat, &i, vb[j]);
     ++j;
   } while(VecStep(&i, &dim));
-  inv = MatInv(mat);
+  inv = MatGetInv(mat);
   float wb[4] = {0.6, -0.2, -0.7, 0.4};
   VecSetNull(&i);
   j = 0;
@@ -3505,6 +3545,7 @@ void UnitTestMatFloat() {
   UnitTestMatFloatCloneIsEqual();
   UnitTestMatFloatLoadSave();
   UnitTestMatFloatInv();
+  UnitTestMatFloatTranspose();
   UnitTestMatFloatProdVecFloat();
   UnitTestMatFloatProdMatFloat();
   UnitTestSpeedMatFloat();

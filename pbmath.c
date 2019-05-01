@@ -1942,7 +1942,7 @@ void MatFloatPrintln(MatFloat* const that, FILE* stream, unsigned int prec) {
 
 // Return the inverse matrix of 'that'
 // The matrix must be a square matrix
-MatFloat* _MatFloatInv(MatFloat* const that) {
+MatFloat* _MatFloatGetInv(MatFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -1958,7 +1958,7 @@ MatFloat* _MatFloatInv(MatFloat* const that) {
   if (VecGet(&(that->_dim), 0) > 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, 
-      "_MatFloatInv is defined only for matrix of dim <= 3x3 (%dx%d)",
+      "_MatFloatGetInv is defined only for matrix of dim <= 3x3 (%dx%d)",
       VecGet(&(that->_dim), 0), VecGet(&(that->_dim), 1));
     PBErrCatch(PBMathErr);
   }
@@ -2136,6 +2136,93 @@ bool _MatFloatIsEqual(MatFloat* const that, MatFloat* tho) {
   return true;
 }
 
+// Calculate the Eigen values of the MatFloat 'that'
+// Return the values as a VecFloat, with values sorted from biggest to 
+// smallest (in absolute value)
+// 'that' must be a 2D square matrix
+// https://www.math.kth.se/na/SF2524/matber15/qrmethod.pdf
+VecFloat* _MatFloatGetEigenValues(const MatFloat* const that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (VecGet(MatDim(that), 0) != VecGet(MatDim(that), 1)) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'that' is not squared");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // http://www.cs.unc.edu/techreports/96-043.pdf
+  // http://madrury.github.io/jekyll/update/statistics/2017/10/04/qr-algorithm.html
+(void)that;
+  // Return the result
+  return NULL;
+}
+
+// Calculate the QR decomposition of the MatFloat 'that' using the 
+// Householder algorithm
+// Return NULL if the MatFloat couldn't be decomposed
+// http://www.seas.ucla.edu/~vandenbe/133A/lectures/qr.pdf
+QRDecomp _MatFloatGetQR(const MatFloat* const that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+
+// http://people.inf.ethz.ch/gander/papers/qrneu.pdf
+
+  // Allocate memory for the final R matrix
+  VecShort2D dimR = VecShortCreateStatic2D();
+  VecSet(&dimR, 0, MatGetNbCol(that));
+  VecSet(&dimR, 1, MatGetNbCol(that));
+  MatFloat* R = MatFloatCreate(&dimR);
+
+  // Allocate memory for the final Q matrix
+  MatFloat* Q = MatFloatCreate(MatDim(that));
+  
+  // Householder algorithm
+  for (short k = 0; k < MatGetNbCol(that); ++k) {
+    
+  }
+
+  // Create the result QR decomposition
+  QRDecomp qr = {._Q = Q, ._R = R};
+  // Return the decomposition 
+  return qr;
+}
+
+// Calculate the transposed of the MatFloat 'that'
+MatFloat* _MatFloatGetTranspose(const MatFloat* const that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Allocate memory for the result matrix
+  VecShort2D dim = VecShortCreateStatic2D();
+  VecSet(&dim, 0, VecGet(MatDim(that), 1));
+  VecSet(&dim, 1, VecGet(MatDim(that), 0));
+  MatFloat* res = MatFloatCreate(&dim);
+  // Calculate the transposed matrix
+  VecShort2D pos = VecShortCreateStatic2D();
+  VecShort2D posB = VecShortCreateStatic2D();
+  do {
+    VecSet(&posB, 0, VecGet(&pos, 1));
+    VecSet(&posB, 1, VecGet(&pos, 0));
+    MatSet(res, &pos, MatGet(that, &posB));
+  } while (VecStep(&pos, &dim));
+  // Return the transposed matrix
+  return res;
+}
+
+
 // -------------- Gauss
 
 // ================= Define ==================
@@ -2206,7 +2293,7 @@ SysLinEq* _SLECreate(const MatFloat* const m, const VecFloat* const v) {
   // Allocate memory
   SysLinEq* that = PBErrMalloc(PBMathErr, sizeof(SysLinEq));
   that->_M = MatClone(m);
-  that->_Minv = MatInv(that->_M);
+  that->_Minv = MatGetInv(that->_M);
   if (v != NULL)
     that->_V = VecClone(v);
   else
