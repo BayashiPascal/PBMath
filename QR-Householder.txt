@@ -1,0 +1,38 @@
+Compute Q and R such as A = QR
+A[i][j] <=> value of matrix A at the i-th column and j-th row
+Must have nbCol(A) <= nbRow(A)
+
+QQtilde := matrix identity of dimensions (nbRow(A) columns, nbRow(A) rows)
+for k := 0 to nbCol(A):
+
+  w := vector null of dimension (nbRow(A) - k)
+  for i := 0 to dim(w)
+    w[i] := A[k][k + i]
+
+  sign := if w[0] >= 0.0 then 1.0 else -1.0
+  w[0] := w[0] + sign * norm(w)
+
+  v = w / nom(w)
+
+  H := matrix identity of dimensions (dim(v) columns, dim(v) rows)
+  vvt := v * transpose(v)
+  H := H - 2.0 * vvt
+  
+  reflector := matrix identity of dimensions (nbRow(A) columns, nbRow(A) rows)
+  for i := 0 to nbCol(H)
+    for j := 0 to nbRow(H)
+      reflector[i + k][j + k] := H[i][j]
+  
+  A := reflector * A      
+
+  QQtilde := QQtilde * reflector
+
+R := matrix of dimensions (nbCol(A) columns, nbCol(A) rows)
+for i := 0 to nbCol(A)
+  for j := 0 to nbCol(A)
+    R[i][j] := A[i][j]
+
+Q := matrix of dimensions (nbCol(A) columns, nbRow(A) rows)
+for i := 0 to nbCol(A)
+  for j := 0 to nbRow(A)
+    Q[i][j] := QQtilde[i][j]

@@ -1922,7 +1922,7 @@ void MatFloatPrintln(MatFloat* const that, FILE* stream, unsigned int prec) {
 #endif
   // Create the format string
   char format[100] = {'\0'};
-  sprintf(format, "%%.%df", prec);
+  sprintf(format, "%% .%df", prec);
   // Print the values
   fprintf(stream, "[");
   VecShort2D index = VecShortCreateStatic2D();
@@ -2068,6 +2068,38 @@ VecFloat* _MatFloatGetProdVecFloat(MatFloat* const that, VecFloat* v) {
   return ret;
 }
 
+// Return the product of vector 'v' and transpose of vector 'w'
+MatFloat* _MatFloatGetProdVecVecTransposeFloat(
+  const VecFloat* const v, 
+  const VecFloat* const w) {
+#if BUILDMODE == 0
+  if (v == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'v' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (w == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'w' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Declare a variable to memorize the position in the matrix
+  VecShort2D pos = VecShortCreateStatic2D();
+  // Allocate memory for the solution
+  VecShort2D dim = VecShortCreateStatic2D();
+  VecSet(&dim, 0, VecGetDim(w));
+  VecSet(&dim, 1, VecGetDim(v));
+  MatFloat* ret = MatFloatCreate(&dim);
+  // Calculate the result
+  do {
+    MatSet(ret, &pos, 
+      VecGet(v, VecGet(&pos, 1)) * VecGet(w, VecGet(&pos, 0)));
+  } while(VecStep(&pos, &dim));
+  // Return the result
+  return ret;    
+}
+
 // Return the product of matrix 'that' by matrix 'tho'
 // Number of columns of 'that' must equal number of line of 'tho'
 MatFloat* _MatFloatGetProdMatFloat(MatFloat* const that, MatFloat* tho) {
@@ -2172,9 +2204,14 @@ QRDecomp _MatFloatGetQR(const MatFloat* const that) {
     sprintf(PBMathErr->_msg, "'that' is null");
     PBErrCatch(PBMathErr);
   }
+  if (MatGetNbCol(that) > MatGetNbRow(that)) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, 
+      "'that' must have at least as many rows as columns (%d<=%d)",
+      MatGetNbCol(that), MatGetNbRow(that));
+    PBErrCatch(PBMathErr);
+  }
 #endif
-
-// http://people.inf.ethz.ch/gander/papers/qrneu.pdf
 
   // Allocate memory for the final R matrix
   VecShort2D dimR = VecShortCreateStatic2D();
@@ -2185,13 +2222,93 @@ QRDecomp _MatFloatGetQR(const MatFloat* const that) {
   // Allocate memory for the final Q matrix
   MatFloat* Q = MatFloatCreate(MatDim(that));
   
+  // Allocate memory for the QQ~ matrix
+  VecShort2D dimQQtilde = VecShortCreateStatic2D();
+  VecSet(&dimQQtilde, 0, MatGetNbRow(that));
+  VecSet(&dimQQtilde, 1, MatGetNbRow(that));
+  MatFloat* QQtilde = MatFloatCreate(&dimQQtilde);
+  MatSetIdentity(QQtilde);
+  
+  // Create a clone of that to be overwritten during computation
+  MatFloat* A = MatClone(that);
+
+  // Declare two vectors to access value in the arrays
+  VecShort2D pos = VecShortCreateStatic2D();
+  VecShort2D shiftPos = VecShortCreateStatic2D();
+  
   // Householder algorithm
   for (short k = 0; k < MatGetNbCol(that); ++k) {
-    
+
+    // Calculate w 
+    VecFloat* w = VecFloatCreate(MatGetNbRow(that) - k);
+    VecSet(&pos, 0, k);
+    for (short i = 0; i < VecGetDim(w); ++i) {
+      VecSet(&pos, 1, k + i);
+      VecSet(w, i, MatGet(A, &pos));
+    }
+    float sign = (VecGet(w, 0) >= 0.0 ? 1.0 : -1.0);
+    VecSet(w, 0, VecGet(w, 0) + sign * VecNorm(w));
+
+    // Calculate v = w / ||w||
+    VecFloat* v = VecClone(w);
+    VecNormalise(v);
+
+    //                         I 0
+    // Calculate the reflector 0 H where H = I - 2vv^t
+    VecShort2D dimH = VecShortCreateStatic2D();
+    VecSet(&dimH, 0, VecGetDim(v));
+    VecSet(&dimH, 1, VecGetDim(v));
+    MatFloat* H = MatFloatCreate(&dimH);
+    MatSetIdentity(H);
+    MatFloat* vvt = MatGetProdVecVecTranspose(v, v);
+    MatScale(vvt, -2.0);
+    MatAdd(H, vvt);
+    MatFloat* reflector = MatFloatCreate(&dimQQtilde);
+    MatSetIdentity(reflector);
+    VecSetNull(&pos);
+    do {
+      VecSet(&shiftPos, 0, VecGet(&pos, 0) + k);
+      VecSet(&shiftPos, 1, VecGet(&pos, 1) + k);
+      MatSet(reflector, &shiftPos, MatGet(H, &pos));
+    } while (VecStep(&pos, &dimH));
+
+    // Update A := reflector . A
+    MatFloat* M = MatGetProdMat(reflector, A);
+    MatFree(&A);
+    A = M;
+
+    // Update QQtilde := QQtilde.reflector
+    M = MatGetProdMat(QQtilde, reflector);
+    MatFree(&QQtilde);
+    QQtilde = M;
+
+    // Free memory
+    MatFree(&reflector);
+    MatFree(&H);
+    MatFree(&vvt);
+    VecFree(&v);
+    VecFree(&w);
   }
+
+  // Extract R from the final A
+  VecSetNull(&pos);
+  do {
+    MatSet(R, &pos, MatGet(A, &pos));
+  } while (VecStep(&pos, &dimR));
+
+  // Extract Q from the final QQtilde
+  VecSetNull(&pos);
+  do {
+    MatSet(Q, &pos, MatGet(QQtilde, &pos));
+  } while (VecStep(&pos, MatDim(that)));
 
   // Create the result QR decomposition
   QRDecomp qr = {._Q = Q, ._R = R};
+  
+  // Free memory
+  MatFree(&A);
+  MatFree(&QQtilde);
+  
   // Return the decomposition 
   return qr;
 }

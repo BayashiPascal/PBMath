@@ -3332,7 +3332,7 @@ void UnitTestMatFloatLoadSave() {
   printf("UnitTestMatFloatLoadSave OK\n");
 }
 
-void UnitTestMatFloatTranspose() {
+void UnitTestMatFloatTransposeScale() {
   VecShort2D dim = VecShortCreateStatic2D();
   VecSet(&dim, 0, 2);
   VecSet(&dim, 1, 3);
@@ -3358,8 +3358,23 @@ void UnitTestMatFloatTranspose() {
     }
     ++j;
   } while(VecStep(&i, &dim));
+  MatScale(mat, 2.0);
+  j = 0;
+  VecSet(&dim, 0, 2);
+  VecSet(&dim, 1, 3);
+  VecSetNull(&i);
+  float u[6] = {6.0, 4.0, 2.0, 4.0, -4.0, 2.0};
+  do {
+    if (!ISEQUALF(MatGet(mat, &i), u[j])) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "MatScale NOK");
+      PBErrCatch(PBMathErr);
+    }
+    ++j;
+  } while(VecStep(&i, &dim));
   MatFree(&mat);
   MatFree(&trans);
+  printf("UnitTestMatFloatTransposeScale OK\n");
 }
 
 void UnitTestMatFloatInv() {
@@ -3488,6 +3503,33 @@ void UnitTestMatFloatProdMatFloat() {
   printf("UnitTestMatFloatProdMatFloat OK\n");
 }
 
+void UnitTestMatFloatProdVecVecTranspose() {
+  VecFloat2D v = VecFloatCreateStatic2D();
+  VecFloat3D w = VecFloatCreateStatic3D();
+  VecSet(&v, 0, 2.0);
+  VecSet(&v, 1, 3.0);
+  VecSet(&w, 0, 4.0);
+  VecSet(&w, 1, 5.0);
+  VecSet(&w, 2, 6.0);
+  MatFloat* mat = MatGetProdVecVecTranspose(&v, &w);
+  VecShort2D pos = VecShortCreateStatic2D();
+  VecShort2D dim = VecShortCreateStatic2D();
+  VecSet(&dim, 0, 3);
+  VecSet(&dim, 1, 2);
+  float check[6] = {8.0, 12.0, 10.0, 15.0, 12.0, 18.0};
+  int i = 0;
+  do {
+    if (!ISEQUALF(MatGet(mat, &pos), check[i])) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "MatGetProdVecVecTranspose NOK");
+      PBErrCatch(PBMathErr);
+    }
+    ++i;
+  } while (VecStep(&pos, &dim));
+  MatFree(&mat);
+  printf("UnitTestMatFloatProdVecVecTranspose OK\n");
+}
+
 void UnitTestSpeedMatFloat() {
   VecShort2D dim = VecShortCreateStatic2D();
   VecSet(&dim, 0, 3);
@@ -3539,15 +3581,80 @@ void UnitTestSpeedMatFloat() {
   printf("UnitTestSpeedMatFloat OK\n");
 }
 
+void UnitTestMatFloatGetQR() {
+  VecShort2D dim = VecShortCreateStatic2D();
+  VecSet(&dim, 0, 3);
+  VecSet(&dim, 1, 4);
+  MatFloat* mat = MatFloatCreate(&dim);
+  VecShort2D pos = VecShortCreateStatic2D();
+  float val[4][3] = {
+      {-1.0, -1.0, 1.0},
+      { 1.0,  3.0, 3.0}, 
+      {-1.0, -1.0, 5.0}, 
+      { 1.0,  3.0, 7.0} 
+    };
+  do {
+    MatSet(mat, &pos, val[VecGet(&pos, 1)][VecGet(&pos, 0)]);
+  } while (VecStep(&pos, &dim));
+  QRDecomp qr = MatGetQR(mat);
+  MatFloat* QR = MatGetProdMat(qr._Q, qr._R);
+
+  printf("mat:\n");
+  MatPrintln(mat, stdout);
+  printf("Q:\n");
+  MatPrintln(qr._Q, stdout);
+  printf("R:\n");
+  MatPrintln(qr._R, stdout);
+  printf("QR:\n");
+  MatPrintln(QR, stdout);
+
+  MatFloat* Q = MatFloatCreate(&dim);
+  VecSetNull(&pos);
+  float checkQ[4][3] = {
+      {-0.5, -0.5,  0.5},
+      { 0.5, -0.5,  0.5}, 
+      {-0.5, -0.5, -0.5}, 
+      { 0.5, -0.5, -0.5} 
+    };
+  do {
+    MatSet(Q, &pos, checkQ[VecGet(&pos, 1)][VecGet(&pos, 0)]);
+  } while (VecStep(&pos, &dim));
+  VecSet(&dim, 1, 3);
+  MatFloat* R = MatFloatCreate(&dim);
+  VecSetNull(&pos);
+  float checkR[3][3] = {
+      {2.0,  4.0,  2.0},
+      {0.0, -2.0, -8.0}, 
+      {0.0,  0.0, -4.0}
+    };
+  do {
+    MatSet(R, &pos, checkR[VecGet(&pos, 1)][VecGet(&pos, 0)]);
+  } while (VecStep(&pos, &dim));
+  if (!MatIsEqual(Q, qr._Q) || !MatIsEqual(R, qr._R) || 
+    !MatIsEqual(QR, mat)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "MatGetQR NOK");
+    PBErrCatch(PBMathErr);
+  }
+  MatFree(&mat);
+  MatFree(&Q);
+  MatFree(&R);
+  MatFree(&QR);
+  QRDecompFreeStatic(&qr);
+  printf("UnitTestMatFloatGetQR OK\n");
+}
+
 void UnitTestMatFloat() {
   UnitTestMatFloatCreateFree();
   UnitTestMatFloatGetSetDim();
   UnitTestMatFloatCloneIsEqual();
   UnitTestMatFloatLoadSave();
   UnitTestMatFloatInv();
-  UnitTestMatFloatTranspose();
+  UnitTestMatFloatTransposeScale();
   UnitTestMatFloatProdVecFloat();
   UnitTestMatFloatProdMatFloat();
+  UnitTestMatFloatGetQR();
+  UnitTestMatFloatProdVecVecTranspose();
   UnitTestSpeedMatFloat();
   printf("UnitTestMatFloat OK\n");
 }

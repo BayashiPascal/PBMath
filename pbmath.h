@@ -1373,6 +1373,12 @@ typedef struct QRDecomp {
 
 // ================ Functions declaration ====================
 
+// Free memory used by the QRDecomp 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+void QRDecompFreeStatic(QRDecomp* const that);
+
 // Create a new MatFloat of dimension 'dim' (nbCol, nbLine)
 // Values are initalized to 0.0
 MatFloat* MatFloatCreate(const VecShort2D* const dim);
@@ -1468,6 +1474,11 @@ MatFloat* _MatFloatGetInv(MatFloat* const that);
 // Number of columns of 'that' must equal dimension of 'v'
 VecFloat* _MatFloatGetProdVecFloat(MatFloat* const that, VecFloat* v);
 
+// Return the product of vector 'v' and transpose of vector 'w'
+MatFloat* _MatFloatGetProdVecVecTransposeFloat(
+  const VecFloat* const v, 
+  const VecFloat* const w);
+
 // Return the product of matrix 'that' by matrix 'tho'
 // Number of columns of 'that' must equal number of line of 'tho'
 MatFloat* _MatFloatGetProdMatFloat(MatFloat* const that, MatFloat* tho);
@@ -1485,6 +1496,12 @@ MatFloat* _MatFloatGetAdd(MatFloat* const that, MatFloat* tho);
 inline 
 #endif 
 void _MatFloatAdd(MatFloat* const that, MatFloat* tho);
+
+// Multiply the matrix 'that' by 'a'
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _MatFloatScale(MatFloat* const that, const float a);
 
 // Return true if 'that' is equal to 'tho', false else
 bool _MatFloatIsEqual(MatFloat* const that, MatFloat* tho);
@@ -3456,12 +3473,69 @@ long ThueMorseSeqGetNthElem(long iElem, long base);
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(Mat, (VecFloat*)(Vec))
 
+#define MatGetProdVecVecTranspose(VecA, VecB) _Generic(VecA, \
+  VecFloat*: _Generic(VecB, \
+    VecFloat*: _MatFloatGetProdVecVecTransposeFloat, \
+    const VecFloat*: _MatFloatGetProdVecVecTransposeFloat, \
+    VecFloat2D*: _MatFloatGetProdVecVecTransposeFloat, \
+    const VecFloat2D*: _MatFloatGetProdVecVecTransposeFloat, \
+    VecFloat3D*: _MatFloatGetProdVecVecTransposeFloat, \
+    const VecFloat3D*: _MatFloatGetProdVecVecTransposeFloat, \
+    default: PBErrInvalidPolymorphism), \
+  const VecFloat*: _Generic(VecB, \
+    VecFloat*: _MatFloatGetProdVecVecTransposeFloat, \
+    const VecFloat*: _MatFloatGetProdVecVecTransposeFloat, \
+    VecFloat2D*: _MatFloatGetProdVecVecTransposeFloat, \
+    const VecFloat2D*: _MatFloatGetProdVecVecTransposeFloat, \
+    VecFloat3D*: _MatFloatGetProdVecVecTransposeFloat, \
+    const VecFloat3D*: _MatFloatGetProdVecVecTransposeFloat, \
+    default: PBErrInvalidPolymorphism), \
+  VecFloat2D*: _Generic(VecB, \
+    VecFloat*: _MatFloatGetProdVecVecTransposeFloat, \
+    const VecFloat*: _MatFloatGetProdVecVecTransposeFloat, \
+    VecFloat2D*: _MatFloatGetProdVecVecTransposeFloat, \
+    const VecFloat2D*: _MatFloatGetProdVecVecTransposeFloat, \
+    VecFloat3D*: _MatFloatGetProdVecVecTransposeFloat, \
+    const VecFloat3D*: _MatFloatGetProdVecVecTransposeFloat, \
+    default: PBErrInvalidPolymorphism), \
+  const VecFloat2D*: _Generic(VecB, \
+    VecFloat*: _MatFloatGetProdVecVecTransposeFloat, \
+    const VecFloat*: _MatFloatGetProdVecVecTransposeFloat, \
+    VecFloat2D*: _MatFloatGetProdVecVecTransposeFloat, \
+    const VecFloat2D*: _MatFloatGetProdVecVecTransposeFloat, \
+    VecFloat3D*: _MatFloatGetProdVecVecTransposeFloat, \
+    const VecFloat3D*: _MatFloatGetProdVecVecTransposeFloat, \
+    default: PBErrInvalidPolymorphism), \
+  VecFloat3D*: _Generic(VecB, \
+    VecFloat*: _MatFloatGetProdVecVecTransposeFloat, \
+    const VecFloat*: _MatFloatGetProdVecVecTransposeFloat, \
+    VecFloat2D*: _MatFloatGetProdVecVecTransposeFloat, \
+    const VecFloat2D*: _MatFloatGetProdVecVecTransposeFloat, \
+    VecFloat3D*: _MatFloatGetProdVecVecTransposeFloat, \
+    const VecFloat3D*: _MatFloatGetProdVecVecTransposeFloat, \
+    default: PBErrInvalidPolymorphism), \
+  const VecFloat3D*: _Generic(VecB, \
+    VecFloat*: _MatFloatGetProdVecVecTransposeFloat, \
+    const VecFloat*: _MatFloatGetProdVecVecTransposeFloat, \
+    VecFloat2D*: _MatFloatGetProdVecVecTransposeFloat, \
+    const VecFloat2D*: _MatFloatGetProdVecVecTransposeFloat, \
+    VecFloat3D*: _MatFloatGetProdVecVecTransposeFloat, \
+    const VecFloat3D*: _MatFloatGetProdVecVecTransposeFloat, \
+    default: PBErrInvalidPolymorphism), \
+  default: PBErrInvalidPolymorphism)((VecFloat*)(VecA), \
+    (VecFloat*)(VecB))
+
 #define MatAdd(MatA, MatB) _Generic(MatA, \
   MatFloat*: _Generic(MatB, \
     MatFloat*: _MatFloatAdd, \
     const MatFloat*: _MatFloatAdd, \
     default: PBErrInvalidPolymorphism), \
   default: PBErrInvalidPolymorphism)(MatA, MatB)
+
+#define MatScale(MatA, A) _Generic(MatA, \
+  MatFloat*: _MatFloatScale, \
+  const MatFloat*: _MatFloatScale, \
+  default: PBErrInvalidPolymorphism)(MatA, A)
 
 #define MatGetAdd(MatA, MatB) _Generic(MatA, \
   MatFloat*: _Generic(MatB, \

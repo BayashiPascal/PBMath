@@ -3675,6 +3675,25 @@ void _MatFloatAdd(MatFloat* const that, MatFloat* tho) {
   } while (VecStep(&i, MatDim(that)));
 }
 
+// Multiply the matrix 'that' by 'a'
+#if BUILDMODE != 0 
+inline 
+#endif 
+void _MatFloatScale(MatFloat* const that, const float a) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Multiply each values
+  VecShort2D i = VecShortCreateStatic2D();
+  do {
+    MatSet(that, &i, MatGet(that, &i) * a);
+  } while (VecStep(&i, MatDim(that)));
+}
+
 // Copy the values of 'w' in 'that' (must have same dimensions)
 #if BUILDMODE != 0
 inline
@@ -4142,3 +4161,18 @@ void _VecFloatRotZ(VecFloat3D* const that, const float theta) {
   *that = _VecFloatGetRotZ(that, theta);
 }
 
+// Free memory used by the QRDecomp 'that'
+#if BUILDMODE != 0 
+inline 
+#endif 
+void QRDecompFreeStatic(QRDecomp* const that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  MatFree(&(that->_Q)); 
+  MatFree(&(that->_R));
+}
