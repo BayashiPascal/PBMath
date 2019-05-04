@@ -6,11 +6,12 @@
 \contentsline {subsection}{\numberline {1.2}Matrix}{4}
 \contentsline {subsubsection}{\numberline {1.2.1}Inverse matrix}{4}
 \contentsline {subsubsection}{\numberline {1.2.2}QR factorization}{5}
-\contentsline {section}{\numberline {2}Interface}{7}
-\contentsline {section}{\numberline {3}Code}{65}
-\contentsline {subsection}{\numberline {3.1}pbmath.c}{65}
-\contentsline {subsection}{\numberline {3.2}pbmath-inline.c}{106}
-\contentsline {section}{\numberline {4}Makefile}{174}
-\contentsline {section}{\numberline {5}Unit tests}{174}
-\contentsline {section}{\numberline {6}Unit tests output}{237}
-\contentsline {section}{\numberline {7}Examples}{240}
+\contentsline {subsubsection}{\numberline {1.2.3}Eigen values and vectors}{7}
+\contentsline {section}{\numberline {2}Interface}{12}
+\contentsline {section}{\numberline {3}Code}{70}
+\contentsline {subsection}{\numberline {3.1}pbmath.c}{70}
+\contentsline {subsection}{\numberline {3.2}pbmath-inline.c}{112}
+\contentsline {section}{\numberline {4}Makefile}{179}
+\contentsline {section}{\numberline {5}Unit tests}{180}
+\contentsline {section}{\numberline {6}Unit tests output}{244}
+\contentsline {section}{\numberline {7}Examples}{247}

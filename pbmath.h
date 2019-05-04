@@ -1506,11 +1506,16 @@ void _MatFloatScale(MatFloat* const that, const float a);
 // Return true if 'that' is equal to 'tho', false else
 bool _MatFloatIsEqual(MatFloat* const that, MatFloat* tho);
 
-// Calculate the Eigen values of the MatFloat 'that'
-// Return the values as a VecFloat, with values sorted from biggest to 
-// smallest (in absolute value)
+// Calculate the Eigen values and vectors of the MatFloat 'that'
+// Return a set of VecFloat. The first VecFloat of the set contains 
+// the Eigen values, with values sorted from biggest to 
+// smallest (in absolute value). The following VecFloat are the 
+// respectiev Eigen vectors
 // 'that' must be a 2D square matrix
-VecFloat* _MatFloatGetEigenValues(const MatFloat* const that);
+// TODO: should be improved with the Hessenberg QR method
+// https://www.math.kth.se/na/SF2524/matber15/qrmethod.pdf
+// http://madrury.github.io/jekyll/update/statistics/2017/10/04/qr-algorithm.html
+GSetVecFloat _MatFloatGetEigenValues(const MatFloat* const that);
 
 // Calculate the QR decomposition of the MatFloat 'that' using the 
 // Householder algorithm

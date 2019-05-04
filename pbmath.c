@@ -2168,12 +2168,16 @@ bool _MatFloatIsEqual(MatFloat* const that, MatFloat* tho) {
   return true;
 }
 
-// Calculate the Eigen values of the MatFloat 'that'
-// Return the values as a VecFloat, with values sorted from biggest to 
-// smallest (in absolute value)
+// Calculate the Eigen values and vectors of the MatFloat 'that'
+// Return a set of VecFloat. The first VecFloat of the set contains 
+// the Eigen values, with values sorted from biggest to 
+// smallest (in absolute value). The following VecFloat are the 
+// respectiev Eigen vectors
 // 'that' must be a 2D square matrix
+// http://madrury.github.io/jekyll/update/statistics/2017/10/04/qr-algorithm.html
+// TODO: chould be improved with the Hessenberg QR method
 // https://www.math.kth.se/na/SF2524/matber15/qrmethod.pdf
-VecFloat* _MatFloatGetEigenValues(const MatFloat* const that) {
+GSetVecFloat _MatFloatGetEigenValues(const MatFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2186,11 +2190,50 @@ VecFloat* _MatFloatGetEigenValues(const MatFloat* const that) {
     PBErrCatch(PBMathErr);
   }
 #endif
-  // http://www.cs.unc.edu/techreports/96-043.pdf
-  // http://madrury.github.io/jekyll/update/statistics/2017/10/04/qr-algorithm.html
-(void)that;
+  // Declare the result set
+  GSetVecFloat set = GSetVecFloatCreateStatic();
+  // Clone the original matrix
+  MatFloat* A = MatClone(that);
+  // Create a matrix to compute the Eigen vectors
+  MatFloat* Q = MatFloatCreate(MatDim(that));
+  MatSetIdentity(Q);
+  // Apply the QR algorithm
+  VecShort2D pos = VecShortCreateStatic2D();
+  float err = 0.0;
+  do {
+    QRDecomp QR = MatGetQR(A);
+    MatFloat* RQ = MatGetProdMat(QR._R, QR._Q);
+    MatFree(&A);
+    A = RQ;
+    MatFloat* M = MatGetProdMat(Q, QR._Q);
+    MatFree(&Q);
+    Q = M;
+    err = 0.0;
+    do {
+      if (VecGet(&pos, 0) != VecGet(&pos, 1))
+        err = MAX(err, fabs(MatGet(A, &pos)));
+    } while (VecStep(&pos, MatDim(A)));
+    QRDecompFreeStatic(&QR);
+  } while (err > PBMATH_EPSILON);
+  // Extract the results
+  VecFloat* values = VecFloatCreate(MatGetNbCol(that));
+  GSetPush(&set, values);
+  for (int i = 0; i < MatGetNbCol(that); ++i) {
+    VecSet(&pos, 0, i);
+    VecSet(&pos, 1, i);
+    VecSet(values, i, MatGet(A, &pos));
+    GSetAppend(&set, VecFloatCreate(MatGetNbCol(that)));
+  }
+  VecSetNull(&pos);
+  do {
+    VecSet(GSetGet(&set, 1 + VecGet(&pos, 0)), VecGet(&pos, 1),
+      MatGet(Q, &pos));
+  } while (VecStep(&pos, MatDim(Q)));
+  // Free memory
+  MatFree(&A);
+  MatFree(&Q);
   // Return the result
-  return NULL;
+  return set;
 }
 
 // Calculate the QR decomposition of the MatFloat 'that' using the 

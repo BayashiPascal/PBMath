@@ -1,0 +1,15 @@
+Compute Eigen values and vectors of A
+A[i][j] <=> value of matrix A at the i-th column and j-th row
+Must have nbCol(A) = nbRow(A)
+
+err := 1.0
+M := matrix identity of dimensions(nbCol(A) columns, nbRow(A) rows)
+loop until err < epsilon
+  Q,R := QRDecomposition(A)
+  A := R * Q
+  M := M * Q
+  err := max(abs(non diagonal values of A))
+for i := 0 to NbCol(A)
+  eigenValue[i] := A[i][i]
+  for j := 0 to nbRow(A)
+    eigenVector_i[j] := M[i][j]

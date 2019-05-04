@@ -3530,6 +3530,74 @@ void UnitTestMatFloatProdVecVecTranspose() {
   printf("UnitTestMatFloatProdVecVecTranspose OK\n");
 }
 
+void UnitTestMatFloatGetEigenValues() {
+  VecShort2D dim = VecShortCreateStatic2D();
+  VecSet(&dim, 0, 3);
+  VecSet(&dim, 1, 3);
+  MatFloat* mat = MatFloatCreate(&dim);
+  VecShort2D pos = VecShortCreateStatic2D();
+  float check[3][3] = {
+    { 2.92, 0.86, -1.15},
+    { 0.86, 6.51,  3.32},
+    {-1.15, 3.32,  4.57}
+  };
+  do {
+    MatSet(mat, &pos, check[VecGet(&pos, 1)][VecGet(&pos, 0)]);
+  } while (VecStep(&pos, &dim));
+  printf("mat:\n"); MatPrintln(mat, stdout);
+  GSetVecFloat set = MatGetEigenValues(mat);
+  printf("Eigen values: ");
+  VecPrint(GSetGet(&set, 0), stdout);printf("\n");
+  VecFloat3D checkValues = VecFloatCreateStatic3D();
+  VecSet(&checkValues, 0, 8.998802);
+  VecSet(&checkValues, 1, 3.996595);
+  VecSet(&checkValues, 2, 1.004607);
+  if (!VecIsEqual(GSetGet(&set, 0), &checkValues)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "MatGetEigenValues NOK");
+    PBErrCatch(PBMathErr);
+  }
+  printf("Eigen vector 1: ");
+  VecPrint(GSetGet(&set, 1), stdout);printf("\n");
+  printf("Eigen vector 2: ");
+  VecPrint(GSetGet(&set, 2), stdout);printf("\n");
+  printf("Eigen vector 3: ");
+  VecPrint(GSetGet(&set, 3), stdout);printf("\n");
+  VecFloat3D checkVecA = VecFloatCreateStatic3D();
+  VecSet(&checkVecA, 0, 0.000290);
+  VecSet(&checkVecA, 1, -0.800102);
+  VecSet(&checkVecA, 2, -0.599864);
+  if (!VecIsEqual(GSetGet(&set, 1), &checkVecA)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "MatGetEigenValues NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecFloat3D checkVecB = VecFloatCreateStatic3D();
+  VecSet(&checkVecB, 0, 0.800110);
+  VecSet(&checkVecB, 1, 0.360017);
+  VecSet(&checkVecB, 2, -0.479806);
+  if (!VecIsEqual(GSetGet(&set, 2), &checkVecB)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "MatGetEigenValues NOK");
+    PBErrCatch(PBMathErr);
+  }
+  VecFloat3D checkVecC = VecFloatCreateStatic3D();
+  VecSet(&checkVecC, 0, 0.599855);
+  VecSet(&checkVecC, 1, -0.479817);
+  VecSet(&checkVecC, 2, 0.640273);
+  if (!VecIsEqual(GSetGet(&set, 3), &checkVecC)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "MatGetEigenValues NOK");
+    PBErrCatch(PBMathErr);
+  }
+  do {
+    VecFloat* v = GSetPop(&set);
+    VecFree(&v);
+  } while (GSetNbElem(&set) > 0);
+  MatFree(&mat);
+  printf("UnitTestMatFloatGetEigenValues OK\n");
+}
+
 void UnitTestSpeedMatFloat() {
   VecShort2D dim = VecShortCreateStatic2D();
   VecSet(&dim, 0, 3);
@@ -3655,6 +3723,7 @@ void UnitTestMatFloat() {
   UnitTestMatFloatProdMatFloat();
   UnitTestMatFloatGetQR();
   UnitTestMatFloatProdVecVecTranspose();
+  UnitTestMatFloatGetEigenValues();
   UnitTestSpeedMatFloat();
   printf("UnitTestMatFloat OK\n");
 }
