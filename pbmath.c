@@ -102,7 +102,7 @@ bool _VecShortDecodeAsJSON(VecShort** that, const JSONNode* const json) {
   if (prop == NULL) {
     return false;
   }
-  long dim = atol(JSONLabel(JSONValue(prop, 0)));
+  long dim = atol(JSONLblVal(prop));
   // If data are invalid
   if (dim < 1)
     return false;
@@ -593,7 +593,7 @@ bool _VecLongDecodeAsJSON(VecLong** that, const JSONNode* const json) {
   if (prop == NULL) {
     return false;
   }
-  long dim = atol(JSONLabel(JSONValue(prop, 0)));
+  long dim = atol(JSONLblVal(prop));
   // If data are invalid
   if (dim < 1)
     return false;
@@ -1083,7 +1083,7 @@ bool _VecFloatDecodeAsJSON(VecFloat** that, const JSONNode* const json) {
   if (prop == NULL) {
     return false;
   }
-  long dim = atol(JSONLabel(JSONValue(prop, 0)));
+  long dim = atol(JSONLblVal(prop));
   // If data are invalid
   if (dim < 1)
     return false;
@@ -1807,12 +1807,12 @@ bool _MatFloatDecodeAsJSON(MatFloat** that, JSONNode* json) {
     return false;
   }
   VecShort2D dim = VecShortCreateStatic2D();
-  VecSet(&dim, 0, atoi(JSONLabel(JSONValue(prop, 0))));
+  VecSet(&dim, 0, atoi(JSONLblVal(prop)));
   prop = JSONProperty(json, "_nbCol");
   if (prop == NULL) {
     return false;
   }
-  VecSet(&dim, 1, atoi(JSONLabel(JSONValue(prop, 0))));
+  VecSet(&dim, 1, atoi(JSONLblVal(prop)));
   // If data are invalid
   if (VecGet(&dim, 0) < 1 || VecGet(&dim, 1) < 1)
     return false;
