@@ -1,4 +1,4 @@
-// ============ PBMATH_INLINE.C ================
+// ============ PBMATH_static inline.C ================
 
 // ================ Functions implementation ====================
 
@@ -6,21 +6,21 @@
 
 // Static constructors for VecShort
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecShort2D VecShortCreateStatic2D() {
   VecShort2D v = {._val = {0, 0}, ._dim = 2};
   return v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecShort3D VecShortCreateStatic3D() {
   VecShort3D v = {._val = {0, 0, 0}, ._dim = 3};
   return v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecShort4D VecShortCreateStatic4D() {
   VecShort4D v = {._val = {0, 0, 0, 0}, ._dim = 4};
@@ -29,7 +29,7 @@ VecShort4D VecShortCreateStatic4D() {
 
 // Return the i-th value of the VecShort
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 short _VecShortGet(const VecShort* const that, const long i) {
 #if BUILDMODE == 0
@@ -48,7 +48,7 @@ short _VecShortGet(const VecShort* const that, const long i) {
   return ((short*)(((void*)that) + sizeof(int)))[i];
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 short _VecShortGet2D(const VecShort2D* const that, const long i) {
 #if BUILDMODE == 0
@@ -66,7 +66,7 @@ short _VecShortGet2D(const VecShort2D* const that, const long i) {
   return that->_val[i];
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 short _VecShortGet3D(const VecShort3D* const that, const long i) {
 #if BUILDMODE == 0
@@ -84,7 +84,7 @@ short _VecShortGet3D(const VecShort3D* const that, const long i) {
   return that->_val[i];
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 short _VecShortGet4D(const VecShort4D* const that, const long i) {
 #if BUILDMODE == 0
@@ -104,7 +104,7 @@ short _VecShortGet4D(const VecShort4D* const that, const long i) {
 
 // Set the i-th value of the VecShort to v
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecShortSet(VecShort* const that, const long i, const short v) {
 #if BUILDMODE == 0
@@ -123,7 +123,7 @@ void _VecShortSet(VecShort* const that, const long i, const short v) {
   ((short*)(((void*)that) + sizeof(long)))[i] = v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecShortSet2D(VecShort2D* const that, const long i, const short v) {
 #if BUILDMODE == 0
@@ -141,7 +141,7 @@ void _VecShortSet2D(VecShort2D* const that, const long i, const short v) {
   that->_val[i] = v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecShortSet3D(VecShort3D* const that, const long i, const short v) {
 #if BUILDMODE == 0
@@ -159,7 +159,7 @@ void _VecShortSet3D(VecShort3D* const that, const long i, const short v) {
   that->_val[i] = v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecShortSet4D(VecShort4D* const that, const long i, const short v) {
 #if BUILDMODE == 0
@@ -179,7 +179,7 @@ void _VecShortSet4D(VecShort4D* const that, const long i, const short v) {
 
 // Set the i-th value of the VecShort to v plus its current value
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecShortSetAdd(VecShort* const that, const long i, const short v) {
 #if BUILDMODE == 0
@@ -198,7 +198,7 @@ void _VecShortSetAdd(VecShort* const that, const long i, const short v) {
   ((short*)(((void*)that) + sizeof(long)))[i] += v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecShortSetAdd2D(VecShort2D* const that, const long i, const short v) {
 #if BUILDMODE == 0
@@ -216,7 +216,7 @@ void _VecShortSetAdd2D(VecShort2D* const that, const long i, const short v) {
   that->_val[i] += v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecShortSetAdd3D(VecShort3D* const that, const long i, const short v) {
 #if BUILDMODE == 0
@@ -234,7 +234,7 @@ void _VecShortSetAdd3D(VecShort3D* const that, const long i, const short v) {
   that->_val[i] += v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecShortSetAdd4D(VecShort4D* const that, const long i, const short v) {
 #if BUILDMODE == 0
@@ -254,7 +254,7 @@ void _VecShortSetAdd4D(VecShort4D* const that, const long i, const short v) {
 
 // Set all values of the vector 'that' to 0
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecShortSetNull(VecShort* const that) {
 #if BUILDMODE == 0
@@ -271,7 +271,7 @@ void _VecShortSetNull(VecShort* const that) {
 
 // Return the dimension of the VecShort
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 long _VecShortGetDim(const VecShort* const that) {
 #if BUILDMODE == 0
@@ -285,7 +285,7 @@ long _VecShortGetDim(const VecShort* const that) {
 }
 // Return the Hamiltonian distance between the VecShort 'that' and 'tho'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 short _VecShortHamiltonDist(const VecShort* const that, const VecShort* const tho) {
 #if BUILDMODE == 0
@@ -314,7 +314,7 @@ short _VecShortHamiltonDist(const VecShort* const that, const VecShort* const th
   return ret;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 short _VecShortHamiltonDist2D(const VecShort2D* const that, const VecShort2D* const tho) {
 #if BUILDMODE == 0
@@ -334,7 +334,7 @@ short _VecShortHamiltonDist2D(const VecShort2D* const that, const VecShort2D* co
     abs(VecGet(that, 1) - VecGet(tho, 1));
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 short _VecShortHamiltonDist3D(const VecShort3D* const that, const VecShort3D* const tho) {
 #if BUILDMODE == 0
@@ -355,7 +355,7 @@ short _VecShortHamiltonDist3D(const VecShort3D* const that, const VecShort3D* co
     abs(VecGet(that, 2) - VecGet(tho, 2));
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 short _VecShortHamiltonDist4D(const VecShort4D* const that, const VecShort4D* const tho) {
 #if BUILDMODE == 0
@@ -379,7 +379,7 @@ short _VecShortHamiltonDist4D(const VecShort4D* const that, const VecShort4D* co
 
 // Return true if the VecShort 'that' is equal to 'tho', else false
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 bool _VecShortIsEqual(const VecShort* const that, 
   const VecShort* const tho) {
@@ -407,7 +407,7 @@ bool _VecShortIsEqual(const VecShort* const that,
 
 // Copy the values of 'tho' in 'that'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecShortCopy(VecShort* const that, const VecShort* const tho) {
 #if BUILDMODE == 0
@@ -434,7 +434,7 @@ void _VecShortCopy(VecShort* const that, const VecShort* const tho) {
 
 // Return the dot product of 'that' and 'tho'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 short _VecShortDotProd(const VecShort* const that, 
   const VecShort* const tho) {
@@ -466,7 +466,7 @@ short _VecShortDotProd(const VecShort* const that,
   return res;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 short _VecShortDotProd2D(const VecShort2D* const that, 
   const VecShort2D* const tho) {
@@ -486,7 +486,7 @@ short _VecShortDotProd2D(const VecShort2D* const that,
     VecGet(that, 1) * VecGet(tho, 1);
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 short _VecShortDotProd3D(const VecShort3D* const that, 
   const VecShort3D* const tho) {
@@ -507,7 +507,7 @@ short _VecShortDotProd3D(const VecShort3D* const that,
     VecGet(that, 2) * VecGet(tho, 2);
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 short _VecShortDotProd4D(const VecShort4D* const that, 
   const VecShort4D* const tho) {
@@ -531,7 +531,7 @@ short _VecShortDotProd4D(const VecShort4D* const that,
 
 // Calculate (that * a + tho * b) and store the result in 'that'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecShortOp(VecShort* const that, const short a, 
   const VecShort* const tho, const short b) {
@@ -558,7 +558,7 @@ void _VecShortOp(VecShort* const that, const short a,
       a * VecGet(that, iDim) + b * VecGet(tho, iDim));
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecShortOp2D(VecShort2D* const that, const short a, 
   const VecShort2D* const tho, const short b) {
@@ -578,7 +578,7 @@ void _VecShortOp2D(VecShort2D* const that, const short a,
   VecSet(that, 1, a * VecGet(that, 1) + b * VecGet(tho, 1));
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecShortOp3D(VecShort3D* const that, const short a, 
   const VecShort3D* const tho, const short b) {
@@ -599,7 +599,7 @@ void _VecShortOp3D(VecShort3D* const that, const short a,
   VecSet(that, 2, a * VecGet(that, 2) + b * VecGet(tho, 2));
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecShortOp4D(VecShort4D* const that, const short a, 
   const VecShort4D* const tho, const short b) {
@@ -623,7 +623,7 @@ void _VecShortOp4D(VecShort4D* const that, const short a,
 
 // Return a VecShort equal to (that * a + tho * b)
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecShort* _VecShortGetOp(const VecShort* const that, const short a, 
   const VecShort* const tho, const short b) {
@@ -652,7 +652,7 @@ VecShort* _VecShortGetOp(const VecShort* const that, const short a,
   return res;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecShort2D _VecShortGetOp2D(const VecShort2D* const that, const short a, 
   const VecShort2D* const tho, const short b) {
@@ -674,7 +674,7 @@ VecShort2D _VecShortGetOp2D(const VecShort2D* const that, const short a,
   return res;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecShort3D _VecShortGetOp3D(const VecShort3D* const that, const short a, 
   const VecShort3D* const tho, const short b) {
@@ -697,7 +697,7 @@ VecShort3D _VecShortGetOp3D(const VecShort3D* const that, const short a,
   return res;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecShort4D _VecShortGetOp4D(const VecShort4D* const that, const short a, 
   const VecShort4D* const tho, const short b) {
@@ -725,7 +725,7 @@ VecShort4D _VecShortGetOp4D(const VecShort4D* const that, const short a,
 // result in 'that'
 // 'tho' and 'that' must be of same dimension
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 void _VecShortHadamardProd(VecShort* const that, 
   const VecShort* const tho) {
@@ -751,7 +751,7 @@ void _VecShortHadamardProd(VecShort* const that,
     VecSet(that, iDim, VecGet(that, iDim) * VecGet(tho, iDim));
 }
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 void _VecShortHadamardProd2D(VecShort2D* const that, 
   const VecShort2D* const tho) {
@@ -771,7 +771,7 @@ void _VecShortHadamardProd2D(VecShort2D* const that,
   VecSet(that, 1, VecGet(that, 1) * VecGet(tho, 1));
 }
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 void _VecShortHadamardProd3D(VecShort3D* const that, 
   const VecShort3D* const tho) {
@@ -792,7 +792,7 @@ void _VecShortHadamardProd3D(VecShort3D* const that,
   VecSet(that, 2, VecGet(that, 2) * VecGet(tho, 2));
 }
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 void _VecShortHadamardProd4D(VecShort4D* const that, 
   const VecShort4D* const tho) {
@@ -818,7 +818,7 @@ void _VecShortHadamardProd4D(VecShort4D* const that,
 // Return NULL if arguments are invalid
 // 'tho' and 'that' must be of same dimension
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 VecShort* _VecShortGetHadamardProd(const VecShort* const that, 
   const VecShort* const tho) {
@@ -846,7 +846,7 @@ VecShort* _VecShortGetHadamardProd(const VecShort* const that,
   return res;
 }
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 VecShort2D _VecShortGetHadamardProd2D(const VecShort2D* const that, 
   const VecShort2D* const tho) {
@@ -868,7 +868,7 @@ VecShort2D _VecShortGetHadamardProd2D(const VecShort2D* const that,
   return res;
 }
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 VecShort3D _VecShortGetHadamardProd3D(const VecShort3D* const that, 
   const VecShort3D* const tho) {
@@ -891,7 +891,7 @@ VecShort3D _VecShortGetHadamardProd3D(const VecShort3D* const that,
   return res;
 }
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 VecShort4D _VecShortGetHadamardProd4D(const VecShort4D* const that, 
   const VecShort4D* const tho) {
@@ -917,7 +917,7 @@ VecShort4D _VecShortGetHadamardProd4D(const VecShort4D* const that,
 
 // Get the max value in components of the vector 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 short _VecShortGetMaxVal(const VecShort* const that) {
 #if BUILDMODE == 0
@@ -938,7 +938,7 @@ short _VecShortGetMaxVal(const VecShort* const that) {
 
 // Get the index of the max value in components of the vector 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 long _VecShortGetIMaxVal(const VecShort* const that) {
 #if BUILDMODE == 0
@@ -965,7 +965,7 @@ long _VecShortGetIMaxVal(const VecShort* const that) {
 
 // Get the min value in components of the vector 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 short _VecShortGetMinVal(const VecShort* const that) {
 #if BUILDMODE == 0
@@ -987,7 +987,7 @@ short _VecShortGetMinVal(const VecShort* const that) {
 // Get the max value (in absolute value) in components of the 
 // vector 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 short _VecShortGetMaxValAbs(const VecShort* const that) {
 #if BUILDMODE == 0
@@ -1009,7 +1009,7 @@ short _VecShortGetMaxValAbs(const VecShort* const that) {
 // Get the min value (in absolute value) in components of the 
 // vector 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 short _VecShortGetMinValAbs(const VecShort* const that) {
 #if BUILDMODE == 0
@@ -1032,21 +1032,21 @@ short _VecShortGetMinValAbs(const VecShort* const that) {
 
 // Static constructors for VecLong
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecLong2D VecLongCreateStatic2D() {
   VecLong2D v = {._val = {0, 0}, ._dim = 2};
   return v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecLong3D VecLongCreateStatic3D() {
   VecLong3D v = {._val = {0, 0, 0}, ._dim = 3};
   return v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecLong4D VecLongCreateStatic4D() {
   VecLong4D v = {._val = {0, 0, 0, 0}, ._dim = 4};
@@ -1055,7 +1055,7 @@ VecLong4D VecLongCreateStatic4D() {
 
 // Return the i-th value of the VecLong
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 long _VecLongGet(const VecLong* const that, const long i) {
 #if BUILDMODE == 0
@@ -1074,7 +1074,7 @@ long _VecLongGet(const VecLong* const that, const long i) {
   return ((long*)(((void*)that) + sizeof(int)))[i];
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 long _VecLongGet2D(const VecLong2D* const that, const long i) {
 #if BUILDMODE == 0
@@ -1092,7 +1092,7 @@ long _VecLongGet2D(const VecLong2D* const that, const long i) {
   return that->_val[i];
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 long _VecLongGet3D(const VecLong3D* const that, const long i) {
 #if BUILDMODE == 0
@@ -1110,7 +1110,7 @@ long _VecLongGet3D(const VecLong3D* const that, const long i) {
   return that->_val[i];
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 long _VecLongGet4D(const VecLong4D* const that, const long i) {
 #if BUILDMODE == 0
@@ -1130,7 +1130,7 @@ long _VecLongGet4D(const VecLong4D* const that, const long i) {
 
 // Set the i-th value of the VecLong to v
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecLongSet(VecLong* const that, const long i, const long v) {
 #if BUILDMODE == 0
@@ -1149,7 +1149,7 @@ void _VecLongSet(VecLong* const that, const long i, const long v) {
   ((long*)(((void*)that) + sizeof(long)))[i] = v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecLongSet2D(VecLong2D* const that, const long i, const long v) {
 #if BUILDMODE == 0
@@ -1167,7 +1167,7 @@ void _VecLongSet2D(VecLong2D* const that, const long i, const long v) {
   that->_val[i] = v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecLongSet3D(VecLong3D* const that, const long i, const long v) {
 #if BUILDMODE == 0
@@ -1185,7 +1185,7 @@ void _VecLongSet3D(VecLong3D* const that, const long i, const long v) {
   that->_val[i] = v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecLongSet4D(VecLong4D* const that, const long i, const long v) {
 #if BUILDMODE == 0
@@ -1205,7 +1205,7 @@ void _VecLongSet4D(VecLong4D* const that, const long i, const long v) {
 
 // Set the i-th value of the VecLong to v plus its current value
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecLongSetAdd(VecLong* const that, const long i, const long v) {
 #if BUILDMODE == 0
@@ -1224,7 +1224,7 @@ void _VecLongSetAdd(VecLong* const that, const long i, const long v) {
   ((long*)(((void*)that) + sizeof(long)))[i] += v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecLongSetAdd2D(VecLong2D* const that, const long i, const long v) {
 #if BUILDMODE == 0
@@ -1242,7 +1242,7 @@ void _VecLongSetAdd2D(VecLong2D* const that, const long i, const long v) {
   that->_val[i] += v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecLongSetAdd3D(VecLong3D* const that, const long i, const long v) {
 #if BUILDMODE == 0
@@ -1260,7 +1260,7 @@ void _VecLongSetAdd3D(VecLong3D* const that, const long i, const long v) {
   that->_val[i] += v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecLongSetAdd4D(VecLong4D* const that, const long i, const long v) {
 #if BUILDMODE == 0
@@ -1280,7 +1280,7 @@ void _VecLongSetAdd4D(VecLong4D* const that, const long i, const long v) {
 
 // Set all values of the vector 'that' to 0
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecLongSetNull(VecLong* const that) {
 #if BUILDMODE == 0
@@ -1297,7 +1297,7 @@ void _VecLongSetNull(VecLong* const that) {
 
 // Return the dimension of the VecLong
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 long _VecLongGetDim(const VecLong* const that) {
 #if BUILDMODE == 0
@@ -1311,7 +1311,7 @@ long _VecLongGetDim(const VecLong* const that) {
 }
 // Return the Hamiltonian distance between the VecLong 'that' and 'tho'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 long _VecLongHamiltonDist(const VecLong* const that, const VecLong* const tho) {
 #if BUILDMODE == 0
@@ -1340,7 +1340,7 @@ long _VecLongHamiltonDist(const VecLong* const that, const VecLong* const tho) {
   return ret;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 long _VecLongHamiltonDist2D(const VecLong2D* const that, const VecLong2D* const tho) {
 #if BUILDMODE == 0
@@ -1360,7 +1360,7 @@ long _VecLongHamiltonDist2D(const VecLong2D* const that, const VecLong2D* const 
     labs(VecGet(that, 1) - VecGet(tho, 1));
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 long _VecLongHamiltonDist3D(const VecLong3D* const that, const VecLong3D* const tho) {
 #if BUILDMODE == 0
@@ -1381,7 +1381,7 @@ long _VecLongHamiltonDist3D(const VecLong3D* const that, const VecLong3D* const 
     labs(VecGet(that, 2) - VecGet(tho, 2));
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 long _VecLongHamiltonDist4D(const VecLong4D* const that, const VecLong4D* const tho) {
 #if BUILDMODE == 0
@@ -1405,7 +1405,7 @@ long _VecLongHamiltonDist4D(const VecLong4D* const that, const VecLong4D* const 
 
 // Return true if the VecLong 'that' is equal to 'tho', else false
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 bool _VecLongIsEqual(const VecLong* const that, 
   const VecLong* const tho) {
@@ -1433,7 +1433,7 @@ bool _VecLongIsEqual(const VecLong* const that,
 
 // Copy the values of 'tho' in 'that'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecLongCopy(VecLong* const that, const VecLong* const tho) {
 #if BUILDMODE == 0
@@ -1460,7 +1460,7 @@ void _VecLongCopy(VecLong* const that, const VecLong* const tho) {
 
 // Return the dot product of 'that' and 'tho'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 long _VecLongDotProd(const VecLong* const that, 
   const VecLong* const tho) {
@@ -1492,7 +1492,7 @@ long _VecLongDotProd(const VecLong* const that,
   return res;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 long _VecLongDotProd2D(const VecLong2D* const that, 
   const VecLong2D* const tho) {
@@ -1512,7 +1512,7 @@ long _VecLongDotProd2D(const VecLong2D* const that,
     VecGet(that, 1) * VecGet(tho, 1);
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 long _VecLongDotProd3D(const VecLong3D* const that, 
   const VecLong3D* const tho) {
@@ -1533,7 +1533,7 @@ long _VecLongDotProd3D(const VecLong3D* const that,
     VecGet(that, 2) * VecGet(tho, 2);
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 long _VecLongDotProd4D(const VecLong4D* const that, 
   const VecLong4D* const tho) {
@@ -1557,7 +1557,7 @@ long _VecLongDotProd4D(const VecLong4D* const that,
 
 // Calculate (that * a + tho * b) and store the result in 'that'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecLongOp(VecLong* const that, const long a, 
   const VecLong* const tho, const long b) {
@@ -1584,7 +1584,7 @@ void _VecLongOp(VecLong* const that, const long a,
       a * VecGet(that, iDim) + b * VecGet(tho, iDim));
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecLongOp2D(VecLong2D* const that, const long a, 
   const VecLong2D* const tho, const long b) {
@@ -1604,7 +1604,7 @@ void _VecLongOp2D(VecLong2D* const that, const long a,
   VecSet(that, 1, a * VecGet(that, 1) + b * VecGet(tho, 1));
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecLongOp3D(VecLong3D* const that, const long a, 
   const VecLong3D* const tho, const long b) {
@@ -1625,7 +1625,7 @@ void _VecLongOp3D(VecLong3D* const that, const long a,
   VecSet(that, 2, a * VecGet(that, 2) + b * VecGet(tho, 2));
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecLongOp4D(VecLong4D* const that, const long a, 
   const VecLong4D* const tho, const long b) {
@@ -1649,7 +1649,7 @@ void _VecLongOp4D(VecLong4D* const that, const long a,
 
 // Return a VecLong equal to (that * a + tho * b)
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecLong* _VecLongGetOp(const VecLong* const that, const long a, 
   const VecLong* const tho, const long b) {
@@ -1678,7 +1678,7 @@ VecLong* _VecLongGetOp(const VecLong* const that, const long a,
   return res;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecLong2D _VecLongGetOp2D(const VecLong2D* const that, const long a, 
   const VecLong2D* const tho, const long b) {
@@ -1700,7 +1700,7 @@ VecLong2D _VecLongGetOp2D(const VecLong2D* const that, const long a,
   return res;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecLong3D _VecLongGetOp3D(const VecLong3D* const that, const long a, 
   const VecLong3D* const tho, const long b) {
@@ -1723,7 +1723,7 @@ VecLong3D _VecLongGetOp3D(const VecLong3D* const that, const long a,
   return res;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecLong4D _VecLongGetOp4D(const VecLong4D* const that, const long a, 
   const VecLong4D* const tho, const long b) {
@@ -1751,7 +1751,7 @@ VecLong4D _VecLongGetOp4D(const VecLong4D* const that, const long a,
 // result in 'that'
 // 'tho' and 'that' must be of same dimension
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 void _VecLongHadamardProd(VecLong* const that, 
   const VecLong* const tho) {
@@ -1777,7 +1777,7 @@ void _VecLongHadamardProd(VecLong* const that,
     VecSet(that, iDim, VecGet(that, iDim) * VecGet(tho, iDim));
 }
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 void _VecLongHadamardProd2D(VecLong2D* const that, 
   const VecLong2D* const tho) {
@@ -1797,7 +1797,7 @@ void _VecLongHadamardProd2D(VecLong2D* const that,
   VecSet(that, 1, VecGet(that, 1) * VecGet(tho, 1));
 }
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 void _VecLongHadamardProd3D(VecLong3D* const that, 
   const VecLong3D* const tho) {
@@ -1818,7 +1818,7 @@ void _VecLongHadamardProd3D(VecLong3D* const that,
   VecSet(that, 2, VecGet(that, 2) * VecGet(tho, 2));
 }
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 void _VecLongHadamardProd4D(VecLong4D* const that, 
   const VecLong4D* const tho) {
@@ -1844,7 +1844,7 @@ void _VecLongHadamardProd4D(VecLong4D* const that,
 // Return NULL if arguments are invalid
 // 'tho' and 'that' must be of same dimension
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 VecLong* _VecLongGetHadamardProd(const VecLong* const that, 
   const VecLong* const tho) {
@@ -1872,7 +1872,7 @@ VecLong* _VecLongGetHadamardProd(const VecLong* const that,
   return res;
 }
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 VecLong2D _VecLongGetHadamardProd2D(const VecLong2D* const that, 
   const VecLong2D* const tho) {
@@ -1894,7 +1894,7 @@ VecLong2D _VecLongGetHadamardProd2D(const VecLong2D* const that,
   return res;
 }
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 VecLong3D _VecLongGetHadamardProd3D(const VecLong3D* const that, 
   const VecLong3D* const tho) {
@@ -1917,7 +1917,7 @@ VecLong3D _VecLongGetHadamardProd3D(const VecLong3D* const that,
   return res;
 }
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 VecLong4D _VecLongGetHadamardProd4D(const VecLong4D* const that, 
   const VecLong4D* const tho) {
@@ -1943,7 +1943,7 @@ VecLong4D _VecLongGetHadamardProd4D(const VecLong4D* const that,
 
 // Get the max value in components of the vector 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 long _VecLongGetMaxVal(const VecLong* const that) {
 #if BUILDMODE == 0
@@ -1964,7 +1964,7 @@ long _VecLongGetMaxVal(const VecLong* const that) {
 
 // Get the index of the max value in components of the vector 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 long _VecLongGetIMaxVal(const VecLong* const that) {
 #if BUILDMODE == 0
@@ -1991,7 +1991,7 @@ long _VecLongGetIMaxVal(const VecLong* const that) {
 
 // Get the min value in components of the vector 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 long _VecLongGetMinVal(const VecLong* const that) {
 #if BUILDMODE == 0
@@ -2013,7 +2013,7 @@ long _VecLongGetMinVal(const VecLong* const that) {
 // Get the max value (in absolute value) in components of the 
 // vector 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 long _VecLongGetMaxValAbs(const VecLong* const that) {
 #if BUILDMODE == 0
@@ -2035,7 +2035,7 @@ long _VecLongGetMaxValAbs(const VecLong* const that) {
 // Get the min value (in absolute value) in components of the 
 // vector 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 long _VecLongGetMinValAbs(const VecLong* const that) {
 #if BUILDMODE == 0
@@ -2058,14 +2058,14 @@ long _VecLongGetMinValAbs(const VecLong* const that) {
 
 // Static constructors for VecFloat
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecFloat2D VecFloatCreateStatic2D() {
   VecFloat2D v = {._val = {0.0, 0.0}, ._dim = 2};
   return v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecFloat3D VecFloatCreateStatic3D() {
   VecFloat3D v = {._val = {0.0, 0.0, 0.0}, ._dim = 3};
@@ -2074,7 +2074,7 @@ VecFloat3D VecFloatCreateStatic3D() {
 
 // Return the i-th value of the VecFloat
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float _VecFloatGet(const VecFloat* const that, const long i) {
 #if BUILDMODE == 0
@@ -2094,7 +2094,7 @@ float _VecFloatGet(const VecFloat* const that, const long i) {
   return that->_val[i];
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float _VecFloatGet2D(const VecFloat2D* const that, const long i) {
 #if BUILDMODE == 0
@@ -2113,7 +2113,7 @@ float _VecFloatGet2D(const VecFloat2D* const that, const long i) {
   return that->_val[i];
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float _VecFloatGet3D(const VecFloat3D* const that, const long i) {
 #if BUILDMODE == 0
@@ -2134,7 +2134,7 @@ float _VecFloatGet3D(const VecFloat3D* const that, const long i) {
 
 // Set the i-th value of the VecFloat to v
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatSet(VecFloat* const that, const long i, const float v) {
 #if BUILDMODE == 0
@@ -2154,7 +2154,7 @@ void _VecFloatSet(VecFloat* const that, const long i, const float v) {
   that->_val[i] = v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatSet2D(VecFloat2D* const that, const long i, const float v) {
 #if BUILDMODE == 0
@@ -2173,7 +2173,7 @@ void _VecFloatSet2D(VecFloat2D* const that, const long i, const float v) {
   that->_val[i] = v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatSet3D(VecFloat3D* const that, const long i, const float v) {
 #if BUILDMODE == 0
@@ -2194,7 +2194,7 @@ void _VecFloatSet3D(VecFloat3D* const that, const long i, const float v) {
 
 // Set the i-th value of the VecFloat to v plus its current value
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatSetAdd(VecFloat* const that, const long i, const float v) {
 #if BUILDMODE == 0
@@ -2214,7 +2214,7 @@ void _VecFloatSetAdd(VecFloat* const that, const long i, const float v) {
   that->_val[i] += v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatSetAdd2D(VecFloat2D* const that, const long i, 
   const float v) {
@@ -2234,7 +2234,7 @@ void _VecFloatSetAdd2D(VecFloat2D* const that, const long i,
   that->_val[i] += v;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatSetAdd3D(VecFloat3D* const that, const long i, 
   const float v) {
@@ -2256,7 +2256,7 @@ void _VecFloatSetAdd3D(VecFloat3D* const that, const long i,
 
 // Set all values of the vector 'that' to 0.0
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatSetNull(VecFloat* const that) {
 #if BUILDMODE == 0
@@ -2271,7 +2271,7 @@ void _VecFloatSetNull(VecFloat* const that) {
     that->_val[iDim] = 0.0;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatSetNull2D(VecFloat2D* const that) {
 #if BUILDMODE == 0
@@ -2286,7 +2286,7 @@ void _VecFloatSetNull2D(VecFloat2D* const that) {
   that->_val[1] = 0.0;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatSetNull3D(VecFloat3D* const that) {
 #if BUILDMODE == 0
@@ -2304,7 +2304,7 @@ void _VecFloatSetNull3D(VecFloat3D* const that) {
 
 // Return the dimension of the VecFloat
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 long _VecFloatGetDim(const VecFloat* const that) {
 #if BUILDMODE == 0
@@ -2319,7 +2319,7 @@ long _VecFloatGetDim(const VecFloat* const that) {
 
 // Copy the values of 'tho' in 'that'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatCopy(VecFloat* const that, const VecFloat* const tho) {
 #if BUILDMODE == 0
@@ -2346,7 +2346,7 @@ void _VecFloatCopy(VecFloat* const that, const VecFloat* const tho) {
 
 // Return the norm of the VecFloat
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float _VecFloatNorm(const VecFloat* const that) {
 #if BUILDMODE == 0
@@ -2366,7 +2366,7 @@ float _VecFloatNorm(const VecFloat* const that) {
   return ret;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float _VecFloatNorm2D(const VecFloat2D* const that) {
 #if BUILDMODE == 0
@@ -2380,7 +2380,7 @@ float _VecFloatNorm2D(const VecFloat2D* const that) {
   return sqrt(fsquare(VecGet(that, 0)) + fsquare(VecGet(that, 1)));
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float _VecFloatNorm3D(const VecFloat3D* const that) {
 #if BUILDMODE == 0
@@ -2397,7 +2397,7 @@ float _VecFloatNorm3D(const VecFloat3D* const that) {
 
 // Normalise the VecFloat
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatNormalise(VecFloat* const that) {
 #if BUILDMODE == 0
@@ -2414,7 +2414,7 @@ void _VecFloatNormalise(VecFloat* const that) {
 }
 
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatNormalise2D(VecFloat2D* const that) {
 #if BUILDMODE == 0
@@ -2430,7 +2430,7 @@ void _VecFloatNormalise2D(VecFloat2D* const that) {
   VecSet(that, 1, VecGet(that, 1) / norm);
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatNormalise3D(VecFloat3D* const that) {
 #if BUILDMODE == 0
@@ -2449,7 +2449,7 @@ void _VecFloatNormalise3D(VecFloat3D* const that) {
 
 // Return the distance between the VecFloat 'that' and 'tho'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float _VecFloatDist(const VecFloat* const that, 
   const VecFloat* const tho) {
@@ -2480,7 +2480,7 @@ float _VecFloatDist(const VecFloat* const that,
   return ret;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float _VecFloatDist2D(const VecFloat2D* const that, 
   const VecFloat2D* const tho) {
@@ -2501,7 +2501,7 @@ float _VecFloatDist2D(const VecFloat2D* const that,
     fsquare(VecGet(that, 1) - VecGet(tho, 1)));
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float _VecFloatDist3D(const VecFloat3D* const that, 
   const VecFloat3D* const tho) {
@@ -2525,7 +2525,7 @@ float _VecFloatDist3D(const VecFloat3D* const that,
 
 // Return the Hamiltonian distance between the VecFloat 'that' and 'tho'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float _VecFloatHamiltonDist(const VecFloat* const that, 
   const VecFloat* const tho) {
@@ -2555,7 +2555,7 @@ float _VecFloatHamiltonDist(const VecFloat* const that,
   return ret;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float _VecFloatHamiltonDist2D(const VecFloat2D* const that, 
   const VecFloat2D* const tho) {
@@ -2576,7 +2576,7 @@ float _VecFloatHamiltonDist2D(const VecFloat2D* const that,
     fabs(VecGet(that, 1) - VecGet(tho, 1));
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float _VecFloatHamiltonDist3D(const VecFloat3D* const that, 
   const VecFloat3D* const tho) {
@@ -2600,7 +2600,7 @@ float _VecFloatHamiltonDist3D(const VecFloat3D* const that,
 
 // Return the Pixel distance between the VecFloat 'that' and 'tho'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float _VecFloatPixelDist(const VecFloat* const that, 
   const VecFloat* const tho) {
@@ -2630,7 +2630,7 @@ float _VecFloatPixelDist(const VecFloat* const that,
   return ret;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float _VecFloatPixelDist2D(const VecFloat2D* const that, 
   const VecFloat2D* const tho) {
@@ -2651,7 +2651,7 @@ float _VecFloatPixelDist2D(const VecFloat2D* const that,
     fabs(floor(VecGet(that, 1)) - floor(VecGet(tho, 1)));
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float _VecFloatPixelDist3D(const VecFloat3D* const that, 
   const VecFloat3D* const tho) {
@@ -2675,7 +2675,7 @@ float _VecFloatPixelDist3D(const VecFloat3D* const that,
 
 // Return true if the VecFloat 'that' is equal to 'tho', else false
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 bool _VecFloatIsEqual(const VecFloat* const that, 
   const VecFloat* const tho) {
@@ -2709,7 +2709,7 @@ bool _VecFloatIsEqual(const VecFloat* const that,
 
 // Calculate (that * a + tho * b) and store the result in 'that'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatOp(VecFloat* const that, const float a, 
   const VecFloat* const tho, const float b) {
@@ -2736,7 +2736,7 @@ void _VecFloatOp(VecFloat* const that, const float a,
       a * VecGet(that, iDim) + b * VecGet(tho, iDim));
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatOp2D(VecFloat2D* const that, const float a, 
   const VecFloat2D* const tho, const float b) {
@@ -2756,7 +2756,7 @@ void _VecFloatOp2D(VecFloat2D* const that, const float a,
   VecSet(that, 1, a * VecGet(that, 1) + b * VecGet(tho, 1));
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatOp3D(VecFloat3D* const that, const float a, 
   const VecFloat3D* const tho, const float b) {
@@ -2779,7 +2779,7 @@ void _VecFloatOp3D(VecFloat3D* const that, const float a,
 
 // Return a VecFloat equal to (that * a + tho * b)
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecFloat* _VecFloatGetOp(const VecFloat* const that, const float a, 
   const VecFloat* const tho, const float b) {
@@ -2808,7 +2808,7 @@ VecFloat* _VecFloatGetOp(const VecFloat* const that, const float a,
   return res;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecFloat2D _VecFloatGetOp2D(const VecFloat2D* const that, const float a, 
   const VecFloat2D* const tho, const float b) {
@@ -2830,7 +2830,7 @@ VecFloat2D _VecFloatGetOp2D(const VecFloat2D* const that, const float a,
   return res;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecFloat3D _VecFloatGetOp3D(const VecFloat3D* const that, const float a, 
   const VecFloat3D* const tho, const float b) {
@@ -2857,7 +2857,7 @@ VecFloat3D _VecFloatGetOp3D(const VecFloat3D* const that, const float a,
 // result in 'that'
 // 'tho' and 'that' must be of same dimension
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 void _VecFloatHadamardProd(VecFloat* const that, 
   const VecFloat* const tho) {
@@ -2883,7 +2883,7 @@ void _VecFloatHadamardProd(VecFloat* const that,
     VecSet(that, iDim, VecGet(that, iDim) * VecGet(tho, iDim));
 }
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 void _VecFloatHadamardProd2D(VecFloat2D* const that, 
   const VecFloat2D* const tho) {
@@ -2903,7 +2903,7 @@ void _VecFloatHadamardProd2D(VecFloat2D* const that,
   VecSet(that, 1, VecGet(that, 1) * VecGet(tho, 1));
 }
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 void _VecFloatHadamardProd3D(VecFloat3D* const that, 
   const VecFloat3D* const tho) {
@@ -2928,7 +2928,7 @@ void _VecFloatHadamardProd3D(VecFloat3D* const that,
 // Return NULL if arguments are invalid
 // 'tho' and 'that' must be of same dimension
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 VecFloat* _VecFloatGetHadamardProd(const VecFloat* const that, 
   const VecFloat* const tho) {
@@ -2956,7 +2956,7 @@ VecFloat* _VecFloatGetHadamardProd(const VecFloat* const that,
   return res;
 }
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 VecFloat2D _VecFloatGetHadamardProd2D(const VecFloat2D* const that, 
   const VecFloat2D* const tho) {
@@ -2978,7 +2978,7 @@ VecFloat2D _VecFloatGetHadamardProd2D(const VecFloat2D* const that,
   return res;
 }
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 VecFloat3D _VecFloatGetHadamardProd3D(const VecFloat3D* const that, 
   const VecFloat3D* const tho) {
@@ -3003,7 +3003,7 @@ VecFloat3D _VecFloatGetHadamardProd3D(const VecFloat3D* const that,
 
 // Calculate (that * a) and store the result in 'that'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatScale(VecFloat* const that, const float a) {
 #if BUILDMODE == 0
@@ -3017,7 +3017,7 @@ void _VecFloatScale(VecFloat* const that, const float a) {
     VecSet(that, iDim, a * VecGet(that, iDim));
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatScale2D(VecFloat2D* const that, const float a) {
 #if BUILDMODE == 0
@@ -3031,7 +3031,7 @@ void _VecFloatScale2D(VecFloat2D* const that, const float a) {
   VecSet(that, 1, a * VecGet(that, 1));
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatScale3D(VecFloat3D* const that, const float a) {
 #if BUILDMODE == 0
@@ -3048,7 +3048,7 @@ void _VecFloatScale3D(VecFloat3D* const that, const float a) {
 
 // Return a VecFloat equal to (that * a)
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecFloat* _VecFloatGetScale(const VecFloat* const that, const float a) {
 #if BUILDMODE == 0
@@ -3064,7 +3064,7 @@ VecFloat* _VecFloatGetScale(const VecFloat* const that, const float a) {
   return res;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecFloat2D _VecFloatGetScale2D(const VecFloat2D* const that, 
   const float a) {
@@ -3081,7 +3081,7 @@ VecFloat2D _VecFloatGetScale2D(const VecFloat2D* const that,
   return res;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecFloat3D _VecFloatGetScale3D(const VecFloat3D* const that, 
   const float a) {
@@ -3101,7 +3101,7 @@ VecFloat3D _VecFloatGetScale3D(const VecFloat3D* const that,
 
 // Rotate CCW 'that' by 'theta' radians and store the result in 'that'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatRot2D(VecFloat2D* const that, const float theta) {
 #if BUILDMODE == 0
@@ -3122,7 +3122,7 @@ void _VecFloatRot2D(VecFloat2D* const that, const float theta) {
 
 // Return a VecFloat2D equal to 'that' rotated CCW by 'theta' radians
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecFloat2D _VecFloatGetRot2D(const VecFloat2D* const that, const float theta) {
 #if BUILDMODE == 0
@@ -3154,7 +3154,7 @@ VecFloat2D _VecFloatGetRot2D(const VecFloat2D* const that, const float theta) {
 
 // Return the dot product of 'that' and 'tho'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float _VecFloatDotProd(const VecFloat* const that, 
   const VecFloat* const tho) {
@@ -3185,7 +3185,7 @@ float _VecFloatDotProd(const VecFloat* const that,
   return res;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float _VecFloatDotProd2D(const VecFloat2D* const that, 
   const VecFloat2D* const tho) {
@@ -3204,7 +3204,7 @@ float _VecFloatDotProd2D(const VecFloat2D* const that,
   return that->_val[0] * tho->_val[0] + that->_val[1] * tho->_val[1];
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float _VecFloatDotProd3D(const VecFloat3D* const that, 
   const VecFloat3D* const tho) {
@@ -3226,7 +3226,7 @@ float _VecFloatDotProd3D(const VecFloat3D* const that,
 
 // Return the cross product of 'that' and 'tho'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecFloat* _VecFloatGetCrossProd(const VecFloat* const that, 
   const VecFloat* const tho) {
@@ -3264,7 +3264,7 @@ VecFloat* _VecFloatGetCrossProd(const VecFloat* const that,
   return res;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecFloat3D _VecFloatGetCrossProd3D(const VecFloat3D* const that, 
   const VecFloat3D* const tho) {
@@ -3298,7 +3298,7 @@ VecFloat3D _VecFloatGetCrossProd3D(const VecFloat3D* const that,
 
 // Return the conversion of VecFloat 'that' to a VecShort using round()
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecShort* VecFloatToShort(const VecFloat* const that) {
 #if BUILDMODE == 0
@@ -3316,7 +3316,7 @@ VecShort* VecFloatToShort(const VecFloat* const that) {
   return res;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecShort2D VecFloatToShort2D(const VecFloat2D* const that) {
 #if BUILDMODE == 0
@@ -3334,7 +3334,7 @@ VecShort2D VecFloatToShort2D(const VecFloat2D* const that) {
   return res;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecShort3D VecFloatToShort3D(const VecFloat3D* const that) {
 #if BUILDMODE == 0
@@ -3355,7 +3355,7 @@ VecShort3D VecFloatToShort3D(const VecFloat3D* const that) {
 
 // Return the conversion of VecShort 'that' to a VecFloat
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecFloat* VecShortToFloat(const VecShort* const that) {
 #if BUILDMODE == 0
@@ -3373,7 +3373,7 @@ VecFloat* VecShortToFloat(const VecShort* const that) {
   return res;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecFloat2D VecShortToFloat2D(const VecShort2D* const that) {
 #if BUILDMODE == 0
@@ -3391,7 +3391,7 @@ VecFloat2D VecShortToFloat2D(const VecShort2D* const that) {
   return res;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecFloat3D VecShortToFloat3D(const VecShort3D* const that) {
 #if BUILDMODE == 0
@@ -3412,7 +3412,7 @@ VecFloat3D VecShortToFloat3D(const VecShort3D* const that) {
 
 // Return the conversion of VecLong 'that' to a VecFloat
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecFloat* VecLongToFloat(const VecLong* const that) {
 #if BUILDMODE == 0
@@ -3430,7 +3430,7 @@ VecFloat* VecLongToFloat(const VecLong* const that) {
   return res;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecFloat2D VecLongToFloat2D(const VecLong2D* const that) {
 #if BUILDMODE == 0
@@ -3448,7 +3448,7 @@ VecFloat2D VecLongToFloat2D(const VecLong2D* const that) {
   return res;
 }
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecFloat3D VecLongToFloat3D(const VecLong3D* const that) {
 #if BUILDMODE == 0
@@ -3469,7 +3469,7 @@ VecFloat3D VecLongToFloat3D(const VecLong3D* const that) {
 
 // Get the max value in components of the vector 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 float _VecFloatGetMaxVal(const VecFloat* const that) {
 #if BUILDMODE == 0
@@ -3490,7 +3490,7 @@ float _VecFloatGetMaxVal(const VecFloat* const that) {
 
 // Get the index of the max value in components of the vector 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 long _VecFloatGetIMaxVal(const VecFloat* const that) {
 #if BUILDMODE == 0
@@ -3517,7 +3517,7 @@ long _VecFloatGetIMaxVal(const VecFloat* const that) {
 
 // Get the min value in components of the vector 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 float _VecFloatGetMinVal(const VecFloat* const that) {
 #if BUILDMODE == 0
@@ -3539,7 +3539,7 @@ float _VecFloatGetMinVal(const VecFloat* const that) {
 // Get the max value (in absolute value) in components of the 
 // vector 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 float _VecFloatGetMaxValAbs(const VecFloat* const that) {
 #if BUILDMODE == 0
@@ -3561,7 +3561,7 @@ float _VecFloatGetMaxValAbs(const VecFloat* const that) {
 // Get the min value (in absolute value) in components of the 
 // vector 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 float _VecFloatGetMinValAbs(const VecFloat* const that) {
 #if BUILDMODE == 0
@@ -3583,7 +3583,7 @@ float _VecFloatGetMinValAbs(const VecFloat* const that) {
 // Set the MatFloat to the identity matrix
 // The matrix must be a square matrix
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _MatFloatSetIdentity(MatFloat* const that) {
 #if BUILDMODE == 0
@@ -3612,7 +3612,7 @@ void _MatFloatSetIdentity(MatFloat* const that) {
 // Return the addition of matrix 'that' with matrix 'tho'
 // 'that' and 'tho' must have same dimensions
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 MatFloat* _MatFloatGetAdd(MatFloat* const that, MatFloat* tho) {
 #if BUILDMODE == 0
@@ -3647,7 +3647,7 @@ MatFloat* _MatFloatGetAdd(MatFloat* const that, MatFloat* tho) {
 // Add matrix 'that' with matrix 'tho' and store the result in 'that'
 // 'that' and 'tho' must have same dimensions
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 void _MatFloatAdd(MatFloat* const that, MatFloat* tho) {
 #if BUILDMODE == 0
@@ -3677,7 +3677,7 @@ void _MatFloatAdd(MatFloat* const that, MatFloat* tho) {
 
 // Multiply the matrix 'that' by 'a'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 void _MatFloatScale(MatFloat* const that, const float a) {
 #if BUILDMODE == 0
@@ -3696,7 +3696,7 @@ void _MatFloatScale(MatFloat* const that, const float a) {
 
 // Copy the values of 'w' in 'that' (must have same dimensions)
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _MatFloatCopy(MatFloat* const that, const MatFloat* const tho) {
 #if BUILDMODE == 0
@@ -3727,7 +3727,7 @@ void _MatFloatCopy(MatFloat* const that, const MatFloat* const tho) {
 // Return the value at index 'i' (col, line) of the MatFloat
 // Index starts at 0, index in matrix = line * nbCol + col
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float _MatFloatGet(const MatFloat* const that, 
   VecShort2D* index) {
@@ -3762,7 +3762,7 @@ float _MatFloatGet(const MatFloat* const that,
 // Set the value at index 'i' (col, line) of the MatFloat to 'v'
 // Index starts at 0, index in matrix = line * nbCol + col
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _MatFloatSet(MatFloat* const that, VecShort2D* index, float v) {
 #if BUILDMODE == 0
@@ -3795,7 +3795,7 @@ void _MatFloatSet(MatFloat* const that, VecShort2D* index, float v) {
 
 // Return the dimension of the MatFloat
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 const VecShort2D* _MatFloatDim(const MatFloat* const that) {
 #if BUILDMODE == 0
@@ -3811,7 +3811,7 @@ const VecShort2D* _MatFloatDim(const MatFloat* const that) {
 
 // Return a VecShort2D containing the dimension of the MatFloat
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecShort2D _MatFloatGetDim(const MatFloat* const that) {
 #if BUILDMODE == 0
@@ -3827,7 +3827,7 @@ VecShort2D _MatFloatGetDim(const MatFloat* const that) {
 
 // Return the number of rows of the MatFloat 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 short _MatFloatGetNbRow(const MatFloat* const that) {
 #if BUILDMODE == 0
@@ -3843,7 +3843,7 @@ short _MatFloatGetNbRow(const MatFloat* const that) {
 
 // Return the number of columns of the MatFloat 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 short _MatFloatGetNbCol(const MatFloat* const that) {
 #if BUILDMODE == 0
@@ -3860,7 +3860,7 @@ short _MatFloatGetNbCol(const MatFloat* const that) {
 
 // Return the value of the Gauss 'that' at 'x'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float GaussGet(const Gauss* const that, const float x) {
 #if BUILDMODE == 0
@@ -3882,7 +3882,7 @@ float GaussGet(const Gauss* const that, const float x) {
 // Gauss distribution 'that'
 // random() must have been called before calling this function
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float GaussRnd(Gauss* const that) {
 #if BUILDMODE == 0
@@ -3911,7 +3911,7 @@ float GaussRnd(Gauss* const that) {
 // if x < 0.0 return 0.0
 // if x > 1.0 return 1.0
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float SmoothStep(const float x) {
   if (x > 0.0)
@@ -3927,7 +3927,7 @@ float SmoothStep(const float x) {
 // if x < 0.0 return 0.0
 // if x > 1.0 return 1.0
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 float SmootherStep(const float x) {
   if (x > 0.0)
@@ -3943,7 +3943,7 @@ float SmootherStep(const float x) {
 // Return the solution vector, or null if there is no solution or the 
 // arguments are invalid
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 VecFloat* SysLinEqSolve(const SysLinEq* const that) {
 #if BUILDMODE == 0
@@ -3965,7 +3965,7 @@ VecFloat* SysLinEqSolve(const SysLinEq* const that) {
 // 'm' must have same dimensions has the current matrix
 // Do nothing if arguments are invalid
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void SysLinEqSetM(SysLinEq* const that, const MatFloat* const m) {
 #if BUILDMODE == 0
@@ -4005,7 +4005,7 @@ void SysLinEqSetM(SysLinEq* const that, const MatFloat* const m) {
 // 'v' must have same dimensions has the current vector
 // Do nothing if arguments are invalid
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _SLESetV(SysLinEq* const that, const VecFloat* const v) {
 #if BUILDMODE == 0
@@ -4035,7 +4035,7 @@ void _SLESetV(SysLinEq* const that, const VecFloat* const v) {
 // From https://stackoverflow.com/questions/29787310/
 // does-pow-work-for-int-data-type-in-c
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 int powi(const int base, const int exp) {
   // Declare a variable to memorize the result and init to 1
@@ -4059,7 +4059,7 @@ int powi(const int base, const int exp) {
 // 'axis' must be normalized
 // https://en.wikipedia.org/wiki/Rotation_matrix
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatRotAxis(VecFloat3D* const that, 
   const VecFloat3D* const axis, const float theta) {
@@ -4098,7 +4098,7 @@ void _VecFloatRotAxis(VecFloat3D* const that,
 // Rotate right-hand 'that' by 'theta' radians around X and 
 // store the result in 'that'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatRotX(VecFloat3D* const that, const float theta) {
 #if BUILDMODE == 0
@@ -4120,7 +4120,7 @@ void _VecFloatRotX(VecFloat3D* const that, const float theta) {
 // Rotate right-hand 'that' by 'theta' radians around Y and 
 // store the result in 'that'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatRotY(VecFloat3D* const that, const float theta) {
 #if BUILDMODE == 0
@@ -4142,7 +4142,7 @@ void _VecFloatRotY(VecFloat3D* const that, const float theta) {
 // Rotate right-hand 'that' by 'theta' radians around Z and 
 // store the result in 'that'
 #if BUILDMODE != 0
-inline
+static inline
 #endif 
 void _VecFloatRotZ(VecFloat3D* const that, const float theta) {
 #if BUILDMODE == 0
@@ -4163,7 +4163,7 @@ void _VecFloatRotZ(VecFloat3D* const that, const float theta) {
 
 // Free memory used by the QRDecomp 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif 
 void QRDecompFreeStatic(QRDecomp* const that) {
 #if BUILDMODE == 0
