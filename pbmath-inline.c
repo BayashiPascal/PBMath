@@ -45,7 +45,7 @@ short _VecShortGet(const VecShort* const that, const long i) {
     PBErrCatch(PBMathErr);
   }
 #endif
-  return ((short*)(((void*)that) + sizeof(int)))[i];
+  return ((short*)(((void*)that) + sizeof(long)))[i];
 }
 #if BUILDMODE != 0
 static inline
@@ -1071,7 +1071,7 @@ long _VecLongGet(const VecLong* const that, const long i) {
     PBErrCatch(PBMathErr);
   }
 #endif
-  return ((long*)(((void*)that) + sizeof(int)))[i];
+  return ((long*)(((void*)that) + sizeof(long)))[i];
 }
 #if BUILDMODE != 0
 static inline

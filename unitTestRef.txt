@@ -61,10 +61,10 @@ UnitTestVecShortHamiltonDist OK
 UnitTestVecShortIsEqual OK
 UnitTestVecShortDotProd OK
 UnitTestVecShortCopy OK
-VecShort: 0.000029ms, array: 0.000033ms
-VecShort2D: 0.000012ms, array: 0.000016ms
-VecShort3D: 0.000013ms, array: 0.000013ms
-VecShort4D: 0.000013ms, array: 0.000014ms
+VecShort: 0.000058ms, array: 0.000015ms
+VecShort2D: 0.000007ms, array: 0.000007ms
+VecShort3D: 0.000007ms, array: 0.000007ms
+VecShort4D: 0.000006ms, array: 0.000007ms
 UnitTestSpeedVecShort OK
 <1.000,2.000,3.000,4.000,5.000>
 <1.000,2.000>
@@ -92,10 +92,10 @@ UnitTestVecLongHamiltonDist OK
 UnitTestVecLongIsEqual OK
 UnitTestVecLongDotProd OK
 UnitTestVecLongCopy OK
-VecLong: 0.000029ms, array: 0.000028ms
-VecLong2D: 0.000012ms, array: 0.000015ms
-VecLong3D: 0.000017ms, array: 0.000013ms
-VecLong4D: 0.000013ms, array: 0.000013ms
+VecLong: 0.000015ms, array: 0.000014ms
+VecLong2D: 0.000006ms, array: 0.000007ms
+VecLong3D: 0.000006ms, array: 0.000007ms
+VecLong4D: 0.000007ms, array: 0.000007ms
 UnitTestSpeedVecLong OK
 UnitTestVecLongOp OK
 UnitTestVecLongShiftStep OK
@@ -117,6 +117,7 @@ UnitTestVecFloatScale OK
 UnitTestVecFloatOp OK
 UnitTestVecFloatDotProd OK
 UnitTestVecFloatCrossProd OK
+<0.707107,0.707107>
 UnitTestVecFloatAngleTo OK
 <1,2,3,4,5>
 <1,2>
@@ -126,9 +127,9 @@ UnitTestVecFloatGetMinMax OK
 UnitTestVecFloatRotAxis OK
 UnitTestVecFloatGetNewDim OK
 UnitTestVecFloatHadamardProd OK
-VecFloat: 0.000031ms, array: 0.000028ms
-VecFloat2D: 0.000012ms, array: 0.000013ms
-VecFloat3D: 0.000012ms, array: 0.000012ms
+VecFloat: 0.000017ms, array: 0.000016ms
+VecFloat2D: 0.000008ms, array: 0.000007ms
+VecFloat3D: 0.000006ms, array: 0.000007ms
 UnitTestSpeedVecFloat OK
 UnitTestVecFloat OK
 UnitTestMatFloatCreateFree OK
@@ -169,7 +170,7 @@ Eigen vector 1: <0.000,-0.800,-0.600>
 Eigen vector 2: <0.800,0.360,-0.480>
 Eigen vector 3: <0.600,-0.480,0.640>
 UnitTestMatFloatGetEigenValues OK
-MatFloat: 0.000007ms, array: 0.000007ms
+MatFloat: 0.000002ms, array: 0.000002ms
 UnitTestSpeedMatFloat OK
 UnitTestMatFloat OK
 UnitTestSysLinEq OK
@@ -179,7 +180,7 @@ UnitTestConv OK
 powi OK
 average error: 0.000000 < 0.000010, max error: 0.000000 < 0.000100
 fastpow OK
-fastpow: 0.000025ms, pow: 0.000076ms
+fastpow: 0.000014ms, pow: 0.000057ms
 speed fastpow OK
 fsquare OK
 UnitTestConv OK
