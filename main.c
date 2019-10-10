@@ -120,10 +120,10 @@ void UnitTestVecShortCreateFree() {
   VecShort2D v2 = VecShortCreateStatic2D();
   VecShort3D v3 = VecShortCreateStatic3D();
   VecShort4D v4 = VecShortCreateStatic4D();
-  VecPrint(v, stdout);printf("\n");
-  VecPrint(&v2, stdout);printf("\n");
-  VecPrint(&v3, stdout);printf("\n");
-  VecPrint(&v4, stdout);printf("\n");
+  VecPrintln(v, stdout);
+  VecPrintln(&v2, stdout);
+  VecPrintln(&v3, stdout);
+  VecPrintln(&v4, stdout);
   VecFree(&v);
   if (v != NULL) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
@@ -303,7 +303,6 @@ void UnitTestVecShortGetSetDim() {
       sprintf(PBMathErr->_msg, "_VecShortGet NOK");
       PBErrCatch(PBMathErr);
     }
-VecPrint(v,stdout);printf("\n");
   for (int i = 5; i--;) VecSetAdd(v, i, i + 1);
   for (int i = 2; i--;) VecSetAdd(&v2, i, i + 1);
   for (int i = 3; i--;) VecSetAdd(&v3, i, i + 1);
@@ -886,9 +885,9 @@ void UnitTestVecShortToFloat() {
   VecFloat* w = VecShortToFloat(v);
   VecFloat2D w2 = VecShortToFloat2D(&v2);
   VecFloat3D w3 = VecShortToFloat3D(&v3);
-  VecPrint(w, stdout); printf("\n");
-  VecPrint(&w2, stdout); printf("\n");
-  VecPrint(&w3, stdout); printf("\n");
+  VecPrintln(w, stdout); 
+  VecPrintln(&w2, stdout); 
+  VecPrintln(&w3, stdout); 
   VecFree(&v);
   VecFree(&w);
   printf("UnitTestVecShortToFloat OK\n");
@@ -906,9 +905,9 @@ void UnitTestVecLongToFloat() {
   VecFloat* w = VecLongToFloat(v);
   VecFloat2D w2 = VecLongToFloat2D(&v2);
   VecFloat3D w3 = VecLongToFloat3D(&v3);
-  VecPrint(w, stdout); printf("\n");
-  VecPrint(&w2, stdout); printf("\n");
-  VecPrint(&w3, stdout); printf("\n");
+  VecPrintln(w, stdout); 
+  VecPrintln(&w2, stdout); 
+  VecPrintln(&w3, stdout); 
   VecFree(&v);
   VecFree(&w);
   printf("UnitTestVecLongToFloat OK\n");
@@ -1171,10 +1170,10 @@ void UnitTestVecLongCreateFree() {
   VecLong2D v2 = VecLongCreateStatic2D();
   VecLong3D v3 = VecLongCreateStatic3D();
   VecLong4D v4 = VecLongCreateStatic4D();
-  VecPrint(v, stdout);printf("\n");
-  VecPrint(&v2, stdout);printf("\n");
-  VecPrint(&v3, stdout);printf("\n");
-  VecPrint(&v4, stdout);printf("\n");
+  VecPrintln(v, stdout);
+  VecPrintln(&v2, stdout);
+  VecPrintln(&v3, stdout);
+  VecPrintln(&v4, stdout);
   VecFree(&v);
   if (v != NULL) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
@@ -2178,9 +2177,9 @@ void UnitTestVecFloatCreateFree() {
   VecFloat* v = VecFloatCreate(5);
   VecFloat2D v2 = VecFloatCreateStatic2D();
   VecFloat3D v3 = VecFloatCreateStatic3D();
-  VecPrint(v, stdout);printf("\n");
-  VecPrint(&v2, stdout);printf("\n");
-  VecPrint(&v3, stdout);printf("\n");
+  VecPrintln(v, stdout);
+  VecPrintln(&v2, stdout);
+  VecPrintln(&v3, stdout);
   _VecFloatFree(&v);
   if (v != NULL) {
     PBMathErr->_type = PBErrTypeUnitTestFailed;
@@ -2821,9 +2820,9 @@ void UnitTestVecFloatToShort() {
   VecShort* w = VecFloatToShort(v);
   VecShort2D w2 = VecFloatToShort2D(&v2);
   VecShort3D w3 = VecFloatToShort3D(&v3);
-  VecPrint(w, stdout); printf("\n");
-  VecPrint(&w2, stdout); printf("\n");
-  VecPrint(&w3, stdout); printf("\n");
+  VecPrintln(w, stdout);
+  VecPrintln(&w2, stdout);
+  VecPrintln(&w3, stdout);
   VecFree(&v);
   VecFree(&w);
   printf("UnitTestVecFloatToShort OK\n");
@@ -3548,7 +3547,7 @@ void UnitTestMatFloatGetEigenValues() {
   printf("mat:\n"); MatPrintln(mat, stdout);
   GSetVecFloat set = MatGetEigenValues(mat);
   printf("Eigen values: ");
-  VecPrint(GSetGet(&set, 0), stdout);printf("\n");
+  VecPrintln(GSetGet(&set, 0), stdout);
   VecFloat3D checkValues = VecFloatCreateStatic3D();
   VecSet(&checkValues, 0, 8.998802);
   VecSet(&checkValues, 1, 3.996595);
@@ -3559,11 +3558,11 @@ void UnitTestMatFloatGetEigenValues() {
     PBErrCatch(PBMathErr);
   }
   printf("Eigen vector 1: ");
-  VecPrint(GSetGet(&set, 1), stdout);printf("\n");
+  VecPrintln(GSetGet(&set, 1), stdout);
   printf("Eigen vector 2: ");
-  VecPrint(GSetGet(&set, 2), stdout);printf("\n");
+  VecPrintln(GSetGet(&set, 2), stdout);
   printf("Eigen vector 3: ");
-  VecPrint(GSetGet(&set, 3), stdout);printf("\n");
+  VecPrintln(GSetGet(&set, 3), stdout);
   VecFloat3D checkVecA = VecFloatCreateStatic3D();
   VecSet(&checkVecA, 0, 0.000290);
   VecSet(&checkVecA, 1, -0.800102);

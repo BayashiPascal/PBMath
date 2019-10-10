@@ -1813,6 +1813,8 @@ long ThueMorseSeqGetNthElem(long iElem, long base);
       default: Vec),  \
     Stream)
 
+#define VecPrintln(V, S) do {VecPrint(V, S); fprintf(S, "\n");} while(0)
+
 #define VecGet(Vec, Index) _Generic(Vec, \
   VecFloat*: _VecFloatGet, \
   VecFloat2D*: _VecFloatGet2D, \
