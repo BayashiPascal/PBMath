@@ -3909,6 +3909,18 @@ void UnitTestThueMorseSeq() {
   printf("UnitTestThueMorseSeq OK\n");
 }
 
+void UnitTestGetAreaTriangleHero() {
+  double area = GetAreaTriangleHero(5.0, 29.0, 30.0);
+    if (!ISEQUALF(area, 72.0)) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "GetAreaTriangleHero NOK (%f)",
+        area);
+      PBErrCatch(PBMathErr);
+    }
+  
+  printf("UnitTestGetAreaTriangleHero OK\n");
+}
+
 void UnitTestBasicFunctions() {
   UnitTestConv();
   UnitTestPowi();
@@ -3917,6 +3929,7 @@ void UnitTestBasicFunctions() {
   UnitTestFSquare();
   UnitTestConv();
   UnitTestThueMorseSeq();
+  UnitTestGetAreaTriangleHero();
   printf("UnitTestBasicFunctions OK\n");
 }
 

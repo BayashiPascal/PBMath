@@ -1687,6 +1687,13 @@ static inline float fsquare(const float a) {
 // 'base' >= 2
 long ThueMorseSeqGetNthElem(long iElem, long base);
 
+// Compute the area of a triangle knowing its 3 sides length 'a', 'b', 'c'
+// using the Hero's formula
+double GetAreaTriangleHero(
+  const double a,
+  const double b,
+  const double c);
+
 // ================= Polymorphism ==================
 
 #define VecClone(Vec) _Generic(Vec, \

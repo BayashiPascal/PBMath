@@ -2587,5 +2587,17 @@ GSetVecFloat _GSetVecFloatGetBounds(const GSetVecFloat* const that) {
   return bounds;
 }
 
+// Compute the area of a triangle knowing its 3 sides length 'a', 'b', 'c'
+// using the Hero's formula
+double GetAreaTriangleHero(
+  const double a,
+  const double b,
+  const double c) {
+
+  double s = 0.5 * (a + b + c);
+  double area = sqrt(s * (s - a) * (s - b) * (s - c));
+  return area;
+
+}
 
 
