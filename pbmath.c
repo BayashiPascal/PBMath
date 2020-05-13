@@ -23,7 +23,7 @@ VecShort* VecShortCreate(const long dim) {
 #endif
   // Allocate memory
   VecShort* that = PBErrMalloc(PBMathErr, 
-    sizeof(VecShort) + sizeof(short) * dim);
+    offsetof(VecShort, _val) + sizeof(short) * dim);
   // Set the default values
   that->_dim = dim;
   for (long i = dim; i--;)
@@ -514,7 +514,7 @@ VecLong* VecLongCreate(const long dim) {
 #endif
   // Allocate memory
   VecLong* that = PBErrMalloc(PBMathErr, 
-    sizeof(VecLong) + sizeof(long) * dim);
+    offsetof(VecLong, _val) + sizeof(long) * dim);
   // Set the default values
   that->_dim = dim;
   for (long i = dim; i--;)
@@ -1005,7 +1005,7 @@ VecFloat* VecFloatCreate(const long dim) {
 #endif
   // Allocate memory
   VecFloat* that = PBErrMalloc(PBMathErr, 
-    sizeof(VecFloat) + sizeof(float) * dim);
+    offsetof(VecFloat, _val) + sizeof(float) * dim);
   // Set the default values
   that->_dim = dim;
   for (long i = dim; i--;)
@@ -1721,7 +1721,7 @@ MatFloat* MatFloatCreate(const VecShort2D* const dim) {
 #endif
   // Allocate memory
   int d = VecGet(dim, 0) * VecGet(dim, 1);
-  MatFloat* that = PBErrMalloc(PBMathErr, sizeof(MatFloat) + 
+  MatFloat* that = PBErrMalloc(PBMathErr, offsetof(MatFloat, _val) + 
     sizeof(float) * d);
   // Set the dimensions
   *(VecShort2D*)&(that->_dim) = *dim;
