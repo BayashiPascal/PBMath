@@ -2619,7 +2619,7 @@ unsigned long* GetFibonacciSeq(unsigned int n) {
       i < n && i < 2;
       ++i) {
 
-      seq[i] = 1;
+      seq[i] = 1L;
 
     }
     for (
@@ -2637,4 +2637,109 @@ unsigned long* GetFibonacciSeq(unsigned int n) {
 
 }
 
+// Return the Fibonacci grid lattice for the 'n'-th Fibonacci number in a
+// dynamically allocated array of pairs of float in [0,1]
+// Stores the nb of points in 'nbPoints'
+float* GetFibonacciGridLattice(
+    unsigned int n,
+  unsigned long* nbPoints) {
+
+#if BUILDMODE == 0
+
+  if (nbPoints == NULL) {
+
+    GSetErr->_type = PBErrTypeNullPointer;
+    sprintf(GSetErr->_msg, "'nbPoints' is null");
+    PBErrCatch(GSetErr);
+
+  }
+
+#endif
+
+  if (n == 0) {
+
+    *nbPoints = 0;
+    return NULL;
+
+  } else {
+
+    // Get the Fibonacci sequence
+    unsigned long* seq = GetFibonacciSeq(n);
+
+    // Update the number of points
+    *nbPoints = seq[n - 1];
+
+    // Allocate memory for the result
+    float* lattice =
+      PBErrMalloc(
+        PBMathErr,
+        sizeof(float) * 2L * (*nbPoints));
+
+    // Generate the lattice points
+    for (
+      unsigned long iPoint = 0;
+      iPoint < *nbPoints;
+      ++iPoint) {
+
+      lattice[iPoint * 2L] =
+        fmodf(
+          (float)iPoint / (float)seq[MAX(n - 1, 0)],
+          1.0);
+      lattice[iPoint * 2L + 1L] =
+        fmodf(
+          (float)iPoint * (float)seq[MAX(n - 2, 0)] /
+            (float)seq[MAX(n - 1, 0)],
+          1.0);
+
+    }
+
+    // Free memory
+    free(seq);
+
+    // Return the lattice
+    return lattice;
+
+  }
+
+}
+
+// Return the Fibonacci polar lattice for the 'n'-th Fibonacci number in a
+// dynamically allocated array of pairs of float in [-1,1]
+// Stores the nb of points in 'nbPoints'
+float* GetFibonacciPolarLattice(
+    unsigned int n,
+  unsigned long* nbPoints) {
+
+#if BUILDMODE == 0
+
+  if (nbPoints == NULL) {
+
+    GSetErr->_type = PBErrTypeNullPointer;
+    sprintf(GSetErr->_msg, "'nbPoints' is null");
+    PBErrCatch(GSetErr);
+
+  }
+
+#endif
+
+  // Get the grid lattice
+  float* lattice =
+    GetFibonacciGridLattice(
+      n,
+      nbPoints);
+
+  // Convert each points to polar coordinates
+  for (
+    unsigned long iPoint = *nbPoints;
+    iPoint--;) {
+
+    lattice[iPoint * 2L] = sqrt(lattice[iPoint * 2L]);
+    lattice[iPoint * 2L + 1L] = 2.0 * PBMATH_PI * lattice[iPoint * 2L + 1L];
+
+  }
+
+  // Return the lattice
+  return lattice;
+
+}
 

@@ -3947,6 +3947,66 @@ void UnitTestGetFibonacciSeq() {
   printf("UnitTestGetFibonacciSeq OK\n");
 }
 
+void UnitTestGetFibonacciLattice() {
+
+  unsigned long nbPoints = 0;
+  float* latticeGrid =
+    GetFibonacciGridLattice(
+      5,
+      &nbPoints);
+  if (nbPoints != 5) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "GetFibonacciGridLattice NOK");
+    PBErrCatch(PBMathErr);
+  }
+  float checkGrid[10] =
+    {
+      0.000000, 0.000000,
+      0.200000, 0.600000,
+      0.400000, 0.200000,
+      0.600000, 0.800000,
+      0.800000, 0.400000
+    };
+  for (int i = 0; i < 10; ++i) {
+    if (!ISEQUALF(latticeGrid[i], checkGrid[i])) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "GetFibonacciGridLattice NOK");
+      PBErrCatch(PBMathErr);
+    }
+  }
+  free(latticeGrid);
+  
+  nbPoints = 0;
+  float* latticePolar =
+    GetFibonacciPolarLattice(
+      5,
+      &nbPoints);
+  if (nbPoints != 5) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "GetFibonacciPolarLattice NOK");
+    PBErrCatch(PBMathErr);
+  }
+  float checkPolar[10] =
+    {
+      0.000000, 0.000000,
+      0.447214, 3.769911,
+      0.632456, 1.256637,
+      0.774597, 5.026548,
+      0.894427, 2.513275
+    };
+  for (int i = 0; i < 10; ++i) {
+    if (!ISEQUALF(latticePolar[i], checkPolar[i])) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "GetFibonacciPolarLattice NOK");
+      PBErrCatch(PBMathErr);
+    }
+  }
+  free(latticePolar);
+  
+  printf("UnitTestGetFibonacciLattice OK\n");
+
+}
+
 void UnitTestBasicFunctions() {
   UnitTestConv();
   UnitTestPowi();
@@ -3957,6 +4017,7 @@ void UnitTestBasicFunctions() {
   UnitTestThueMorseSeq();
   UnitTestGetAreaTriangleHero();
   UnitTestGetFibonacciSeq();
+  UnitTestGetFibonacciLattice();
   printf("UnitTestBasicFunctions OK\n");
 }
 
