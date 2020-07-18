@@ -3911,14 +3911,40 @@ void UnitTestThueMorseSeq() {
 
 void UnitTestGetAreaTriangleHero() {
   double area = GetAreaTriangleHero(5.0, 29.0, 30.0);
-    if (!ISEQUALF(area, 72.0)) {
-      PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "GetAreaTriangleHero NOK (%f)",
-        area);
-      PBErrCatch(PBMathErr);
-    }
-  
+  if (!ISEQUALF(area, 72.0)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "GetAreaTriangleHero NOK (%f)",
+      area);
+    PBErrCatch(PBMathErr);
+  }
+
   printf("UnitTestGetAreaTriangleHero OK\n");
+}
+
+void UnitTestGetFibonacciSeq() {
+  unsigned long* seq = GetFibonacciSeq(14);
+  if (
+    seq[0] != 1 ||
+    seq[1] != 1 ||
+    seq[2] != 2 ||
+    seq[3] != 3 ||
+    seq[4] != 5 ||
+    seq[5] != 8 ||
+    seq[6] != 13 ||
+    seq[7] != 21 ||
+    seq[8] != 34 ||
+    seq[9] != 55 ||
+    seq[10] != 89 ||
+    seq[11] != 144 ||
+    seq[12] != 233 ||
+    seq[13] != 377) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "GetFibonacciSeq NOK");
+    PBErrCatch(PBMathErr);
+  }
+  free(seq);
+  
+  printf("UnitTestGetFibonacciSeq OK\n");
 }
 
 void UnitTestBasicFunctions() {
@@ -3930,6 +3956,7 @@ void UnitTestBasicFunctions() {
   UnitTestConv();
   UnitTestThueMorseSeq();
   UnitTestGetAreaTriangleHero();
+  UnitTestGetFibonacciSeq();
   printf("UnitTestBasicFunctions OK\n");
 }
 

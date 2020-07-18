@@ -1695,6 +1695,10 @@ double GetAreaTriangleHero(
   const double b,
   const double c);
 
+// Return the Fibonacci sequence up to the 'n'-th element in a dynamically
+// allocated array of unsigned long
+unsigned long* GetFibonacciSeq(unsigned int n);
+
 // ================= Polymorphism ==================
 
 #define VecClone(Vec) _Generic(Vec, \
