@@ -2683,12 +2683,12 @@ float* GetFibonacciGridLattice(
 
       lattice[iPoint * 2L] =
         fmodf(
-          (float)iPoint / (float)seq[MAX(n - 1, 0)],
+          (float)iPoint / (float)seq[n > 1 ? n - 1 : 0],
           1.0);
       lattice[iPoint * 2L + 1L] =
         fmodf(
-          (float)iPoint * (float)seq[MAX(n - 2, 0)] /
-            (float)seq[MAX(n - 1, 0)],
+          (float)iPoint * (float)seq[n > 2 ? n - 2 : 0] /
+            (float)seq[n > 1 ? n - 1 : 0],
           1.0);
 
     }
