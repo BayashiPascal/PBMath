@@ -60,10 +60,10 @@ UnitTestVecShortHamiltonDist OK
 UnitTestVecShortIsEqual OK
 UnitTestVecShortDotProd OK
 UnitTestVecShortCopy OK
-VecShort: 0.000065ms, array: 0.000060ms
-VecShort2D: 0.000028ms, array: 0.000029ms
-VecShort3D: 0.000027ms, array: 0.000028ms
-VecShort4D: 0.000029ms, array: 0.000026ms
+VecShort: 0.000059ms, array: 0.000015ms
+VecShort2D: 0.000007ms, array: 0.000007ms
+VecShort3D: 0.000007ms, array: 0.000007ms
+VecShort4D: 0.000006ms, array: 0.000006ms
 UnitTestSpeedVecShort OK
 <1.000,2.000,3.000,4.000,5.000>
 <1.000,2.000>
@@ -91,10 +91,10 @@ UnitTestVecLongHamiltonDist OK
 UnitTestVecLongIsEqual OK
 UnitTestVecLongDotProd OK
 UnitTestVecLongCopy OK
-VecLong: 0.000041ms, array: 0.000037ms
-VecLong2D: 0.000014ms, array: 0.000015ms
-VecLong3D: 0.000014ms, array: 0.000011ms
-VecLong4D: 0.000013ms, array: 0.000013ms
+VecLong: 0.000014ms, array: 0.000014ms
+VecLong2D: 0.000007ms, array: 0.000007ms
+VecLong3D: 0.000006ms, array: 0.000007ms
+VecLong4D: 0.000006ms, array: 0.000006ms
 UnitTestSpeedVecLong OK
 UnitTestVecLongOp OK
 UnitTestVecLongShiftStep OK
@@ -126,9 +126,9 @@ UnitTestVecFloatGetMinMax OK
 UnitTestVecFloatRotAxis OK
 UnitTestVecFloatGetNewDim OK
 UnitTestVecFloatHadamardProd OK
-VecFloat: 0.000023ms, array: 0.000022ms
-VecFloat2D: 0.000009ms, array: 0.000009ms
-VecFloat3D: 0.000009ms, array: 0.000010ms
+VecFloat: 0.000016ms, array: 0.000016ms
+VecFloat2D: 0.000006ms, array: 0.000007ms
+VecFloat3D: 0.000007ms, array: 0.000006ms
 UnitTestSpeedVecFloat OK
 UnitTestVecFloat OK
 UnitTestMatFloatCreateFree OK
@@ -179,7 +179,7 @@ UnitTestConv OK
 powi OK
 average error: 0.000000 < 0.000010, max error: 0.000000 < 0.000100
 fastpow OK
-fastpow: 0.000014ms, pow: 0.000059ms
+fastpow: 0.000012ms, pow: 0.000058ms
 speed fastpow OK
 fsquare OK
 UnitTestConv OK
@@ -187,5 +187,10 @@ UnitTestThueMorseSeq OK
 UnitTestGetAreaTriangleHero OK
 UnitTestGetFibonacciSeq OK
 UnitTestGetFibonacciLattice OK
+UnitTestGetGCD OK
 UnitTestBasicFunctions OK
+0+10/6 -> 1+2/3
+1.666666=1+2/3
+PI=3+16/113
+UnitTestRatio OK
 UnitTestAll OK

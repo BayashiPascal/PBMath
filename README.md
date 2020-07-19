@@ -14,6 +14,8 @@ The Smoother functions can be used to get values of the SmoothStep and SmootherS
 
 The EqLinSys structure and its functions can be used to solve linear equation systems.
 
+The Ratio structure and its functions can be used to manipulate rationals.
+
 ## How to install this repository
 1) Create a directory which will contains this repository and all the repositories it is depending on. Lets call it "Repos"
 2) Download the master branch of this repository into "Repos". Unzip it if necessary.

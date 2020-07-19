@@ -2517,6 +2517,164 @@ SysLinEq* SysLinEqClone(const SysLinEq* const that) {
   return ret;
 }
 
+// -------------- Ratio
+
+// ================ Functions implementation ====================
+
+// Create a new static Ratio
+Ratio RatioCreateStatic(long b, unsigned int n, unsigned int d) {
+#if BUILDMODE == 0
+  if (d == 0) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'d' is invalid (%u > 0)", d);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  
+  // Create the Ratio
+  Ratio ratio = {
+    ._base = b,
+    ._numerator = n,
+    ._denominator = d
+  };
+
+  // Return the Ratio
+  return ratio;
+
+}
+
+// Convert the float 'v' into the nearest Ratio using the Farey's algorithm
+// given the precision 'prec'
+Ratio RatioFromFloatPrec(float v, float prec) {
+
+  // Create the two bounding Ratio
+  Ratio ratioLow = RatioCreateStatic(0, 0, 1);
+  Ratio ratioHigh = RatioCreateStatic(0, 1, 1);
+
+  // Create the result ratio
+  Ratio ratio = RatioCreateStatic(floor(v), 0, 1);
+
+  // Get the decimals of 'v'
+  float dec = v - RatioGetBase(&ratio);
+  
+  // Loop until the bounding Ratio reachs the requested precision
+  Ratio mediant;
+  while(
+    RatioToFloat(&ratioHigh) - RatioToFloat(&ratioLow) > prec &&
+    fabs(RatioToFloat(&ratioHigh) - dec) > prec &&
+    fabs(RatioToFloat(&ratioLow) - dec) > prec) {
+
+    mediant = RatioCreateStatic(0, 
+      RatioGetNumerator(&ratioLow) + RatioGetNumerator(&ratioHigh),
+      RatioGetDenominator(&ratioLow) + RatioGetDenominator(&ratioHigh));
+
+    if (RatioToFloat(&mediant) > dec) {
+
+      ratioHigh = mediant;
+
+    } else {
+
+      ratioLow = mediant;
+
+    }
+
+  }
+
+  // Update the fractional part of the result
+  if (fabs(RatioToFloat(&ratioHigh) - dec) <= prec) {
+
+    RatioSetNumerator(&ratio, RatioGetNumerator(&ratioHigh));
+    RatioSetDenominator(&ratio, RatioGetDenominator(&ratioHigh));
+
+  } else if (fabs(RatioToFloat(&ratioLow) - dec) <= prec) {
+
+    RatioSetNumerator(&ratio, RatioGetNumerator(&ratioLow));
+    RatioSetDenominator(&ratio, RatioGetDenominator(&ratioLow));
+
+  } else {
+
+    RatioSetNumerator(&ratio, RatioGetNumerator(&mediant));
+    RatioSetDenominator(&ratio, RatioGetDenominator(&mediant));
+
+  }
+
+  // Reduce the result
+  RatioReduce(&ratio);
+
+  // Return the result
+  return ratio;
+
+}
+
+// Convert the Ratio 'that' into a float
+float RatioToFloat(const Ratio* that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Return the Ratio converted to float
+  return (float)RatioGetBase(that) + 
+    (float)RatioGetNumerator(that) / (float)RatioGetDenominator(that);
+}
+
+// Reduce the fractional part of the Ratio 'that' and update the base such as
+// numerator < denominator
+void RatioReduce(Ratio* that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+
+  // If the numerator is greater than the denominator
+  if (RatioGetNumerator(that) >= RatioGetDenominator(that)) {
+
+    // Update the component to keep the fractional part less than 1.0
+    unsigned int delta = RatioGetNumerator(that) / RatioGetDenominator(that);
+    RatioSetBase(that, RatioGetBase(that) + delta);
+    RatioSetNumerator(that, 
+      RatioGetNumerator(that) - delta * RatioGetDenominator(that));
+
+  }
+
+  // Get the GCD of the numerator and denominator
+  unsigned int div = GetGCD(
+    RatioGetNumerator(that), RatioGetDenominator(that));
+  // Divide the numerator and denominator by the gcd
+  RatioSetNumerator(that, RatioGetNumerator(that) / div);
+  RatioSetDenominator(that, RatioGetDenominator(that) / div);
+
+}
+
+// Print the Ratio on 'stream' as a+b/c
+void RatioPrint(const Ratio* that, FILE* stream) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (stream == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'stream' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+
+  fprintf(stream, "%ld+%u/%u", 
+    RatioGetBase(that), RatioGetNumerator(that), RatioGetDenominator(that));
+
+}
+
+// -------------- Usefull basic functions
+
+// ================ Functions implementation ====================
+
 // Compute the 'iElem'-th element of the 'base'-ary version of the 
 // Thue-Morse sequence
 // 'iElem' >= 0
@@ -2743,3 +2901,32 @@ float* GetFibonacciPolarLattice(
 
 }
 
+// Return the greatest common divisor using the Stein's algorithm
+// https://en.wikipedia.org/wiki/Binary_GCD_algorithm
+unsigned int GetGCD(unsigned int u, unsigned int v) {
+
+    unsigned int shift = 0;
+    if (u == 0) 
+      return v;
+    if (v == 0) 
+      return u;
+    while (((u | v) & 1) == 0) {
+        ++shift;
+        u >>= 1;
+        v >>= 1;
+    }
+    while ((u & 1) == 0)
+        u >>= 1;
+    do {
+        while ((v & 1) == 0)
+            v >>= 1;
+        if (u > v) {
+            unsigned int t = v; 
+            v = u; 
+            u = t;
+        }
+        v -= u;
+    } while (v != 0);
+    return u << shift;
+
+}

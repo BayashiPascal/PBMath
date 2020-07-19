@@ -4007,6 +4007,31 @@ void UnitTestGetFibonacciLattice() {
 
 }
 
+void UnitTestGetGCD() {
+
+  unsigned int gcd = GetGCD(4, 6);
+  if (gcd != 2) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "GetGCD NOK");
+    PBErrCatch(PBMathErr);
+  }
+  gcd = GetGCD(6, 4);
+  if (gcd != 2) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "GetGCD NOK");
+    PBErrCatch(PBMathErr);
+  }
+  gcd = GetGCD(10, 6);
+  if (gcd != 2) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "GetGCD NOK");
+    PBErrCatch(PBMathErr);
+  }
+
+  printf("UnitTestGetGCD OK\n");
+
+}
+
 void UnitTestBasicFunctions() {
   UnitTestConv();
   UnitTestPowi();
@@ -4018,7 +4043,97 @@ void UnitTestBasicFunctions() {
   UnitTestGetAreaTriangleHero();
   UnitTestGetFibonacciSeq();
   UnitTestGetFibonacciLattice();
+  UnitTestGetGCD();
   printf("UnitTestBasicFunctions OK\n");
+}
+
+void UnitTestRatio() {
+  Ratio ratio = RatioCreateStatic(1, 2, 3);
+  if (
+    ratio._base != 1 ||
+    ratio._numerator != 2 ||
+    ratio._denominator != 3) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "RatioCreateStatic NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (RatioGetBase(&ratio) != 1) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "RatioGetBase NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (RatioGetNumerator(&ratio) != 2) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "RatioGetNumerator NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (RatioGetDenominator(&ratio) != 3) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "RatioGetDenominator NOK");
+    PBErrCatch(PBMathErr);
+  }
+  if (!ISEQUALF(RatioToFloat(&ratio), 1.666666)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "RatioToFloat NOK");
+    PBErrCatch(PBMathErr);
+  }
+  RatioSetBase(&ratio, 4);
+  if (RatioGetBase(&ratio) != 4) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "RatioSetBase NOK");
+    PBErrCatch(PBMathErr);
+  }
+  RatioSetNumerator(&ratio, 5);
+  if (RatioGetNumerator(&ratio) != 5) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "RatioSetNumerator NOK");
+    PBErrCatch(PBMathErr);
+  }
+  RatioSetDenominator(&ratio, 6);
+  if (RatioGetDenominator(&ratio) != 6) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "RatioSetDenominator NOK");
+    PBErrCatch(PBMathErr);
+  }
+  Ratio ratiob = RatioCreateStatic(0, 10, 6);
+  RatioPrint(&ratiob, stdout);
+  printf(" -> ");
+  RatioReduce(&ratiob);
+  RatioPrintln(&ratiob, stdout);
+  if (
+    ratiob._base != 1 ||
+    ratiob._numerator != 2 ||
+    ratiob._denominator != 3) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "RatioReduce NOK");
+    PBErrCatch(PBMathErr);
+  }
+  Ratio ratioc = RatioFromFloat(1.666666);
+  printf("1.666666=");
+  RatioPrintln(&ratioc, stdout);
+  if (
+    ratioc._base != 1 ||
+    ratioc._numerator != 2 ||
+    ratioc._denominator != 3 ||
+    !ISEQUALF(RatioToFloat(&ratioc), 1.666666)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "RatioFromFloat NOK");
+    PBErrCatch(PBMathErr);
+  }
+  ratioc = RatioFromFloat(PBMATH_PI);
+  printf("PI=");
+  RatioPrintln(&ratioc, stdout);
+  if (
+    ratioc._base != 3 ||
+    ratioc._numerator != 16 ||
+    ratioc._denominator != 113 ||
+    !ISEQUALF(RatioToFloat(&ratioc), PBMATH_PI)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "RatioFromFloat NOK");
+    PBErrCatch(PBMathErr);
+  }
+
+  printf("UnitTestRatio OK\n");
 }
 
 void UnitTestAll() {
@@ -4030,6 +4145,7 @@ void UnitTestAll() {
   UnitTestGauss();
   UnitTestSmoother();
   UnitTestBasicFunctions();
+  UnitTestRatio();
   printf("UnitTestAll OK\n");
 }
 
