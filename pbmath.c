@@ -1342,7 +1342,8 @@ VecFloat3D _VecFloatGetRotAxis(const VecFloat3D* const that,
   MatSet(rot, &d, v);
   // Calculate the result vector
   VecFloat* w = MatGetProdVec(rot, that);
-  VecFloat3D res = *(VecFloat3D*)w;
+  VecFloat3D res = VecFloatCreateStatic3D();
+  VecCopy(&res, w);
   // Free memory
   VecFree(&w);
   MatFree(&rot);
@@ -1403,7 +1404,8 @@ VecFloat3D _VecFloatGetRotX(const VecFloat3D* const that,
   MatSet(rot, &d, v);
   // Calculate the result vector
   VecFloat* w = MatGetProdVec(rot, that);
-  VecFloat3D res = *(VecFloat3D*)w;
+  VecFloat3D res = VecFloatCreateStatic3D();
+  VecCopy(&res, w);
   // Free memory
   VecFree(&w);
   MatFree(&rot);
@@ -1464,7 +1466,8 @@ VecFloat3D _VecFloatGetRotY(const VecFloat3D* const that,
   MatSet(rot, &d, v);
   // Calculate the result vector
   VecFloat* w = MatGetProdVec(rot, that);
-  VecFloat3D res = *(VecFloat3D*)w;
+  VecFloat3D res = VecFloatCreateStatic3D();
+  VecCopy(&res, w);
   // Free memory
   VecFree(&w);
   MatFree(&rot);
@@ -1525,7 +1528,8 @@ VecFloat3D _VecFloatGetRotZ(const VecFloat3D* const that,
   MatSet(rot, &d, v);
   // Calculate the result vector
   VecFloat* w = MatGetProdVec(rot, that);
-  VecFloat3D res = *(VecFloat3D*)w;
+  VecFloat3D res = VecFloatCreateStatic3D();
+  VecCopy(&res, w);
   // Free memory
   VecFree(&w);
   MatFree(&rot);
