@@ -238,6 +238,12 @@ static inline
 #endif 
 void _VecLongSetNull(VecLong* const that);
 
+// Set all values of the vector 'that' to 'v'
+#if BUILDMODE != 0 
+static inline 
+#endif 
+void _VecLongSetAll(VecLong* const that, long v);
+
 // Step the values of the vector incrementally by 1 from 0
 // in the following order (for example) : 
 // (0,0,0)->(0,0,1)->(0,0,2)->(0,1,0)->(0,1,1)->...
@@ -621,6 +627,12 @@ static inline
 #endif 
 void _VecShortSetNull(VecShort* const that);
 
+// Set all values of the vector 'that' to 'v'
+#if BUILDMODE != 0 
+static inline 
+#endif 
+void _VecShortSetAll(VecShort* const that, short v);
+
 // Step the values of the vector incrementally by 1 from 0
 // in the following order (for example) : 
 // (0,0,0)->(0,0,1)->(0,0,2)->(0,1,0)->(0,1,1)->...
@@ -934,6 +946,20 @@ void _VecFloatSetNull2D(VecFloat2D* const that);
 static inline 
 #endif 
 void _VecFloatSetNull3D(VecFloat3D* const that);
+
+// Set all values of the vector 'that' to 'v'
+#if BUILDMODE != 0 
+static inline 
+#endif 
+void _VecFloatSetAll(VecFloat* const that, float v);
+#if BUILDMODE != 0 
+static inline 
+#endif 
+void _VecFloatSetAll2D(VecFloat2D* const that, float v);
+#if BUILDMODE != 0 
+static inline 
+#endif 
+void _VecFloatSetAll3D(VecFloat3D* const that, float v);
 
 // Return the dimension of the VecFloat
 // Return 0 if arguments are invalid
@@ -1992,6 +2018,30 @@ void RatioPrint(const Ratio* that, FILE* stream);
       VecLong3D*: (VecLong*)(Vec), \
       VecLong4D*: (VecLong*)(Vec), \
       default: Vec))
+
+#define VecSetAll(Vec, Val) _Generic(Vec, \
+  VecFloat*: _VecFloatSetAll, \
+  VecFloat2D*: _VecFloatSetAll, \
+  VecFloat3D*: _VecFloatSetAll, \
+  VecShort*: _VecShortSetAll, \
+  VecShort2D*: _VecShortSetAll, \
+  VecShort3D*: _VecShortSetAll, \
+  VecShort4D*: _VecShortSetAll, \
+  VecLong*: _VecLongSetAll, \
+  VecLong2D*: _VecLongSetAll, \
+  VecLong3D*: _VecLongSetAll, \
+  VecLong4D*: _VecLongSetAll, \
+  default: PBErrInvalidPolymorphism)( \
+    _Generic(Vec,  \
+      VecFloat2D*: (VecFloat*)(Vec), \
+      VecFloat3D*: (VecFloat*)(Vec), \
+      VecShort2D*: (VecShort*)(Vec), \
+      VecShort3D*: (VecShort*)(Vec), \
+      VecShort4D*: (VecShort*)(Vec), \
+      VecLong2D*: (VecLong*)(Vec), \
+      VecLong3D*: (VecLong*)(Vec), \
+      VecLong4D*: (VecLong*)(Vec), \
+      default: Vec), Val)
 
 #define VecCopy(VecDest, VecSrc) _Generic(VecDest, \
   VecFloat*: _Generic(VecSrc, \

@@ -338,25 +338,53 @@ void UnitTestVecShortGetSetDim() {
   for (int i = 5; i--;)
     if (VecGet(v, i) != 0) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "_VecShortGet NOK");
+      sprintf(PBMathErr->_msg, "_VecShortNull NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 2; i--;)
     if (VecGet(&v2, i) != 0) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "_VecShortGet NOK");
+      sprintf(PBMathErr->_msg, "_VecShortNull NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 3; i--;)
     if (VecGet(&v3, i) != 0) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "_VecShortGet NOK");
+      sprintf(PBMathErr->_msg, "_VecShortNull NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 4; i--;)
     if (VecGet(&v4, i) != 0) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "_VecShortGet NOK");
+      sprintf(PBMathErr->_msg, "_VecShortNull NOK");
+      PBErrCatch(PBMathErr);
+    }
+  VecSetAll(v, 1);
+  VecSetAll(&v2, 1);
+  VecSetAll(&v3, 1);
+  VecSetAll(&v4, 1);
+  for (int i = 5; i--;)
+    if (VecGet(v, i) != 1) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecShortAll NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 2; i--;)
+    if (VecGet(&v2, i) != 1) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecShortAll NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 3; i--;)
+    if (VecGet(&v3, i) != 1) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecShortAll NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 4; i--;)
+    if (VecGet(&v4, i) != 1) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecShortAll NOK");
       PBErrCatch(PBMathErr);
     }
   VecFree(&v);
@@ -1409,6 +1437,34 @@ void UnitTestVecLongGetSetDim() {
       sprintf(PBMathErr->_msg, "_VecLongGet NOK");
       PBErrCatch(PBMathErr);
     }
+  VecSetAll(v, 1);
+  VecSetAll(&v2, 1);
+  VecSetAll(&v3, 1);
+  VecSetAll(&v4, 1);
+  for (int i = 5; i--;)
+    if (VecGet(v, i) != 1) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongAll NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 2; i--;)
+    if (VecGet(&v2, i) != 1) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongAll NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 3; i--;)
+    if (VecGet(&v3, i) != 1) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongAll NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 4; i--;)
+    if (VecGet(&v4, i) != 1) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecLongAll NOK");
+      PBErrCatch(PBMathErr);
+    }
   VecFree(&v);
   printf("_VecLongGetSetDim OK\n");
 }
@@ -2355,19 +2411,40 @@ void UnitTestVecFloatGetSetDim() {
   for (int i = 5; i--;)
     if (!ISEQUALF(VecGet(v, i), 0.0)) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "_VecFloatGet NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatSetNull NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 2; i--;)
     if (!ISEQUALF(VecGet(&v2, i), 0.0)) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "_VecFloatGet NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatSetNull NOK");
       PBErrCatch(PBMathErr);
     }
   for (int i = 3; i--;)
     if (!ISEQUALF(VecGet(&v3, i), 0.0)) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "_VecFloatGet NOK");
+      sprintf(PBMathErr->_msg, "_VecFloatSetNull NOK");
+      PBErrCatch(PBMathErr);
+    }
+  VecSetAll(v, 1.0);
+  VecSetAll(&v2, 1.0);
+  VecSetAll(&v3, 1.0);
+  for (int i = 5; i--;)
+    if (!ISEQUALF(VecGet(v, i), 1.0)) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecFloatSetAll NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 2; i--;)
+    if (!ISEQUALF(VecGet(&v2, i), 1.0)) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecFloatSetAll NOK");
+      PBErrCatch(PBMathErr);
+    }
+  for (int i = 3; i--;)
+    if (!ISEQUALF(VecGet(&v3, i), 1.0)) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "_VecFloatSetAll NOK");
       PBErrCatch(PBMathErr);
     }
   VecFree(&v);
