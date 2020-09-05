@@ -1495,11 +1495,12 @@ short _MatFloatGetNbCol(const MatFloat* const that);
 
 // Return the inverse matrix of 'that'
 // The matrix must be a square matrix
-MatFloat* _MatFloatGetInv(MatFloat* const that);
+MatFloat* _MatFloatGetInv(const MatFloat* const that);
 
 // Return the product of matrix 'that' and vector 'v'
 // Number of columns of 'that' must equal dimension of 'v'
-VecFloat* _MatFloatGetProdVecFloat(MatFloat* const that, VecFloat* v);
+VecFloat* _MatFloatGetProdVecFloat(
+  const MatFloat* const that, const VecFloat* v);
 
 // Return the product of vector 'v' and transpose of vector 'w'
 MatFloat* _MatFloatGetProdVecVecTransposeFloat(
@@ -1713,6 +1714,87 @@ float RatioToFloat(const Ratio* that);
 // numerator < denominator
 void RatioReduce(Ratio* that);
 
+// Get the base of the Ratio 'that'
+#if BUILDMODE != 0 
+static inline 
+#endif 
+long RatioGetBase(const Ratio* that);
+
+// Get the numerator of the Ratio 'that'
+#if BUILDMODE != 0 
+static inline 
+#endif 
+unsigned int RatioGetNumerator(const Ratio* that);
+
+// Get the denominator of the Ratio 'that'
+#if BUILDMODE != 0 
+static inline 
+#endif 
+unsigned int RatioGetDenominator(const Ratio* that);
+
+// Set the base of the Ratio 'that' to 'v'
+#if BUILDMODE != 0 
+static inline 
+#endif 
+void RatioSetBase(Ratio* that, long v);
+
+// Set the numerator of the Ratio 'that' to 'v'
+#if BUILDMODE != 0 
+static inline 
+#endif 
+void RatioSetNumerator(Ratio* that, unsigned int v);
+
+// Set the denominator of the Ratio 'that' to 'v'
+#if BUILDMODE != 0 
+static inline 
+#endif 
+void RatioSetDenominator(Ratio* that, unsigned int v);
+
+// Print the Ratio on 'stream' as a+b/c
+void RatioPrint(const Ratio* that, FILE* stream);
+#define RatioPrintln(R, S) do{RatioPrint(R,S);fprintf(S,"\n");}while(0)
+
+// -------------- LeastSquareLinReg
+
+// ================= Data structure ===================
+
+// Linear system of equalities
+typedef struct LeastSquareLinReg {
+
+  // Component
+  const MatFloat* X;
+
+  // Matrix for computation
+  MatFloat* Xp;
+
+  // Bias of the last computed solution
+  float bias;
+
+} LeastSquareLinReg;
+
+// ================ Functions declaration ====================
+
+// Create a new static LeastSquareLinReg
+LeastSquareLinReg LeastSquareLinRegCreateStatic(MatFloat* X);
+
+// Free the static LeastSquareLinReg 'that'
+void LeastSquareLinRegFreeStatic(LeastSquareLinReg* that);
+
+// Compute the solution of the LeastSquareLinReg 'that' for 'Y'
+VecFloat* LSLRSolve(LeastSquareLinReg* that, const VecFloat* Y);
+
+// Set the component of the LeastSquareLinReg 'that' to 'X'
+#if BUILDMODE != 0 
+static inline 
+#endif 
+void LSLRSetComp(LeastSquareLinReg* that, const MatFloat* X);
+
+// Get the bias of the last computed solution of the LeastSquareLinReg 'that'
+#if BUILDMODE != 0 
+static inline 
+#endif 
+float LSLRGetBias(const LeastSquareLinReg* that);
+
 // -------------- Usefull basic functions
 
 // ================ Functions declaration ====================
@@ -1773,46 +1855,6 @@ float* GetFibonacciPolarLattice(
 // Return the greatest common divisor using the Stein's algorithm
 // https://en.wikipedia.org/wiki/Binary_GCD_algorithm
 unsigned int GetGCD(unsigned int u, unsigned int v);
-
-// Get the base of the Ratio 'that'
-#if BUILDMODE != 0 
-static inline 
-#endif 
-long RatioGetBase(const Ratio* that);
-
-// Get the numerator of the Ratio 'that'
-#if BUILDMODE != 0 
-static inline 
-#endif 
-unsigned int RatioGetNumerator(const Ratio* that);
-
-// Get the denominator of the Ratio 'that'
-#if BUILDMODE != 0 
-static inline 
-#endif 
-unsigned int RatioGetDenominator(const Ratio* that);
-
-// Set the base of the Ratio 'that' to 'v'
-#if BUILDMODE != 0 
-static inline 
-#endif 
-void RatioSetBase(Ratio* that, long v);
-
-// Set the numerator of the Ratio 'that' to 'v'
-#if BUILDMODE != 0 
-static inline 
-#endif 
-void RatioSetNumerator(Ratio* that, unsigned int v);
-
-// Set the denominator of the Ratio 'that' to 'v'
-#if BUILDMODE != 0 
-static inline 
-#endif 
-void RatioSetDenominator(Ratio* that, unsigned int v);
-
-// Print the Ratio on 'stream' as a+b/c
-void RatioPrint(const Ratio* that, FILE* stream);
-#define RatioPrintln(R, S) do{RatioPrint(R,S);fprintf(S,"\n");}while(0)
 
 // ================= Polymorphism ==================
 

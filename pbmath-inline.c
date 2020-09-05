@@ -4358,3 +4358,45 @@ void RatioSetDenominator(Ratio* that, unsigned int v) {
   that->_denominator = v;
 }
 
+// -------------- LeastSquareLinReg
+
+// Set the component of the LeastSquareLinReg 'that' to 'X'
+#if BUILDMODE != 0 
+static inline 
+#endif 
+void LSLRSetComp(LeastSquareLinReg* that, const MatFloat* X) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (X == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'X' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  that->X = X;
+  if (that->Xp != NULL) {
+    MatFree(&(that->Xp));
+  }
+  that->Xp = MatGetInv(that->X);
+}
+
+// Get the bias of the last computed solution of the LeastSquareLinReg 'that'
+#if BUILDMODE != 0 
+static inline 
+#endif 
+float LSLRGetBias(const LeastSquareLinReg* that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  return that->bias;
+}
+
+

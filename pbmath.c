@@ -1946,7 +1946,7 @@ void MatFloatPrintln(MatFloat* const that, FILE* stream, unsigned int prec) {
 
 // Return the inverse matrix of 'that'
 // The matrix must be a square matrix
-MatFloat* _MatFloatGetInv(MatFloat* const that) {
+MatFloat* _MatFloatGetInv(const MatFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2038,7 +2038,8 @@ MatFloat* _MatFloatGetInv(MatFloat* const that) {
 
 // Return the product of matrix 'that' and vector 'v'
 // Number of colum of 'that' must equal dimension of 'v'
-VecFloat* _MatFloatGetProdVecFloat(MatFloat* const that, VecFloat* v) {
+VecFloat* _MatFloatGetProdVecFloat(
+  const MatFloat* const that, const VecFloat* v) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -2711,14 +2712,14 @@ long ThueMorseSeqGetNthElem(long iElem, long base) {
 GSetVecFloat _GSetVecFloatGetBounds(const GSetVecFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
-    GSetErr->_type = PBErrTypeNullPointer;
-    sprintf(GSetErr->_msg, "'that' is null");
-    PBErrCatch(GSetErr);
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
   }
   if (GSetNbElem(that) < 1) {
-    GSetErr->_type = PBErrTypeInvalidArg;
-    sprintf(GSetErr->_msg, "'that' is empty");
-    PBErrCatch(GSetErr);
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'that' is empty");
+    PBErrCatch(PBMathErr);
   }
 #endif
   // Create the set containing the bounds
@@ -2810,9 +2811,9 @@ float* GetFibonacciGridLattice(
 
   if (nbPoints == NULL) {
 
-    GSetErr->_type = PBErrTypeNullPointer;
-    sprintf(GSetErr->_msg, "'nbPoints' is null");
-    PBErrCatch(GSetErr);
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'nbPoints' is null");
+    PBErrCatch(PBMathErr);
 
   }
 
@@ -2876,9 +2877,9 @@ float* GetFibonacciPolarLattice(
 
   if (nbPoints == NULL) {
 
-    GSetErr->_type = PBErrTypeNullPointer;
-    sprintf(GSetErr->_msg, "'nbPoints' is null");
-    PBErrCatch(GSetErr);
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'nbPoints' is null");
+    PBErrCatch(PBMathErr);
 
   }
 
@@ -2932,5 +2933,100 @@ unsigned int GetGCD(unsigned int u, unsigned int v) {
         v -= u;
     } while (v != 0);
     return u << shift;
+
+}
+
+// -------------- LeastSquareLinReg
+
+// ================ Functions implementation ====================
+
+// Create a new static LeastSquareLinReg
+LeastSquareLinReg LeastSquareLinRegCreateStatic(MatFloat* X) {
+
+#if BUILDMODE == 0
+
+  if (X == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'X' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+#endif
+
+  // Declare the new LeastSquareLin
+  LeastSquareLinReg that;
+
+  // Set the properties
+  that.Xp = NULL;
+  LSLRSetComp(
+    &that,
+    X);
+  that.bias = 0.0;
+
+  // Return the new LeastSquareLin
+  return that;
+
+}
+
+// Free the static LeastSquareLinReg 'that'
+void LeastSquareLinRegFreeStatic(LeastSquareLinReg* that) {
+
+  if (that == NULL) {
+
+    return;
+
+  }
+
+  // Free memory
+  MatFree(&(that->Xp));
+
+}
+
+// Compute the solution of the LeastSquareLinReg 'that' for 'Y'
+VecFloat* LSLRSolve(LeastSquareLinReg* that, const VecFloat* Y) {
+
+#if BUILDMODE == 0
+
+  if (that == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+  if (Y == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'Y' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+#endif
+
+  // Get the result
+  VecFloat* beta =
+    MatGetProdVec(
+      that->Xp,
+      Y);
+
+  // Calculate the bias
+  VecFloat* Ybeta =
+    MatGetProdVec(
+      that->X,
+      beta);
+  VecOp(
+    Ybeta,
+    1.0,
+    Y,
+    -1.0);
+  that->bias = VecNorm(Ybeta);
+  VecFree(&Ybeta);
+
+  // Return the result
+  return beta;
 
 }
