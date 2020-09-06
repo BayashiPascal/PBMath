@@ -2144,7 +2144,7 @@ MatFloat* _MatFloatGetProdVecVecTransposeFloat(
 
 // Return the product of matrix 'that' by matrix 'tho'
 // Number of columns of 'that' must equal number of line of 'tho'
-MatFloat* _MatFloatGetProdMatFloat(MatFloat* const that, MatFloat* tho) {
+MatFloat* _MatFloatGetProdMatFloat(const MatFloat* const that, const MatFloat* tho) {
 #if BUILDMODE == 0
   if (that == NULL) {
     PBMathErr->_type = PBErrTypeNullPointer;
@@ -3030,6 +3030,22 @@ VecFloat* LSLRSolve(LeastSquareLinReg* that, const VecFloat* Y) {
 
     PBMathErr->_type = PBErrTypeNullPointer;
     sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+  if (that->X == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that->X' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+  if (that->Xp == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that->Xp' is null");
     PBErrCatch(PBMathErr);
 
   }

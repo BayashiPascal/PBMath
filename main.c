@@ -4359,6 +4359,57 @@ void UnitTestRatio() {
   printf("UnitTestRatio OK\n");
 }
 
+void UnitTestLSLR() {
+
+  VecShort2D dim = VecShortCreateStatic2D();
+  VecSet(&dim, 0, 2);
+  VecSet(&dim, 1, 3);
+  MatFloat* mat = MatFloatCreate(&dim);
+  VecShort2D i = VecShortCreateStatic2D();
+  float v[6] = {1.0, 1.0, 1.0, 1.0, 2.0, 3.0};
+  int j = 0;
+  do {
+    MatSet(mat, &i, v[j]);
+    ++j;
+  } while(VecStep(&i, &dim));
+  LeastSquareLinReg lslr = LeastSquareLinRegCreateStatic(mat);
+  VecFloat* Y = VecFloatCreate(3);
+  VecSet(Y, 0, 3.0);
+  VecSet(Y, 1, 5.0);
+  VecSet(Y, 2, 7.0);
+  VecFloat* beta = LSLRSolve(&lslr, Y);
+  VecFloat* check = VecFloatCreate(2);
+  VecSet(check, 0, 1.0);
+  VecSet(check, 1, 2.0);
+  if (
+    VecIsEqual(beta, check) == false ||
+    !ISEQUALF(LSLRGetBias(&lslr), 0.0)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "LSLRSolve NOK (1)");
+    PBErrCatch(PBMathErr);
+  }
+  VecFree(&beta);
+  VecSet(Y, 0, 2.75);
+  VecSet(Y, 1, 5.25);
+  VecSet(Y, 2, 6.75);
+  beta = LSLRSolve(&lslr, Y);
+  VecSet(check, 0, 0.916666);
+  VecSet(check, 1, 2.0);
+  if (
+    VecIsEqual(beta, check) == false ||
+    !ISEQUALF(LSLRGetBias(&lslr), 0.408248)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "LSLRSolve NOK (2)");
+    PBErrCatch(PBMathErr);
+  }
+  VecFree(&beta);
+  VecFree(&check);
+  VecFree(&Y);
+  MatFree(&mat);
+  LeastSquareLinRegFreeStatic(&lslr);
+  printf("UnitTestLSLR OK\n");
+}
+
 void UnitTestAll() {
   UnitTestVecShort();
   UnitTestVecLong();
@@ -4369,6 +4420,7 @@ void UnitTestAll() {
   UnitTestSmoother();
   UnitTestBasicFunctions();
   UnitTestRatio();
+  UnitTestLSLR();
   printf("UnitTestAll OK\n");
 }
 

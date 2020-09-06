@@ -1512,7 +1512,7 @@ MatFloat* _MatFloatGetProdVecVecTransposeFloat(
 
 // Return the product of matrix 'that' by matrix 'tho'
 // Number of columns of 'that' must equal number of line of 'tho'
-MatFloat* _MatFloatGetProdMatFloat(MatFloat* const that, MatFloat* tho);
+MatFloat* _MatFloatGetProdMatFloat(const MatFloat* const that, const MatFloat* tho);
 
 // Return the addition of matrix 'that' with matrix 'tho'
 // 'that' and 'tho' must have same dimensions
@@ -1797,6 +1797,12 @@ void LSLRSetComp(LeastSquareLinReg* that, const MatFloat* X);
 static inline 
 #endif 
 float LSLRGetBias(const LeastSquareLinReg* that);
+
+// Return true if the LeastSquareLinReg 'that' is solvable
+#if BUILDMODE != 0 
+static inline 
+#endif 
+bool LSLRIsSolvable(const LeastSquareLinReg* that);
 
 // -------------- Usefull basic functions
 

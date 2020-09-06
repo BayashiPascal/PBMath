@@ -4381,7 +4381,15 @@ void LSLRSetComp(LeastSquareLinReg* that, const MatFloat* X) {
   if (that->Xp != NULL) {
     MatFree(&(that->Xp));
   }
-  that->Xp = MatGetInv(that->X);
+  MatFloat* transp = MatGetTranspose(that->X);
+  MatFloat* A = MatGetProdMat(transp, that->X);
+  MatFloat* inv = MatGetInv(A);
+  if (inv != NULL) {
+    that->Xp = MatGetProdMat(inv, transp);
+  }
+  MatFree(&transp);
+  MatFree(&A);
+  MatFree(&inv);
 }
 
 // Get the bias of the last computed solution of the LeastSquareLinReg 'that'
@@ -4399,4 +4407,18 @@ float LSLRGetBias(const LeastSquareLinReg* that) {
   return that->bias;
 }
 
+// Return true if the LeastSquareLinReg 'that' is solvable
+#if BUILDMODE != 0 
+static inline 
+#endif 
+bool LSLRIsSolvable(const LeastSquareLinReg* that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  return (that->Xp != NULL);
+}
 
