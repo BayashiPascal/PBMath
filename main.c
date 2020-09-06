@@ -3473,7 +3473,7 @@ void UnitTestMatFloatInv() {
   do {
     if (!ISEQUALF(MatGet(inv, &i), w[j])) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "UnitTestMatFloatInv NOK");
+      sprintf(PBMathErr->_msg, "UnitTestMatFloatInv NOK (1)");
       PBErrCatch(PBMathErr);
     }
     ++j;
@@ -3497,13 +3497,159 @@ void UnitTestMatFloatInv() {
   do {
     if (!ISEQUALF(MatGet(inv, &i), wb[j])) {
       PBMathErr->_type = PBErrTypeUnitTestFailed;
-      sprintf(PBMathErr->_msg, "UnitTestMatFloatInv NOK");
+      sprintf(PBMathErr->_msg, "UnitTestMatFloatInv NOK (2)");
       PBErrCatch(PBMathErr);
     }
     ++j;
   } while(VecStep(&i, &dim));
   MatFree(&mat);
   MatFree(&inv);
+
+
+  VecSet(&dim, 0, 4);
+  VecSet(&dim, 1, 4);
+  mat = MatFloatCreate(&dim);
+  float vc[16] = {4, 0, 0, 0, 0, 1, 2, 0, 0, 0, 2, 0, 1, 0, 0, 1};
+  VecSetNull(&i);
+  j = 0;
+  do {
+    MatSet(mat, &i, vc[j]);
+    ++j;
+  } while(VecStep(&i, &dim));
+  inv = MatGetInv(mat);
+  if (inv == NULL) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "UnitTestMatFloatInv NOK (3)");
+    PBErrCatch(PBMathErr);
+  }
+  float wc[16] = {0.25, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0.5, 0, -0.25, 0, 0, 1};
+  VecSetNull(&i);
+  j = 0;
+  do {
+    if (!ISEQUALF(MatGet(inv, &i), wc[j])) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "UnitTestMatFloatInv NOK (4)");
+      PBErrCatch(PBMathErr);
+    }
+    ++j;
+  } while(VecStep(&i, &dim));
+  MatFree(&mat);
+  MatFree(&inv);
+
+  mat = MatFloatCreate(&dim);
+  float vd[16] = {4, 0, 0, 0, 0, 0, 2, 0, 0, 1, 2, 0, 1, 0, 0, 1};
+  VecSetNull(&i);
+  j = 0;
+  do {
+    MatSet(mat, &i, vd[j]);
+    ++j;
+  } while(VecStep(&i, &dim));
+  inv = MatGetInv(mat);
+  if (inv == NULL) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "UnitTestMatFloatInv NOK (3)");
+    PBErrCatch(PBMathErr);
+  }
+  float wd[16] = {0.25, 0, 0, 0, 0, -1, 1, 0, 0, 0.5, 0, 0, -0.25, 0, 0, 1};
+  VecSetNull(&i);
+  j = 0;
+  do {
+    if (!ISEQUALF(MatGet(inv, &i), wd[j])) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "UnitTestMatFloatInv NOK (5)");
+      PBErrCatch(PBMathErr);
+    }
+    ++j;
+  } while(VecStep(&i, &dim));
+  MatFree(&mat);
+  MatFree(&inv);
+
+  mat = MatFloatCreate(&dim);
+  float ve[16] = {4, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1, 0, 0, 1};
+  VecSetNull(&i);
+  j = 0;
+  do {
+    MatSet(mat, &i, ve[j]);
+    ++j;
+  } while(VecStep(&i, &dim));
+  inv = MatGetInv(mat);
+  if (inv != NULL) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "UnitTestMatFloatInv NOK (6)");
+    PBErrCatch(PBMathErr);
+  }
+  MatFree(&mat);
+
+  mat = MatFloatCreate(&dim);
+  float vf[16] = {0, 1, 2, 0, 0, 0, 2, 0, 1, 0, 0, 1, 4, 0, 0, 0};
+  VecSetNull(&i);
+  j = 0;
+  do {
+    MatSet(mat, &i, vf[j]);
+    ++j;
+  } while(VecStep(&i, &dim));
+  inv = MatGetInv(mat);
+  if (inv != NULL) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "UnitTestMatFloatInv NOK (7)");
+    PBErrCatch(PBMathErr);
+  }
+  /* TODO
+  if (inv == NULL) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "UnitTestMatFloatInv NOK (7)");
+    PBErrCatch(PBMathErr);
+  }
+  float wf[16] = {0, 0, 0, 0.25, 1, -1, 0, 0, 0, 0.5, 0, 0, 0, 0, 1, -0.25};
+  VecSetNull(&i);
+  j = 0;
+  do {
+    if (!ISEQUALF(MatGet(inv, &i), wf[j])) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "UnitTestMatFloatInv NOK (8)");
+      PBErrCatch(PBMathErr);
+    }
+    ++j;
+  } while(VecStep(&i, &dim));
+  MatFree(&inv);
+  */
+  MatFree(&mat);
+
+  mat = MatFloatCreate(&dim);
+  float vg[16] = {0, 1, 2, 0, 0, 0, 2, 0, 4, 0, 0, 0, 1, 0, 0, 1};
+  VecSetNull(&i);
+  j = 0;
+  do {
+    MatSet(mat, &i, vg[j]);
+    ++j;
+  } while(VecStep(&i, &dim));
+  inv = MatGetInv(mat);
+  if (inv != NULL) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "UnitTestMatFloatInv NOK (9)");
+    PBErrCatch(PBMathErr);
+  }
+  /* TODO
+  if (inv == NULL) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "UnitTestMatFloatInv NOK (9)");
+    PBErrCatch(PBMathErr);
+  }
+  float wg[16] = {0, 0, 0.25, 0, 1, -1, 0, 0, 0, 0.5, 0, 0, 0, 0, -0.25, 1};
+  VecSetNull(&i);
+  j = 0;
+  do {
+    if (!ISEQUALF(MatGet(inv, &i), wg[j])) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "UnitTestMatFloatInv NOK (10)");
+      PBErrCatch(PBMathErr);
+    }
+    ++j;
+  } while(VecStep(&i, &dim));
+  MatFree(&inv);
+  */
+  MatFree(&mat);
+
   printf("UnitTestMatFloatInv OK\n");
 }
 

@@ -1946,6 +1946,9 @@ void MatFloatPrintln(MatFloat* const that, FILE* stream, unsigned int prec) {
 
 // Return the inverse matrix of 'that'
 // The matrix must be a square matrix
+// Return NULL if the matrix is not invertible, or in some case when
+// the matrix's diagonal contains null values and the matrix's size
+// is greater than 3
 MatFloat* _MatFloatGetInv(const MatFloat* const that) {
 #if BUILDMODE == 0
   if (that == NULL) {
@@ -1959,41 +1962,28 @@ MatFloat* _MatFloatGetInv(const MatFloat* const that) {
       VecGet(&(that->_dim), 0), VecGet(&(that->_dim), 1));
     PBErrCatch(PBMathErr);
   }
-  if (VecGet(&(that->_dim), 0) > 3) {
-    PBMathErr->_type = PBErrTypeInvalidArg;
-    sprintf(PBMathErr->_msg, 
-      "_MatFloatGetInv is defined only for matrix of dim <= 3x3 (%dx%d)",
-      VecGet(&(that->_dim), 0), VecGet(&(that->_dim), 1));
-    PBErrCatch(PBMathErr);
-  }
 #endif
   // Allocate memory for the result
-  MatFloat* res = MatFloatCreate(&(that->_dim));
+  MatFloat* res = NULL;
   // If the matrix is of dimension 1x1
   if (VecGet(&(that->_dim), 0) == 1) {
-#if BUILDMODE == 0
-    if (that->_val[0] < PBMATH_EPSILON) {
-      PBMathErr->_type = PBErrTypeOther;
-      sprintf(PBMathErr->_msg, "the matrix is not inversible");
-      PBErrCatch(PBMathErr);
+    if (fabs(that->_val[0]) > PBMATH_EPSILON) {
+      // Allocate memory for the result
+      res = MatFloatCreate(&(that->_dim));
+      res->_val[0] = 1.0 / that->_val[0];
     }
-#endif 
-    res->_val[0] = 1.0 / that->_val[0];
   // If the matrix is of dimension 2x2
   } else if (VecGet(&(that->_dim), 0) == 2) {
     float det = that->_val[0] * that->_val[3] - 
       that->_val[2] * that->_val[1];
-#if BUILDMODE == 0
-    if (ISEQUALF(det, 0.0)) {
-      PBMathErr->_type = PBErrTypeOther;
-      sprintf(PBMathErr->_msg, "the matrix is not inversible");
-      PBErrCatch(PBMathErr);
+    if (!ISEQUALF(det, 0.0)) {
+      // Allocate memory for the result
+      res = MatFloatCreate(&(that->_dim));
+      res->_val[0] = that->_val[3] / det;
+      res->_val[1] = -1.0 * that->_val[1] / det;
+      res->_val[2] = -1.0 * that->_val[2] / det;
+      res->_val[3] = that->_val[0] / det;
     }
-#endif 
-    res->_val[0] = that->_val[3] / det;
-    res->_val[1] = -1.0 * that->_val[1] / det;
-    res->_val[2] = -1.0 * that->_val[2] / det;
-    res->_val[3] = that->_val[0] / det;
   // Else, the matrix dimension is 3x3
   } else if (VecGet(&(that->_dim), 0) == 3) {
     float det = 
@@ -2006,31 +1996,78 @@ MatFloat* _MatFloatGetInv(const MatFloat* const that) {
       that->_val[6] * 
         (that->_val[1] * that->_val[5] - 
         that->_val[2] * that->_val[4]);
-#if BUILDMODE == 0
-    if (ISEQUALF(det, 0.0)) {
-      PBMathErr->_type = PBErrTypeOther;
-      sprintf(PBMathErr->_msg, "the matrix is not inversible");
-      PBErrCatch(PBMathErr);
+    if (!ISEQUALF(det, 0.0)) {
+      // Allocate memory for the result
+      res = MatFloatCreate(&(that->_dim));
+      res->_val[0] = (that->_val[4] * that->_val[8] - 
+          that->_val[5] * that->_val[7]) / det;
+      res->_val[1] = -(that->_val[1] * that->_val[8] - 
+          that->_val[2] * that->_val[7]) / det;
+      res->_val[2] = (that->_val[1] * that->_val[5] - 
+          that->_val[2] * that->_val[4]) / det;
+      res->_val[3] = -(that->_val[3] * that->_val[8] - 
+          that->_val[5] * that->_val[6]) / det;
+      res->_val[4] = (that->_val[0] * that->_val[8] - 
+          that->_val[2] * that->_val[6]) / det;
+      res->_val[5] = -(that->_val[0] * that->_val[5] - 
+          that->_val[2] * that->_val[3]) / det;
+      res->_val[6] = (that->_val[3] * that->_val[7] - 
+          that->_val[4] * that->_val[6]) / det;
+      res->_val[7] = -(that->_val[0] * that->_val[7] - 
+          that->_val[1] * that->_val[6]) / det;
+      res->_val[8] = (that->_val[0] * that->_val[4] - 
+          that->_val[1] * that->_val[3]) / det;
     }
-#endif 
-    res->_val[0] = (that->_val[4] * that->_val[8] - 
-        that->_val[5] * that->_val[7]) / det;
-    res->_val[1] = -(that->_val[1] * that->_val[8] - 
-        that->_val[2] * that->_val[7]) / det;
-    res->_val[2] = (that->_val[1] * that->_val[5] - 
-        that->_val[2] * that->_val[4]) / det;
-    res->_val[3] = -(that->_val[3] * that->_val[8] - 
-        that->_val[5] * that->_val[6]) / det;
-    res->_val[4] = (that->_val[0] * that->_val[8] - 
-        that->_val[2] * that->_val[6]) / det;
-    res->_val[5] = -(that->_val[0] * that->_val[5] - 
-        that->_val[2] * that->_val[3]) / det;
-    res->_val[6] = (that->_val[3] * that->_val[7] - 
-        that->_val[4] * that->_val[6]) / det;
-    res->_val[7] = -(that->_val[0] * that->_val[7] - 
-        that->_val[1] * that->_val[6]) / det;
-    res->_val[8] = (that->_val[0] * that->_val[4] - 
-        that->_val[1] * that->_val[3]) / det;
+  } else {
+    // Clone the matrix to be inverted
+    res = MatClone(that);
+    // Farooq Hamid algorithm (modified to handle some matrix with null
+    // values on the diagonal)
+    // https://www.researchgate.net/publication/
+    //   220337322_An_Efficient_and_Simple_Algorithm_for_Matrix_Inversion
+    //float det = 1.0;
+    short size = VecGet(&(that->_dim), 0);
+    float* mat = res->_val;
+    bool flagHasChanged = true;
+    short nbRemaining = size;
+    bool* hasPivotChanged = PBErrMalloc(PBMathErr, size * sizeof(bool));
+    for(short p = 0; p < size; ++p) {
+      hasPivotChanged[p] = false;
+    }
+    while (flagHasChanged == true && nbRemaining > 0) {
+      flagHasChanged = false;
+      for(short p = 0; p < size; ++p) {
+        float pivot = mat[p * size + p];
+        if (!ISEQUALF(pivot, 0.0) && !(hasPivotChanged[p])) {
+          flagHasChanged = true;
+          --nbRemaining;
+          hasPivotChanged[p] = true;
+          //det *= pivot;
+          for (short i = 0; i < size; ++i) {
+            mat[i * size + p] = -1.0 * mat[i * size + p] / pivot;
+          }
+          for (short i = 0; i < size; ++i) {
+            if (i != p) {
+              for (short j = 0; j < size; ++j) {
+                if (j != p) {
+                  mat[i * size + j] =
+                    mat[i * size + j] + mat[p * size + j] * mat[i * size + p];
+                }
+              }
+            }
+          }
+          for (short j = 0; j < size; ++j) {
+            mat[p * size + j] =  mat[p * size + j] / pivot;
+          }
+          mat[p * size + p] = 1.0 / pivot;
+        }
+      }
+    }
+    free(hasPivotChanged);
+    if (nbRemaining > 0) {
+      MatFree(&res);
+      return NULL;
+    }
   }
   // Return the result
   return res;

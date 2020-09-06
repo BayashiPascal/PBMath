@@ -1495,6 +1495,9 @@ short _MatFloatGetNbCol(const MatFloat* const that);
 
 // Return the inverse matrix of 'that'
 // The matrix must be a square matrix
+// Return NULL if the matrix is not invertible, or in some case when
+// the matrix's diagonal contains null values and the matrix's size
+// is greater than 3
 MatFloat* _MatFloatGetInv(const MatFloat* const that);
 
 // Return the product of matrix 'that' and vector 'v'
