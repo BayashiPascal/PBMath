@@ -2244,18 +2244,24 @@ GSetVecFloat _MatFloatGetEigenValues(const MatFloat* const that) {
   float err = 0.0;
   do {
     QRDecomp QR = MatGetQR(A);
-    MatFloat* RQ = MatGetProdMat(QR._R, QR._Q);
-    MatFree(&A);
-    A = RQ;
-    MatFloat* M = MatGetProdMat(Q, QR._Q);
-    MatFree(&Q);
-    Q = M;
-    err = 0.0;
-    do {
-      if (VecGet(&pos, 0) != VecGet(&pos, 1))
-        err = MAX(err, fabs(MatGet(A, &pos)));
-    } while (VecStep(&pos, MatDim(A)));
-    QRDecompFreeStatic(&QR);
+    if (QR._Q != NULL) {
+      MatFloat* RQ = MatGetProdMat(QR._R, QR._Q);
+      MatFree(&A);
+      A = RQ;
+      MatFloat* M = MatGetProdMat(Q, QR._Q);
+      MatFree(&Q);
+      Q = M;
+      err = 0.0;
+      do {
+        if (VecGet(&pos, 0) != VecGet(&pos, 1))
+          err = MAX(err, fabs(MatGet(A, &pos)));
+      } while (VecStep(&pos, MatDim(A)));
+      QRDecompFreeStatic(&QR);
+    } else {
+      MatSetIdentity(A);
+      MatSetIdentity(Q);
+      err = 0.0;
+    }
   } while (err > PBMATH_EPSILON);
   // Extract the results
   VecFloat* values = VecFloatCreate(MatGetNbCol(that));
@@ -2280,7 +2286,7 @@ GSetVecFloat _MatFloatGetEigenValues(const MatFloat* const that) {
 
 // Calculate the QR decomposition of the MatFloat 'that' using the 
 // Householder algorithm
-// Return NULL if the MatFloat couldn't be decomposed
+// Return {NULL, NULL} if the MatFloat couldn't be decomposed
 // http://www.seas.ucla.edu/~vandenbe/133A/lectures/qr.pdf
 QRDecomp _MatFloatGetQR(const MatFloat* const that) {
 #if BUILDMODE == 0
@@ -2330,6 +2336,14 @@ QRDecomp _MatFloatGetQR(const MatFloat* const that) {
     for (short i = 0; i < VecGetDim(w); ++i) {
       VecSet(&pos, 1, k + i);
       VecSet(w, i, MatGet(A, &pos));
+    }
+    if(ISEQUALF(VecNorm(w), 0.0)) {
+      MatFree(&R);
+      MatFree(&Q);
+      MatFree(&QQtilde);
+      MatFree(&A);
+      VecFree(&w);
+      return (QRDecomp){._Q = NULL, ._R = NULL};
     }
     float sign = (VecGet(w, 0) >= 0.0 ? 1.0 : -1.0);
     VecSet(w, 0, VecGet(w, 0) + sign * VecNorm(w));
