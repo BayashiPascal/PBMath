@@ -2216,8 +2216,9 @@ bool _MatFloatIsEqual(MatFloat* const that, MatFloat* tho) {
 // smallest (in absolute value). The following VecFloat are the 
 // respectiev Eigen vectors
 // 'that' must be a 2D square matrix
+// Return the identity if the QR decompostion fails
 // http://madrury.github.io/jekyll/update/statistics/2017/10/04/qr-algorithm.html
-// TODO: chould be improved with the Hessenberg QR method
+// TODO: should be improved with the Hessenberg QR method
 // https://www.math.kth.se/na/SF2524/matber15/qrmethod.pdf
 GSetVecFloat _MatFloatGetEigenValues(const MatFloat* const that) {
 #if BUILDMODE == 0
