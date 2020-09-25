@@ -1724,13 +1724,13 @@ MatFloat* MatFloatCreate(const VecShort2D* const dim) {
   }
 #endif
   // Allocate memory
-  int d = VecGet(dim, 0) * VecGet(dim, 1);
+  long d = VecGet(dim, 0) * VecGet(dim, 1);
   MatFloat* that = PBErrMalloc(PBMathErr, offsetof(MatFloat, _val) + 
     sizeof(float) * d);
   // Set the dimensions
   *(VecShort2D*)&(that->_dim) = *dim;
   // Set the default values
-  for (int i = d; i--;)
+  for (long i = d; i--;)
     that->_val[i] = 0.0;
   // Return the new MatFloat
   return that;
@@ -1748,8 +1748,8 @@ MatFloat* _MatFloatClone(const MatFloat* const that) {
   // Create a clone
   MatFloat* clone = MatFloatCreate(&(that->_dim));
   // Copy the values
-  int d = VecGet(&(that->_dim), 0) * VecGet(&(that->_dim), 1);
-  for (int i = d; i--;)
+  long d = VecGet(&(that->_dim), 0) * VecGet(&(that->_dim), 1);
+  for (long i = d; i--;)
     clone->_val[i] = that->_val[i];
   // Return the clone
   return clone;

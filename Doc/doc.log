@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.10.17)  16 SEP 2020 16:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.10.17)  25 SEP 2020 16:58
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -791,7 +791,7 @@ cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy1
 hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
 
 pdfTeX warning: pdflatex: no GlyphToUnicode entry has been inserted yet!
-Output written on doc.pdf (272 pages, 454419 bytes).
+Output written on doc.pdf (272 pages, 454408 bytes).
 PDF statistics:
  941 PDF objects out of 1000 (max. 8388607)
  644 compressed objects within 7 object streams
