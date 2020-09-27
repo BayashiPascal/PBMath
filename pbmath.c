@@ -989,6 +989,39 @@ bool _VecLongPStepDelta(VecLong* const that,
   return ret;
 }
 
+// Return a new VecLong as a copy of the VecLong 'that' with 
+// dimension changed to 'dim'
+// if it is extended, the values of new components are 0
+// If it is shrinked, values are discarded from the end of the vector
+VecLong* _VecLongGetNewDim(const VecLong* const that, const long dim) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (dim <= 0) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'dim' is invalid match (%ld>0)", dim);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // If the new dimension is the same as the current one
+  if (dim == VecGetDim(that)) {
+    // Return the clone of the vector
+    return VecClone(that);
+  // Else, the new dimension is actually different
+  } else {
+    // Declare the returned vector
+    VecLong* ret = VecLongCreate(dim);
+    // Copy the components
+    for (long iAxis = MIN(VecGetDim(that), dim); iAxis--;)
+      VecSet(ret, iAxis, VecGet(that, iAxis));
+    // Return the new vector
+    return ret;
+  }
+}
+
 // -------------- VecFloat
 
 // ================ Functions implementation ====================

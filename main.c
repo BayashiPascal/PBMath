@@ -2211,6 +2211,34 @@ void UnitTestVecLongHadamardProd() {
   printf("UnitTestVecLongHadamardProd OK\n");
 }
 
+void UnitTestVecLongGetNewDim() {
+  VecLong* v = VecLongCreate(3);
+  for (int i = 3; i--;)
+    VecSet(v, i, i);
+  VecLong* u = VecGetNewDim(v, 2);
+  if (VecGetDim(u) != 2 ||
+    VecGet(u, 0) != 0 ||
+    VecGet(u, 1) != 1) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecGetNewDim NOK 1");
+    PBErrCatch(PBMathErr);
+  }
+  VecLong* w = VecGetNewDim(v, 4);
+  if (VecGetDim(w) != 4 ||
+    VecGet(w, 0) != 0 ||
+    VecGet(w, 1) != 1 ||
+    VecGet(w, 2) != 2 ||
+    VecGet(w, 3) != 0) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "VecGetNewDim NOK 2");
+    PBErrCatch(PBMathErr);
+  }
+  VecFree(&v);
+  VecFree(&u);
+  VecFree(&w);
+  printf("UnitTestVecLongGetNewDim OK\n");
+}
+
 void UnitTestVecLong() {
   UnitTestVecLongCreateFree();
   UnitTestVecLongClone();
@@ -2226,6 +2254,7 @@ void UnitTestVecLong() {
   UnitTestVecLongShiftStep();
   UnitTestVecLongGetMinMax();
   UnitTestVecLongHadamardProd();
+  UnitTestVecLongGetNewDim();
   printf("UnitTestVecLong OK\n");
 }
 

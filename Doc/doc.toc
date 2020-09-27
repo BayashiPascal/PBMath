@@ -10,8 +10,8 @@
 \contentsline {section}{\numberline {2}Interface}{12}
 \contentsline {section}{\numberline {3}Code}{73}
 \contentsline {subsection}{\numberline {3.1}pbmath.c}{73}
-\contentsline {subsection}{\numberline {3.2}pbmath-inline.c}{123}
-\contentsline {section}{\numberline {4}Makefile}{195}
-\contentsline {section}{\numberline {5}Unit tests}{195}
-\contentsline {section}{\numberline {6}Unit tests output}{267}
-\contentsline {section}{\numberline {7}Examples}{270}
+\contentsline {subsection}{\numberline {3.2}pbmath-inline.c}{124}
+\contentsline {section}{\numberline {4}Makefile}{196}
+\contentsline {section}{\numberline {5}Unit tests}{196}
+\contentsline {section}{\numberline {6}Unit tests output}{268}
+\contentsline {section}{\numberline {7}Examples}{271}

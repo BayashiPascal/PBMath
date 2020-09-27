@@ -424,6 +424,12 @@ static inline
 #endif 
 long _VecLongGetIMaxVal(const VecLong* const that);
 
+// Return a new VecLong as a copy of the VecLong 'that' with 
+// dimension changed to 'dim'
+// if it is extended, the values of new components are 0
+// If it is shrinked, values are discarded from the end of the vector
+VecLong* _VecLongGetNewDim(const VecLong* const that, const long dim); 
+
 // -------------- VecShort
 
 // ================= Data structure ===================
@@ -2251,10 +2257,14 @@ unsigned int GetGCD(unsigned int u, unsigned int v);
 #define VecGetNewDim(Vec, Dim) _Generic(Vec, \
   VecFloat*: _VecFloatGetNewDim, \
   const VecFloat*: _VecFloatGetNewDim, \
+  VecLong*: _VecLongGetNewDim, \
+  const VecLong*: _VecLongGetNewDim, \
   default: PBErrInvalidPolymorphism)( \
     _Generic(Vec, \
       VecFloat*: Vec, \
       const VecFloat*: Vec, \
+      VecLong*: Vec, \
+      const VecLong*: Vec, \
       default: Vec), Dim)
 
 #define VecNorm(Vec) _Generic(Vec, \
