@@ -11,6 +11,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <float.h>
 #include "pberr.h"
 #include "pbjson.h"
 

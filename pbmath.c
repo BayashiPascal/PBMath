@@ -2071,7 +2071,7 @@ MatFloat* _MatFloatGetInv(const MatFloat* const that) {
       flagHasChanged = false;
       for(short p = 0; p < size; ++p) {
         float pivot = mat[p * size + p];
-        if (!ISEQUALF(pivot, 0.0) && !(hasPivotChanged[p])) {
+        if (fabs(pivot) > FLT_MIN && !(hasPivotChanged[p])) {
           flagHasChanged = true;
           --nbRemaining;
           hasPivotChanged[p] = true;
