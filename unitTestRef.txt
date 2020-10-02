@@ -47,10 +47,10 @@
   "_nbCol":"3",
   "_val":["1.000000","2.000000","3.000000","4.000000","5.000000","6.000000"]
 }
-<0,0,0,0,0>
-<0,0>
-<0,0,0>
-<0,0,0,0>
+[0,0,0,0,0]
+[0,0]
+[0,0,0]
+[0,0,0,0]
 VecShortCreateFree OK
 _VecShortClone OK
 _VecShortLoadSave OK
@@ -60,28 +60,28 @@ UnitTestVecShortHamiltonDist OK
 UnitTestVecShortIsEqual OK
 UnitTestVecShortDotProd OK
 UnitTestVecShortCopy OK
-VecShort: 0.000054ms, array: 0.000015ms
+VecShort: 0.000054ms, array: 0.000014ms
 VecShort2D: 0.000006ms, array: 0.000007ms
 VecShort3D: 0.000006ms, array: 0.000006ms
-VecShort4D: 0.000006ms, array: 0.000006ms
+VecShort4D: 0.000007ms, array: 0.000007ms
 UnitTestSpeedVecShort OK
-<1.000,2.000,3.000,4.000,5.000>
-<1.000,2.000>
-<1.000,2.000,3.000>
+[1.000,2.000,3.000,4.000,5.000]
+[1.000,2.000]
+[1.000,2.000,3.000]
 UnitTestVecShortToFloat OK
-<1.000,2.000,3.000,4.000,5.000>
-<1.000,2.000>
-<1.000,2.000,3.000>
+[1.000,2.000,3.000,4.000,5.000]
+[1.000,2.000]
+[1.000,2.000,3.000]
 UnitTestVecLongToFloat OK
 UnitTestVecShortOp OK
 UnitTestVecShortShiftStep OK
 UnitTestVecShortGetMinMax OK
 UnitTestVecShortHadamardProd OK
 UnitTestVecShort OK
-<0,0,0,0,0>
-<0,0>
-<0,0,0>
-<0,0,0,0>
+[0,0,0,0,0]
+[0,0]
+[0,0,0]
+[0,0,0,0]
 VecLongCreateFree OK
 _VecLongClone OK
 _VecLongLoadSave OK
@@ -93,7 +93,7 @@ UnitTestVecLongDotProd OK
 UnitTestVecLongCopy OK
 VecLong: 0.000014ms, array: 0.000014ms
 VecLong2D: 0.000007ms, array: 0.000006ms
-VecLong3D: 0.000006ms, array: 0.000006ms
+VecLong3D: 0.000006ms, array: 0.000007ms
 VecLong4D: 0.000006ms, array: 0.000007ms
 UnitTestSpeedVecLong OK
 UnitTestVecLongOp OK
@@ -102,9 +102,9 @@ UnitTestVecLongGetMinMax OK
 UnitTestVecLongHadamardProd OK
 UnitTestVecLongGetNewDim OK
 UnitTestVecLong OK
-<0.000,0.000,0.000,0.000,0.000>
-<0.000,0.000>
-<0.000,0.000,0.000>
+[0.000,0.000,0.000,0.000,0.000]
+[0.000,0.000]
+[0.000,0.000,0.000]
 VecFloatCreateFree OK
 _VecFloatClone OK
 _VecFloatLoadSave OK
@@ -117,11 +117,11 @@ UnitTestVecFloatScale OK
 UnitTestVecFloatOp OK
 UnitTestVecFloatDotProd OK
 UnitTestVecFloatCrossProd OK
-<0.707107,0.707107>
+[0.707107,0.707107]
 UnitTestVecFloatAngleTo OK
-<1,2,3,4,5>
-<1,2>
-<1,2,3>
+[1,2,3,4,5]
+[1,2]
+[1,2,3]
 UnitTestVecFloatToShort OK
 UnitTestVecFloatGetMinMax OK
 UnitTestVecFloatRotAxis OK
@@ -165,12 +165,12 @@ mat:
 [ 2.920,  0.860, -1.150
   0.860,  6.510,  3.320
  -1.150,  3.320,  4.570]
-Eigen values: <8.999,3.997,1.005>
-Eigen vector 1: <0.000,-0.800,-0.600>
-Eigen vector 2: <0.800,0.360,-0.480>
-Eigen vector 3: <0.600,-0.480,0.640>
+Eigen values: [8.999,3.997,1.005]
+Eigen vector 1: [0.000,-0.800,-0.600]
+Eigen vector 2: [0.800,0.360,-0.480]
+Eigen vector 3: [0.600,-0.480,0.640]
 UnitTestMatFloatGetEigenValues OK
-MatFloat: 0.000002ms, array: 0.000002ms
+MatFloat: 0.000003ms, array: 0.000002ms
 UnitTestSpeedMatFloat OK
 UnitTestMatFloat OK
 UnitTestSysLinEq OK
@@ -180,7 +180,7 @@ UnitTestConv OK
 powi OK
 average error: 0.000000 < 0.000010, max error: 0.000000 < 0.000100
 fastpow OK
-fastpow: 0.000013ms, pow: 0.000058ms
+fastpow: 0.000013ms, pow: 0.000057ms
 speed fastpow OK
 fsquare OK
 UnitTestConv OK

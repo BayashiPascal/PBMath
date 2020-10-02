@@ -210,13 +210,13 @@ void _VecShortPrint(const VecShort* const that,
   }
 #endif
   // Print the values
-  fprintf(stream, "<");
+  fprintf(stream, "[");
   for (long i = 0; i < that->_dim; ++i) {
     fprintf(stream, "%hi", that->_val[i]);
     if (i < that->_dim - 1)
       fprintf(stream, ",");
   }
-  fprintf(stream, ">");
+  fprintf(stream, "]");
 }
 
 // Step the values of the vector incrementally by 1 from 0
@@ -701,13 +701,13 @@ void _VecLongPrint(const VecLong* const that,
   }
 #endif
   // Print the values
-  fprintf(stream, "<");
+  fprintf(stream, "[");
   for (long i = 0; i < that->_dim; ++i) {
     fprintf(stream, "%ld", that->_val[i]);
     if (i < that->_dim - 1)
       fprintf(stream, ",");
   }
-  fprintf(stream, ">");
+  fprintf(stream, "]");
 }
 
 // Step the values of the vector incrementally by 1 from 0
@@ -1227,13 +1227,13 @@ void VecFloatPrint(const VecFloat* const that, FILE* const stream,
   char format[100] = {'\0'};
   sprintf(format, "%%.%df", prec);
   // Print the values
-  fprintf(stream, "<");
+  fprintf(stream, "[");
   for (long i = 0; i < that->_dim; ++i) {
     fprintf(stream, format, that->_val[i]);
     if (i < that->_dim - 1)
       fprintf(stream, ",");
   }
-  fprintf(stream, ">");
+  fprintf(stream, "]");
 }
 
 // Return the angle of the rotation making 'that' colinear to 'tho'
