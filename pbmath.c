@@ -2285,11 +2285,15 @@ GSetVecFloat _MatFloatGetEigenValues(const MatFloat* const that) {
       MatFloat* M = MatGetProdMat(Q, QR._Q);
       MatFree(&Q);
       Q = M;
-      err = 0.0;
+      float newErr = 0.0;
       do {
         if (VecGet(&pos, 0) != VecGet(&pos, 1))
-          err = MAX(err, fabs(MatGet(A, &pos)));
+          newErr = MAX(newErr, fabs(MatGet(A, &pos)));
       } while (VecStep(&pos, MatDim(A)));
+      if (!ISEQUALF(newErr, err))
+        err = newErr;
+      else
+        err = 0.0;
       QRDecompFreeStatic(&QR);
     } else {
       MatSetIdentity(A);
@@ -2363,7 +2367,6 @@ QRDecomp _MatFloatGetQR(const MatFloat* const that) {
   
   // Householder algorithm
   for (short k = 0; k < MatGetNbCol(that); ++k) {
-
     // Calculate w 
     VecFloat* w = VecFloatCreate(MatGetNbRow(that) - k);
     VecSet(&pos, 0, k);
@@ -2371,7 +2374,7 @@ QRDecomp _MatFloatGetQR(const MatFloat* const that) {
       VecSet(&pos, 1, k + i);
       VecSet(w, i, MatGet(A, &pos));
     }
-    if(ISEQUALF(VecNorm(w), 0.0)) {
+    if(fabs(VecNorm(w))<0.0000000001) {
       MatFree(&R);
       MatFree(&Q);
       MatFree(&QQtilde);
