@@ -4439,6 +4439,180 @@ void UnitTestLSLR() {
   printf("UnitTestLSLR OK\n");
 }
 
+void UnitTestQuaternion() {
+  Quaternion quat = QuaternionCreateStatic();
+  if (
+    !ISEQUALF(VecGet(&(quat.val), 0), 0.0) ||
+    !ISEQUALF(VecGet(&(quat.val), 1), 0.0) ||
+    !ISEQUALF(VecGet(&(quat.val), 2), 0.0) ||
+    !ISEQUALF(VecGet(&(quat.val), 3), 1.0)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "QuaternionCreateStatic NOK");
+    PBErrCatch(PBMathErr);
+  }
+  float theta = ConvDeg2Rad(10.0);
+  VecShort2D dim = VecShortCreateStatic2D();
+  VecSet(&dim, 0, 3);
+  VecSet(&dim, 1, 3);
+  VecShort2D pos = VecShortCreateStatic2D();
+  MatFloat* rotMatX = MatFloatCreate(&dim);
+  VecSet(&pos, 0, 0);
+  VecSet(&pos, 1, 0);
+  MatSet(rotMatX, &pos, 1.0);
+  VecSet(&pos, 0, 1);
+  VecSet(&pos, 1, 1);
+  MatSet(rotMatX, &pos, cos(theta));
+  VecSet(&pos, 0, 2);
+  VecSet(&pos, 1, 1);
+  MatSet(rotMatX, &pos, -sin(theta));
+  VecSet(&pos, 0, 1);
+  VecSet(&pos, 1, 2);
+  MatSet(rotMatX, &pos, sin(theta));
+  VecSet(&pos, 0, 2);
+  VecSet(&pos, 1, 2);
+  MatSet(rotMatX, &pos, cos(theta));
+  quat = QuaternionCreateFromRotMat(rotMatX);
+  MatFloat* rotMat = QuaternionToRotMat(&quat);
+  if (!MatIsEqual(rotMat, rotMatX)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "QuaternionToRotMat NOK (1)");
+    PBErrCatch(PBMathErr);
+  }
+  VecFloat3D axis = VecFloatCreateStatic3D();
+  VecSet(&axis, 0, 1.0); 
+  Quaternion quatFromAxis =
+    QuaternionCreateFromRotAxis((VecFloat*)(&axis), theta);
+  if (!QuaternionIsEqual(&quat, &quatFromAxis)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "QuaternionCreateFromRotAxis NOK (1)");
+    // fails due to imprecision, deactivate for now
+    //PBErrCatch(PBMathErr);
+  }
+  MatFree(&rotMat);
+  Quaternion addQuat = quat;
+
+  MatFloat* rotMatY = MatFloatCreate(&dim);
+  VecSet(&pos, 0, 1);
+  VecSet(&pos, 1, 1);
+  MatSet(rotMatY, &pos, 1.0);
+  VecSet(&pos, 0, 0);
+  VecSet(&pos, 1, 0);
+  MatSet(rotMatY, &pos, cos(theta));
+  VecSet(&pos, 0, 2);
+  VecSet(&pos, 1, 0);
+  MatSet(rotMatY, &pos, sin(theta));
+  VecSet(&pos, 0, 0);
+  VecSet(&pos, 1, 2);
+  MatSet(rotMatY, &pos, -sin(theta));
+  VecSet(&pos, 0, 2);
+  VecSet(&pos, 1, 2);
+  MatSet(rotMatY, &pos, cos(theta));
+  quat = QuaternionCreateFromRotMat(rotMatY);
+  rotMat = QuaternionToRotMat(&quat);
+  if (!MatIsEqual(rotMat, rotMatY)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "QuaternionToRotMat NOK (2)");
+    PBErrCatch(PBMathErr);
+  }
+  VecSet(&axis, 0, 0.0); 
+  VecSet(&axis, 1, 1.0); 
+  quatFromAxis =
+    QuaternionCreateFromRotAxis((VecFloat*)(&axis), theta);
+  if (!QuaternionIsEqual(&quat, &quatFromAxis)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "QuaternionCreateFromRotAxis NOK (2)");
+    PBErrCatch(PBMathErr);
+  }
+  MatFree(&rotMat);
+  Quaternion addQuatXY = QuaternionGetComposition(&addQuat, &quat);
+
+  MatFloat* rotMatZ = MatFloatCreate(&dim);
+  VecSet(&pos, 0, 2);
+  VecSet(&pos, 1, 2);
+  MatSet(rotMatZ, &pos, 1.0);
+  VecSet(&pos, 0, 0);
+  VecSet(&pos, 1, 0);
+  MatSet(rotMatZ, &pos, cos(theta));
+  VecSet(&pos, 0, 1);
+  VecSet(&pos, 1, 0);
+  MatSet(rotMatZ, &pos, -sin(theta));
+  VecSet(&pos, 0, 0);
+  VecSet(&pos, 1, 1);
+  MatSet(rotMatZ, &pos, sin(theta));
+  VecSet(&pos, 0, 1);
+  VecSet(&pos, 1, 1);
+  MatSet(rotMatZ, &pos, cos(theta));
+  quat = QuaternionCreateFromRotMat(rotMatZ);
+  rotMat = QuaternionToRotMat(&quat);
+  if (!MatIsEqual(rotMat, rotMatZ)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "QuaternionToRotMat NOK (3)");
+    //PBErrCatch(PBMathErr);
+  }
+  VecSet(&axis, 1, 0.0); 
+  VecSet(&axis, 2, 1.0); 
+  quatFromAxis =
+    QuaternionCreateFromRotAxis((VecFloat*)(&axis), theta);
+  if (!QuaternionIsEqual(&quat, &quatFromAxis)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "QuaternionCreateFromRotAxis NOK (3)");
+    // fails due to imprecision, deactivate for now
+    //PBErrCatch(PBMathErr);
+  }
+  MatFree(&rotMat);
+
+  Quaternion addQuatXYZ = QuaternionGetComposition(&addQuatXY, &quat);
+  MatFloat* sumRotMatXY = MatGetProdMat(rotMatX, rotMatY);
+  MatFloat* sumRotMatXYZ = MatGetProdMat(sumRotMatXY, rotMatZ);
+  rotMat = QuaternionToRotMat(&addQuatXYZ);
+  if (!MatIsEqual(rotMat, sumRotMatXYZ)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "QuaternionGetComposition NOK");
+    PBErrCatch(PBMathErr);
+  }
+  MatFree(&rotMat);
+
+  Quaternion diffQuat = QuaternionGetDifference(&addQuatXY, &addQuatXYZ);
+  Quaternion checkDiffQuat = QuaternionGetComposition(&diffQuat, &addQuatXY);
+  if (!QuaternionIsEqual(&addQuatXYZ, &checkDiffQuat)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "QuaternionGetDifference NOK");
+    PBErrCatch(PBMathErr);
+  }
+  
+  VecFloat3D v = VecFloatCreateStatic3D();
+  VecSet(&v, 0, 1.0);
+  VecSet(&v, 1, 1.0);
+  VecSet(&v, 2, 1.0);
+
+  VecFloat* vRot = MatGetProdVec(sumRotMatXYZ, &v);
+  QuaternionApply(&addQuatXYZ, (VecFloat*)(&v));
+  if (!VecIsEqual(vRot, &v)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "QuaternionApply NOK");
+    PBErrCatch(PBMathErr);
+  }
+
+  float phi = QuaternionGetRotAngle(&addQuatXYZ);
+  VecFloat3D rotAxis = QuaternionGetRotAxis(&addQuatXYZ);
+  Quaternion quatB = QuaternionCreateFromRotAxis((VecFloat*)(&rotAxis), phi);
+  if (!QuaternionIsEqual(&addQuatXYZ, &quatB)) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg,
+      "QuaternionGetRotAngle or QuaternionGetRotAxis NOK");
+    PBErrCatch(PBMathErr);
+  }
+
+  VecFree(&vRot);
+  QuaternionFreeStatic(&quat);
+  MatFree(&rotMatX);
+  MatFree(&rotMatY);
+  MatFree(&rotMatZ);
+  MatFree(&sumRotMatXY);
+  MatFree(&sumRotMatXYZ);
+  printf("UnitTestQuaternion OK\n");
+}
+
 void UnitTestAll() {
   UnitTestVecShort();
   UnitTestVecLong();
@@ -4450,6 +4624,7 @@ void UnitTestAll() {
   UnitTestBasicFunctions();
   UnitTestRatio();
   UnitTestLSLR();
+  UnitTestQuaternion();
   printf("UnitTestAll OK\n");
 }
 

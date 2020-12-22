@@ -8,10 +8,10 @@
 \contentsline {subsubsection}{\numberline {1.2.2}QR factorization}{5}
 \contentsline {subsubsection}{\numberline {1.2.3}Eigen values and vectors}{7}
 \contentsline {section}{\numberline {2}Interface}{12}
-\contentsline {section}{\numberline {3}Code}{74}
-\contentsline {subsection}{\numberline {3.1}pbmath.c}{74}
-\contentsline {subsection}{\numberline {3.2}pbmath-inline.c}{124}
-\contentsline {section}{\numberline {4}Makefile}{196}
-\contentsline {section}{\numberline {5}Unit tests}{196}
-\contentsline {section}{\numberline {6}Unit tests output}{268}
-\contentsline {section}{\numberline {7}Examples}{272}
+\contentsline {section}{\numberline {3}Code}{76}
+\contentsline {subsection}{\numberline {3.1}pbmath.c}{76}
+\contentsline {subsection}{\numberline {3.2}pbmath-inline.c}{136}
+\contentsline {section}{\numberline {4}Makefile}{209}
+\contentsline {section}{\numberline {5}Unit tests}{210}
+\contentsline {section}{\numberline {6}Unit tests output}{285}
+\contentsline {section}{\numberline {7}Examples}{288}

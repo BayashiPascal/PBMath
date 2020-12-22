@@ -3134,3 +3134,606 @@ VecFloat* LSLRSolve(LeastSquareLinReg* that, const VecFloat* Y) {
   return beta;
 
 }
+
+// -------------- Quaternion
+
+// ================ Functions implementation ====================
+
+// Create a new static Quaternion
+Quaternion QuaternionCreateStatic(void) {
+
+  // Declare the new Quaternion
+  Quaternion that;
+
+  // Initialise the properties
+  that.val = VecFloatCreateStatic4D();
+  VecSet(&(that.val), 3, 1.0);
+
+  // Return the Quaternion
+  return that;
+
+}
+
+// Free the static Quaternion 'that'
+void QuaternionFreeStatic(Quaternion* that) {
+
+  if (that == NULL) {
+
+    return;
+
+  }
+
+  // Nothing to do
+
+}
+
+// Create a new static Quaternion from the rotation matrix 'rotMat'
+Quaternion QuaternionCreateFromRotMat(MatFloat* rotMat) {
+#if BUILDMODE == 0
+
+  if (rotMat == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+  if (VecGet(MatDim(rotMat), 0) != 3 ||
+    VecGet(MatDim(rotMat), 1) != 3) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'rotMat' is not a 3x3 matrix (%d,%d)",
+      VecGet(MatDim(rotMat), 0), VecGet(MatDim(rotMat), 1));
+    PBErrCatch(PBMathErr);
+
+  }
+
+#endif
+
+  // Create the new quaternion
+  Quaternion that = QuaternionCreateStatic();
+
+  // Calculate the components of the quaternion
+  float sumDiag = 1.0;
+  VecShort2D pos = VecShortCreateStatic2D();
+  float diagVal[3];
+  for (int i = 3; i--;) {
+
+    VecSet(&pos, 0, i);
+    VecSet(&pos, 1, i);
+    diagVal[i] = MatGet(rotMat, &pos);
+    sumDiag += diagVal[i];
+
+  }
+
+  if (sumDiag > 0.0) {
+
+    float s = sqrt(sumDiag) * 2.0;
+
+    VecSet(&pos, 0, 1);
+    VecSet(&pos, 1, 2);
+    float v = MatGet(rotMat, &pos);
+    VecSet(&pos, 0, 2);
+    VecSet(&pos, 1, 1);
+    v -= MatGet(rotMat, &pos);
+    v /= s;
+    VecSet(&(that.val), 0, v);
+
+    VecSet(&pos, 0, 2);
+    VecSet(&pos, 1, 0);
+    v = MatGet(rotMat, &pos);
+    VecSet(&pos, 0, 0);
+    VecSet(&pos, 1, 2);
+    v -= MatGet(rotMat, &pos);
+    v /= s;
+    VecSet(&(that.val), 1, v);
+
+    VecSet(&pos, 0, 0);
+    VecSet(&pos, 1, 1);
+    v = MatGet(rotMat, &pos);
+    VecSet(&pos, 0, 1);
+    VecSet(&pos, 1, 0);
+    v -= MatGet(rotMat, &pos);
+    v /= s;
+    VecSet(&(that.val), 2, v);
+
+    VecSet(&(that.val), 3, 0.25 * s);
+
+  } else {
+
+    if (diagVal[0] > diagVal[1] && diagVal[0] > diagVal[2]) {
+
+      float s = sqrt(1.0 + diagVal[0] - diagVal[1] - diagVal[2]) * 2.0;
+
+      VecSet(&(that.val), 0, 0.25 * s);
+
+      VecSet(&pos, 0, 0);
+      VecSet(&pos, 1, 1);
+      float v = MatGet(rotMat, &pos);
+      VecSet(&pos, 0, 1);
+      VecSet(&pos, 1, 0);
+      v += MatGet(rotMat, &pos);
+      v /= s;
+      VecSet(&(that.val), 1, v);
+
+      VecSet(&pos, 0, 2);
+      VecSet(&pos, 1, 0);
+      v = MatGet(rotMat, &pos);
+      VecSet(&pos, 0, 0);
+      VecSet(&pos, 1, 2);
+      v += MatGet(rotMat, &pos);
+      v /= s;
+      VecSet(&(that.val), 2, v);
+
+      VecSet(&pos, 0, 1);
+      VecSet(&pos, 1, 2);
+      v = MatGet(rotMat, &pos);
+      VecSet(&pos, 0, 2);
+      VecSet(&pos, 1, 1);
+      v -= MatGet(rotMat, &pos);
+      v /= s;
+      VecSet(&(that.val), 3, v);
+
+    } else if (diagVal[1] > diagVal[2]) {
+
+      float s = sqrt(1.0 - diagVal[0] + diagVal[1] - diagVal[2]) * 2.0;
+
+      VecSet(&pos, 0, 0);
+      VecSet(&pos, 1, 1);
+      float v = MatGet(rotMat, &pos);
+      VecSet(&pos, 0, 1);
+      VecSet(&pos, 1, 0);
+      v += MatGet(rotMat, &pos);
+      v /= s;
+      VecSet(&(that.val), 0, v);
+
+      VecSet(&(that.val), 1, 0.25 * s);
+
+      VecSet(&pos, 0, 1);
+      VecSet(&pos, 1, 2);
+      v = MatGet(rotMat, &pos);
+      VecSet(&pos, 0, 2);
+      VecSet(&pos, 1, 1);
+      v += MatGet(rotMat, &pos);
+      v /= s;
+      VecSet(&(that.val), 2, v);
+
+      VecSet(&pos, 0, 2);
+      VecSet(&pos, 1, 0);
+      v = MatGet(rotMat, &pos);
+      VecSet(&pos, 0, 0);
+      VecSet(&pos, 1, 2);
+      v -= MatGet(rotMat, &pos);
+      v /= s;
+      VecSet(&(that.val), 3, v);
+
+    } else {
+
+      float s = sqrt(1.0 - diagVal[0] - diagVal[1] + diagVal[2]) * 2.0;
+
+      VecSet(&pos, 0, 2);
+      VecSet(&pos, 1, 0);
+      float v = MatGet(rotMat, &pos);
+      VecSet(&pos, 0, 0);
+      VecSet(&pos, 1, 2);
+      v += MatGet(rotMat, &pos);
+      v /= s;
+      VecSet(&(that.val), 0, v);
+
+      VecSet(&pos, 0, 1);
+      VecSet(&pos, 1, 2);
+      v = MatGet(rotMat, &pos);
+      VecSet(&pos, 0, 2);
+      VecSet(&pos, 1, 1);
+      v += MatGet(rotMat, &pos);
+      v /= s;
+      VecSet(&(that.val), 2, v);
+
+      VecSet(&(that.val), 1, 0.25 * s);
+
+      VecSet(&pos, 0, 0);
+      VecSet(&pos, 1, 1);
+      v = MatGet(rotMat, &pos);
+      VecSet(&pos, 0, 1);
+      VecSet(&pos, 1, 0);
+      v -= MatGet(rotMat, &pos);
+      v /= s;
+      VecSet(&(that.val), 3, v);
+
+    }
+
+  }
+
+  // Return the quaternion
+  return that;
+
+}
+
+// Create a new static Quaternion corresponding to the rotation around
+// 'axis' (must be normalized) by 'theta' (in radians)
+Quaternion QuaternionCreateFromRotAxis(VecFloat* axis, float theta) {
+
+#if BUILDMODE == 0
+
+  if (axis == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'axis' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+  if (VecGetDim(axis) != 3) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'axis' must be of dimension 3 (was %ld)",
+      VecGetDim(axis));
+    PBErrCatch(PBMathErr);
+
+  }
+
+#endif
+
+  // Create the new quaternion
+  Quaternion that = QuaternionCreateStatic();
+
+  // Set the components of the quaternion
+  VecSet(&(that.val), 0, VecGet(axis, 0) * sin(theta / 2.0));
+  VecSet(&(that.val), 1, VecGet(axis, 1) * sin(theta / 2.0));
+  VecSet(&(that.val), 2, VecGet(axis, 2) * sin(theta / 2.0));
+  VecSet(&(that.val), 3, cos(theta / 2.0));
+
+  // Return the quaternion
+  return that;
+
+}
+
+// Convert the Quaternion 'that' to a rotation matrix
+MatFloat* QuaternionToRotMat(Quaternion* that) {
+
+#if BUILDMODE == 0
+
+  if (that == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+#endif
+
+  // Create the rotation matrix
+  VecShort2D dim = VecShortCreateStatic2D();
+  VecSet(&dim, 0, 3);
+  VecSet(&dim, 1, 3);
+  MatFloat* rotMat = MatFloatCreate(&dim);
+
+  // Set the components of the matrix
+
+  float x2 = VecGet(&(that->val), 0) * 2.0;
+  float y2 = VecGet(&(that->val), 1) * 2.0;
+  float z2 = VecGet(&(that->val), 2) * 2.0;
+  float xx = VecGet(&(that->val), 0) * x2;
+  float xy = VecGet(&(that->val), 0) * y2;
+  float xz = VecGet(&(that->val), 0) * z2;
+  float yy = VecGet(&(that->val), 1) * y2;
+  float yz = VecGet(&(that->val), 1) * z2;
+  float zz = VecGet(&(that->val), 2) * z2;
+  float wx = VecGet(&(that->val), 3) * x2;
+  float wy = VecGet(&(that->val), 3) * y2;
+  float wz = VecGet(&(that->val), 3) * z2;
+  VecShort2D pos = VecShortCreateStatic2D();
+  VecSet(&pos, 0, 0);
+  VecSet(&pos, 1, 0);
+  MatSet(rotMat, &pos, 1.0 - (yy + zz));
+  VecSet(&pos, 0, 0);
+  VecSet(&pos, 1, 1);
+  MatSet(rotMat, &pos, xy + wz);
+  VecSet(&pos, 0, 0);
+  VecSet(&pos, 1, 2);
+  MatSet(rotMat, &pos, xz - wy);
+  VecSet(&pos, 0, 1);
+  VecSet(&pos, 1, 0);
+  MatSet(rotMat, &pos, xy - wz);
+  VecSet(&pos, 0, 1);
+  VecSet(&pos, 1, 1);
+  MatSet(rotMat, &pos, 1.0 - (xx + zz));
+  VecSet(&pos, 0, 1);
+  VecSet(&pos, 1, 2);
+  MatSet(rotMat, &pos, yz + wx);
+  VecSet(&pos, 0, 2);
+  VecSet(&pos, 1, 0);
+  MatSet(rotMat, &pos, xz + wy);
+  VecSet(&pos, 0, 2);
+  VecSet(&pos, 1, 1);
+  MatSet(rotMat, &pos, yz - wx);
+  VecSet(&pos, 0, 2);
+  VecSet(&pos, 1, 2);
+  MatSet(rotMat, &pos, 1.0 - (xx + yy));
+
+  // Return the rotation matrix
+  return rotMat;
+
+}
+
+// Return the quaternion equivalent to the rotation of 'that' followed by
+// the rotation of 'tho'
+Quaternion QuaternionGetComposition(Quaternion* that, Quaternion* tho) {
+
+#if BUILDMODE == 0
+
+  if (that == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+  if (tho == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+#endif
+
+  // Create the result quaternion
+  Quaternion quat = QuaternionCreateStatic();
+
+  // Calculate the addition of rotation
+  VecSet(&(quat.val), 0,
+    VecGet(&(that->val), 0) * VecGet(&(tho->val), 3) +
+    VecGet(&(that->val), 3) * VecGet(&(tho->val), 0) + 
+    VecGet(&(that->val), 1) * VecGet(&(tho->val), 2) - 
+    VecGet(&(that->val), 2) * VecGet(&(tho->val), 1));
+  VecSet(&(quat.val), 1,
+    VecGet(&(that->val), 1) * VecGet(&(tho->val), 3) + 
+    VecGet(&(that->val), 3) * VecGet(&(tho->val), 1) + 
+    VecGet(&(that->val), 2) * VecGet(&(tho->val), 0) - 
+    VecGet(&(that->val), 0) * VecGet(&(tho->val), 2));
+  VecSet(&(quat.val), 2,
+    VecGet(&(that->val), 2) * VecGet(&(tho->val), 3) + 
+    VecGet(&(that->val), 3) * VecGet(&(tho->val), 2) + 
+    VecGet(&(that->val), 0) * VecGet(&(tho->val), 1) - 
+    VecGet(&(that->val), 1) * VecGet(&(tho->val), 0));
+  VecSet(&(quat.val), 3,
+    VecGet(&(that->val), 3) * VecGet(&(tho->val), 3) - 
+    VecGet(&(that->val), 0) * VecGet(&(tho->val), 0) - 
+    VecGet(&(that->val), 1) * VecGet(&(tho->val), 1) - 
+    VecGet(&(that->val), 2) * VecGet(&(tho->val), 2));
+
+  // Return the result
+  return quat;
+
+}
+
+// Return the quaternion equivalent to the rotation necessary to convert
+// 'that' into 'tho'
+// tho = QuaternionGetComposition(QuaternionGetDifference(that, tho), that)
+Quaternion QuaternionGetDifference(Quaternion* that, Quaternion* tho) {
+
+#if BUILDMODE == 0
+
+  if (that == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+  if (tho == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+#endif
+
+  // Calculate the difference of rotation
+  Quaternion inv = QuaternionGetInverse(that);
+  Quaternion quat = QuaternionGetComposition(tho, &inv);
+  if (VecGet(&(quat.val), 3) < 0.0) {
+
+    VecScale(&(quat.val), -1.0);
+
+  }
+
+  // Return the result
+  return quat;
+
+}
+
+// Return the inverse quaternion of the quaternion 'that'
+Quaternion QuaternionGetInverse(Quaternion* that) {
+
+#if BUILDMODE == 0
+
+  if (that == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+#endif
+
+  // Calculate the inverse
+  Quaternion quat = *that;
+  for (int i = 3; i--;) {
+
+    VecSet(&(quat.val), i, -1.0 * VecGet(&(quat.val), i));
+
+  }
+
+  // Return the result
+  return quat;
+  
+
+}
+
+// Return true if the two quaternions are equals, false else
+bool QuaternionIsEqual(Quaternion* that, Quaternion* tho) {
+
+#if BUILDMODE == 0
+
+  if (that == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+  if (tho == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+#endif
+
+  return VecIsEqual(&(that->val), &(tho->val));
+
+}
+
+// Print the Quaternion 'that' on 'stream'
+void QuaternionPrint(Quaternion* that, FILE* stream) {
+
+#if BUILDMODE == 0
+
+  if (that == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+#endif
+
+  VecPrint(&(that->val), stream);
+
+}
+
+// Rotate the vector 'v' by the quaternion 'that'
+void QuaternionApply(Quaternion* that, VecFloat* v) {
+#if BUILDMODE == 0
+
+  if (that == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+  if (v == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'v' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+  if (VecGetDim(v) != 3) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'v' must be of dimension 3 (was %ld)",
+      VecGetDim(v));
+    PBErrCatch(PBMathErr);
+
+  }
+
+#endif
+
+  // Calculate the result
+  Quaternion p = QuaternionCreateStatic();
+  VecSet(&(p.val), 0, VecGet(v, 0));
+  VecSet(&(p.val), 1, VecGet(v, 1));
+  VecSet(&(p.val), 2, VecGet(v, 2));
+  VecSet(&(p.val), 3, 0.0);
+  Quaternion inv = QuaternionGetInverse(that);
+  Quaternion q = QuaternionGetComposition(that, &p);
+  Quaternion r = QuaternionGetComposition(&q, &inv);
+  VecSet(v, 0, VecGet(&(r.val), 0));
+  VecSet(v, 1, VecGet(&(r.val), 1));
+  VecSet(v, 2, VecGet(&(r.val), 2));
+
+}
+
+// Normalise the quaternion
+void QuaternionNormalise(Quaternion* that) {
+#if BUILDMODE == 0
+
+  if (that == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+#endif
+
+  // Normalise the quaternion
+  VecNormalise(&(that->val));
+
+}
+
+// Get the rotation axis of the quaternion 'that'
+VecFloat3D QuaternionGetRotAxis(Quaternion* that) {
+#if BUILDMODE == 0
+
+  if (that == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+#endif
+
+  // Create the result vector
+  VecFloat3D res = VecFloatCreateStatic3D();
+
+  // Calucate the rotation axis
+  float sa = sqrt(1.0 - VecGet(&(that->val), 3) * VecGet(&(that->val), 3));
+  VecSet(&res, 0, VecGet(&(that->val), 0) / sa);
+  VecSet(&res, 1, VecGet(&(that->val), 1) / sa);
+  VecSet(&res, 2, VecGet(&(that->val), 2) / sa);
+  VecNormalise(&res);
+
+  // Return the result
+  return res;
+  
+}
+
+// Get the rotation angle (in radians) of the quaternion 'that'
+float QuaternionGetRotAngle(Quaternion* that) {
+#if BUILDMODE == 0
+
+  if (that == NULL) {
+
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+
+  }
+
+#endif
+
+  return acos(VecGet(&(that->val), 3)) * 2.0; 
+
+}

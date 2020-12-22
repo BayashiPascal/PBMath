@@ -846,6 +846,13 @@ typedef struct VecFloat3D {
   float _val[3];
 } VecFloat3D;
 
+typedef struct VecFloat4D {
+  // Dimension
+  long _dim;
+  // Values
+  float _val[4];
+} VecFloat4D;
+
 // ================ Functions declaration ====================
 
 // Create a new VecFloat of dimension 'dim'
@@ -861,6 +868,10 @@ VecFloat2D VecFloatCreateStatic2D();
 static inline 
 #endif 
 VecFloat3D VecFloatCreateStatic3D();
+#if BUILDMODE != 0 
+static inline 
+#endif 
+VecFloat4D VecFloatCreateStatic4D();
 
 // Clone the VecFloat
 VecFloat* _VecFloatClone(const VecFloat* const that);
@@ -909,6 +920,10 @@ float _VecFloatGet2D(const VecFloat2D* const that, const long i);
 static inline 
 #endif 
 float _VecFloatGet3D(const VecFloat3D* const that, const long i);
+#if BUILDMODE != 0 
+static inline 
+#endif 
+float _VecFloatGet4D(const VecFloat4D* const that, const long i);
 
 // Set the 'i'-th value of the VecFloat to 'v'
 #if BUILDMODE != 0 
@@ -923,6 +938,10 @@ void _VecFloatSet2D(VecFloat2D* const that, const long i, const float v);
 static inline
 #endif 
 void _VecFloatSet3D(VecFloat3D* const that, const long i, const float v);
+#if BUILDMODE != 0
+static inline
+#endif 
+void _VecFloatSet4D(VecFloat4D* const that, const long i, const float v);
 
 // Set the 'i'-th value of the VecFloat to 'v' plus its current value
 #if BUILDMODE != 0 
@@ -1002,6 +1021,10 @@ float _VecFloatNorm2D(const VecFloat2D* const that);
 static inline 
 #endif 
 float _VecFloatNorm3D(const VecFloat3D* const that);
+#if BUILDMODE != 0 
+static inline 
+#endif 
+float _VecFloatNorm4D(const VecFloat4D* const that);
 
 // Normalise the VecFloat
 #if BUILDMODE != 0 
@@ -1016,6 +1039,10 @@ void _VecFloatNormalise2D(VecFloat2D* const that);
 static inline 
 #endif 
 void _VecFloatNormalise3D(VecFloat3D* const that);
+#if BUILDMODE != 0 
+static inline 
+#endif 
+void _VecFloatNormalise4D(VecFloat4D* const that);
 
 // Return the distance between the VecFloat 'that' and 'tho'
 #if BUILDMODE != 0 
@@ -1088,6 +1115,10 @@ void _VecFloatScale2D(VecFloat2D* const that, const float a);
 static inline 
 #endif 
 void _VecFloatScale3D(VecFloat3D* const that, const float a);
+#if BUILDMODE != 0 
+static inline 
+#endif 
+void _VecFloatScale4D(VecFloat4D* const that, const float a);
 
 // Return a VecFloat equal to (that * a)
 #if BUILDMODE != 0 
@@ -1123,6 +1154,11 @@ static inline
 #endif 
 void _VecFloatOp3D(VecFloat3D* const that, const float a, 
   const VecFloat3D* const tho, const float b);
+#if BUILDMODE != 0 
+static inline 
+#endif 
+void _VecFloatOp4D(VecFloat4D* const that, const float a, 
+  const VecFloat4D* const tho, const float b);
 
 // Return a VecFloat equal to (that * a + tho * b)
 // Return NULL if arguments are invalid
@@ -1812,6 +1848,67 @@ static inline
 #endif 
 bool LSLRIsSolvable(const LeastSquareLinReg* that);
 
+// -------------- Quaternion
+// cf http://news.povray.org/povray.binaries.scene-files/message/%3CXns940C86DC9B1D4None%40204.213.191.226%3E/
+// ================= Data structure ===================
+
+// Quaternion to perform rotation in 3D
+typedef struct Quaternion {
+
+  // Components
+  VecFloat4D val;
+
+} Quaternion;
+
+// Create a new static Quaternion
+Quaternion QuaternionCreateStatic(void);
+
+// Free the static Quaternion 'that'
+void QuaternionFreeStatic(Quaternion* that);
+
+// Create a new static Quaternion from the rotation matrix 'rotMat'
+Quaternion QuaternionCreateFromRotMat(MatFloat* rotMat);
+
+// Create a new static Quaternion corresponding to the rotation around
+// 'axis' (must be normalized) by 'theta' (in radians)
+Quaternion QuaternionCreateFromRotAxis(VecFloat* axis, float theta);
+
+// Convert the Quaternion 'that' to a rotation matrix
+MatFloat* QuaternionToRotMat(Quaternion* that);
+
+// Return the quaternion equivalent to the rotation of 'that' followed by
+// the rotation of 'tho'
+Quaternion QuaternionGetComposition(Quaternion* that, Quaternion* tho);
+
+// Return the quaternion equivalent to the rotation necessary to convert
+// 'that' into 'tho'
+// tho = QuaternionGetComposition(QuaternionGetDifference(that, tho), that)
+Quaternion QuaternionGetDifference(Quaternion* that, Quaternion* tho);
+
+// Return the inverse quaternion of the quaternion 'that'
+Quaternion QuaternionGetInverse(Quaternion* that);
+
+// Return true if the two quaternions are equals, false else
+bool QuaternionIsEqual(Quaternion* that, Quaternion* tho);
+
+// Print the Quaternion 'that' on 'stream'
+void QuaternionPrint(Quaternion* that, FILE* stream);
+#define QuaternionPrintln(Q, S) do {QuaternionPrint(Q, S); fprintf(S, "\n");} while(0)
+
+// Rotate the vector 'v' by the quaternion 'that'
+void QuaternionApply(Quaternion* that, VecFloat* v);
+
+// Normalise the quaternion
+void QuaternionNormalise(Quaternion* that);
+
+// Get the rotation axis of the quaternion 'that'
+VecFloat3D QuaternionGetRotAxis(Quaternion* that);
+
+// Get the rotation angle (in radians) of the quaternion 'that'
+float QuaternionGetRotAngle(Quaternion* that);
+
+// ================ Functions declaration ====================
+
 // -------------- Usefull basic functions
 
 // ================ Functions declaration ====================
@@ -1959,6 +2056,7 @@ unsigned int GetGCD(unsigned int u, unsigned int v);
   VecFloat*: _VecFloatPrintDef, \
   VecFloat2D*: _VecFloatPrintDef, \
   VecFloat3D*: _VecFloatPrintDef, \
+  VecFloat4D*: _VecFloatPrintDef, \
   VecShort*: _VecShortPrint, \
   VecShort2D*: _VecShortPrint, \
   VecShort3D*: _VecShortPrint, \
@@ -1970,6 +2068,7 @@ unsigned int GetGCD(unsigned int u, unsigned int v);
   const VecFloat*: _VecFloatPrintDef, \
   const VecFloat2D*: _VecFloatPrintDef, \
   const VecFloat3D*: _VecFloatPrintDef, \
+  const VecFloat4D*: _VecFloatPrintDef, \
   const VecShort*: _VecShortPrint, \
   const VecShort2D*: _VecShortPrint, \
   const VecShort3D*: _VecShortPrint, \
@@ -1982,6 +2081,7 @@ unsigned int GetGCD(unsigned int u, unsigned int v);
     _Generic(Vec,  \
       VecFloat2D*: (const VecFloat*)(Vec), \
       VecFloat3D*: (const VecFloat*)(Vec), \
+      VecFloat4D*: (const VecFloat*)(Vec), \
       VecShort2D*: (const VecShort*)(Vec), \
       VecShort3D*: (const VecShort*)(Vec), \
       VecShort4D*: (const VecShort*)(Vec), \
@@ -1990,6 +2090,7 @@ unsigned int GetGCD(unsigned int u, unsigned int v);
       VecLong4D*: (const VecLong*)(Vec), \
       const VecFloat2D*: (const VecFloat*)(Vec), \
       const VecFloat3D*: (const VecFloat*)(Vec), \
+      const VecFloat4D*: (const VecFloat*)(Vec), \
       const VecShort2D*: (const VecShort*)(Vec), \
       const VecShort3D*: (const VecShort*)(Vec), \
       const VecShort4D*: (const VecShort*)(Vec), \
@@ -2005,6 +2106,7 @@ unsigned int GetGCD(unsigned int u, unsigned int v);
   VecFloat*: _VecFloatGet, \
   VecFloat2D*: _VecFloatGet2D, \
   VecFloat3D*: _VecFloatGet3D, \
+  VecFloat4D*: _VecFloatGet4D, \
   VecShort*: _VecShortGet, \
   VecShort2D*: _VecShortGet2D, \
   VecShort3D*: _VecShortGet3D, \
@@ -2016,6 +2118,7 @@ unsigned int GetGCD(unsigned int u, unsigned int v);
   const VecFloat*: _VecFloatGet, \
   const VecFloat2D*: _VecFloatGet2D, \
   const VecFloat3D*: _VecFloatGet3D, \
+  const VecFloat4D*: _VecFloatGet4D, \
   const VecShort*: _VecShortGet, \
   const VecShort2D*: _VecShortGet2D, \
   const VecShort3D*: _VecShortGet3D, \
@@ -2030,6 +2133,7 @@ unsigned int GetGCD(unsigned int u, unsigned int v);
   VecFloat*: _VecFloatSet, \
   VecFloat2D*: _VecFloatSet2D, \
   VecFloat3D*: _VecFloatSet3D, \
+  VecFloat4D*: _VecFloatSet4D, \
   VecShort*: _VecShortSet, \
   VecShort2D*: _VecShortSet2D, \
   VecShort3D*: _VecShortSet3D, \
@@ -2272,15 +2376,18 @@ unsigned int GetGCD(unsigned int u, unsigned int v);
   VecFloat*: _VecFloatNorm, \
   VecFloat2D*: _VecFloatNorm2D, \
   VecFloat3D*: _VecFloatNorm3D, \
+  VecFloat4D*: _VecFloatNorm4D, \
   const VecFloat*: _VecFloatNorm, \
   const VecFloat2D*: _VecFloatNorm2D, \
   const VecFloat3D*: _VecFloatNorm3D, \
+  const VecFloat4D*: _VecFloatNorm4D, \
   default: PBErrInvalidPolymorphism)(Vec)
 
 #define VecNormalise(Vec) _Generic(Vec, \
   VecFloat*: _VecFloatNormalise, \
   VecFloat2D*: _VecFloatNormalise2D, \
   VecFloat3D*: _VecFloatNormalise3D, \
+  VecFloat4D*: _VecFloatNormalise4D, \
   default: PBErrInvalidPolymorphism)(Vec)
 
 #define VecDist(VecA, VecB) _Generic(VecA, \
@@ -2561,9 +2668,11 @@ unsigned int GetGCD(unsigned int u, unsigned int v);
     VecFloat*: _VecFloatIsEqual, \
     VecFloat2D*: _VecFloatIsEqual, \
     VecFloat3D*: _VecFloatIsEqual, \
+    VecFloat4D*: _VecFloatIsEqual, \
     const VecFloat*: _VecFloatIsEqual, \
     const VecFloat2D*: _VecFloatIsEqual, \
     const VecFloat3D*: _VecFloatIsEqual, \
+    const VecFloat4D*: _VecFloatIsEqual, \
     default: PBErrInvalidPolymorphism), \
   VecFloat2D*: _Generic(VecB, \
     VecFloat*: _VecFloatIsEqual, \
@@ -2576,6 +2685,12 @@ unsigned int GetGCD(unsigned int u, unsigned int v);
     VecFloat3D*: _VecFloatIsEqual, \
     const VecFloat*: _VecFloatIsEqual, \
     const VecFloat3D*: _VecFloatIsEqual, \
+    default: PBErrInvalidPolymorphism), \
+  VecFloat4D*: _Generic(VecB, \
+    VecFloat*: _VecFloatIsEqual, \
+    VecFloat4D*: _VecFloatIsEqual, \
+    const VecFloat*: _VecFloatIsEqual, \
+    const VecFloat4D*: _VecFloatIsEqual, \
     default: PBErrInvalidPolymorphism), \
   VecShort*: _Generic(VecB, \
     VecShort*: _VecShortIsEqual,\
@@ -2637,9 +2752,11 @@ unsigned int GetGCD(unsigned int u, unsigned int v);
     VecFloat*: _VecFloatIsEqual, \
     VecFloat2D*: _VecFloatIsEqual, \
     VecFloat3D*: _VecFloatIsEqual, \
+    VecFloat4D*: _VecFloatIsEqual, \
     const VecFloat*: _VecFloatIsEqual, \
     const VecFloat2D*: _VecFloatIsEqual, \
     const VecFloat3D*: _VecFloatIsEqual, \
+    const VecFloat4D*: _VecFloatIsEqual, \
     default: PBErrInvalidPolymorphism), \
   const VecFloat2D*: _Generic(VecB, \
     VecFloat*: _VecFloatIsEqual, \
@@ -2652,6 +2769,12 @@ unsigned int GetGCD(unsigned int u, unsigned int v);
     VecFloat3D*: _VecFloatIsEqual, \
     const VecFloat*: _VecFloatIsEqual, \
     const VecFloat3D*: _VecFloatIsEqual, \
+    default: PBErrInvalidPolymorphism), \
+  const VecFloat4D*: _Generic(VecB, \
+    VecFloat*: _VecFloatIsEqual, \
+    VecFloat4D*: _VecFloatIsEqual, \
+    const VecFloat*: _VecFloatIsEqual, \
+    const VecFloat4D*: _VecFloatIsEqual, \
     default: PBErrInvalidPolymorphism), \
   const VecShort*: _Generic(VecB, \
     VecShort*: _VecShortIsEqual,\
@@ -2713,6 +2836,7 @@ unsigned int GetGCD(unsigned int u, unsigned int v);
     _Generic(VecA,  \
       VecFloat2D*: (const VecFloat*)(VecA), \
       VecFloat3D*: (const VecFloat*)(VecA), \
+      VecFloat4D*: (const VecFloat*)(VecA), \
       VecShort2D*: (const VecShort*)(VecA), \
       VecShort3D*: (const VecShort*)(VecA), \
       VecShort4D*: (const VecShort*)(VecA), \
@@ -2721,6 +2845,7 @@ unsigned int GetGCD(unsigned int u, unsigned int v);
       VecLong4D*: (const VecLong*)(VecA), \
       const VecFloat2D*: (const VecFloat*)(VecA), \
       const VecFloat3D*: (const VecFloat*)(VecA), \
+      const VecFloat4D*: (const VecFloat*)(VecA), \
       const VecShort2D*: (const VecShort*)(VecA), \
       const VecShort3D*: (const VecShort*)(VecA), \
       const VecShort4D*: (const VecShort*)(VecA), \
@@ -2731,6 +2856,7 @@ unsigned int GetGCD(unsigned int u, unsigned int v);
     _Generic(VecB,  \
       VecFloat2D*: (const VecFloat*)(VecB), \
       VecFloat3D*: (const VecFloat*)(VecB), \
+      VecFloat4D*: (const VecFloat*)(VecB), \
       VecShort2D*: (const VecShort*)(VecB), \
       VecShort3D*: (const VecShort*)(VecB), \
       VecShort4D*: (const VecShort*)(VecB), \
@@ -2739,6 +2865,7 @@ unsigned int GetGCD(unsigned int u, unsigned int v);
       VecLong4D*: (const VecLong*)(VecB), \
       const VecFloat2D*: (const VecFloat*)(VecB), \
       const VecFloat3D*: (const VecFloat*)(VecB), \
+      const VecFloat4D*: (const VecFloat*)(VecB), \
       const VecShort2D*: (const VecShort*)(VecB), \
       const VecShort3D*: (const VecShort*)(VecB), \
       const VecShort4D*: (const VecShort*)(VecB), \
@@ -2759,6 +2886,10 @@ unsigned int GetGCD(unsigned int u, unsigned int v);
   VecFloat3D*: _Generic(VecB, \
     VecFloat3D*: _VecFloatOp3D, \
     const VecFloat3D*: _VecFloatOp3D, \
+    default: PBErrInvalidPolymorphism), \
+  VecFloat4D*: _Generic(VecB, \
+    VecFloat4D*: _VecFloatOp4D, \
+    const VecFloat4D*: _VecFloatOp4D, \
     default: PBErrInvalidPolymorphism), \
   VecShort*: _Generic(VecB, \
     VecShort*: _VecShortOp, \
@@ -3027,6 +3158,7 @@ unsigned int GetGCD(unsigned int u, unsigned int v);
   VecFloat*: _VecFloatScale, \
   VecFloat2D*: _VecFloatScale2D, \
   VecFloat3D*: _VecFloatScale3D, \
+  VecFloat4D*: _VecFloatScale4D, \
   default: PBErrInvalidPolymorphism)(Vec, Scale)
 
 #define VecGetScale(Vec, Scale) _Generic(Vec, \

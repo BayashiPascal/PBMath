@@ -2105,6 +2105,13 @@ VecFloat3D VecFloatCreateStatic3D() {
   VecFloat3D v = {._val = {0.0, 0.0, 0.0}, ._dim = 3};
   return v;
 }
+#if BUILDMODE != 0
+static inline
+#endif 
+VecFloat4D VecFloatCreateStatic4D() {
+  VecFloat4D v = {._val = {0.0, 0.0, 0.0, 0.0}, ._dim = 4};
+  return v;
+}
 
 // Return the i-th value of the VecFloat
 #if BUILDMODE != 0
@@ -2165,6 +2172,25 @@ float _VecFloatGet3D(const VecFloat3D* const that, const long i) {
   // Return the value
   return that->_val[i];
 }
+#if BUILDMODE != 0
+static inline
+#endif 
+float _VecFloatGet4D(const VecFloat4D* const that, const long i) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (i < 0 || i >= 4) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<4)", i);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Return the value
+  return that->_val[i];
+}
 
 // Set the i-th value of the VecFloat to v
 #if BUILDMODE != 0
@@ -2219,6 +2245,25 @@ void _VecFloatSet3D(VecFloat3D* const that, const long i, const float v) {
   if (i < 0 || i >= 3) {
     PBMathErr->_type = PBErrTypeInvalidArg;
     sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<3)", i);
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Set the value
+  that->_val[i] = v;
+}
+#if BUILDMODE != 0
+static inline
+#endif 
+void _VecFloatSet4D(VecFloat4D* const that, const long i, const float v) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (i < 0 || i >= 4) {
+    PBMathErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBMathErr->_msg, "'i' is invalid (0<=%ld<4)", i);
     PBErrCatch(PBMathErr);
   }
 #endif
@@ -2476,6 +2521,21 @@ float _VecFloatNorm3D(const VecFloat3D* const that) {
   return sqrt(fsquare(VecGet(that, 0)) + fsquare(VecGet(that, 1)) + 
     fsquare(VecGet(that, 2)));
 }
+#if BUILDMODE != 0
+static inline
+#endif 
+float _VecFloatNorm4D(const VecFloat4D* const that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Return the result
+  return sqrt(fsquare(VecGet(that, 0)) + fsquare(VecGet(that, 1)) + 
+    fsquare(VecGet(that, 2)) + fsquare(VecGet(that, 3)));
+}
 
 // Normalise the VecFloat
 #if BUILDMODE != 0
@@ -2527,6 +2587,24 @@ void _VecFloatNormalise3D(VecFloat3D* const that) {
   VecSet(that, 0, VecGet(that, 0) / norm);
   VecSet(that, 1, VecGet(that, 1) / norm);
   VecSet(that, 2, VecGet(that, 2) / norm);
+}
+#if BUILDMODE != 0
+static inline
+#endif 
+void _VecFloatNormalise4D(VecFloat4D* const that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  // Normalise
+  float norm = _VecFloatNorm4D(that);
+  VecSet(that, 0, VecGet(that, 0) / norm);
+  VecSet(that, 1, VecGet(that, 1) / norm);
+  VecSet(that, 2, VecGet(that, 2) / norm);
+  VecSet(that, 3, VecGet(that, 3) / norm);
 }
 
 // Return the distance between the VecFloat 'that' and 'tho'
@@ -2858,6 +2936,28 @@ void _VecFloatOp3D(VecFloat3D* const that, const float a,
   VecSet(that, 1, a * VecGet(that, 1) + b * VecGet(tho, 1));
   VecSet(that, 2, a * VecGet(that, 2) + b * VecGet(tho, 2));
 }
+#if BUILDMODE != 0
+static inline
+#endif 
+void _VecFloatOp4D(VecFloat4D* const that, const float a, 
+  const VecFloat4D* const tho, const float b) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+  if (tho == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'tho' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecSet(that, 0, a * VecGet(that, 0) + b * VecGet(tho, 0));
+  VecSet(that, 1, a * VecGet(that, 1) + b * VecGet(tho, 1));
+  VecSet(that, 2, a * VecGet(that, 2) + b * VecGet(tho, 2));
+  VecSet(that, 3, a * VecGet(that, 3) + b * VecGet(tho, 3));
+}
 
 // Return a VecFloat equal to (that * a + tho * b)
 #if BUILDMODE != 0
@@ -3126,6 +3226,22 @@ void _VecFloatScale3D(VecFloat3D* const that, const float a) {
   VecSet(that, 0, a * VecGet(that, 0));
   VecSet(that, 1, a * VecGet(that, 1));
   VecSet(that, 2, a * VecGet(that, 2));
+}
+#if BUILDMODE != 0
+static inline
+#endif 
+void _VecFloatScale4D(VecFloat4D* const that, const float a) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBMathErr->_type = PBErrTypeNullPointer;
+    sprintf(PBMathErr->_msg, "'that' is null");
+    PBErrCatch(PBMathErr);
+  }
+#endif
+  VecSet(that, 0, a * VecGet(that, 0));
+  VecSet(that, 1, a * VecGet(that, 1));
+  VecSet(that, 2, a * VecGet(that, 2));
+  VecSet(that, 3, a * VecGet(that, 3));
 }
 
 // Return a VecFloat equal to (that * a)
