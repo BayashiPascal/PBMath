@@ -3024,6 +3024,24 @@ unsigned int GetGCD(unsigned int u, unsigned int v) {
 
 }
 
+// Get the approximated inverse square root of a number using the Quake
+// algorithm
+// cf https://en.wikipedia.org/wiki/Fast_inverse_square_root
+float GetFastInverseSquareRoot(float number) {
+
+  const float x2 = number * 0.5F;
+  const float threehalfs = 1.5F;
+
+  union {
+    float f;
+    uint32_t i;
+  } conv  = { .f = number };
+
+  conv.i  = 0x5f3759df - ( conv.i >> 1 );
+  conv.f  *= threehalfs - ( x2 * conv.f * conv.f );
+  return conv.f;
+
+}
 // -------------- LeastSquareLinReg
 
 // ================ Functions implementation ====================

@@ -4284,6 +4284,22 @@ void UnitTestGetGCD() {
 
 }
 
+void UnitTestFastInverseSquareRoot() {
+
+  for (float number = 2.0; number < 100.0; number += 1.0) {
+    float fsr = GetFastInverseSquareRoot(number);
+    float check = 1.0 / sqrt(number);
+
+    if (fabs(fsr - check) > 0.001) {
+      PBMathErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBMathErr->_msg, "GetFastInverseSquareRoot NOK");
+      PBErrCatch(PBMathErr);
+    }
+  }
+
+  printf("UnitTestGetFastInverseSquareRoot OK\n");
+}
+
 void UnitTestBasicFunctions() {
   UnitTestConv();
   UnitTestPowi();
@@ -4296,6 +4312,7 @@ void UnitTestBasicFunctions() {
   UnitTestGetFibonacciSeq();
   UnitTestGetFibonacciLattice();
   UnitTestGetGCD();
+  UnitTestFastInverseSquareRoot();
   printf("UnitTestBasicFunctions OK\n");
 }
 

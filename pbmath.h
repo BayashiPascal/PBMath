@@ -12,6 +12,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <float.h>
+#include <stdint.h>
 #include "pberr.h"
 #include "pbjson.h"
 
@@ -1969,6 +1970,11 @@ float* GetFibonacciPolarLattice(
 // Return the greatest common divisor using the Stein's algorithm
 // https://en.wikipedia.org/wiki/Binary_GCD_algorithm
 unsigned int GetGCD(unsigned int u, unsigned int v);
+
+// Get the approximated inverse square root of a number using the Quake
+// algorithm
+// cf https://en.wikipedia.org/wiki/Fast_inverse_square_root
+float GetFastInverseSquareRoot(float number);
 
 // ================= Polymorphism ==================
 

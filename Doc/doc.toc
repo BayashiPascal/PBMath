@@ -11,7 +11,7 @@
 \contentsline {section}{\numberline {3}Code}{76}
 \contentsline {subsection}{\numberline {3.1}pbmath.c}{76}
 \contentsline {subsection}{\numberline {3.2}pbmath-inline.c}{136}
-\contentsline {section}{\numberline {4}Makefile}{209}
+\contentsline {section}{\numberline {4}Makefile}{210}
 \contentsline {section}{\numberline {5}Unit tests}{210}
 \contentsline {section}{\numberline {6}Unit tests output}{285}
-\contentsline {section}{\numberline {7}Examples}{288}
+\contentsline {section}{\numberline {7}Examples}{289}
